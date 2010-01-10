@@ -30,7 +30,7 @@ import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.labels.AlbumSearchLabel;
-import com.quiltplayer.view.swing.labels.SongSearchLabel;
+import com.quiltplayer.view.swing.labels.TrackSearchLabel;
 import com.quiltplayer.view.swing.labels.SpotifyArtistLabel;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
@@ -113,12 +113,10 @@ public class SearchView extends AbstractView implements Serializable, View {
         MigLayout layout = new MigLayout(
                 "wrap 3, alignx center, aligny center, fillx, filly, gapy 50");
         panel.setLayout(layout);
-        panel.setBackground(Configuration.getInstance().getColorConstants()
-                .getBackground());
+        panel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
 
         searchPanel = new JPanel(new MigLayout("insets 0, top"));
-        searchPanel.setBackground(Configuration.getInstance().getColorConstants()
-                .getBackground());
+        searchPanel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
 
         searchPanel.add(searchField, "center, w 6cm, gapy 15");
         searchPanel.add(searchButton, "left, gapy 15");
@@ -162,8 +160,7 @@ public class SearchView extends AbstractView implements Serializable, View {
 
     private void addArtists(JPanel panel) {
         JPanel artists = new QPanel(new MigLayout("insets 0, wrap 1"));
-        artists.setBackground(Configuration.getInstance().getColorConstants()
-                .getBackground());
+        artists.setBackground(Configuration.getInstance().getColorConstants().getBackground());
         SpotifyArtistLabel label = null;
 
         artists.add(addHeader(" Artists"), "w 100%, h 18");
@@ -199,8 +196,7 @@ public class SearchView extends AbstractView implements Serializable, View {
 
     private void addAlbums(JPanel panel) {
         JPanel albums = new QPanel(new MigLayout("insets 0, top, wrap 1"));
-        albums.setBackground(Configuration.getInstance().getColorConstants()
-                .getBackground());
+        albums.setBackground(Configuration.getInstance().getColorConstants().getBackground());
 
         albums.add(addHeader(" Albums"), "w 100%, h 18");
 
@@ -208,24 +204,24 @@ public class SearchView extends AbstractView implements Serializable, View {
             for (Album album : result.getAlbums()) {
                 AlbumSearchLabel label = new AlbumSearchLabel(SpotifyObjectFactory.getAlbum(album));
                 label.addActionListener(changeAlbumListener);
+
                 albums.add(label);
             }
         }
 
-        panel.add(albums, "top, wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
+        panel.add(albums, "top, wmin 10%, w 30%, wmax 30%, alignx center");
     }
 
     private void addTracks(JPanel panel) {
         JPanel tracks = new QPanel(new MigLayout("insets 0, wrap 1"));
-        tracks.setBackground(Configuration.getInstance().getColorConstants()
-                .getBackground());
-        SongSearchLabel label = null;
+        tracks.setBackground(Configuration.getInstance().getColorConstants().getBackground());
+        TrackSearchLabel label = null;
 
         tracks.add(addHeader(" Tracks"), "w 100%, h 18");
 
         if (!result.getTracks().isEmpty()) {
             for (de.felixbruns.jotify.media.Track track : result.getTracks()) {
-                label = new SongSearchLabel(SpotifyObjectFactory.getTrack(track));
+                label = new TrackSearchLabel(SpotifyObjectFactory.getTrack(track));
                 label.addActionListener(changeAlbumListener);
 
                 tracks.add(label, "left");

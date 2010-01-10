@@ -11,7 +11,7 @@ public class HighlightColorUtils
 	private static Color textColor = Configuration.getInstance()
 			.getColorConstants().getArtistViewTextColor();
 
-	public static void setSelected(JComponent c)
+    public static void setSelected(JComponent c)
 	{
 		c.setForeground(Configuration.getInstance()
 				.getColorConstants().getArtistViewTextHighlightColor());

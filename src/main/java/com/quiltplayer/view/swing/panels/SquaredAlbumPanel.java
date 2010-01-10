@@ -37,8 +37,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
 
     protected Album album;
 
-    private Color background = Configuration.getInstance()
-            .getColorConstants().getBackground();
+    private Color background = Configuration.getInstance().getColorConstants().getBackground();
 
     public SquaredAlbumPanel(Album album) {
         super(new MigLayout("insets 0, filly, fillx"));
@@ -66,9 +65,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
             /*
              * (non-Javadoc)
              * 
-             * @see
-             * java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent
-             * )
+             * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent )
              */
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -82,16 +79,13 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
             /*
              * (non-Javadoc)
              * 
-             * @see
-             * java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent
-             * )
+             * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent )
              */
             @Override
             public void mouseExited(MouseEvent e) {
-                background = Configuration.getInstance()
-                        .getColorConstants().getBackground();
-                trackLabel.setForeground(Configuration.getInstance()
-                        .getColorConstants().getBackground());
+                background = Configuration.getInstance().getColorConstants().getBackground();
+                trackLabel.setForeground(Configuration.getInstance().getColorConstants()
+                        .getBackground());
 
                 repaint();
                 updateUI();
@@ -101,9 +95,9 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
     }
 
     protected JLabel setupImage(Album album) {
+
         if (album.getImages() != null && album.getImages().size() > 0) {
-            icon = new ReflectionIcon(album.getImages().get(0).getMediumImage()
-                    .getAbsolutePath());
+            icon = new ReflectionIcon(album.getImages().get(0).getMediumImage().getAbsolutePath());
         }
         else
             icon = QIcon.getMedium();
@@ -121,8 +115,8 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
         titleLabel.setEditable(false);
         titleLabel.setLineWrap(true);
         titleLabel.setWrapStyleWord(true);
-        titleLabel.setForeground(Configuration.getInstance()
-                .getColorConstants().getAlbumViewTitleColor());
+        titleLabel.setForeground(Configuration.getInstance().getColorConstants()
+                .getAlbumViewTitleColor());
         titleLabel.setText(album.getTitle());
         titleLabel.setFont(FontFactory.getSansFont(12f));
 
@@ -132,8 +126,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
     protected JLabel setupYearLabel() {
         final JLabel artistNameLabel = new JLabel();
 
-        if (StringUtils.isNotBlank(album.getYear())
-                && album.getYear().length() > 3) {
+        if (StringUtils.isNotBlank(album.getYear()) && album.getYear().length() > 3) {
             artistNameLabel.setFont(FontFactory.getFont(12f));
             artistNameLabel.setForeground(new Color(110, 110, 110));
             artistNameLabel.setOpaque(false);
@@ -147,10 +140,8 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
     protected JLabel setupTracksLabel() {
         final JLabel tracksLabel = new JLabel();
         tracksLabel.setFont(FontFactory.getSansFont(12f));
-        tracksLabel.setText(album.getSongCollection().getSongs().size()
-                + " tracks");
-        tracksLabel.setForeground(Configuration.getInstance()
-                .getColorConstants().getBackground());
+        tracksLabel.setText(album.getSongCollection().getSongs().size() + " tracks");
+        tracksLabel.setForeground(Configuration.getInstance().getColorConstants().getBackground());
 
         return tracksLabel;
     }

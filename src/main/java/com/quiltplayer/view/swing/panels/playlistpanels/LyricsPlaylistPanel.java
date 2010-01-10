@@ -35,8 +35,7 @@ public class LyricsPlaylistPanel extends AbstractPlaylistPanel {
 
     private void setupTextArea() {
         lyricsArea = new JTextArea();
-        lyricsArea
-                .setText("ad adsa d asdsads s s sad asd as dsa das das as das a as a da ds ds das das da d sd sadsad");
+        lyricsArea.setText("No lyrics...");
         lyricsArea.setCaretPosition(0);
         lyricsArea.setFont(FontFactory.getFont(13f));
         lyricsArea.setCaretPosition(0);

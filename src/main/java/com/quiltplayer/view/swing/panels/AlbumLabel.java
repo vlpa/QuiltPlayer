@@ -19,90 +19,80 @@ import net.miginfocom.swing.MigLayout;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 
-public class AlbumLabel extends QPanel
-{
-	private static final long serialVersionUID = 1L;
+public class AlbumLabel extends QPanel {
 
-	public Icon icon;
+    private static final long serialVersionUID = 1L;
 
-	public JLabel iconLabel;
+    public Icon icon;
 
-	public Timer currentTimer;
+    public JLabel iconLabel;
 
-	private Album album;
+    public Timer currentTimer;
 
-	public AlbumLabel(final Album album, final JPanel glassPane)
-	{
-		super(new MigLayout("insets 0"));
+    private Album album;
 
-		setToolTipText(album.getArtist().getArtistName().getName() + " - "
-				+ album.getTitle());
+    public AlbumLabel(final Album album, final JPanel glassPane) {
 
-		setOpaque(false);
+        super(new MigLayout("insets 0"));
 
-		this.album = album;
+        setToolTipText(album.getArtist().getArtistName().getName() + " - " + album.getTitle());
 
-		if (album.getImages().size() > 0)
-			icon = new ImageIcon(album.getImages().get(0).getSmallImage()
-					.getAbsolutePath());
-		else
-			icon = new ImageIcon("images/nocover.gif");
+        setOpaque(false);
 
-		iconLabel = new JLabel();
-		iconLabel.setIcon(icon);
+        this.album = album;
 
-		MouseListener l = new MouseAdapter()
-		{
-			/*
-			 * @see
-			 * java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent
-			 * )
-			 */
-			@Override
-			public void mouseEntered(MouseEvent e)
-			{
-				super.mouseEntered(e);
+        if (album.getImages().size() > 0)
+            icon = new ImageIcon(album.getImages().get(0).getSmallImage().getAbsolutePath());
+        else
+            icon = new ImageIcon("images/nocover.gif");
 
-				setCursor(new Cursor(Cursor.HAND_CURSOR));
-			}
-		};
+        iconLabel = new JLabel();
+        iconLabel.setIcon(icon);
 
-		addMouseListener(l);
+        MouseListener l = new MouseAdapter() {
+            /*
+             * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent )
+             */
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
 
-		add(iconLabel, "w " + ImageSizes.SMALL.getSize() + ", h "
-				+ ImageSizes.SMALL.getSize() + "lp");
-	}
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+        };
 
-	/**
-	 * @return the album
-	 */
-	public Album getAlbum()
-	{
-		return album;
-	}
+        addMouseListener(l);
 
-	/**
-	 * @param album
-	 *            the album to set
-	 */
-	public void setAlbum(Album album)
-	{
-		this.album = album;
-	}
+        add(iconLabel, "w " + ImageSizes.SMALL.getSize() + ", h " + ImageSizes.SMALL.getSize()
+                + "lp");
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
-	 */
-	@Override
-	public void paint(Graphics g)
-	{
-		Graphics2D g2d = (Graphics2D) g;
+    /**
+     * @return the album
+     */
+    public Album getAlbum() {
+        return album;
+    }
 
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+    /**
+     * @param album
+     *            the album to set
+     */
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
 
-		super.paint(g);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     */
+    @Override
+    public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        super.paint(g);
+    }
 }

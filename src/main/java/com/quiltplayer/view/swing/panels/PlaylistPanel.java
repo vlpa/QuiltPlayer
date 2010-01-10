@@ -96,7 +96,7 @@ public class PlaylistPanel extends JPanel {
     public void init() {
         setupSongsPanel();
 
-        addPlaylistButtons();
+        addPlaylistPanelButtons();
     }
 
     public void progress(long time) {
@@ -161,8 +161,8 @@ public class PlaylistPanel extends JPanel {
         lyricsPlaylistPanel.setLyrics(lyrics);
     }
 
-    private void addPlaylistButtons() {
-        playlistButtonPanel = new JPanel(new MigLayout("insets 0, w 100%, wrap 2, aligny center"));
+    private void addPlaylistPanelButtons() {
+        playlistButtonPanel = new JPanel(new MigLayout("insets 0, w 100%, wrap 2, alignx right"));
 
         playlistButtonPanel.setOpaque(false);
         playlistButtonPanel.setBackground(Configuration.getInstance().getColorConstants()
@@ -171,8 +171,8 @@ public class PlaylistPanel extends JPanel {
         setupSongsButton();
         setupLyricsButton();
 
-        playlistButtonPanel.add(songsButton, "dock west, w 2.5cm, h 1.1cm!");
-        playlistButtonPanel.add(lyricsButton, "dock west, w 2.5cm, h 1.1cm!");
+        playlistButtonPanel.add(songsButton, "dock east, w 2.5cm, h 0.8cm!");
+        playlistButtonPanel.add(lyricsButton, "dock east, w 2.5cm, h 0.8cm!");
 
         mainPanel.add(playlistButtonPanel, "dock south, gapy 15");
     }
