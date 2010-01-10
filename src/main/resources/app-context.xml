@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <context:component-scan
+        base-package="com.quiltplayer" />
+
+    <bean
+        class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+
+    <context:load-time-weaver
+        aspectj-weaving="autodetect" />
+
+    <context:annotation-config />
+
+    <tx:annotation-driven
+        transaction-manager="transactionManager" />
+
+    <bean
+        id="transactionManager"
+        class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property
+            name="transactionManager"
+            ref="neoTransactionManagerService" />
+        <property
+            name="userTransaction"
+            ref="neoUserTransactionService" />
+    </bean>
+
+    <bean
+        id="neoTransactionManagerService"
+        class="org.neo4j.impl.transaction.SpringTransactionManager" />
+
+    <bean
+        id="neoUserTransactionService"
+        class="org.neo4j.impl.transaction.UserTransactionImpl" />
+
+</beans>
