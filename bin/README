@@ -1,0 +1,1 @@
+These bin files for executing the QuiltPlayer are very important as the sound library dependency must be in a specific order to be able to play mp3, ogg and spotify.
