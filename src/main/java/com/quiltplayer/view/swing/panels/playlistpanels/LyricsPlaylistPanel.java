@@ -64,10 +64,6 @@ public class LyricsPlaylistPanel extends AbstractPlaylistPanel {
     public final void setLyrics(String lyrics) {
         lyricsArea.setText(lyrics);
 
-        System.out.println("setting lyrics to " + lyrics);
-
-        repaint();
-        updateUI();
         SwingUtilities.updateComponentTreeUI(this);
     }
 
