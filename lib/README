@@ -1,0 +1,10 @@
+** NOTE **
+
+Some of the libraries QuiltPlayer uses has been modified so there's no official support. These 
+needs to be added manually to the classpath/maven repository to get the application to work.
+
+mp3spi-1.9.4
+A bugfix is made to enable to play mp3:s with images included in the header.
+
+jotify
+Some own XML parsing. 
