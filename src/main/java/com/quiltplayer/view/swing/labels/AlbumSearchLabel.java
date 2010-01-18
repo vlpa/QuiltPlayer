@@ -2,53 +2,34 @@ package com.quiltplayer.view.swing.labels;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.util.ColorUtils;
+import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
+import com.quiltplayer.view.swing.panels.HighlightableQPanel;
 import com.quiltplayer.view.swing.util.HighlightColorUtils;
 
 /**
- * Represents a artist in lists.
+ * Represents a artist in the search list.
  * 
  * @author Vlado Palczynski
  */
-public class AlbumSearchLabel extends JPanel {
-    public static final String ACTION_GET_ARTIST_ALBUMS = "get.artist";
+public class AlbumSearchLabel extends HighlightableQPanel {
 
     private static final long serialVersionUID = 1L;
 
-    protected ActionListener listener;
+    protected ChangeAlbumListener listener;
 
-    protected Album album;
+    public AlbumSearchLabel(final Album album) {
 
-    private Color background = Configuration.getInstance().getColorConstants().getBackground();
-
-    public AlbumSearchLabel(Album album) {
-
-        super(new MigLayout("insets 7, wrap 1"));
-        this.album = album;
-
-        Font font = FontFactory.getFont(14f);
-
-        setFont(font);
-        setBackground(background);
+        super();
 
         JLabel artistLabel = new JLabel(album.getArtist().getArtistName().getName());
         artistLabel.setFont(FontFactory.getFont(12f));
@@ -57,7 +38,7 @@ public class AlbumSearchLabel extends JPanel {
         artistLabel.setMaximumSize(new Dimension((int) getMaximumSize().getWidth(), 12));
 
         JLabel albumLabel = new JLabel(album.getTitle());
-        albumLabel.setFont(font);
+        albumLabel.setFont(FontFactory.getFont(14f));
         albumLabel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
         albumLabel.setForeground(Configuration.getInstance().getColorConstants()
                 .getArtistViewTextColor());
@@ -65,83 +46,22 @@ public class AlbumSearchLabel extends JPanel {
         add(artistLabel);
         add(albumLabel);
 
-        this.addMouseListener(mouseListener);
+        addMouseListener(new MouseAdapter() {
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                listener.actionPerformed(new ActionEvent(album, 0,
+                        ChangeAlbumController.EVENT_CHANGE_ALBUM));
+            }
+        });
     }
 
-    protected transient MouseListener mouseListener = new MouseAdapter() {
-        /*
-         * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
-         */
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            background = ColorUtils.brighten20(background);
-
-            repaint();
-        }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
-         */
-        @Override
-        public void mouseExited(MouseEvent e) {
-            background = ColorUtils.darken20(background);
-
-            repaint();
-        }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
-         */
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            listener.actionPerformed(new ActionEvent(album, 0,
-                    ChangeAlbumController.EVENT_CHANGE_ALBUM));
-        }
-
-    };
-
-    public void setSelected() {
-        HighlightColorUtils.setSelected(this);
-    }
-
-    public void setInactive() {
-        HighlightColorUtils.setInactive(this);
-    }
-
-    public void addActionListener(ActionListener listener) {
+    public void addActionListener(ChangeAlbumListener listener) {
         this.listener = listener;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
-     */
-    @Override
-    public void paint(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        super.paint(g);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setColor(background);
-        g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
     }
 }

@@ -22,45 +22,39 @@ import net.miginfocom.swing.MigLayout;
 /**
  * @author Vlado Palczynski
  */
-public class QPanel extends JPanel
-{
-	private static final long serialVersionUID = 1L;
+public class QPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
 
-	// Hit detection.
-	Shape shape;
+    // Hit detection.
+    Shape shape;
 
-	public QPanel()
-	{
-		super();
+    public QPanel() {
+        super();
 
-		setDefaults();
-	}
+        setDefaults();
+    }
 
-	public QPanel(MigLayout layout)
-	{
-		super(layout);
+    public QPanel(MigLayout layout) {
+        super(layout);
 
-		setDefaults();
-	}
+        setDefaults();
+    }
 
-	private void setDefaults()
-	{
-		setOpaque(true);
-	}
+    private void setDefaults() {
+        setOpaque(true);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
-	 */
-	@Override
-	public void paint(Graphics g)
-	{
-		Graphics2D g2d = (Graphics2D) g;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     */
+    @Override
+    public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
 
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		super.paint(g);
-	}
+        super.paint(g);
+    }
 }
