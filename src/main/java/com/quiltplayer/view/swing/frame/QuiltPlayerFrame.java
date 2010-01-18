@@ -38,9 +38,7 @@ import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.views.ArtistView;
 import com.quiltplayer.view.swing.views.ListView;
 import com.quiltplayer.view.swing.views.View;
-import com.quiltplayer.view.swing.views.impl.AboutView;
 import com.quiltplayer.view.swing.views.impl.ConfigurationView;
-import com.quiltplayer.view.swing.views.impl.DefaultAlbumView;
 
 /**
  * Main Frame for QuiltPlayer.
@@ -54,7 +52,9 @@ public class QuiltPlayerFrame extends JFrame {
 
     private Configuration config = Configuration.getInstance();
 
-    private ListView<Album> albumView = new DefaultAlbumView();
+    @Autowired
+    @Qualifier("defaultAlbumView")
+    private ListView<Album> albumView;
 
     @Autowired
     private View searchView;
@@ -64,12 +64,14 @@ public class QuiltPlayerFrame extends JFrame {
     private ListView<Album> quiltView;
 
     @Autowired
+    @Qualifier("defaultArtistView")
     private ArtistView artistView;
 
     @Autowired
     private ConfigurationView configurationView;
 
-    private View aboutView = new AboutView();
+    @Autowired
+    private View aboutView;
 
     @Autowired
     private View editAlbumView;
@@ -228,20 +230,21 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     public void updateUI(ActiveView view) {
-        if (currentView.equals(ActiveView.QUILT_VIEW))
-            quiltView.close();
-        else if (currentView.equals(ActiveView.ALFABETIC_ARTISTS_VIEW))
-            artistView.close();
-        else if (currentView.equals(ActiveView.ALBUM_VIEW))
-            albumView.close();
-        else if (currentView.equals(ActiveView.SEARCH_VIEW))
-            searchView.close();
-        else if (currentView.equals(ActiveView.CONFIGURATION_VIEW))
-            configurationView.close();
-        else if (currentView.equals(ActiveView.ABOUT_VIEW))
-            aboutView.close();
-        else if (currentView.equals(ActiveView.EDIT_ALBUM_VIEW))
-            editAlbumView.close();
+
+        // if (currentView.equals(ActiveView.QUILT_VIEW))
+        // quiltView.close();
+        // else if (currentView.equals(ActiveView.ALFABETIC_ARTISTS_VIEW))
+        // artistView.close();
+        // else if (currentView.equals(ActiveView.ALBUM_VIEW))
+        // albumView.close();
+        // else if (currentView.equals(ActiveView.SEARCH_VIEW))
+        // searchView.close();
+        // else if (currentView.equals(ActiveView.CONFIGURATION_VIEW))
+        // configurationView.close();
+        // else if (currentView.equals(ActiveView.ABOUT_VIEW))
+        // aboutView.close();
+        // else if (currentView.equals(ActiveView.EDIT_ALBUM_VIEW))
+        // editAlbumView.close();
 
         currentView = view;
 

@@ -40,7 +40,7 @@ import com.quiltplayer.view.swing.views.ListView;
 @org.springframework.stereotype.Component
 public class DefaultAlbumView extends AbstractView implements Serializable, ListView<Album> {
 
-    private static final long serialVersionUID = 8310005823778959957L;
+    private static final long serialVersionUID = 1L;
 
     private static final int VERTICAL_UNIT_INCRENET = 110;
 
@@ -73,12 +73,9 @@ public class DefaultAlbumView extends AbstractView implements Serializable, List
      */
     @Override
     public Component getUI() {
-        MigLayout layout = new MigLayout("wrap "
-                + Configuration.getInstance().getAlbumColumns()
-                + ", alignx center, aligny center");
 
-        panel = new JPanel();
-        panel.setLayout(layout);
+        panel = new JPanel(new MigLayout("wrap " + Configuration.getInstance().getAlbumColumns()
+                + ", alignx center, aligny center"));
         panel.setOpaque(true);
 
         MouseListener l = new MouseInputAdapter() {
@@ -139,7 +136,7 @@ public class DefaultAlbumView extends AbstractView implements Serializable, List
      */
     @Override
     public void setList(final List<Album> list) {
-        this.albums = list;
+        albums = list;
     }
 
     public Album getSelectedAlbum() {

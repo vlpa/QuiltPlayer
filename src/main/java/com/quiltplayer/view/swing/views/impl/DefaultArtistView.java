@@ -18,7 +18,7 @@ import com.quiltplayer.view.swing.views.AbstractView;
 import com.quiltplayer.view.swing.views.ArtistView;
 
 /**
- * My implementation of the album view.
+ * My implementation of the artist view.
  * 
  * @author Vlado Palczynski
  */
@@ -42,7 +42,6 @@ public class DefaultArtistView extends AbstractView implements ArtistView {
      */
     @Override
     public void close() {
-        panel = null;
     }
 
     /*
@@ -55,8 +54,7 @@ public class DefaultArtistView extends AbstractView implements ArtistView {
 
     private Component getAlfabeticArtistComponent() {
         final MigLayout layout = new MigLayout("wrap "
-                + Configuration.getInstance().getArtistColumns()
-                + ", alignx center, flowx");
+                + Configuration.getInstance().getArtistColumns() + ", alignx center, flowx");
 
         panel = new JPanel();
         panel.setLayout(layout);

@@ -14,7 +14,6 @@ import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.panels.HighlightableQPanel;
-import com.quiltplayer.view.swing.util.HighlightColorUtils;
 
 /**
  * Represents a artist in the search list.
