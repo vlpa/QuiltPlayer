@@ -2,10 +2,9 @@ package com.quiltplayer.view.swing.views;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
-import com.quiltplayer.view.swing.scrollbars.QScrollBar;
+import com.quiltplayer.view.swing.panels.QScrollPane;
 
 /**
  * 
@@ -19,9 +18,7 @@ public class AbstractView {
         // JXLayer<JComponent> layer = new JXLayer<JComponent>(panel,
         // debugUI);
 
-        JScrollPane scroller = new JScrollPane(panel);
-        scroller.setVerticalScrollBar(new QScrollBar(JScrollBar.VERTICAL));
-        scroller.setHorizontalScrollBar(new QScrollBar(JScrollBar.HORIZONTAL));
+        QScrollPane scroller = new QScrollPane(panel);
         scroller.setBorder(BorderFactory.createEmptyBorder());
         scroller.setWheelScrollingEnabled(true);
         scroller.getVerticalScrollBar().setUnitIncrement(vertical);

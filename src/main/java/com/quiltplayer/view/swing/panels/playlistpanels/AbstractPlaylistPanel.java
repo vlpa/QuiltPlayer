@@ -16,4 +16,11 @@ public class AbstractPlaylistPanel extends JPanel {
         setBackground(Configuration.getInstance().getColorConstants().getPlaylistPanelBackground());
         setOpaque(false);
     }
+
+    public AbstractPlaylistPanel(MigLayout layout) {
+        super(layout);
+
+        setBackground(Configuration.getInstance().getColorConstants().getPlaylistPanelBackground());
+        setOpaque(false);
+    }
 }

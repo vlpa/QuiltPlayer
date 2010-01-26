@@ -6,10 +6,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
+import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.scrollbars.QScrollBar;
 
 /**
@@ -28,7 +31,7 @@ public class LyricsPlaylistPanel extends AbstractPlaylistPanel {
     private JTextArea lyricsArea;
 
     public LyricsPlaylistPanel() {
-        super();
+        super(new MigLayout("insets 15, wrap 1, alignx center, aligny center"));
 
         setupTextArea();
     }
@@ -45,15 +48,12 @@ public class LyricsPlaylistPanel extends AbstractPlaylistPanel {
         lyricsArea.setForeground(ColorConstantsDark.PLAYLIST_LYRICS_COLOR);
         lyricsArea.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
-        JScrollPane lyricsScroller = new JScrollPane(lyricsArea);
-        lyricsScroller.setVerticalScrollBar(new QScrollBar(JScrollBar.VERTICAL));
-        lyricsScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        lyricsScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane lyricsScroller = new QScrollPane(lyricsArea);
         lyricsScroller.setBorder(BorderFactory.createEmptyBorder());
         lyricsScroller.setWheelScrollingEnabled(true);
         lyricsScroller.getVerticalScrollBar().setUnitIncrement(VERTICAL_UNIT_INCRENET);
 
-        add(lyricsScroller, "w 100%, gapx 25 25, gapy 25 25");
+        add(lyricsScroller, "w 100%");
     }
 
     /**

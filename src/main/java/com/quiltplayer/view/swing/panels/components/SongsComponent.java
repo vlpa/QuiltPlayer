@@ -21,6 +21,7 @@ import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.scrollbars.QScrollBar;
 
 /**
@@ -85,9 +86,9 @@ public class SongsComponent extends QPlaylistComponent {
             songsPanel.add(songLabel);
         }
 
-        songsScroller = new JScrollPane(songsPanel);
+        songsScroller = new QScrollPane(songsPanel);
         songsScroller.setVerticalScrollBar(new QScrollBar(JScrollBar.VERTICAL));
-        songsScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        songsScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         songsScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         songsScroller.setBorder(BorderFactory.createEmptyBorder());
         songsScroller.setWheelScrollingEnabled(true);

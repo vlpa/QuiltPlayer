@@ -113,7 +113,7 @@ public class QuiltView extends AbstractView implements ListView<Album> {
 
         MouseListener l = new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 if (panel.contains(e.getX(), e.getY())) {
                     AlbumLabel albumPane = (AlbumLabel) e.getSource();
 

@@ -37,6 +37,8 @@ public class ControlPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
+    private static final Color SPOTIFY_COLOR = new Color(117, 182, 28);
+
     private static final int HEIGHT = 42;
 
     public static final String EVENT_VIEW_ARTIST = "view.artist";
@@ -79,11 +81,10 @@ public class ControlPanel extends JPanel {
     }
 
     public void setup() {
-        setLayout(new MigLayout("fillx, aligny center"));
+        setLayout(new MigLayout("insets 0, wrap 1, aligny center"));
 
-        setOpaque(true);
-
-        setBackground(new Color(40, 40, 40));
+        setOpaque(false);
+        setBackground(new Color(20, 20, 20));
 
         addQuiltCollectionButton();
 
@@ -101,6 +102,13 @@ public class ControlPanel extends JPanel {
 
         // addDecreaseVolumeButton();
 
+        final String s = "gapy 20 20, w 1cm!, h 1cm!";
+        add(exitButton, s);
+        add(quiltTab, s);
+        add(artistsTab, s);
+        add(searchTab, s);
+        add(configTab, s);
+
         updateUI();
     }
 
@@ -109,8 +117,6 @@ public class ControlPanel extends JPanel {
 
         quiltTab.addActionListener(listener);
         quiltTab.setActionCommand(EVENT_ALBUM_QUILT);
-
-        add(quiltTab, "dock west, gapx 15, w 3.5cm");
     }
 
     private void addAlfabeticArtistsButton() {
@@ -118,29 +124,23 @@ public class ControlPanel extends JPanel {
 
         artistsTab.addActionListener(listener);
         artistsTab.setActionCommand(EVENT_VIEW_ARTIST);
-
-        add(artistsTab, "dock west, gapx 5, w 3.5cm, h 1.1cm!");
     }
 
     private void addSearchTab() {
-        searchTab = new QTab("Spotify");
+        searchTab = new QTab("Spotify", SPOTIFY_COLOR);
 
         searchTab.addActionListener(listener);
         searchTab.setActionCommand(EVENT_VIEW_SEARCH);
-
-        add(searchTab, "dock west, gapx 5, w 3.5cm");
 
         if (!Configuration.getInstance().isUseSpotify())
             enableSearchTab(false);
     }
 
     private void addConfigurationTab() {
-        configTab = new QTab("Configuration");
+        configTab = new QTab("Config");
 
         configTab.addActionListener(listener);
         configTab.setActionCommand(EVENT_VIEW_CONFIGURATION);
-
-        add(configTab, "dock west, gapx 5, w 3.5cm");
     }
 
     private void addDecreaseVolumeButton() {
@@ -166,13 +166,8 @@ public class ControlPanel extends JPanel {
     }
 
     private void addExitButton() {
-        Color[] gradient = new Color[] { new Color(122, 27, 27), new Color(90, 20, 20),
-                new Color(50, 10, 10), new Color(20, 5, 5) };
-
-        exitButton = new QTab("X", gradient);
+        exitButton = new QTab("X", Color.RED);
         exitButton.addActionListener(new ExitHandler());
-
-        add(exitButton, "dock east, gapx 0, wrap, w 0.8	cm");
     }
 
     protected void paintComponent(Graphics g) {

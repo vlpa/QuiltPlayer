@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 import com.quiltplayer.external.wiki.WikipediaService;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.ColorConstantsDark;
+import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.scrollbars.QScrollBar;
 
 /**
@@ -49,7 +50,7 @@ public class WikiComponent extends QPlaylistComponent {
             e.printStackTrace();
         }
 
-        wikiScroller = new JScrollPane(pane);
+        wikiScroller = new QScrollPane(pane);
         wikiScroller.setVerticalScrollBar(new QScrollBar(JScrollBar.VERTICAL));
         wikiScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         wikiScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

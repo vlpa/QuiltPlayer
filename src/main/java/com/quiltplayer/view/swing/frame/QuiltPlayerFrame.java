@@ -162,14 +162,13 @@ public class QuiltPlayerFrame extends JFrame {
                 "cell 0 0, h 100%, dock west, w " + (ImageSizes.LARGE.getSize() + 90) + "px!");
 
         ui = aboutView.getUI();
-        getContentPane().add(ui, "cell 1 0, w 68%, h 100%, gapx 0");
+        getContentPane().add(ui, "cell 2 0, w 68%, h 100%, gapx 0");
 
         // DebugRepaintingUI debugUI = new DebugRepaintingUI();
         // JXLayer<JComponent> layer = new JXLayer<JComponent>(controlPanel,
         // debugUI);
 
-        getContentPane()
-                .add(controlPanel, "cell 1 1, w 68%, dock north, gapx 15lp 15lp, gapy 10lp");
+        getContentPane().add(controlPanel, "cell 1 0, dock west, w 200lpx");
 
         updateUI();
     }
@@ -289,7 +288,7 @@ public class QuiltPlayerFrame extends JFrame {
             hideGlassPane();
         }
 
-        getContentPane().add(ui, "cell 1 0, w 68%, h 100%, gapx 0");
+        getContentPane().add(ui, "cell 2 0, w 68%, h 100%, gapx 0");
         SwingUtilities.updateComponentTreeUI(this);
     }
 
