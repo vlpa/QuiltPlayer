@@ -3,27 +3,34 @@ package com.quiltplayer.view.swing.panels;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.LinearGradientPaint;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 
 import javax.annotation.PostConstruct;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.controller.ControlPanelController;
 import com.quiltplayer.controller.PlayerController;
 import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.buttons.QControlPanelButton;
 import com.quiltplayer.view.swing.buttons.QTab;
 import com.quiltplayer.view.swing.buttons.QTextButton;
 import com.quiltplayer.view.swing.handlers.ExitHandler;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
+import com.quiltplayer.view.swing.util.SizeHelper;
 
 /**
  * GUI for the control panel.
@@ -66,15 +73,15 @@ public class ControlPanel extends JPanel {
         NONE, QUILT, ARTISTS, CONFIGURATION, SEARCH
     };
 
-    private QTab quiltTab;
+    private QControlPanelButton quiltTab;
 
-    private QTab artistsTab;
+    private QControlPanelButton artistsTab;
 
-    private QTab searchTab;
+    private QControlPanelButton searchTab;
 
-    private QTab configTab;
+    private QControlPanelButton configTab;
 
-    private QTab keyboardTab;
+    private QControlPanelButton keyboardTab;
 
     private JButton exitButton;
 
@@ -86,8 +93,8 @@ public class ControlPanel extends JPanel {
     public void setup() {
         setLayout(new MigLayout("insets 0, wrap 1, aligny center"));
 
-        setOpaque(true);
-        setBackground(new Color(40, 40, 40));
+        setOpaque(false);
+        // setBackground(new Color(40, 40, 40));
 
         setupQuiltCollectionButton();
 
@@ -107,7 +114,7 @@ public class ControlPanel extends JPanel {
 
         // addDecreaseVolumeButton();
 
-        final String s = "gapy 20 20, w 1cm!, h 1cm!";
+        final String s = "gapy 20 20, w 1cm, h 1cm";
         add(exitButton, s);
         add(quiltTab, s);
         add(artistsTab, s);
@@ -119,21 +126,69 @@ public class ControlPanel extends JPanel {
     }
 
     private void setupQuiltCollectionButton() {
-        quiltTab = new QTab("Quilt");
+        Resource gearImage = new ClassPathResource("small-tiles.png");
+        ImageIcon icon = null;
+        try {
+            icon = new ImageIcon(gearImage.getURL());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(SizeHelper.getControlPanelIconSize());
+
+        Image img = icon.getImage();
+        img = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
+                .getControlPanelIconSize(), java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(img);
+
+        quiltTab = new QControlPanelButton("Quilt", icon);
 
         quiltTab.addActionListener(listener);
         quiltTab.setActionCommand(EVENT_ALBUM_QUILT);
     }
 
     private void setupAlfabeticArtistsButton() {
-        artistsTab = new QTab("Artists");
+        Resource gearImage = new ClassPathResource("large-tiles.png");
+        ImageIcon icon = null;
+        try {
+            icon = new ImageIcon(gearImage.getURL());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(SizeHelper.getControlPanelIconSize());
+
+        Image img = icon.getImage();
+        img = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
+                .getControlPanelIconSize(), java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(img);
+
+        artistsTab = new QControlPanelButton("Artists", icon);
 
         artistsTab.addActionListener(listener);
         artistsTab.setActionCommand(EVENT_VIEW_ARTIST);
     }
 
     private void setupSearchTab() {
-        searchTab = new QTab("Spotify");
+        Resource gearImage = new ClassPathResource("Search.png");
+        ImageIcon icon = null;
+        try {
+            icon = new ImageIcon(gearImage.getURL());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(SizeHelper.getControlPanelIconSize());
+
+        Image img = icon.getImage();
+        img = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
+                .getControlPanelIconSize(), java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(img);
+
+        searchTab = new QControlPanelButton("Spotify", icon);
 
         searchTab.addActionListener(listener);
         searchTab.setActionCommand(EVENT_VIEW_SEARCH);
@@ -143,15 +198,47 @@ public class ControlPanel extends JPanel {
     }
 
     private void setupConfigurationTab() {
-        configTab = new QTab("Config");
+        Resource gearImage = new ClassPathResource("Gear.png");
+        ImageIcon icon = null;
+        try {
+            icon = new ImageIcon(gearImage.getURL());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(SizeHelper.getControlPanelIconSize());
+
+        Image img = icon.getImage();
+        img = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
+                .getControlPanelIconSize(), java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(img);
+
+        configTab = new QControlPanelButton("Config", icon);
 
         configTab.addActionListener(listener);
         configTab.setActionCommand(EVENT_VIEW_CONFIGURATION);
     }
 
     private void setupKeybouardTab() {
-        keyboardTab = new QTab("K");
+        Resource gearImage = new ClassPathResource("Gear.png");
+        ImageIcon icon = null;
 
+        try {
+            icon = new ImageIcon(gearImage.getURL());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(SizeHelper.getControlPanelIconSize());
+
+        Image img = icon.getImage();
+        Image newImg = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
+                .getControlPanelIconSize(), java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newImg);
+
+        keyboardTab = new QControlPanelButton("K", icon);
         keyboardTab.addActionListener(listener);
         keyboardTab.setActionCommand(ControlPanelController.EVENT_VIEW_KEYBOARD);
     }
@@ -179,7 +266,21 @@ public class ControlPanel extends JPanel {
     }
 
     private void addExitButton() {
-        exitButton = new QTab("X");
+        Resource gearImage = new ClassPathResource("Power.png");
+        ImageIcon icon = null;
+        try {
+            icon = new ImageIcon(gearImage.getURL());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Image img = icon.getImage();
+        img = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
+                .getControlPanelIconSize(), java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(img);
+
+        exitButton = new QTab("End", icon);
         exitButton.addActionListener(new ExitHandler());
     }
 

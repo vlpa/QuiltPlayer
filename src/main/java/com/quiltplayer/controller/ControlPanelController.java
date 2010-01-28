@@ -79,8 +79,6 @@ public class ControlPanelController implements ControlPanelListener {
                 keyboardPanel.setVisible(false);
             else
                 keyboardPanel.setVisible(true);
-
-            frame.updateUI();
         }
     }
 

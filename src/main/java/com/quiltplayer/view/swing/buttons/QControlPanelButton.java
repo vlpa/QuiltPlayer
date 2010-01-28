@@ -21,7 +21,7 @@ import com.quiltplayer.view.swing.FontFactory;
  * 
  * @author Vlado Palczynski.
  */
-public class QTab extends JButton {
+public class QControlPanelButton extends JButton {
     private static final long serialVersionUID = 1L;
 
     private Color[] activeGradient = { new Color(100, 100, 100), new Color(65, 65, 65),
@@ -37,21 +37,7 @@ public class QTab extends JButton {
 
     private float[] dist = { 0.0f, 0.65f, 0.75f, 1.0f };
 
-    public QTab(String label) {
-        super(label);
-
-        setDefaults();
-    }
-
-    public QTab(String label, Color[] gradient) {
-        super(label);
-
-        this.gradient = gradient;
-
-        setDefaults();
-    }
-
-    public QTab(String label, Icon icon) {
+    public QControlPanelButton(String label, Icon icon) {
         super(label, icon);
         setVerticalTextPosition(AbstractButton.BOTTOM);
         setHorizontalTextPosition(AbstractButton.CENTER);

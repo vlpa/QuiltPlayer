@@ -1,7 +1,6 @@
 package com.quiltplayer.view.swing.panels.playlistpanels;
 
 import javax.swing.BorderFactory;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.panels.QScrollPane;
-import com.quiltplayer.view.swing.scrollbars.QScrollBar;
 
 /**
  * Display the lyrics of the playing song.
@@ -47,6 +45,7 @@ public class LyricsPlaylistPanel extends AbstractPlaylistPanel {
         lyricsArea.setLineWrap(true);
         lyricsArea.setForeground(ColorConstantsDark.PLAYLIST_LYRICS_COLOR);
         lyricsArea.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
+        lyricsArea.setOpaque(false);
 
         JScrollPane lyricsScroller = new QScrollPane(lyricsArea);
         lyricsScroller.setBorder(BorderFactory.createEmptyBorder());

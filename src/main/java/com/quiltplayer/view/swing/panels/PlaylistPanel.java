@@ -89,7 +89,7 @@ public class PlaylistPanel extends JPanel {
         mainPanel.setOpaque(true);
         mainPanel.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
-        add(mainPanel, "w 100%, h 100%, gapx 40lp, shrinkprio 0");
+        add(mainPanel, "w 100%, h 100%, gapx 30lp, shrinkprio 0");
     }
 
     @PostConstruct

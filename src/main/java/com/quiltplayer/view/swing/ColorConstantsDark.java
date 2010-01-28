@@ -17,7 +17,7 @@ public class ColorConstantsDark implements ColorConstants {
      */
     @Override
     public Color getBackground() {
-        return new Color(25, 25, 25);
+        return new Color(30, 30, 30);
     }
 
     /*
@@ -25,7 +25,7 @@ public class ColorConstantsDark implements ColorConstants {
      */
     @Override
     public Color getControlPanelBackground() {
-        return new Color(0, 0, 0);
+        return new Color(15, 15, 15);
     }
 
     /*

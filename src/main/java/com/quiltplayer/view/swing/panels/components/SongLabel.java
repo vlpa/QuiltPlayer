@@ -63,9 +63,9 @@ public class SongLabel extends JPanel {
 
     private QSongButton titleButton;
 
-    private Color[] activeGradient = { new Color(30, 30, 30), new Color(20, 20, 20) };
+    private Color[] passiveGradient = { new Color(25, 25, 25), new Color(20, 20, 20) };
 
-    private Color[] passiveGradient = { new Color(10, 10, 10), new Color(5, 5, 5) };
+    private Color[] activeGradient = { new Color(60, 60, 60), new Color(40, 40, 40) };
 
     private Color[] gradient = passiveGradient;
 
@@ -189,8 +189,7 @@ public class SongLabel extends JPanel {
         gradient = passiveGradient;
 
         titleButton.setSelected(false);
-        setBackground(Configuration.getInstance().getColorConstants()
-                .getPlaylistPanelBackground());
+        setBackground(Configuration.getInstance().getColorConstants().getPlaylistPanelBackground());
 
         remove(button);
         remove(pauseLabel);

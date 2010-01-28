@@ -14,8 +14,6 @@ import com.quiltplayer.external.lyrics.LyricsListener;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.jotify.JotifySong;
 
-import de.felixbruns.jotify.media.Album;
-import de.felixbruns.jotify.media.Artist;
 import de.felixbruns.jotify.media.Track;
 import de.felixbruns.jotify.player.PlaybackListener;
 

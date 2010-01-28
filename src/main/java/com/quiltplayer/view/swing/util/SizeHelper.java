@@ -32,4 +32,8 @@ public class SizeHelper {
     public static int getMaxWidth() {
         return ((Double) d.getWidth()).intValue();
     }
+
+    public static int getControlPanelIconSize() {
+        return ((Double) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 30)).intValue();
+    }
 }
