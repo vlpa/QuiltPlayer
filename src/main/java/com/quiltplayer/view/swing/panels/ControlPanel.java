@@ -83,8 +83,8 @@ public class ControlPanel extends JPanel {
     public void setup() {
         setLayout(new MigLayout("insets 0, wrap 1, aligny center"));
 
-        setOpaque(false);
-        setBackground(new Color(20, 20, 20));
+        setOpaque(true);
+        setBackground(new Color(40, 40, 40));
 
         addQuiltCollectionButton();
 
@@ -127,7 +127,7 @@ public class ControlPanel extends JPanel {
     }
 
     private void addSearchTab() {
-        searchTab = new QTab("Spotify", SPOTIFY_COLOR);
+        searchTab = new QTab("Spotify");
 
         searchTab.addActionListener(listener);
         searchTab.setActionCommand(EVENT_VIEW_SEARCH);
@@ -166,7 +166,7 @@ public class ControlPanel extends JPanel {
     }
 
     private void addExitButton() {
-        exitButton = new QTab("X", Color.RED);
+        exitButton = new QTab("X");
         exitButton.addActionListener(new ExitHandler());
     }
 

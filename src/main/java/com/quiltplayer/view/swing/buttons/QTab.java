@@ -9,8 +9,6 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
@@ -22,14 +20,13 @@ import com.quiltplayer.view.swing.FontFactory;
  * @author Vlado Palczynski.
  */
 public class QTab extends JButton {
-
     private static final long serialVersionUID = 1L;
 
     private Color[] activeGradient = { new Color(100, 100, 100), new Color(65, 65, 65),
             new Color(20, 20, 20), new Color(30, 30, 30) };
 
-    private Color[] passiveGradient = { new Color(160, 160, 160), new Color(240, 240, 240),
-            new Color(210, 210, 210), new Color(230, 230, 230) };
+    private Color[] passiveGradient = { new Color(60, 60, 60), new Color(40, 40, 40),
+            new Color(10, 10, 10), new Color(30, 30, 30) };
 
     private Color[] pressedGradient = { new Color(50, 50, 50), new Color(35, 35, 35),
             new Color(10, 10, 10), new Color(20, 20, 20) };
@@ -38,10 +35,8 @@ public class QTab extends JButton {
 
     private float[] dist = { 0.0f, 0.65f, 0.75f, 1.0f };
 
-    private Color color = Color.BLACK;
-
     public QTab(String label) {
-        super(label, new ImageIcon("/home/vlado/Pictures/icons/android/Menu Icons/small-tiles.png"));
+        super(label);
 
         setDefaults();
     }
@@ -50,12 +45,6 @@ public class QTab extends JButton {
         super(label);
 
         this.gradient = gradient;
-
-        setDefaults();
-    }
-
-    public QTab(String label, Color color) {
-        super(label, new ImageIcon("/home/vlado/Pictures/icons/android/Menu Icons/small-tiles.png"));
 
         setDefaults();
     }
@@ -85,23 +74,22 @@ public class QTab extends JButton {
         Point2D start = new Point2D.Float(0, 0);
         Point2D end = new Point2D.Float(0, getHeight() - 1);
 
-        LinearGradientPaint p = new LinearGradientPaint(start, end, new float[] { 0.0f, 1.0f },
-                new Color[] { color, color.darker() });
+        LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
 
         g2d.setPaint(p);
 
         /**
-         * Arcs must be uneven or it gets unsymmetrically.
+         * Arcs must be uneven or is gets unsymmetrically.
          */
-        g2d.fillRoundRect(1, 1, getWidth(), getHeight() - 3, 23, 23);
+        g2d.fillRoundRect(1, 1, getWidth() - 1, getHeight(), 11, 11);
 
         super.paintComponent(g);
     }
 
     // Paint the border of the button using a simple stroke.
     protected void paintBorder(Graphics g) {
-        // g.setColor(Color.GRAY);
-        // g.drawRect(0, 0, getWidth(), getHeight());
+        g.setColor(new Color(20, 20, 20));
+        g.drawRect(0, 0, getWidth(), getHeight());
     }
 
     // Hit detection.

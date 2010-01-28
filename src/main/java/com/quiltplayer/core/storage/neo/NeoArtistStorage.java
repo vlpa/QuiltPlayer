@@ -36,7 +36,7 @@ import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.StringId;
 import com.quiltplayer.model.neo.NeoArtist;
 
-/*
+/**
  * Implementation of ArtistStorage against Neo4j.
  * 
  * @author Vlado Palczynski

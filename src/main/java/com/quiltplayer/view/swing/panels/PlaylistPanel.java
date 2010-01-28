@@ -174,7 +174,7 @@ public class PlaylistPanel extends JPanel {
         playlistButtonPanel.add(songsButton, "dock east, w 2.5cm, h 0.8cm!");
         playlistButtonPanel.add(lyricsButton, "dock east, w 2.5cm, h 0.8cm!");
 
-        mainPanel.add(playlistButtonPanel, "dock south, gapy 15");
+        mainPanel.add(playlistButtonPanel, "dock north");
     }
 
     private void setupSongsButton() {

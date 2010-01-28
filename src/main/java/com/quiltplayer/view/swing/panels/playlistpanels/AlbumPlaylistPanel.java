@@ -114,7 +114,7 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
         setupImageControlPanel(false);
         setupEditAlbumButton();
 
-        add(albumPresentationPanel, "top, gapy 0.1cm, w " + ImageSizes.LARGE.getSize() + "px!");
+        add(albumPresentationPanel, "top, w " + ImageSizes.LARGE.getSize() + "px!");
         add(iconLabel, "alignx center,  aligny top, h " + ImageSizes.LARGE.getSize()
                 + "px!, gapy 20");
         add(imageControlPanel, "alignx center, aligny top, h 30lp!, w "

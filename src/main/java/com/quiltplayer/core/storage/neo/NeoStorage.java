@@ -26,7 +26,6 @@ import org.neo4j.api.core.Node;
 import org.neo4j.api.core.Relationship;
 import org.neo4j.api.core.ReturnableEvaluator;
 import org.neo4j.api.core.StopEvaluator;
-import org.neo4j.api.core.TraversalPosition;
 import org.neo4j.api.core.Traverser;
 import org.neo4j.util.index.IndexService;
 import org.neo4j.util.index.LuceneIndexService;
@@ -40,7 +39,6 @@ import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;
 import com.quiltplayer.model.neo.NeoAlbum;
-import com.quiltplayer.model.neo.NeoArtist;
 import com.quiltplayer.model.neo.NeoLocalImage;
 import com.quiltplayer.model.neo.NeoSong;
 
@@ -60,11 +58,6 @@ public class NeoStorage implements Storage {
      * Album property for album id.
      */
     private static final String ALBUM_ID_INDEX = "albumId";
-
-    /**
-     * Index property for album id.
-     */
-    private static final String ARTIST_ID_INDEX = "artistId";
 
     /**
      * Song property for song id.
@@ -101,46 +94,6 @@ public class NeoStorage implements Storage {
      */
     private IndexService indexService = new LuceneIndexService(NeoSingelton.getInstance()
             .getNeoService());
-
-    /**
-     * Artist root.
-     */
-    private Node artistRoot;
-
-    @Transactional
-    public Artist getArtist(final StringId artistId) {
-        Artist artist = null;
-
-        Node artistNode = searchSingle(artistId.getId(), ARTIST_ID_INDEX,
-                QuiltPlayerRelationshipTypes.ARTIST_ID);
-
-        if (artistNode != null) {
-            artist = new NeoArtist(artistNode);
-        }
-
-        return artist;
-    }
-
-    @Transactional
-    public void getArtistByFirstChar(final String character) {
-        Traverser morpheusfriends = artistRoot.traverse(Traverser.Order.BREADTH_FIRST,
-                StopEvaluator.DEPTH_ONE, new ReturnableEvaluator() {
-                    @Override
-                    public boolean isReturnableNode(TraversalPosition pos) {
-                        String artistName = (String) pos.currentNode().getProperty("name");
-
-                        if (artistName.substring(0, 1).equalsIgnoreCase(character)) {
-                            return true;
-                        }
-
-                        return false;
-                    }
-                }, QuiltPlayerRelationshipTypes.HAS_ALBUM, Direction.OUTGOING);
-
-        for (Node friend : morpheusfriends) {
-            System.out.println(friend);
-        }
-    }
 
     /*
      * (non-Javadoc)

@@ -94,8 +94,6 @@ public class QuiltPlayerFrame extends JFrame {
 
     public QuiltPlayerFrame() {
 
-        printSwingProperties(false);
-
         float swingDPI = Toolkit.getDefaultToolkit().getScreenResolution();
         float migDPI = PlatformDefaults.getDefaultDPI();
 
@@ -168,32 +166,10 @@ public class QuiltPlayerFrame extends JFrame {
         // JXLayer<JComponent> layer = new JXLayer<JComponent>(controlPanel,
         // debugUI);
 
-        getContentPane().add(controlPanel, "cell 1 0, dock west, w 200lpx");
+        getContentPane().add(controlPanel, "cell 1 0, dock east, alignx center");
+        // glassPane.add(controlPanel, "w 200lpx");
 
         updateUI();
-    }
-
-    private void printSwingProperties(boolean b) {
-        if (b) {
-            UIDefaults defaults = UIManager.getDefaults();
-            String[][] rowData = new String[defaults.size()][2];
-
-            java.util.List<String> l = new ArrayList<String>();
-
-            int i = 0;
-
-            for (Enumeration e = defaults.keys(); e.hasMoreElements(); i++) {
-                Object key = e.nextElement();
-                rowData[i][0] = key.toString();
-                rowData[i][1] = "" + defaults.get(key);
-                l.add(rowData[i][0] + " ,, " + rowData[i][1]);
-            }
-
-            Collections.sort(l);
-            for (String s : l) {
-                System.out.println(s);
-            }
-        }
     }
 
     private void setupGridGlassPane() {

@@ -48,8 +48,8 @@ public class QScrollPane extends JScrollPane implements ActionListener {
         addMouseListener(getMouseListener());
         addMouseMotionListener(getMouseMotionListener());
 
-        setAutoscrolls(true);
-        setDoubleBuffered(true);
+        // setAutoscrolls(true);
+        // setDoubleBuffered(true);
 
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
     }
@@ -165,7 +165,6 @@ public class QScrollPane extends JScrollPane implements ActionListener {
             }
             else {
                 int distance = (pressedPosition - mouseY);
-                System.out.println(distance / steps);
                 verticalScrollBar.setValue(verticalScrollBar.getValue() - (distance / steps) / 3);
             }
 

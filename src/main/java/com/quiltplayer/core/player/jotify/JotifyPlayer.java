@@ -89,16 +89,13 @@ public class JotifyPlayer implements Player, PlaybackListener {
 
         isPaused = false;
 
-        if (s instanceof JotifySong)
+        if (s instanceof JotifySong) {
             jotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), this);
+        }
         else {
-            Artist artist = new Artist(s.getAlbum().getArtist().getSpotifyId(), s.getAlbum()
-                    .getArtist().getArtistName().getName());
+            Track track = new Track(s.getSpotifyId());
+            track = jotifyRepository.getInstance().browse(track);
 
-            Album album = new Album(s.getAlbum().getSpotifyId(), s.getAlbum().getTitle(), artist);
-
-            Track track = new Track(s.getSpotifyId(), s.getTitle(), artist, album);
-            // track.addFile(new File(s.getId(), s.getfs.getFileName()));
             jotifyRepository.getInstance().play(track, this);
         }
 

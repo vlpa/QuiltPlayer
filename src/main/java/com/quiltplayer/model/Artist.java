@@ -17,81 +17,80 @@ import java.util.List;
  * 
  * @author Vlado Palczynski
  */
-public interface Artist
-{
-	/**
-	 * @return the id.
-	 */
-	StringId getStringId();
+public interface Artist {
+    /**
+     * @return the id.
+     */
+    StringId getStringId();
 
-	/**
-	 * @param id
-	 *            the id to set.
-	 */
-	void setId(StringId id);
+    /**
+     * @param id
+     *            the id to set.
+     */
+    void setId(StringId id);
 
-	/**
-	 * @return the spotifyId.
-	 */
-	String getSpotifyId();
+    /**
+     * @return the spotifyId.
+     */
+    String getSpotifyId();
 
-	/**
-	 * @param spotifyId
-	 *            the spotifyId to set.
-	 */
-	void setSpotifyId(String spotifyId);
+    /**
+     * @param spotifyId
+     *            the spotifyId to set.
+     */
+    void setSpotifyId(String spotifyId);
 
-	/**
-	 * @return the artistName.
-	 */
-	ArtistName getArtistName();
+    /**
+     * @return the artistName.
+     */
+    ArtistName getArtistName();
 
-	/**
-	 * @param artistName
-	 *            the artistName to set.
-	 */
-	void setArtistName(ArtistName artistName);
+    /**
+     * @param artistName
+     *            the artistName to set.
+     */
+    void setArtistName(ArtistName artistName);
 
-	/**
-	 * @return the albums.
-	 */
-	List<Album> getAlbums();
+    /**
+     * @return the albums.
+     */
+    List<Album> getAlbums();
 
-	/**
-	 * @param album
-	 *            the album to add.
-	 */
-	void addAlbum(Album album);
+    /**
+     * @param album
+     *            the album to add.
+     */
+    void addAlbum(Album album);
 
-	/**
-	 * Check if album already exists.
-	 * 
-	 * @param album
-	 * @return if the album exists on artist.
-	 */
-	boolean hasAlbum(Album album);
+    /**
+     * Check if album already exists.
+     * 
+     * @param album
+     * @return if the album exists on artist.
+     */
+    boolean hasAlbum(Album album);
 
-	/**
-	 * @param album
-	 *            the album to remove from this artist.
-	 */
-	void removeAlbum(Album album);
+    /**
+     * @param album
+     *            the album to remove from this artist.
+     */
+    void removeAlbum(Album album);
 
-	/**
-	 * @param the
-	 *            the the to set
-	 */
-	void setThe(boolean the);
+    /**
+     * @param the
+     *            the the to set
+     */
+    void setThe(boolean the);
 
-	/**
-	 * @return the the
-	 */
-	boolean isThe();
+    /**
+     * @return the the
+     */
+    boolean isThe();
 
-	/**
-	 * Check to see if the artist has some album relations.
-	 * 
-	 * @return true if artist contains albums, otherwise false
-	 */
-	boolean hasAlbums();
+    /**
+     * Check to see if the artist has some album relations.
+     * 
+     * @return true if artist contains albums, otherwise false
+     */
+    boolean hasAlbums();
 }
