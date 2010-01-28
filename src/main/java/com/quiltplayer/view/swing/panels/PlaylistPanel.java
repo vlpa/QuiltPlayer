@@ -193,7 +193,7 @@ public class PlaylistPanel extends JPanel {
 
     private void addAlbumPlaylistPanelToMainPanel() {
         mainPanel.add(albumPlaylistPanel,
-                "w 100%, h 100%, alignx center, aligny center, gapy 0.5cm");
+                "w 100%, h 100%, alignx center, aligny center, gapy 0.3cm");
     }
 
     private void setupLyricsButton() {

@@ -11,6 +11,7 @@ import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.panels.ControlPanel;
 import com.quiltplayer.view.swing.panels.ControlPanel.Tab;
+import com.quiltplayer.view.swing.window.KeyboardPanel;
 
 /**
  * Controller for the control panel.
@@ -26,11 +27,16 @@ public class ControlPanelController implements ControlPanelListener {
 
     public static final String EVENT_DECREASE_GRID = "decrease.grid";
 
+    public static final String EVENT_VIEW_KEYBOARD = "view.keyboard";
+
     @Autowired
     private QuiltPlayerFrame frame;
 
     @Autowired
     private ControlPanel controlPanel;
+
+    @Autowired
+    private KeyboardPanel keyboardPanel;
 
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -65,6 +71,15 @@ public class ControlPanelController implements ControlPanelListener {
         }
         else if (EVENT_DECREASE_GRID == actionCommand) {
             decreaseGrid();
+            frame.updateUI();
+        }
+
+        else if (EVENT_VIEW_KEYBOARD == actionCommand) {
+            if (keyboardPanel.isVisible())
+                keyboardPanel.setVisible(false);
+            else
+                keyboardPanel.setVisible(true);
+
             frame.updateUI();
         }
     }

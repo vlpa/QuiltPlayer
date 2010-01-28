@@ -16,6 +16,7 @@ import net.miginfocom.swing.MigLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.controller.ControlPanelController;
 import com.quiltplayer.controller.PlayerController;
 import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.properties.Configuration;
@@ -73,6 +74,8 @@ public class ControlPanel extends JPanel {
 
     private QTab configTab;
 
+    private QTab keyboardTab;
+
     private JButton exitButton;
 
     @PostConstruct
@@ -86,17 +89,19 @@ public class ControlPanel extends JPanel {
         setOpaque(true);
         setBackground(new Color(40, 40, 40));
 
-        addQuiltCollectionButton();
+        setupQuiltCollectionButton();
 
-        addAlfabeticArtistsButton();
+        setupAlfabeticArtistsButton();
 
-        addSearchTab();
+        setupSearchTab();
 
-        addConfigurationTab();
+        setupConfigurationTab();
 
         // addAboutButton();
 
         addExitButton();
+
+        setupKeybouardTab();
 
         // addIncreaseVolumeButton();
 
@@ -108,25 +113,26 @@ public class ControlPanel extends JPanel {
         add(artistsTab, s);
         add(searchTab, s);
         add(configTab, s);
+        add(keyboardTab, s);
 
         updateUI();
     }
 
-    private void addQuiltCollectionButton() {
+    private void setupQuiltCollectionButton() {
         quiltTab = new QTab("Quilt");
 
         quiltTab.addActionListener(listener);
         quiltTab.setActionCommand(EVENT_ALBUM_QUILT);
     }
 
-    private void addAlfabeticArtistsButton() {
+    private void setupAlfabeticArtistsButton() {
         artistsTab = new QTab("Artists");
 
         artistsTab.addActionListener(listener);
         artistsTab.setActionCommand(EVENT_VIEW_ARTIST);
     }
 
-    private void addSearchTab() {
+    private void setupSearchTab() {
         searchTab = new QTab("Spotify");
 
         searchTab.addActionListener(listener);
@@ -136,11 +142,18 @@ public class ControlPanel extends JPanel {
             enableSearchTab(false);
     }
 
-    private void addConfigurationTab() {
+    private void setupConfigurationTab() {
         configTab = new QTab("Config");
 
         configTab.addActionListener(listener);
         configTab.setActionCommand(EVENT_VIEW_CONFIGURATION);
+    }
+
+    private void setupKeybouardTab() {
+        keyboardTab = new QTab("K");
+
+        keyboardTab.addActionListener(listener);
+        keyboardTab.setActionCommand(ControlPanelController.EVENT_VIEW_KEYBOARD);
     }
 
     private void addDecreaseVolumeButton() {

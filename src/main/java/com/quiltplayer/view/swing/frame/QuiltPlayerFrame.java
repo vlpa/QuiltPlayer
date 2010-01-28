@@ -7,17 +7,12 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.layout.PlatformDefaults;
@@ -39,6 +34,7 @@ import com.quiltplayer.view.swing.views.ArtistView;
 import com.quiltplayer.view.swing.views.ListView;
 import com.quiltplayer.view.swing.views.View;
 import com.quiltplayer.view.swing.views.impl.ConfigurationView;
+import com.quiltplayer.view.swing.window.KeyboardPanel;
 
 /**
  * Main Frame for QuiltPlayer.
@@ -86,6 +82,9 @@ public class QuiltPlayerFrame extends JFrame {
     private Component ui;
 
     private ActiveView currentView = ActiveView.ABOUT_VIEW;
+
+    @Autowired
+    private KeyboardPanel keyboardPanel;
 
     @Autowired
     private ControlPanelController controlPanelListener;
@@ -173,6 +172,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void setupGridGlassPane() {
+
         glassPane = (JPanel) this.getGlassPane();
         glassPane.setLayout(new MigLayout("insets 0, fill"));
 
@@ -188,12 +188,13 @@ public class QuiltPlayerFrame extends JFrame {
         decreaseGridButton.setToolTipText("Remove column in the grid above");
         decreaseGridButton.setBorderPainted(false);
 
-        JPanel panel = new JPanel(new MigLayout("insets 0"));
-        panel.add(increaseGridButton, "right, gapy 0 20lp");
-        panel.add(decreaseGridButton, "right, gapx 0 30lp, gapy 0 20lp");
+        JPanel panel = new JPanel(new MigLayout("insets 0, wrap 1"));
+        panel.add(increaseGridButton, "right, gapy 0 20, gapx 0 30");
+        panel.add(decreaseGridButton, "right, gapy 20 50, gapx 0 30 ");
         panel.setOpaque(false);
 
         glassPane.add(panel, "right, bottom");
+        glassPane.add(keyboardPanel, "center");
     }
 
     public Component getUI() {
@@ -255,6 +256,7 @@ public class QuiltPlayerFrame extends JFrame {
         }
         else if (currentView.equals(ActiveView.ABOUT_VIEW)) {
             ui = aboutView.getUI();
+            glassPane.updateUI();
             controlPanel.updateTab(null);
             hideGlassPane();
         }

@@ -9,9 +9,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
@@ -39,7 +36,6 @@ import com.quiltplayer.view.swing.panels.QPanel;
 import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.views.AbstractView;
 import com.quiltplayer.view.swing.views.View;
-import com.quiltplayer.view.swing.window.KeyboardWindow;
 
 import de.felixbruns.jotify.media.Album;
 import de.felixbruns.jotify.media.Artist;
@@ -67,8 +63,6 @@ public class SearchView extends AbstractView implements Serializable, View {
     private JTextField searchField;
 
     private JButton searchButton;
-
-    private JButton keyboardButton;
 
     @Autowired
     private SearchListener searchListener;
@@ -241,19 +235,6 @@ public class SearchView extends AbstractView implements Serializable, View {
                         EVENT_SEARCH));
             }
         });
-    }
-
-    private void addKeyboardButton() {
-        keyboardButton = new JButton("#");
-
-        MouseListener l = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                new KeyboardWindow(searchField);
-            }
-        };
-
-        keyboardButton.addMouseListener(l);
     }
 
     /**

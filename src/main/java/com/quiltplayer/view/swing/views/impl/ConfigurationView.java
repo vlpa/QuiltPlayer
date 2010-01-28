@@ -37,7 +37,6 @@ import com.quiltplayer.view.swing.textfields.QPasswordField;
 import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.views.AbstractView;
 import com.quiltplayer.view.swing.views.View;
-import com.quiltplayer.view.swing.window.KeyboardWindow;
 
 /**
  * Configurations view.
@@ -226,8 +225,7 @@ public class ConfigurationView extends AbstractView implements View, ActionListe
         if (panel == null) {
             panel = new JPanel();
             panel.setOpaque(true);
-            panel.setBackground(Configuration.getInstance().getColorConstants()
-                    .getBackground());
+            panel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
 
             panel.setLayout(new MigLayout("insets 0, wrap 2, alignx center, aligny center"));
 
@@ -241,9 +239,8 @@ public class ConfigurationView extends AbstractView implements View, ActionListe
             panel.add(TextFieldComponents.textFieldComponentForForms("Album covers folder",
                     Configuration.ALBUM_COVERS_PATH, false), "left, w 40%, newline");
             panel.add(TextFieldComponents.textFieldComponentForFormsWithButton(
-                    "Music directory to scan", musicPath,
-                    Configuration.ALBUM_COVERS_PATH, false, fileChooserButton),
-                    "left, w 40%, newline");
+                    "Music directory to scan", musicPath, Configuration.ALBUM_COVERS_PATH, false,
+                    fileChooserButton), "left, w 40%, newline");
 
             addFontSize();
 
@@ -296,8 +293,8 @@ public class ConfigurationView extends AbstractView implements View, ActionListe
         fontSelectBox = new JComboBox(new String[] { "-3", "-2", "-1", "0", "+1", "+2", "+3" });
         fontSelectBox.setOpaque(true);
 
-        int currentValue = ((Integer) ((Float) Configuration.getInstance()
-                .getFontBalancer()).intValue());
+        int currentValue = ((Integer) ((Float) Configuration.getInstance().getFontBalancer())
+                .intValue());
 
         String currentValueAsString = null;
         if (currentValue > 0)
@@ -427,30 +424,15 @@ public class ConfigurationView extends AbstractView implements View, ActionListe
             spotifySettings.setVisible(false);
 
         spotifySettings.add(TextFieldComponents.textFieldComponentForForms("Spotify user name",
-                spotifyUserName, Configuration.getInstance().getSpotifyUserName() + "",
-                true), "left, w 100%, newline");
+                spotifyUserName, Configuration.getInstance().getSpotifyUserName() + "", true),
+                "left, w 100%, newline");
         // spotifySettings.add(getKeyboardButton(spotifyUserName),
         // "left, w 10%");
         spotifySettings.add(TextFieldComponents.textFieldComponentForForms("Spotify password",
-                spotifyPassword, Configuration.getInstance().getSpotifyPassword() + "",
-                true), "left, w 100%, newline");
+                spotifyPassword, Configuration.getInstance().getSpotifyPassword() + "", true),
+                "left, w 100%, newline");
         // spotifySettings.add(getKeyboardButton(spotifyPassword),
         // "left, w 10%");
-    }
-
-    private JButton getKeyboardButton(final JTextField field) {
-        JButton keyboardButton = new JButton("#");
-
-        MouseListener l = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                new KeyboardWindow(field);
-            }
-        };
-
-        keyboardButton.addMouseListener(l);
-
-        return keyboardButton;
     }
 
     private void addScanCoversButton() {
