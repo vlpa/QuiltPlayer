@@ -66,9 +66,10 @@ public class PlaylistImageLabel extends JLabel implements ActionListener {
             }
         else if (album instanceof JotifyAlbum) {
             try {
-                // BUG Nullpointer when selecting album 1st time, 2:nd is ok
-                Image image = jotifyRepository.getInstance().image(
-                        ((JotifyAlbum) album).getSpotifyAlbum().getCover());
+                de.felixbruns.jotify.media.Album jotifyAlbum = jotifyRepository.getInstance()
+                        .browse(((JotifyAlbum) album).getSpotifyAlbum());
+
+                Image image = jotifyRepository.getInstance().image(jotifyAlbum.getCover());
 
                 this.setIcon(new ImageIcon(ImageUtils.scalePicture(image, ImageSizes.LARGE
                         .getSize())));
