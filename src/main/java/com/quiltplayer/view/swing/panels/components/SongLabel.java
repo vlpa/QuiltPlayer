@@ -22,6 +22,8 @@ import javax.swing.SwingConstants;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
 import com.quiltplayer.controller.PlayerController;
 import com.quiltplayer.external.covers.model.ImageSizes;
@@ -67,7 +69,9 @@ public class SongLabel extends JPanel {
 
     private Color[] activeGradient = { new Color(60, 60, 60), new Color(40, 40, 40) };
 
-    private Color[] gradient = passiveGradient;
+    private Color[] currentGradient = passiveGradient;
+
+    private Animator animator;
 
     public SongLabel(Song song) {
         setLayout(new MigLayout("insets 0, aligny center, wmax " + ImageSizes.LARGE.getSize()
@@ -143,7 +147,7 @@ public class SongLabel extends JPanel {
                 .getPlaylistSongBackgroundCurrent());
         setOpaque(true);
 
-        gradient = activeGradient;
+        currentGradient = activeGradient;
 
         titleButton.setSelected(true);
 
@@ -160,8 +164,12 @@ public class SongLabel extends JPanel {
 
         status = STATUS_PLAYING;
 
-        this.repaint();
-        this.updateUI();
+        PropertySetter setter = new PropertySetter(titleButton, "foreground", Color.GRAY,
+                Color.WHITE);
+        animator = new Animator(900, Animator.INFINITE, Animator.RepeatBehavior.REVERSE, setter);
+        animator.start();
+
+        repaint();
     }
 
     public void setPaused() {
@@ -186,7 +194,7 @@ public class SongLabel extends JPanel {
 
         status = STATUS_STOPPED;
 
-        gradient = passiveGradient;
+        currentGradient = passiveGradient;
 
         titleButton.setSelected(false);
         setBackground(Configuration.getInstance().getColorConstants().getPlaylistPanelBackground());
@@ -194,6 +202,9 @@ public class SongLabel extends JPanel {
         remove(button);
         remove(pauseLabel);
         remove(timeLabel);
+
+        if (animator != null)
+            animator.stop();
 
         repaint();
         updateUI();
@@ -262,7 +273,7 @@ public class SongLabel extends JPanel {
         Point2D start = new Point2D.Float(0, 0);
         Point2D end = new Point2D.Float(0, getHeight() - 1);
 
-        LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
+        LinearGradientPaint p = new LinearGradientPaint(start, end, dist, currentGradient);
 
         g2d.setPaint(p);
         g2d.fillRoundRect(1, 1, getWidth() - 1, getHeight(), 11, 11);

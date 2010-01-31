@@ -14,7 +14,7 @@ public class ImageProperties
 	 * The playlist panel should have a default picture then entering the
 	 * application.
 	 */
-	public static final Resource LOGO_PATH = new ClassPathResource("logo.gif");
+	public static final Resource LOGO_PATH = new ClassPathResource("logo.png");
 
 	/**
 	 * Path to splash screen.
