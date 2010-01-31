@@ -3,6 +3,8 @@ package com.quiltplayer.external.covers;
 import java.io.File;
 import java.io.IOException;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.external.covers.discogs.Album;
@@ -24,7 +26,8 @@ public class DiscogsScanner {
 
     private SelectionCriterias criterias;
 
-    public DiscogsScanner() {
+    @PostConstruct
+    public void postContruct() {
         this.webServiceAlbum = new WebServiceAlbum();
         this.webServiceArtist = new WebServiceArtist();
         criterias = new SelectionCriterias();
@@ -46,8 +49,10 @@ public class DiscogsScanner {
     }
 
     private void checkRequestCount(Resp resp) throws RequestOverFlowException {
-        if (Integer.parseInt(resp.getRequests()) > 4999)
-            throw new RequestOverFlowException();
+        if (resp != null && resp.getRequests() != null) {
+            if (Integer.parseInt(resp.getRequests()) > 4999)
+                throw new RequestOverFlowException();
+        }
 
     }
 }

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -69,6 +71,9 @@ public class DefaultCoverScanner implements CoverScanner {
                 // individually
                 if (album.getImages() != null && album.getImages().size() < 2) {
                     try {
+
+                        log.debug("Searching for images....");
+
                         com.quiltplayer.external.covers.discogs.Album discogsAlbum = discogsScanner
                                 .scanForAlbum(album.getArtist().getArtistName().getName(), album
                                         .getTitle(), album.getSongCollection().getSongs().size(),
@@ -84,7 +89,7 @@ public class DefaultCoverScanner implements CoverScanner {
                         b = false;
                     }
                     catch (Exception e) {
-
+                        e.printStackTrace();
                     }
                 }
             }
@@ -101,11 +106,9 @@ public class DefaultCoverScanner implements CoverScanner {
             bindImagesToAlbum(album, discogsAlbum);
         }
         catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -159,6 +162,9 @@ public class DefaultCoverScanner implements CoverScanner {
         for (int i = 0; i < THREADS; i++) {
 
             DefaultCoverScanner das = new DefaultCoverScanner();
+            das.artistStorage = artistStorage;
+            das.discogsScanner = discogsScanner;
+            das.storage = storage;
 
             Thread thread = new Thread(das);
             threadPool.add(thread);
@@ -181,9 +187,9 @@ public class DefaultCoverScanner implements CoverScanner {
 
         for (int i = 0; i < 1; i++) {
 
-            DefaultCoverScanner das = new DefaultCoverScanner();
+            DefaultCoverScanner dcs = new DefaultCoverScanner();
 
-            Thread thread = new Thread(das);
+            Thread thread = new Thread(dcs);
             threadPool.add(thread);
             thread.start();
 
@@ -203,7 +209,6 @@ public class DefaultCoverScanner implements CoverScanner {
      * 
      * @see org.quiltplayer.core.scanner.CoverScanner#cancelScanCovers()
      */
-    @SuppressWarnings("deprecation")
     @Override
     public void cancelScanCovers() {
         scanningListener.scannerEvent(new ScanningEvent(Status.DONE, Scanner.COVERS));
