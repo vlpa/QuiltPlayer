@@ -32,7 +32,6 @@ import com.quiltplayer.properties.Configuration;
 
 import de.felixbruns.jotify.media.Track;
 
-@Configurable
 public class JotifyAlbum implements Album {
 
     private Logger log = Logger.getLogger(JotifyAlbum.class);
@@ -45,7 +44,6 @@ public class JotifyAlbum implements Album {
 
     private SongCollection songCollection;
 
-    @Autowired
     private JotifyRepository jotifyRepository;
 
     public JotifyAlbum(de.felixbruns.jotify.media.Album album) {
@@ -64,6 +62,7 @@ public class JotifyAlbum implements Album {
         List<Song> songs = new ArrayList<Song>();
 
         if (spotifyAlbum.getTracks().isEmpty()) {
+            System.out.println(jotifyRepository);
             spotifyAlbum = jotifyRepository.getInstance().browse(spotifyAlbum);
         }
 
@@ -105,8 +104,7 @@ public class JotifyAlbum implements Album {
     public List<LocalImage> getImages() {
         List<LocalImage> images = new ArrayList<LocalImage>();
 
-        File localImagePath = new File(Configuration.ALBUM_COVERS_PATH, spotifyAlbum
-                .getCover()
+        File localImagePath = new File(Configuration.ALBUM_COVERS_PATH, spotifyAlbum.getCover()
                 + ".jpg");
 
         Image image = null;
@@ -337,5 +335,9 @@ public class JotifyAlbum implements Album {
     public void deleteImages() {
         // TODO Auto-generated method stub
 
+    }
+
+    public final void setJotifyRepository(JotifyRepository jotifyRepository) {
+        this.jotifyRepository = jotifyRepository;
     }
 }

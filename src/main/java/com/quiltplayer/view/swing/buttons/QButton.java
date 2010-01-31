@@ -76,6 +76,10 @@ public class QButton extends JButton {
         });
     }
 
+    // Paint the border of the button using a simple stroke.
+    protected void paintBorder(Graphics g) {
+    }
+
     // Paint the round background and label.
     protected void paintComponent(Graphics g) {
         int w = getWidth();
@@ -96,23 +100,5 @@ public class QButton extends JButton {
         g2d.drawRoundRect(0, 0, w - 1, h - 1, 15 - 1, 15 - 1);
 
         super.paintComponent(g);
-    }
-
-    // Paint the border of the button using a simple stroke.
-    protected void paintBorder(Graphics g) {
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
-     */
-    @Override
-    public void paint(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        super.paint(g);
     }
 }

@@ -20,9 +20,6 @@
     <bean
         class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 
-    <context:load-time-weaver
-        aspectj-weaving="autodetect" />
-
     <context:annotation-config />
 
     <tx:annotation-driven

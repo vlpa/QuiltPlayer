@@ -54,7 +54,7 @@ public class ColorConstantsDark implements ColorConstants {
      */
     @Override
     public Color getPlaylistPanelBackground() {
-        return Color.black;
+        return new Color(15, 15, 15);
     }
 
     /*

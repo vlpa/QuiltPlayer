@@ -1,7 +1,6 @@
 package com.quiltplayer.model.jotify;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.springframework.beans.factory.annotation.Configurable;
 
 import com.quiltplayer.core.factory.SpotifyObjectFactory;
 import com.quiltplayer.model.Album;
@@ -10,7 +9,6 @@ import com.quiltplayer.model.StringId;
 
 import de.felixbruns.jotify.media.Track;
 
-@Configurable
 public class JotifySong implements Song {
 
     private Track spotifyTrack;

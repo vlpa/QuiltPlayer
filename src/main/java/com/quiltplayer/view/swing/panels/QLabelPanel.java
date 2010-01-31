@@ -27,87 +27,72 @@ import com.quiltplayer.properties.Configuration;
 /**
  * @author vlado
  */
-public class QLabelPanel extends JPanel
-{
-	private static final long serialVersionUID = 1L;
+public class QLabelPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
 
-	private Color textColor = Configuration.getInstance()
-			.getColorConstants().getArtistViewTextColor();
+    private Color textColor = Configuration.getInstance().getColorConstants()
+            .getArtistViewTextColor();
 
-	public QLabelPanel()
-	{
-		super();
-	}
+    public QLabelPanel() {
+        super();
+    }
 
-	public QLabelPanel(MigLayout layout)
-	{
-		super(layout);
-	}
+    public QLabelPanel(MigLayout layout) {
+        super(layout);
+    }
 
-	protected transient MouseListener mouseListener = new MouseAdapter()
-	{
+    protected transient MouseListener mouseListener = new MouseAdapter() {
 
-		/*
-		 * @see
-		 * java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
-		 */
-		@Override
-		public void mouseEntered(MouseEvent e)
-		{
-			setSelected();
-		}
+        /*
+         * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
+         */
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            setSelected();
+        }
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
-		 */
-		@Override
-		public void mouseExited(MouseEvent e)
-		{
-			setInactive2();
-		}
-	};
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
+         */
+        @Override
+        public void mouseExited(MouseEvent e) {
+            setInactive2();
+        }
+    };
 
-	public void setActive()
-	{
-		setForeground(Color.WHITE);
-	}
+    public void setActive() {
+        setForeground(Color.WHITE);
+    }
 
-	public void setSelected()
-	{
-		setForeground(Configuration.getInstance().getColorConstants()
-				.getArtistViewTextHighlightColor());
+    public void setSelected() {
+        setForeground(Configuration.getInstance().getColorConstants()
+                .getArtistViewTextHighlightColor());
 
-	}
+    }
 
-	public void setInactive()
-	{
-		setForeground(textColor);
-	}
+    public void setInactive() {
+        setForeground(textColor);
+    }
 
-	public void setInactive2()
-	{
-		if (getForeground() != textColor)
-		{
-			setForeground(textColor);
-		}
-	}
+    public void setInactive2() {
+        if (getForeground() != textColor) {
+            setForeground(textColor);
+        }
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
-	 */
-	@Override
-	public void paint(Graphics g)
-	{
-		Graphics2D g2d = (Graphics2D) g;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     */
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
 
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		super.paint(g);
-	}
+        super.paint(g);
+    }
 }

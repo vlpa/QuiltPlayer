@@ -85,14 +85,14 @@ public class AlbumLabel extends QPanel {
     /*
      * (non-Javadoc)
      * 
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
     @Override
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        super.paint(g);
+        super.paintComponent(g);
     }
 }

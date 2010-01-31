@@ -39,7 +39,42 @@
                     </programs>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <version>1.0-alpha-1</version>
+            </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>webstart-maven-plugin</artifactId>
+                    <!--
+                        do not bind to install phase <executions> <execution>
+                        <goals> <goal>report</goal> </goals> </execution>
+                        </executions>
+                    -->
+                    <configuration>
+                        <jnlp>
+                            <mainClass>com.quiltplayer.QuiltPlayer</mainClass>
+                        </jnlp>
+                        <sign>
+                            <keystore>/home/vlado/quiltplayer.jks</keystore>
+                            <keypass>QuiltPlayer - Love your music</keypass>
+                            <storepass>QuiltPlayer - Love your music</storepass>
+                            <storetype>jks</storetype>
+                            <alias>quiltplayer</alias>
+                            <verify>true</verify>
+                        </sign>
+                        <!-- <pack200>true</pack200> -->
+                        <!-- <gzip>true</gzip> -->
+                        <verbose>true</verbose>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
     </build>
 
     <dependencies>

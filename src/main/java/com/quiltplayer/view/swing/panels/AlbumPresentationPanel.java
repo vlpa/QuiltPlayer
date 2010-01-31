@@ -8,6 +8,7 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -18,6 +19,8 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.controller.AddAlbumController;
@@ -69,8 +72,17 @@ public class AlbumPresentationPanel extends QPanel {
     private JLabel setupAddAlbumIcon() {
         final JLabel label = new JLabel();
 
-        final URL imgURL = ClassLoader.getSystemResource("1.png");
-        label.setIcon(new ImageIcon(imgURL));
+        Resource image = new ClassPathResource("1.png");
+
+        ImageIcon icon = null;
+        try {
+            icon = new ImageIcon(image.getURL());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        label.setIcon(icon);
         label.setVisible(false);
         label.setToolTipText("Add album to your collection.");
 
@@ -83,7 +95,6 @@ public class AlbumPresentationPanel extends QPanel {
              */
             @Override
             public void mouseReleased(MouseEvent e) {
-                System.out.println(addAlbumListener);
                 addAlbumListener.actionPerformed(new ActionEvent(album, 0,
                         AddAlbumController.EVENT_ADD_ALBUM));
             }
@@ -183,11 +194,11 @@ public class AlbumPresentationPanel extends QPanel {
      * @see javax.swing.JComponent#paint(java.awt.Graphics)
      */
     @Override
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        super.paint(g);
+        super.paintComponent(g);
     }
 }

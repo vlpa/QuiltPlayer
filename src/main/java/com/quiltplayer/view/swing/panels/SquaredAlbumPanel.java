@@ -37,7 +37,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
 
     protected Album album;
 
-    private Color background = Configuration.getInstance().getColorConstants().getBackground();
+    private Color background = new Color(35, 35, 35);
 
     public SquaredAlbumPanel(Album album) {
         super(new MigLayout("insets 0, filly, fillx"));
@@ -56,7 +56,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
         panel.setLayout(new MigLayout("filly, fillx"));
         panel.add(title, "cell 0 0");
         panel.add(artist, "cell 0 1");
-        panel.add(trackLabel, "cell 0 2, bottom"); // TODO should be bottom
+        panel.add(trackLabel, "cell 0 2, bottom");
 
         add(icon, "cell 0 0, gapx 20 5, gapy 20 20");
         add(panel, "cell 1 0, aligny top, gapx 0 10, gapy 20 20");
@@ -69,7 +69,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
              */
             @Override
             public void mouseEntered(MouseEvent e) {
-                background = new Color(35, 35, 33);
+                background = new Color(50, 50, 50);
                 trackLabel.setForeground(new Color(200, 200, 200));
 
                 repaint();
@@ -83,9 +83,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
              */
             @Override
             public void mouseExited(MouseEvent e) {
-                background = Configuration.getInstance().getColorConstants().getBackground();
-                trackLabel.setForeground(Configuration.getInstance().getColorConstants()
-                        .getBackground());
+                background = new Color(35, 35, 35);
 
                 repaint();
                 updateUI();
@@ -149,28 +147,16 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
     /*
      * (non-Javadoc)
      * 
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
     @Override
-    public void paint(Graphics g) {
+    protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_DEFAULT);
 
-        super.paint(g2d);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        Graphics2D g2d = (Graphics2D) g;
+        super.paintComponent(g2d);
 
         g2d.setColor(background);
         g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);

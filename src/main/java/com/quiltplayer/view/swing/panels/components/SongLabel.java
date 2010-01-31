@@ -63,7 +63,7 @@ public class SongLabel extends JPanel {
 
     private QSongButton titleButton;
 
-    private Color[] passiveGradient = { new Color(25, 25, 25), new Color(20, 20, 20) };
+    private Color[] passiveGradient = { new Color(20, 20, 20), new Color(15, 15, 15) };
 
     private Color[] activeGradient = { new Color(60, 60, 60), new Color(40, 40, 40) };
 

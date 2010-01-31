@@ -189,8 +189,8 @@ public class QuiltPlayerFrame extends JFrame {
         decreaseGridButton.setBorderPainted(false);
 
         JPanel panel = new JPanel(new MigLayout("insets 0, wrap 1"));
-        panel.add(increaseGridButton, "right, gapy 0 20, gapx 0 30");
-        panel.add(decreaseGridButton, "right, gapy 20 50, gapx 0 30 ");
+        panel.add(increaseGridButton, "right, gapy 0 20, gapx 0 30lpx");
+        panel.add(decreaseGridButton, "right, gapy 20 50, gapx 0 30lpx ");
         panel.setOpaque(false);
 
         glassPane.add(panel, "right, bottom");
@@ -304,20 +304,6 @@ public class QuiltPlayerFrame extends JFrame {
      */
     public final void setSearchView(View searchView) {
         this.searchView = searchView;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
-     */
-    @Override
-    public void paint(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        super.paint(g);
     }
 
     /**

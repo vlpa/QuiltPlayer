@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 
 import com.quiltplayer.core.comparators.YearComparator;
 import com.quiltplayer.core.factory.SpotifyObjectFactory;
@@ -16,7 +15,6 @@ import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.ArtistName;
 import com.quiltplayer.model.StringId;
 
-@Configurable
 public class JotifyArtist implements Artist {
 
     private de.felixbruns.jotify.media.Artist spotifyArtist;

@@ -89,7 +89,7 @@ public class QuiltView extends AbstractView implements ListView<Album> {
              * @see javax.swing.JComponent#paint(java.awt.Graphics)
              */
             @Override
-            public void paint(Graphics g) {
+            public void paintComponent(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
 
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -107,7 +107,7 @@ public class QuiltView extends AbstractView implements ListView<Album> {
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, w, h);
 
-                super.paint(g);
+                super.paintComponent(g);
             }
         };
 

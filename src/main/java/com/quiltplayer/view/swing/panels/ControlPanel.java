@@ -135,8 +135,6 @@ public class ControlPanel extends JPanel {
             e.printStackTrace();
         }
 
-        System.out.println(SizeHelper.getControlPanelIconSize());
-
         Image img = icon.getImage();
         img = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
                 .getControlPanelIconSize(), java.awt.Image.SCALE_SMOOTH);
@@ -158,8 +156,6 @@ public class ControlPanel extends JPanel {
             e.printStackTrace();
         }
 
-        System.out.println(SizeHelper.getControlPanelIconSize());
-
         Image img = icon.getImage();
         img = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
                 .getControlPanelIconSize(), java.awt.Image.SCALE_SMOOTH);
@@ -180,8 +176,6 @@ public class ControlPanel extends JPanel {
         catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.out.println(SizeHelper.getControlPanelIconSize());
 
         Image img = icon.getImage();
         img = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
@@ -207,8 +201,6 @@ public class ControlPanel extends JPanel {
             e.printStackTrace();
         }
 
-        System.out.println(SizeHelper.getControlPanelIconSize());
-
         Image img = icon.getImage();
         img = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
                 .getControlPanelIconSize(), java.awt.Image.SCALE_SMOOTH);
@@ -230,8 +222,6 @@ public class ControlPanel extends JPanel {
         catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.out.println(SizeHelper.getControlPanelIconSize());
 
         Image img = icon.getImage();
         Image newImg = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
@@ -343,20 +333,6 @@ public class ControlPanel extends JPanel {
         g.drawLine(0, getHeight() - 2, getWidth(), getHeight() - 2);
         g.setColor(new Color(15, 15, 15));
         g.drawLine(0, getHeight() - 1, getWidth(), getHeight() - 1);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
-     */
-    @Override
-    public void paint(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        super.paint(g);
     }
 
     public void enableSearchTab(boolean b) {

@@ -9,6 +9,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.panels.QScrollPane;
@@ -44,8 +45,8 @@ public class LyricsPlaylistPanel extends AbstractPlaylistPanel {
         lyricsArea.setWrapStyleWord(true);
         lyricsArea.setLineWrap(true);
         lyricsArea.setForeground(ColorConstantsDark.PLAYLIST_LYRICS_COLOR);
-        lyricsArea.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
-        lyricsArea.setOpaque(false);
+        lyricsArea.setBackground(Configuration.getInstance().getColorConstants()
+                .getPlaylistPanelBackground());
 
         JScrollPane lyricsScroller = new QScrollPane(lyricsArea);
         lyricsScroller.setBorder(BorderFactory.createEmptyBorder());

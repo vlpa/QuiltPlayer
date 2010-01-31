@@ -1,7 +1,11 @@
 package com.quiltplayer.core.factory;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.Song;
@@ -19,6 +23,16 @@ import de.felixbruns.jotify.media.Track;
 @Component
 public class SpotifyObjectFactory {
 
+    private static JotifyRepository jotifyRepository;
+
+    @Autowired
+    private JotifyRepository jr;
+
+    @PostConstruct
+    public void setProperty() {
+        SpotifyObjectFactory.jotifyRepository = jr;
+    }
+
     public static Artist getArtist(de.felixbruns.jotify.media.Artist jotifyArtist) {
         JotifyArtist artist = new JotifyArtist(jotifyArtist);
 
@@ -27,6 +41,7 @@ public class SpotifyObjectFactory {
 
     public static Album getAlbum(de.felixbruns.jotify.media.Album spotifyAlbum) {
         JotifyAlbum album = new JotifyAlbum(spotifyAlbum);
+        album.setJotifyRepository(jotifyRepository);
 
         return album;
     }
