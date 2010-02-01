@@ -186,6 +186,9 @@ public class DefaultCoverScanner implements CoverScanner {
         for (int i = 0; i < 1; i++) {
 
             DefaultCoverScanner dcs = new DefaultCoverScanner();
+            dcs.artistStorage = artistStorage;
+            dcs.discogsScanner = discogsScanner;
+            dcs.storage = storage;
 
             Thread thread = new Thread(dcs);
             threadPool.add(thread);
