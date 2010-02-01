@@ -1,13 +1,15 @@
 package com.quiltplayer.view.swing.buttons;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.LinearGradientPaint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 
 import javax.swing.AbstractButton;
 import javax.swing.Icon;
@@ -24,21 +26,20 @@ import com.quiltplayer.view.swing.FontFactory;
 public class QControlPanelButton extends JButton {
     private static final long serialVersionUID = 1L;
 
-    private Color[] activeGradient = { new Color(180, 180, 180), new Color(120, 120, 120),
-            new Color(90, 90, 90), new Color(70, 70, 70) };
+    private Icon icon;
 
-    private Color[] passiveGradient = { new Color(255, 255, 255), new Color(230, 230, 230),
-            new Color(210, 210, 210), new Color(230, 230, 230) };
+    private String label;
 
-    private Color[] pressedGradient = { new Color(230, 230, 230), new Color(210, 210, 210),
-            new Color(180, 180, 180), new Color(200, 200, 200) };
+    private float alpha = 0.6f;
 
-    private Color[] gradient = passiveGradient;
-
-    private float[] dist = { 0.0f, 0.65f, 0.75f, 1.0f };
+    private boolean active;
 
     public QControlPanelButton(String label, Icon icon) {
-        super(label, icon);
+        super(" ", icon);
+
+        this.icon = icon;
+        this.label = label;
+
         setVerticalTextPosition(AbstractButton.BOTTOM);
         setHorizontalTextPosition(AbstractButton.CENTER);
 
@@ -48,15 +49,49 @@ public class QControlPanelButton extends JButton {
     private void setDefaults() {
         setFocusable(false);
 
-        setVerticalAlignment(SwingConstants.BOTTOM);
-        setHorizontalAlignment(SwingConstants.LEFT);
+        setForeground(new Color(220, 220, 220));
 
-        setForeground(new Color(100, 100, 100));
+        setVerticalAlignment(SwingConstants.BOTTOM);
+
+        setHorizontalAlignment(SwingConstants.LEFT);
 
         setContentAreaFilled(false);
 
         setFont(FontFactory.getSansFont(11f));
+
+        addMouseListener(listenener);
     }
+
+    private MouseListener listenener = new MouseAdapter() {
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
+         */
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            alpha = 1f;
+            setText(label);
+
+            repaint();
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
+         */
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (!active) {
+                alpha = 0.6f;
+                setText(" ");
+
+                repaint();
+            }
+        }
+    };
 
     // Paint the round background and label.
     protected void paintComponent(Graphics g) {
@@ -64,28 +99,14 @@ public class QControlPanelButton extends JButton {
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (getModel().isArmed())
-            gradient = pressedGradient;
-
-        Point2D start = new Point2D.Float(0, 0);
-        Point2D end = new Point2D.Float(0, getHeight() - 1);
-
-        LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
-
-        g2d.setPaint(p);
-
-        /**
-         * Arcs must be uneven or is gets unsymmetrically.
-         */
-        g2d.fillRoundRect(1, 1, getWidth() - 1, getHeight(), 11, 11);
+        g2d = (Graphics2D) g;
+        g2d.setComposite(makeComposite());
 
         super.paintComponent(g);
     }
 
-    // Paint the border of the button using a simple stroke.
     protected void paintBorder(Graphics g) {
-        g.setColor(new Color(20, 20, 20));
-        g.drawRect(0, 0, getWidth(), getHeight());
+        // No border should be painted.
     }
 
     // Hit detection.
@@ -101,26 +122,27 @@ public class QControlPanelButton extends JButton {
     }
 
     public void inactivate() {
-        gradient = passiveGradient;
+        alpha = 0.6f;
+        setText(" ");
+        active = false;
+
         repaint();
     }
 
     public void activate() {
-        gradient = activeGradient;
+        alpha = 1f;
+        setText(label);
+        active = true;
+
         repaint();
     }
 
     /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     * Set alpha composite. For example, pass in 1.0f to have 100% opacity pass in 0.25f to have 25%
+     * opacity.
      */
-    @Override
-    public void paint(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        super.paint(g);
+    private AlphaComposite makeComposite() {
+        int type = AlphaComposite.SRC_OVER;
+        return (AlphaComposite.getInstance(type, alpha));
     }
 }

@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -166,7 +165,7 @@ public class AlbumPresentationPanel extends QPanel {
 
         if (StringUtils.isNotBlank(year))
             if (year.length() > 4)
-                yearAndLabelArea.setText(year.substring(0, 4) + " ");
+                yearAndLabelArea.setText(year.substring(0, 4));
             else
                 yearAndLabelArea.setText(year);
 

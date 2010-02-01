@@ -7,6 +7,7 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import com.quiltplayer.view.swing.FontFactory;
@@ -74,10 +75,6 @@ public class QButton extends JButton {
 
             }
         });
-    }
-
-    // Paint the border of the button using a simple stroke.
-    protected void paintBorder(Graphics g) {
     }
 
     // Paint the round background and label.

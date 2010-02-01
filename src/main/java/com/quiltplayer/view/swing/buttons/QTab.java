@@ -27,8 +27,8 @@ public class QTab extends JButton {
     private Color[] activeGradient = { new Color(100, 100, 100), new Color(65, 65, 65),
             new Color(20, 20, 20), new Color(30, 30, 30) };
 
-    private Color[] passiveGradient = { new Color(255, 255, 255), new Color(230, 230, 230),
-            new Color(210, 210, 210), new Color(230, 230, 230) };
+    private Color[] passiveGradient = { new Color(70, 70, 70), new Color(40, 40, 40),
+            new Color(20, 20, 20), new Color(30, 30, 30) };
 
     private Color[] pressedGradient = { new Color(50, 50, 50), new Color(35, 35, 35),
             new Color(10, 10, 10), new Color(20, 20, 20) };

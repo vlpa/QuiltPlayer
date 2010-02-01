@@ -13,8 +13,6 @@ import javax.imageio.ImageIO;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 
 import com.quiltplayer.core.factory.SpotifyObjectFactory;
 import com.quiltplayer.core.repo.spotify.JotifyRepository;

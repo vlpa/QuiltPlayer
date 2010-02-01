@@ -2,9 +2,6 @@ package com.quiltplayer.view.swing.frame;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 
@@ -93,6 +90,8 @@ public class QuiltPlayerFrame extends JFrame {
 
     public QuiltPlayerFrame() {
 
+        setBackground(Configuration.getInstance().getColorConstants().getBackground());
+
         float swingDPI = Toolkit.getDefaultToolkit().getScreenResolution();
         float migDPI = PlatformDefaults.getDefaultDPI();
 
@@ -165,7 +164,7 @@ public class QuiltPlayerFrame extends JFrame {
         // JXLayer<JComponent> layer = new JXLayer<JComponent>(controlPanel,
         // debugUI);
 
-        getContentPane().add(controlPanel, "cell 1 0, dock east, alignx center");
+        getContentPane().add(controlPanel, "cell 1 0, dock east, alignx center, w 1.1cm!");
         // glassPane.add(controlPanel, "w 200lpx");
 
         updateUI();
