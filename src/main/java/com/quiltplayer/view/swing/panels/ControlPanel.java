@@ -108,7 +108,7 @@ public class ControlPanel extends JPanel {
         // addDecreaseVolumeButton();
 
         final String s = "gapy 20 20, w 1cm, h 1cm";
-        add(exitButton, s);
+        add(exitButton, s + ", dock north");
         add(quiltTab, s);
         add(artistsTab, s);
         add(searchTab, s);

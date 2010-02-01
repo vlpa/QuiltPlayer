@@ -4,10 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import com.quiltplayer.view.swing.FontFactory;
@@ -41,19 +40,7 @@ public class QButton extends JButton {
 
         setFont(FontFactory.getFont(14));
 
-        addMouseListener(new MouseListener() {
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                // TODO Auto-generated method stub
-
-            }
+        addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseExited(MouseEvent e) {
@@ -66,12 +53,6 @@ public class QButton extends JButton {
             public void mouseEntered(MouseEvent e) {
                 color = HOOVER;
                 repaint();
-
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -97,5 +78,15 @@ public class QButton extends JButton {
         g2d.drawRoundRect(0, 0, w - 1, h - 1, 15 - 1, 15 - 1);
 
         super.paintComponent(g);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.AbstractButton#paintBorder(java.awt.Graphics)
+     */
+    @Override
+    protected void paintBorder(Graphics g) {
+        // Empty
     }
 }
