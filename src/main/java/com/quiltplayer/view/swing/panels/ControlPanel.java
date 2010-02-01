@@ -117,14 +117,15 @@ public class ControlPanel extends JPanel {
     }
 
     private void setupQuiltCollectionButton() {
-        quiltTab = new QControlPanelButton("Quilt", getIconFromClasspath("small-tiles.png"));
+        quiltTab = new QControlPanelButton("Quilt", getIconFromClasspath("black/small-tiles.png"));
 
         quiltTab.addActionListener(listener);
         quiltTab.setActionCommand(EVENT_ALBUM_QUILT);
     }
 
     private void setupAlfabeticArtistsButton() {
-        artistsTab = new QControlPanelButton("Artists", getIconFromClasspath("large-tiles.png"));
+        artistsTab = new QControlPanelButton("Artists",
+                getIconFromClasspath("black/large-tiles.png"));
 
         artistsTab.addActionListener(listener);
         artistsTab.setActionCommand(EVENT_VIEW_ARTIST);
