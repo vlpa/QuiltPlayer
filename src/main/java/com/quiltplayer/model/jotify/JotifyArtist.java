@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.core.comparators.YearComparator;
 import com.quiltplayer.core.factory.SpotifyObjectFactory;
@@ -19,14 +18,21 @@ public class JotifyArtist implements Artist {
 
     private de.felixbruns.jotify.media.Artist spotifyArtist;
 
-    @Autowired
-    private JotifyRepository spotifyRepository;
+    private JotifyRepository jotifyRepository;
 
     private List<Album> albums;
 
     private StringId id;
 
     private ArtistName name;
+
+    /**
+     * @param jotifyRepository
+     *            the jotifyRepository to set
+     */
+    public final void setJotifyRepository(JotifyRepository jotifyRepository) {
+        this.jotifyRepository = jotifyRepository;
+    }
 
     public JotifyArtist(de.felixbruns.jotify.media.Artist spotifyArtist) {
         this.spotifyArtist = spotifyArtist;
@@ -101,7 +107,7 @@ public class JotifyArtist implements Artist {
         if (albums == null) {
             albums = new ArrayList<Album>();
 
-            spotifyArtist = spotifyRepository.getInstance().browse(spotifyArtist);
+            spotifyArtist = jotifyRepository.getInstance().browse(spotifyArtist);
 
             for (de.felixbruns.jotify.media.Album album : spotifyArtist.getAlbums()) {
                 albums.add(SpotifyObjectFactory.getAlbum(album));

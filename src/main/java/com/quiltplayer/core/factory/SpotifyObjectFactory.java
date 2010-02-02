@@ -35,6 +35,7 @@ public class SpotifyObjectFactory {
 
     public static Artist getArtist(de.felixbruns.jotify.media.Artist jotifyArtist) {
         JotifyArtist artist = new JotifyArtist(jotifyArtist);
+        artist.setJotifyRepository(jotifyRepository);
 
         return artist;
     }
