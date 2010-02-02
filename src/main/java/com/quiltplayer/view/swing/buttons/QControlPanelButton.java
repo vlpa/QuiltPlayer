@@ -16,6 +16,9 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.interpolation.PropertySetter;
+
 import com.quiltplayer.view.swing.FontFactory;
 
 /**
@@ -24,20 +27,24 @@ import com.quiltplayer.view.swing.FontFactory;
  * @author Vlado Palczynski.
  */
 public class QControlPanelButton extends JButton {
-    private static final long serialVersionUID = 1L;
 
-    private Icon icon;
+    private static final long serialVersionUID = 1L;
 
     private String label;
 
-    private float alpha = 0.6f;
+    private float defaultAlpha = 0.3f;
+
+    private float alpha = defaultAlpha;
+
+    private float highlightAlpha = 1.0f;
 
     private boolean active;
+
+    private Animator animator = new Animator(0);
 
     public QControlPanelButton(String label, Icon icon) {
         super(" ", icon);
 
-        this.icon = icon;
         this.label = label;
 
         setVerticalTextPosition(AbstractButton.BOTTOM);
@@ -71,10 +78,18 @@ public class QControlPanelButton extends JButton {
          */
         @Override
         public void mouseEntered(MouseEvent e) {
-            alpha = 1f;
-            setText(label);
+            if (!active) {
 
-            repaint();
+                if (animator.isRunning())
+                    animator.stop();
+
+                PropertySetter setter = new PropertySetter(e.getSource(), "alpha", alpha,
+                        highlightAlpha);
+                animator = new Animator(500, setter);
+                animator.start();
+
+                setText(label);
+            }
         }
 
         /*
@@ -85,13 +100,26 @@ public class QControlPanelButton extends JButton {
         @Override
         public void mouseExited(MouseEvent e) {
             if (!active) {
-                alpha = 0.6f;
+                if (animator.isRunning())
+                    animator.stop();
+
+                animateToDefault((QControlPanelButton) e.getSource());
+
                 setText(" ");
 
                 repaint();
             }
         }
     };
+
+    private void animateToDefault(QControlPanelButton button) {
+        if (animator.isRunning())
+            animator.stop();
+
+        PropertySetter setter = new PropertySetter(button, "alpha", alpha, defaultAlpha);
+        animator = new Animator(500, setter);
+        animator.start();
+    }
 
     // Paint the round background and label.
     protected void paintComponent(Graphics g) {
@@ -122,19 +150,20 @@ public class QControlPanelButton extends JButton {
     }
 
     public void inactivate() {
-        alpha = 0.6f;
         setText(" ");
         active = false;
+
+        animateToDefault(this);
 
         repaint();
     }
 
     public void activate() {
-        alpha = 1f;
-        setText(label);
         active = true;
 
-        repaint();
+        PropertySetter setter = new PropertySetter(this, "alpha", highlightAlpha, defaultAlpha);
+        animator = new Animator(1000, Animator.INFINITE, Animator.RepeatBehavior.REVERSE, setter);
+        animator.start();
     }
 
     /*
@@ -144,5 +173,22 @@ public class QControlPanelButton extends JButton {
     private AlphaComposite makeComposite() {
         int type = AlphaComposite.SRC_OVER;
         return (AlphaComposite.getInstance(type, alpha));
+    }
+
+    /**
+     * @return the alpha
+     */
+    public final float getAlpha() {
+        return alpha;
+    }
+
+    /**
+     * @param alpha
+     *            the alpha to set
+     */
+    public final void setAlpha(float alpha) {
+        this.alpha = alpha;
+
+        repaint();
     }
 }
