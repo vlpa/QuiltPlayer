@@ -110,16 +110,22 @@ public class JotifyAlbum implements Album {
         if (!localImagePath.exists()) {
             log.debug("Didn't find cached image, stream&create...");
 
-            image = jotifyRepository.getInstance().image(spotifyAlbum.getCover());
-
-            if (StringUtils.isNotBlank(spotifyAlbum.getCover())) {
-                try {
-                    ImageIO.write((RenderedImage) image, "jpg", localImagePath);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
+            if (spotifyAlbum.getCover() == null) {
+                de.felixbruns.jotify.media.Album freshAlbum = jotifyRepository.getInstance()
+                        .browse(spotifyAlbum);
+                image = jotifyRepository.getInstance().image(freshAlbum.getCover());
             }
+            else {
+                image = jotifyRepository.getInstance().image(spotifyAlbum.getCover());
+            }
+
+            try {
+                ImageIO.write((RenderedImage) image, "jpg", localImagePath);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
             LocalImage localImage = new LocalImageFileSystem();
 
             localImage.setLargeImage(localImagePath);

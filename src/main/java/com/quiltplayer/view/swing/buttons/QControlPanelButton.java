@@ -85,7 +85,7 @@ public class QControlPanelButton extends JButton {
 
                 PropertySetter setter = new PropertySetter(e.getSource(), "alpha", alpha,
                         highlightAlpha);
-                animator = new Animator(500, setter);
+                animator = new Animator(300, setter);
                 animator.start();
 
                 setText(label);
@@ -117,7 +117,7 @@ public class QControlPanelButton extends JButton {
             animator.stop();
 
         PropertySetter setter = new PropertySetter(button, "alpha", alpha, defaultAlpha);
-        animator = new Animator(500, setter);
+        animator = new Animator(300, setter);
         animator.start();
     }
 

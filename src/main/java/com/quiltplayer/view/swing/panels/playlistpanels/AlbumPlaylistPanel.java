@@ -21,9 +21,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.quiltplayer.controller.ImageController;
 import com.quiltplayer.controller.PlayerListener;
-import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.impl.NullAlbum;
@@ -31,9 +29,9 @@ import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.model.neo.NeoAlbum;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.buttons.QButton;
+import com.quiltplayer.view.swing.effects.CrossFader;
 import com.quiltplayer.view.swing.labels.ArtistLabel;
 import com.quiltplayer.view.swing.labels.ImageControlLabel;
-import com.quiltplayer.view.swing.labels.PlaylistImageLabel;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
 import com.quiltplayer.view.swing.listeners.ImageListener;
@@ -74,8 +72,6 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
 
     JSeparator songSeparator = new JSeparator(JSeparator.HORIZONTAL);
 
-    private PlaylistImageLabel iconLabel;
-
     @Autowired
     private ArtistListener artistListener;
 
@@ -92,8 +88,7 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
 
     private Album album;
 
-    @Autowired
-    private JotifyRepository jotifyRepository;
+    private CrossFader crossFader;
 
     public AlbumPlaylistPanel() {
         super();
@@ -109,14 +104,16 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
 
         playlistButtonPanel = new JPanel(new MigLayout("insets 0, wrap 1, center, aligny center"));
 
-        iconLabel = new PlaylistImageLabel(album, jotifyRepository);
+        // iconLabel = new PlaylistImageLabel(album, jotifyRepository);
+
+        crossFader = new CrossFader();
 
         setupImageControlPanel(false);
         setupEditAlbumButton();
 
         add(albumPresentationPanel, "top, w " + ImageSizes.LARGE.getSize() + "px!");
-        add(iconLabel, "alignx center,  aligny top, h " + ImageSizes.LARGE.getSize()
-                + "px!, gapy 20");
+        add(crossFader, "alignx center,  aligny top, h " + ImageSizes.LARGE.getSize() + "px!, w "
+                + ImageSizes.LARGE.getSize() + "px!, gapy 20");
         add(imageControlPanel, "alignx center, aligny top, h 30lp!, w "
                 + ImageSizes.LARGE.getSize() + "px!");
 
@@ -188,8 +185,9 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
             MouseListener changeCoverListener = new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    imageListener.actionPerformed(new ActionEvent(album, iconLabel.getCounter(),
-                            ImageController.EVENT_CHANGE_COVER));
+                    // TODO Implement against CrossFader...
+                    // imageListener.actionPerformed(new ActionEvent(album, iconLabel.getCounter(),
+                    // ImageController.EVENT_CHANGE_COVER));
                 }
             };
 
@@ -253,7 +251,9 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
     public void changeAlbum(final Album album) {
         this.album = album;
 
-        iconLabel.update(album);
+        crossFader.setImages(album.getImages());
+        crossFader.startAnimation();
+
         albumPresentationPanel.update(album);
 
         setupSongsPanel();
