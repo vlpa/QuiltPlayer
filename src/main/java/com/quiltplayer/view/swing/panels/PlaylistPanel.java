@@ -59,6 +59,9 @@ public class PlaylistPanel extends JPanel {
     @Qualifier("lyricsPlaylistPanel")
     protected LyricsPlaylistPanel lyricsPlaylistPanel;
 
+    @Autowired
+    private AlbumControlPanel albumPanel;
+
     private JPanel playlistButtonPanel;
 
     private QTab songsButton;
@@ -67,7 +70,10 @@ public class PlaylistPanel extends JPanel {
 
     public PlaylistPanel() {
         super(new MigLayout("insets 0, wrap 1, alignx center, w 100%, h 100%, fillx, filly"));
+    }
 
+    @PostConstruct
+    public void init() {
         mainPanel = new JPanel(new MigLayout(
                 "insets 0, w 100%, h 100%, fillx, filly, alignx center")) {
 
@@ -90,13 +96,12 @@ public class PlaylistPanel extends JPanel {
         mainPanel.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
         add(mainPanel, "w 100%, h 100%, gapx 30lp, shrinkprio 0");
-    }
 
-    @PostConstruct
-    public void init() {
+        mainPanel.add(albumPanel, "dock south");
+
         setupSongsPanel();
 
-        addPlaylistPanelButtons();
+        // addPlaylistPanelButtons();
     }
 
     public void progress(long time) {
@@ -169,7 +174,6 @@ public class PlaylistPanel extends JPanel {
                 .getPlaylistSongBackgroundInactive());
 
         setupSongsButton();
-        setupLyricsButton();
 
         playlistButtonPanel.add(songsButton, "dock east, w 2.5cm, h 0.8cm!");
         playlistButtonPanel.add(lyricsButton, "dock east, w 2.5cm, h 0.8cm!");
@@ -196,19 +200,27 @@ public class PlaylistPanel extends JPanel {
                 "w 100%, h 100%, alignx center, aligny center, gapy 0.3cm");
     }
 
-    private void setupLyricsButton() {
-        lyricsButton = new QTab("Lyrics");
-        lyricsButton.setToolTipText("Show lyrics for the playing song.");
+    public void viewAlbumPanel() {
 
-        lyricsButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                mainPanel.remove(albumPlaylistPanel);
-                mainPanel.add(lyricsPlaylistPanel, "w 100%, h 100%");
+        mainPanel.remove(lyricsPlaylistPanel);
+        mainPanel.add(albumPlaylistPanel, "w 100%, h 100%");
 
-                SwingUtilities.updateComponentTreeUI(lyricsPlaylistPanel);
+        SwingUtilities.updateComponentTreeUI(lyricsPlaylistPanel);
 
-                repaint();
-            }
-        });
+        repaint();
+    }
+
+    public void viewLyricsPanel() {
+
+        mainPanel.remove(albumPlaylistPanel);
+        mainPanel.add(lyricsPlaylistPanel, "w 100%, h 100%");
+
+        SwingUtilities.updateComponentTreeUI(lyricsPlaylistPanel);
+
+        repaint();
+    }
+
+    public Album getPlayingAlbum() {
+        return album;
     }
 }

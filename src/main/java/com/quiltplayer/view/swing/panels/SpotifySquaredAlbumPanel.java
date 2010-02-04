@@ -8,7 +8,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 
 import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.external.covers.model.ImageSizes;
@@ -31,16 +30,15 @@ public class SpotifySquaredAlbumPanel extends SquaredAlbumPanel {
 
     public JLabel artistLabel;
 
-    public Timer currentTimer;
-
-    private Runnable invoker;
-
     private boolean fetched;
+
+    private JLabel iconLabel;
+
+    private Thread invoker;
 
     private JotifyRepository jotifyRepository;
 
-    public SpotifySquaredAlbumPanel(final Album album,
-            JotifyRepository jotifyRepository) {
+    public SpotifySquaredAlbumPanel(final Album album, JotifyRepository jotifyRepository) {
         super(album);
 
         this.jotifyRepository = jotifyRepository;
@@ -48,31 +46,26 @@ public class SpotifySquaredAlbumPanel extends SquaredAlbumPanel {
 
     @Override
     protected JLabel setupImage(final Album album) {
-        final Icon icon = QIcon.getMedium();
 
-        final JLabel iconLabel = new JLabel();
-        iconLabel.setIcon(icon);
+        iconLabel = new JLabel(QIcon.getMedium());
 
         add(iconLabel, "cell 0 0, aligny center");
 
         /*
          * Update the time counter
          */
-        invoker = new Runnable() {
+        invoker = new Thread() {
             public void run() {
-
                 try {
-                    Image image = jotifyRepository.getInstance().image(
+                    final Image image = jotifyRepository.getInstance().image(
                             ((JotifyAlbum) album).getSpotifyAlbum().getCover());
 
-                    remove(iconLabel);
-
-                    final Icon icon = new ImageIcon(ImageUtils.scalePicture(
-                            image, ImageSizes.MEDIUM.getSize()));
+                    icon = new ImageIcon(ImageUtils
+                            .scalePicture(image, ImageSizes.MEDIUM.getSize()));
 
                     iconLabel.setIcon(icon);
 
-                    add(iconLabel, "cell 0 0, gapx 20 5, gapy 20 20");
+                    repaint();
                 }
                 catch (Exception e) {
                 }
@@ -85,17 +78,17 @@ public class SpotifySquaredAlbumPanel extends SquaredAlbumPanel {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.quiltplayer.view.swing.panels.SquaredAlbumPanel#paint(java.awt.Graphics
-     * )
+     * @see com.quiltplayer.view.swing.panels.SquaredAlbumPanel#paint(java.awt.Graphics )
      */
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
 
         if (!fetched) {
             SwingUtilities.invokeLater(invoker);
             fetched = true;
         }
+
+        super.paintComponent(g);
+
     }
 }

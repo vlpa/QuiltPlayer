@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
@@ -452,10 +453,11 @@ public class ConfigurationView extends AbstractView implements View, ActionListe
 
     private void addUpdateCollectionButton() {
         scanPathButton = new QButton("Scan path");
-        scanPathButton.addActionListener(scanningListener);
+        scanPathButton.addActionListener(this);
         scanPathButton.setActionCommand(EVENT_UPDATE_COLLECTION);
 
         panel.add(scanPathButton, "w 2.7cm");
+        JProgressBar bar = new JProgressBar();
 
         cancelScanPathButton = new QButton("X");
         cancelScanPathButton.setOpaque(false);
@@ -524,7 +526,17 @@ public class ConfigurationView extends AbstractView implements View, ActionListe
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == COLOR_PROFILE_LIGHT) {
+
+        if (e.getActionCommand() == EVENT_UPDATE_COLLECTION) {
+            scanPathButton.setEnabled(false);
+            // setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            boolean done = false;
+            // Tasktask = new Task();
+            // task.addPropertyChangeListener(this);
+            // task.execute();
+
+        }
+        else if (e.getActionCommand() == COLOR_PROFILE_LIGHT) {
             lightColorProfile.setSelected(true);
             darkColorProfile.setSelected(false);
         }

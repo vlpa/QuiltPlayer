@@ -14,6 +14,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.cmc.shared.swing.FlowWrapLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.controller.ArtistController;
@@ -74,8 +75,7 @@ public class DefaultAlbumView extends AbstractView implements Serializable, List
     @Override
     public Component getUI() {
 
-        panel = new JPanel(new MigLayout("wrap " + Configuration.getInstance().getAlbumColumns()
-                + ", alignx center, aligny center"));
+        panel = new JPanel(new FlowWrapLayout(30, 30, 30, 30));
         panel.setOpaque(true);
 
         MouseListener l = new MouseInputAdapter() {

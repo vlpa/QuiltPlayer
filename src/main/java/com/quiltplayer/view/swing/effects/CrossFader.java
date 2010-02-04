@@ -23,7 +23,7 @@ public class CrossFader extends JComponent implements ActionListener {
 
     private List<ImageIcon> icons;
 
-    private int alpha = 0;
+    private float alpha = 0;
 
     private int counter = 0;
 
@@ -63,7 +63,7 @@ public class CrossFader extends JComponent implements ActionListener {
                 g2d.fillRect(0, 0, getWidth(), getHeight());
 
                 if (alpha < 10) {
-                    alpha = alpha + 1;
+                    alpha = alpha + 0.5f;
                 }
                 else {
                     animator.stop();
@@ -85,12 +85,11 @@ public class CrossFader extends JComponent implements ActionListener {
                         .getIconHeight(), this);
             }
         }
-
     }
 
     private void nextIcons() {
         if (icons != null) {
-            icon[0] = icons.get(counter);
+                icon[0] = icons.get(counter);
             icon[1] = icons.get(getCounter());
         }
     }

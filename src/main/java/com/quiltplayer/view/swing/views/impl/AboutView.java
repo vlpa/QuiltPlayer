@@ -86,8 +86,8 @@ public class AboutView implements Serializable, View {
             System.out.println(rule.toString());
         }
 
-        htmlPane.setMinimumSize(new Dimension(600, 600));
-        htmlPane.setMaximumSize(new Dimension(600, 600));
+        // htmlPane.setMinimumSize(new Dimension(600, 600));
+        // htmlPane.setMaximumSize(new Dimension(600, 600));
         htmlPane.setEditable(false);
         htmlPane.setOpaque(false);
 

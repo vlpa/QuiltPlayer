@@ -52,6 +52,7 @@ public class QScrollPane extends JScrollPane implements ActionListener {
         // setDoubleBuffered(true);
 
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
     private MouseListener getMouseListener() {
@@ -150,22 +151,22 @@ public class QScrollPane extends JScrollPane implements ActionListener {
         if (state == State.RUNNING) {
             if (b) {
                 int move = (mouseY - pressedPosition) / 3;
-                verticalScrollBar.setValue(verticalScrollBar.getValue() + move);
+                verticalScrollBar.setValue(verticalScrollBar.getValue() - move);
             }
             else {
                 /* Downwards */
                 int move = (pressedPosition - mouseY) / 3;
-                verticalScrollBar.setValue(verticalScrollBar.getValue() - move);
+                verticalScrollBar.setValue(verticalScrollBar.getValue() + move);
             }
         }
         else if (state == State.STOPPING) {
             if (b) {
                 int distance = (mouseY - pressedPosition);
-                verticalScrollBar.setValue(verticalScrollBar.getValue() + (distance / steps) / 3);
+                verticalScrollBar.setValue(verticalScrollBar.getValue() - (distance / steps) / 3);
             }
             else {
                 int distance = (pressedPosition - mouseY);
-                verticalScrollBar.setValue(verticalScrollBar.getValue() - (distance / steps) / 3);
+                verticalScrollBar.setValue(verticalScrollBar.getValue() + (distance / steps) / 3);
             }
 
             steps++;

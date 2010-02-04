@@ -5,11 +5,11 @@ import java.awt.event.ActionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.panels.ControlPanel;
+import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.panels.ControlPanel.Tab;
 import com.quiltplayer.view.swing.window.KeyboardPanel;
 
@@ -23,11 +23,13 @@ public class ControlPanelController implements ControlPanelListener {
 
     public static final String EVENT_VIEW_CONFIGURATION = "view.configuration";
 
-    public static final String EVENT_INCREASE_GRID = "increase.grid";
-
-    public static final String EVENT_DECREASE_GRID = "decrease.grid";
-
     public static final String EVENT_VIEW_KEYBOARD = "view.keyboard";
+
+    public static final String EVENT_VIEW_LYRICS = "view.lyrics";
+
+    public static final String EVENT_VIEW_ALBUM = "view.playlist";
+
+    public static final String EVENT_TOGGLE_ALBUM_VIEW = "toggle.album.view";
 
     @Autowired
     private QuiltPlayerFrame frame;
@@ -37,6 +39,9 @@ public class ControlPanelController implements ControlPanelListener {
 
     @Autowired
     private KeyboardPanel keyboardPanel;
+
+    @Autowired
+    private PlaylistPanel playlistPanel;
 
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -65,54 +70,20 @@ public class ControlPanelController implements ControlPanelListener {
             controlPanel.updateTab(Tab.NONE);
             frame.updateUI(ActiveView.ABOUT_VIEW);
         }
-        else if (EVENT_INCREASE_GRID == actionCommand) {
-            increaseGrid();
-            frame.updateUI();
+        else if (EVENT_VIEW_LYRICS == actionCommand) {
+            playlistPanel.viewLyricsPanel();
         }
-        else if (EVENT_DECREASE_GRID == actionCommand) {
-            decreaseGrid();
-            frame.updateUI();
+        else if (EVENT_VIEW_ALBUM == actionCommand) {
+            playlistPanel.viewAlbumPanel();
         }
-
+        else if (EVENT_TOGGLE_ALBUM_VIEW == actionCommand) {
+            frame.toggleAlbumView();
+        }
         else if (EVENT_VIEW_KEYBOARD == actionCommand) {
             if (keyboardPanel.isVisible())
                 keyboardPanel.setVisible(false);
             else
                 keyboardPanel.setVisible(true);
         }
-    }
-
-    private void increaseGrid() {
-        if (frame.getCurrentView().equals(ActiveView.QUILT_VIEW)) {
-            Configuration.getInstance().setQuiltColumns(
-                    Configuration.getInstance().getQuiltColumns() + 1);
-        }
-        else if (frame.getCurrentView().equals(ActiveView.ALFABETIC_ARTISTS_VIEW)) {
-            Configuration.getInstance().setArtistColumns(
-                    Configuration.getInstance().getArtistColumns() + 1);
-        }
-        else if (frame.getCurrentView().equals(ActiveView.ALBUM_VIEW)) {
-            Configuration.getInstance().setAlbumColumns(
-                    Configuration.getInstance().getAlbumColumns() + 1);
-        }
-
-        Configuration.getInstance().storeConfiguration();
-    }
-
-    public void decreaseGrid() {
-        if (frame.getCurrentView().equals(ActiveView.QUILT_VIEW)) {
-            Configuration.getInstance().setQuiltColumns(
-                    Configuration.getInstance().getQuiltColumns() - 1);
-        }
-        else if (frame.getCurrentView().equals(ActiveView.ALFABETIC_ARTISTS_VIEW)) {
-            Configuration.getInstance().setArtistColumns(
-                    Configuration.getInstance().getArtistColumns() - 1);
-        }
-        else if (frame.getCurrentView().equals(ActiveView.ALBUM_VIEW)) {
-            Configuration.getInstance().setAlbumColumns(
-                    Configuration.getInstance().getAlbumColumns() - 1);
-        }
-
-        Configuration.getInstance().storeConfiguration();
     }
 }

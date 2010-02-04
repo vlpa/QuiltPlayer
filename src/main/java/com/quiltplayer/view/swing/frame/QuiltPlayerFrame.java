@@ -6,7 +6,6 @@ import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 
 import javax.annotation.PostConstruct;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -16,6 +15,7 @@ import net.miginfocom.layout.PlatformDefaults;
 import net.miginfocom.layout.UnitValue;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -24,7 +24,6 @@ import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ActiveView;
-import com.quiltplayer.view.swing.buttons.QTextButton;
 import com.quiltplayer.view.swing.panels.ControlPanel;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.views.ArtistView;
@@ -74,7 +73,6 @@ public class QuiltPlayerFrame extends JFrame {
 
     @Autowired
     private ControlPanel controlPanel;
-    // private VolumePane volumePane;
 
     private Component ui;
 
@@ -83,10 +81,9 @@ public class QuiltPlayerFrame extends JFrame {
     @Autowired
     private KeyboardPanel keyboardPanel;
 
-    @Autowired
-    private ControlPanelController controlPanelListener;
-
     private JPanel glassPane;
+
+    private boolean b = true;
 
     public QuiltPlayerFrame() {
 
@@ -149,23 +146,18 @@ public class QuiltPlayerFrame extends JFrame {
 
     @PostConstruct
     public void init() {
+
         setupGridGlassPane();
 
-        /**
-         * Playlist view
-         */
-        getContentPane().add(playlistPanel,
-                "cell 0 0, h 100%, dock west, w " + (ImageSizes.LARGE.getSize() + 90) + "px!");
-
         ui = aboutView.getUI();
-        getContentPane().add(ui, "cell 2 0, w 68%, h 100%, gapx 0");
 
         // DebugRepaintingUI debugUI = new DebugRepaintingUI();
         // JXLayer<JComponent> layer = new JXLayer<JComponent>(controlPanel,
         // debugUI);
 
-        getContentPane().add(controlPanel, "cell 1 0, dock east, alignx center, w 1.1cm!");
-        // glassPane.add(controlPanel, "w 200lpx");
+        getContentPane().add(controlPanel, "cell 0 0, dock north");
+
+        addAlbumView();
 
         updateUI();
     }
@@ -175,25 +167,9 @@ public class QuiltPlayerFrame extends JFrame {
         glassPane = (JPanel) this.getGlassPane();
         glassPane.setLayout(new MigLayout("insets 0, fill"));
 
-        JButton increaseGridButton = new QTextButton("[ + ]");
-        increaseGridButton.addActionListener(controlPanelListener);
-        increaseGridButton.setActionCommand(ControlPanelController.EVENT_INCREASE_GRID);
-        increaseGridButton.setToolTipText("Add column in the grid above");
-        increaseGridButton.setBorderPainted(false);
-
-        JButton decreaseGridButton = new QTextButton("[ - ]");
-        decreaseGridButton.addActionListener(controlPanelListener);
-        decreaseGridButton.setActionCommand(ControlPanelController.EVENT_DECREASE_GRID);
-        decreaseGridButton.setToolTipText("Remove column in the grid above");
-        decreaseGridButton.setBorderPainted(false);
-
-        JPanel panel = new JPanel(new MigLayout("insets 0, wrap 1"));
-        panel.add(increaseGridButton, "right, gapy 0 20, gapx 0 30lpx");
-        panel.add(decreaseGridButton, "right, gapy 20 50, gapx 0 30lpx ");
-        panel.setOpaque(false);
-
-        glassPane.add(panel, "right, bottom");
         glassPane.add(keyboardPanel, "center");
+
+        glassPane.setVisible(true);
     }
 
     public Component getUI() {
@@ -233,48 +209,33 @@ public class QuiltPlayerFrame extends JFrame {
 
         if (currentView.equals(ActiveView.QUILT_VIEW)) {
             ui = quiltView.getUI();
-            showGlassPane();
         }
         else if (currentView.equals(ActiveView.ALFABETIC_ARTISTS_VIEW)) {
             ui = artistView.getUI();
-            showGlassPane();
         }
 
         else if (currentView.equals(ActiveView.ALBUM_VIEW)) {
             ui = albumView.getUI();
             controlPanel.updateTab(null);
-            showGlassPane();
         }
         else if (currentView.equals(ActiveView.SEARCH_VIEW)) {
             ui = searchView.getUI();
-            hideGlassPane();
         }
         else if (currentView.equals(ActiveView.CONFIGURATION_VIEW)) {
             ui = configurationView.getUI();
-            hideGlassPane();
         }
         else if (currentView.equals(ActiveView.ABOUT_VIEW)) {
             ui = aboutView.getUI();
             glassPane.updateUI();
             controlPanel.updateTab(null);
-            hideGlassPane();
         }
         else if (currentView.equals(ActiveView.EDIT_ALBUM_VIEW)) {
             ui = editAlbumView.getUI();
             controlPanel.updateTab(null);
-            hideGlassPane();
         }
 
-        getContentPane().add(ui, "cell 2 0, w 68%, h 100%, gapx 0");
+        getContentPane().add(ui, "cell 2 0,w  100%,  h 100%, gapx 0");
         SwingUtilities.updateComponentTreeUI(this);
-    }
-
-    private void showGlassPane() {
-        glassPane.setVisible(true);
-    }
-
-    private void hideGlassPane() {
-        glassPane.setVisible(false);
     }
 
     public ActiveView getCurrentView() {
@@ -305,11 +266,21 @@ public class QuiltPlayerFrame extends JFrame {
         this.searchView = searchView;
     }
 
-    /**
-     * @param controlPanelListener
-     *            the controlPanelListener to set
-     */
-    public final void setControlPanelListener(ControlPanelController controlPanelListener) {
-        this.controlPanelListener = controlPanelListener;
+    public void toggleAlbumView() {
+        if (b) {
+            remove(playlistPanel);
+            b = false;
+        }
+        else {
+            addAlbumView();
+            b = true;
+        }
+
+        repaint();
+    }
+
+    private void addAlbumView() {
+        getContentPane().add(playlistPanel,
+                "cell 1 0, dock west, w " + (ImageSizes.LARGE.getSize() + 90) + "px!");
     }
 }

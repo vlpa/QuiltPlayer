@@ -7,11 +7,11 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.cmc.shared.swing.FlowWrapLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.core.repo.ArtistRepository;
 import com.quiltplayer.model.Artist;
-import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.panels.AlfabeticArtistPane;
 import com.quiltplayer.view.swing.views.AbstractView;
@@ -30,12 +30,10 @@ public class DefaultArtistView extends AbstractView implements ArtistView {
     private static final int VERTICAL_UNIT_INCRENET = 40;
 
     @Autowired
-    private ArtistListener listener;
+    private ArtistListener artistListener;
 
     @Autowired
     private ArtistRepository artistRepository;
-
-    private JPanel panel;
 
     /*
      * @see org.coverok.gui.components.AlbumView#close()
@@ -53,27 +51,26 @@ public class DefaultArtistView extends AbstractView implements ArtistView {
     }
 
     private Component getAlfabeticArtistComponent() {
-        final MigLayout layout = new MigLayout("wrap "
-                + Configuration.getInstance().getArtistColumns() + ", alignx center, flowx");
 
-        panel = new JPanel();
-        panel.setLayout(layout);
+        final JPanel panel = new JPanel();
+        panel.setLayout(new FlowWrapLayout(20, 20, 20, 20));
         panel.setOpaque(true);
-        panel.setAlignmentX(Component.BOTTOM_ALIGNMENT);
-        panel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 
         if (artistRepository.getArtistsByChars() != null) {
             for (String character : artistRepository.getArtistsByChars().keySet()) {
                 List<Artist> albumSet = artistRepository.getArtistsByChars().get(character);
 
                 AlfabeticArtistPane p = new AlfabeticArtistPane();
-                p.addActionListener(listener);
+                p.addActionListener(artistListener);
                 p.setup(character, albumSet);
 
                 panel.add(p, "aligny top, gapy 30, gapx 10");
             }
         }
 
-        return getScrollPane(panel, VERTICAL_UNIT_INCRENET);
+        final JPanel wrapper = new JPanel(new MigLayout("insets 0, fill"));
+        wrapper.add(panel, "w 90%, h 100%, alignx right, aligny center");
+
+        return getScrollPane(wrapper, VERTICAL_UNIT_INCRENET);
     }
 }

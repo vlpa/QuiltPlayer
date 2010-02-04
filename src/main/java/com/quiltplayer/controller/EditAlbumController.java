@@ -66,6 +66,9 @@ public class EditAlbumController implements EditAlbumListener {
     @Autowired
     private PlayerFactory playerFactory;
 
+    @Autowired
+    private PlaylistPanel playlistPanel;
+
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
@@ -74,7 +77,7 @@ public class EditAlbumController implements EditAlbumListener {
         String cmd = e.getActionCommand();
 
         if (PlaylistPanel.EVENT_UPDATE_ALBUM_ID3 == e.getActionCommand()) {
-            ((AlbumView) editAlbumView).setAlbum((Album) e.getSource());
+            ((AlbumView) editAlbumView).setAlbum(playlistPanel.getPlayingAlbum());
             frame.updateUI(ActiveView.EDIT_ALBUM_VIEW);
         }
         else if (EditAlbumView.SAVE == cmd) {

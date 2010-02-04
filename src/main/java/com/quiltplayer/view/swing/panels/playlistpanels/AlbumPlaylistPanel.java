@@ -33,10 +33,8 @@ import com.quiltplayer.view.swing.effects.CrossFader;
 import com.quiltplayer.view.swing.labels.ArtistLabel;
 import com.quiltplayer.view.swing.labels.ImageControlLabel;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
-import com.quiltplayer.view.swing.listeners.EditAlbumListener;
 import com.quiltplayer.view.swing.listeners.ImageListener;
 import com.quiltplayer.view.swing.panels.AlbumPresentationPanel;
-import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.panels.components.SongLabel;
 import com.quiltplayer.view.swing.panels.components.SongsComponent;
 
@@ -81,9 +79,6 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
     @Autowired
     private ImageListener imageListener;
 
-    @Autowired
-    private EditAlbumListener editAlbumListener;
-
     private ImageControlLabel imageCounterLabel;
 
     private Album album;
@@ -117,10 +112,10 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
         add(imageControlPanel, "alignx center, aligny top, h 30lp!, w "
                 + ImageSizes.LARGE.getSize() + "px!");
 
-        addPlaylistButtons();
+        // addPlaylistButtons();
         addEditAlbumButton();
 
-        playlistButtonPanel.setVisible(false);
+        // playlistButtonPanel.setVisible(false);
 
         songsComponent = new SongsComponent();
         songsComponent.setPlayerListener(playerListener);
@@ -131,7 +126,7 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
 
         add(songs, "h 40%, w " + ImageSizes.LARGE.getSize() + "px!, top, gapy 5");
 
-        playlistButtonPanel.setVisible(true);
+        // playlistButtonPanel.setVisible(true);
 
         if (album instanceof NeoAlbum) {
             addEditAlbumButton();
@@ -140,7 +135,7 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
             addAddToCollectionButton();
         }
 
-        playlistButtonPanel.repaint();
+        // playlistButtonPanel.repaint();
 
         SwingUtilities.updateComponentTreeUI(this);
     }
@@ -169,15 +164,15 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
             imageButtons.setBackground(Configuration.getInstance().getColorConstants()
                     .getPlaylistSongBackgroundInactive());
 
-            ImageControlLabel increase = new ImageControlLabel("[ + ]");
-            increase.setToolTipText("Next album picture");
+            // ImageControlLabel increase = new ImageControlLabel("[ + ]");
+            // increase.setToolTipText("Next album picture");
             // increase.addMouseListener(increaseListener);
-            imageButtons.add(increase, "dock west, gapafter 5lp"); // 15
+            // imageButtons.add(increase, "dock west, gapafter 5lp"); // 15
 
-            ImageControlLabel decrease = new ImageControlLabel("[ - ]");
-            decrease.setToolTipText("Previous album picture");
+            // ImageControlLabel decrease = new ImageControlLabel("[ - ]");
+            // decrease.setToolTipText("Previous album picture");
             // decrease.addMouseListener(decreaseListener);
-            imageButtons.add(decrease, "dock west, gapafter 5lp");
+            // imageButtons.add(decrease, "dock west, gapafter 5lp");
 
             ImageControlLabel cover = new ImageControlLabel("[ #1 ]");
             cover.setToolTipText("Set as front cover");
@@ -206,30 +201,12 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
         }
     }
 
-    private void addPlaylistButtons() {
-        playlistButtonPanel = new JPanel(new MigLayout("insets 0, wrap 1, center, aligny center"));
-
-        playlistButtonPanel.setOpaque(false);
-        playlistButtonPanel.setBackground(Configuration.getInstance().getColorConstants()
-                .getPlaylistSongBackgroundInactive());
-
-        addEditAlbumButton();
-        setupAlbumsByArtistButton();
-        addAlbumsByArtistButton();
-
-        add(playlistButtonPanel, "dock south, gapy 15");
-    }
-
     private void addEditAlbumButton() {
         playlistButtonPanel.add(editButton, "cell 0 0, wmin 2.5cm");
     }
 
     private void addAddToCollectionButton() {
         playlistButtonPanel.remove(editButton);
-    }
-
-    private void addAlbumsByArtistButton() {
-        playlistButtonPanel.add(albumsButton, "cell 2 0, wmin 2.5cm");
     }
 
     private void setupAlbumsByArtistButton() {
@@ -240,6 +217,7 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
 
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
+
                 artistListener.actionPerformed(new ActionEvent(album.getArtist(), 0,
                         ArtistLabel.ACTION_GET_ARTIST_ALBUMS));
             }
@@ -310,8 +288,8 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
 
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                editAlbumListener.actionPerformed(new ActionEvent(album, 0,
-                        PlaylistPanel.EVENT_UPDATE_ALBUM_ID3));
+                // editAlbumListener.actionPerformed(new ActionEvent(album, 0,
+                // PlaylistPanel.EVENT_UPDATE_ALBUM_ID3));
             }
         };
 

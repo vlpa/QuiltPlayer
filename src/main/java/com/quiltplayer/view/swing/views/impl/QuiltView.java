@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.cmc.shared.swing.FlowWrapLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.controller.ChangeAlbumController;
@@ -78,8 +79,7 @@ public class QuiltView extends AbstractView implements ListView<Album> {
      */
     @Override
     public Component getUI() {
-        panel = new JPanel(new MigLayout("insets 0, alignx center, aligny center,  wrap "
-                + Configuration.getInstance().getQuiltColumns())) {
+        panel = new JPanel(new FlowWrapLayout(10, 10, 10, 10)) {
 
             private static final long serialVersionUID = -8314219595057537932L;
 
@@ -134,7 +134,10 @@ public class QuiltView extends AbstractView implements ListView<Album> {
             }
         }
 
-        return getScrollPane(panel, VERTICAL_UNIT_INCRENET);
+        final JPanel wrapper = new JPanel(new MigLayout("insets 0, fillx"));
+        wrapper.add(panel, "w 90%, alignx right, aligny center");
+
+        return getScrollPane(wrapper, VERTICAL_UNIT_INCRENET);
     }
 
     public Album getSelectedAlbum() {

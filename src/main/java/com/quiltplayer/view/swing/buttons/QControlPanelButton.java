@@ -49,6 +49,8 @@ public class QControlPanelButton extends JButton {
 
         setVerticalTextPosition(AbstractButton.BOTTOM);
         setHorizontalTextPosition(AbstractButton.CENTER);
+        setVerticalAlignment(AbstractButton.CENTER);
+        setHorizontalAlignment(AbstractButton.CENTER);
 
         setDefaults();
     }

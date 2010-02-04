@@ -55,9 +55,9 @@ public class ControlPanel extends JPanel {
     public static final String EVENT_VIEW_ABOUT = "view.about";
 
     private Color[] gradient = { new Color(100, 100, 100), new Color(60, 60, 60),
-            new Color(40, 40, 40), new Color(20, 20, 20) };
+            new Color(40, 40, 40), new Color(10, 10, 10) };
 
-    private float[] dist = { 0.0f, 0.60f, 0.65f, 1.0f };
+    private float[] dist = { 0.0f, 0.48f, 0.52f, 1.0f };
 
     @Autowired
     private ControlPanelListener listener;
@@ -79,6 +79,8 @@ public class ControlPanel extends JPanel {
 
     private QControlPanelButton keyboardTab;
 
+    private QControlPanelButton albumViewButton;
+
     private JButton exitButton;
 
     @PostConstruct
@@ -87,7 +89,7 @@ public class ControlPanel extends JPanel {
     }
 
     public void setDefaults() {
-        setLayout(new MigLayout("insets 0, wrap 1, aligny center"));
+        setLayout(new MigLayout("insets 0, fillx, wrap 10, aligny center, w 100%"));
 
         setupQuiltCollectionButton();
 
@@ -103,17 +105,21 @@ public class ControlPanel extends JPanel {
 
         setupKeyboardTab();
 
+        setupAlbumViewButton();
+
         // addIncreaseVolumeButton();
 
         // addDecreaseVolumeButton();
 
-        final String s = "gapy 20 20, w 1cm, h 1cm";
-        add(exitButton, s + ", dock north");
+        final String s = "h 2cm, alignx center";
+
+        add(albumViewButton, s);
         add(quiltTab, s);
         add(artistsTab, s);
         add(searchTab, s);
         add(configTab, s);
         add(keyboardTab, s);
+        add(exitButton, s);
     }
 
     private void setupQuiltCollectionButton() {
@@ -129,6 +135,13 @@ public class ControlPanel extends JPanel {
 
         artistsTab.addActionListener(listener);
         artistsTab.setActionCommand(EVENT_VIEW_ARTIST);
+    }
+
+    private void setupAlbumViewButton() {
+        albumViewButton = new QControlPanelButton("Album view",
+                getIconFromClasspath("white/Media-Player.png"));
+        albumViewButton.addActionListener(listener);
+        albumViewButton.setActionCommand(ControlPanelController.EVENT_TOGGLE_ALBUM_VIEW);
     }
 
     private void setupSearchTab() {
@@ -259,7 +272,7 @@ public class ControlPanel extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Point2D start = new Point2D.Float(0, 0);
-        Point2D end = new Point2D.Float(50, 0);
+        Point2D end = new Point2D.Float(0, getHeight());
 
         LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
 
