@@ -102,22 +102,17 @@ public class SearchView implements Serializable, View {
         panel.setOpaque(true);
         panel.addFocusListener(focusListener);
 
-        MigLayout layout = new MigLayout(
-                "wrap 3, alignx center, aligny center, fillx, filly, gapy 50");
+        MigLayout layout = new MigLayout("wrap 3, alignx center, aligny top, top, gapy 50");
         panel.setLayout(layout);
         panel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
 
-        searchPanel = new JPanel(new MigLayout("insets 0, top"));
-        searchPanel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
-
-        searchPanel.add(searchField, "center, w 6cm, gapy 15");
-        searchPanel.add(searchButton, "left, gapy 15");
+        setupSearchBar();
 
         panel.add(searchPanel, "top, span 4, alignx center");
 
         if (result != null) {
-            addArtists(panel);
-            addAlbums(panel);
+            setupArtists(panel);
+            setupAlbums(panel);
             addTracks(panel);
         }
 
@@ -126,6 +121,14 @@ public class SearchView implements Serializable, View {
         searchField.requestFocus();
 
         return pane;
+    }
+
+    private void setupSearchBar() {
+        searchPanel = new JPanel(new MigLayout("insets 0, top"));
+        searchPanel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
+
+        searchPanel.add(searchField, "center, w 6cm, gapy 15");
+        searchPanel.add(searchButton, "left, gapy 15");
     }
 
     private void setupSearchField() {
@@ -150,8 +153,8 @@ public class SearchView implements Serializable, View {
         searchField.addKeyListener(k);
     }
 
-    private void addArtists(JPanel panel) {
-        JPanel artists = new QPanel(new MigLayout("insets 0, wrap 1"));
+    private void setupArtists(JPanel panel) {
+        JPanel artists = new QPanel(new MigLayout("insets 0, wrap 1, top, fill"));
         artists.setBackground(Configuration.getInstance().getColorConstants().getBackground());
         SpotifyArtistLabel label = null;
 
@@ -166,27 +169,10 @@ public class SearchView implements Serializable, View {
             }
         }
 
-        panel.add(artists, "top, wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
+        panel.add(artists, "wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
     }
 
-    private JLabel addHeader(String title) {
-        JLabel charLabel = new JLabel();
-
-        Font font = FontFactory.getFont(15f);
-
-        charLabel.setFont(font);
-        charLabel.setForeground(Configuration.getInstance().getColorConstants()
-                .getArtistViewCharColor());
-        charLabel.setText(title);
-        charLabel.setBackground(Configuration.getInstance().getColorConstants()
-                .getArtistViewCharBackground());
-        charLabel.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 50)));
-        charLabel.setOpaque(true);
-
-        return charLabel;
-    }
-
-    private void addAlbums(JPanel panel) {
+    private void setupAlbums(JPanel panel) {
         JPanel albums = new QPanel(new MigLayout("insets 0, top, wrap 1"));
         albums.setBackground(Configuration.getInstance().getColorConstants().getBackground());
 
@@ -201,7 +187,7 @@ public class SearchView implements Serializable, View {
             }
         }
 
-        panel.add(albums, "top, wmin 10%, w 30%, wmax 30%, alignx center");
+        panel.add(albums, "wmin 10%, w 30%, wmax 30%, alignx center");
     }
 
     private void addTracks(JPanel panel) {
@@ -220,7 +206,24 @@ public class SearchView implements Serializable, View {
             }
         }
 
-        panel.add(tracks, "top, wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
+        panel.add(tracks, "wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
+    }
+
+    private JLabel addHeader(String title) {
+        JLabel charLabel = new JLabel();
+
+        Font font = FontFactory.getFont(15f);
+
+        charLabel.setFont(font);
+        charLabel.setForeground(Configuration.getInstance().getColorConstants()
+                .getArtistViewCharColor());
+        charLabel.setText(title);
+        charLabel.setBackground(Configuration.getInstance().getColorConstants()
+                .getArtistViewCharBackground());
+        charLabel.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 50)));
+        charLabel.setOpaque(true);
+
+        return charLabel;
     }
 
     private void setupSearchButton() {

@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.cmc.shared.swing.FlowWrapLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.controller.ChangeAlbumController;
@@ -72,7 +73,7 @@ public class QuiltView implements ListView<Album> {
      */
     @Override
     public Component getUI() {
-        panel = new JPanel(new MigLayout("insets 20, wrap 5, flowy, novisualpadding"));
+        panel = new JPanel(new FlowWrapLayout());
 
         final QScrollPane pane = new QScrollPane(panel);
 
@@ -111,7 +112,6 @@ public class QuiltView implements ListView<Album> {
              */
             @Override
             public void mouseDragged(MouseEvent e) {
-                System.out.println(e.getX());
                 pane.mouseDragged(e);
             }
         };

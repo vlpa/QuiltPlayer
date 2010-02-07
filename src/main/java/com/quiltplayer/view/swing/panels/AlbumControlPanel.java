@@ -40,7 +40,6 @@ public class AlbumControlPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String LAYOUT = "h 2cm, w 2cm, alignx center, aligny center";
     @Autowired
     private EditAlbumListener editAlbumListener;
 
@@ -68,7 +67,7 @@ public class AlbumControlPanel extends JPanel {
     }
 
     public void setDefaults() {
-        setLayout(new MigLayout("insets 0, fillx, wrap 2, aligny center, w 100%"));
+        setLayout(new MigLayout("insets 0, fill, wrap 3"));
 
         setupLyricsButton();
 
@@ -76,9 +75,11 @@ public class AlbumControlPanel extends JPanel {
 
         setupPlaylistButton();
 
-        add(albumButton, LAYOUT + ", cell 0 0");
-        add(lyricsButton, LAYOUT + ", cell 0 0");
-        add(editButton, LAYOUT + ", cell 1 0");
+        final String layout = "h 2cm, w 3cm";
+
+        add(albumButton, layout);
+        add(lyricsButton, layout);
+        add(editButton, layout);
     }
 
     private void setupLyricsButton() {
@@ -89,7 +90,7 @@ public class AlbumControlPanel extends JPanel {
     }
 
     private void setupPlaylistButton() {
-        albumButton = new QControlPanelButton("Album", getIconFromClasspath("white/Play.png"),
+        albumButton = new QControlPanelButton("Songs", getIconFromClasspath("white/SongTiles.png"),
                 SwingConstants.BOTTOM);
         albumButton.addActionListener(controlPanelListener);
         albumButton.setActionCommand(ControlPanelController.EVENT_VIEW_ALBUM);

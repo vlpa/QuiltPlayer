@@ -28,7 +28,8 @@ public class AlbumLabel extends QPanel {
 
     public AlbumLabel(final Album album) {
 
-        super(new MigLayout("insets 0"));
+        super(new MigLayout("insets 0, w " + ImageSizes.SMALL.getSize() + "px!, h "
+                + ImageSizes.SMALL.getSize() + "px!"));
 
         setAutoscrolls(true);
         setToolTipText(album.getArtist().getArtistName().getName() + " - " + album.getTitle());
