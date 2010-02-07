@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -132,7 +133,8 @@ public class ControlPanel extends JPanel {
     }
 
     private void setupQuiltCollectionButton() {
-        quiltTab = new QControlPanelButton("Quilt", getIconFromClasspath("black/small-tiles.png"));
+        quiltTab = new QControlPanelButton("Quilt", getIconFromClasspath("black/small-tiles.png"),
+                SwingConstants.TOP);
 
         quiltTab.addActionListener(listener);
         quiltTab.setActionCommand(EVENT_ALBUM_QUILT);
@@ -140,7 +142,7 @@ public class ControlPanel extends JPanel {
 
     private void setupAlfabeticArtistsButton() {
         artistsTab = new QControlPanelButton("Artists",
-                getIconFromClasspath("black/large-tiles.png"));
+                getIconFromClasspath("black/large-tiles.png"), SwingConstants.TOP);
 
         artistsTab.addActionListener(listener);
         artistsTab.setActionCommand(EVENT_VIEW_ARTIST);
@@ -148,14 +150,15 @@ public class ControlPanel extends JPanel {
 
     private void setupAlbumViewButton() {
         albumViewButton = new QControlPanelButton("Album view",
-                getIconFromClasspath("white/Media-Player.png"));
+                getIconFromClasspath("white/Media-Player.png"), SwingConstants.TOP);
         albumViewButton.addActionListener(listener);
         albumViewButton.setActionCommand(ControlPanelController.EVENT_TOGGLE_ALBUM_VIEW);
         albumViewButton.activate();
     }
 
     private void setupSearchTab() {
-        searchTab = new QControlPanelButton("Spotify", getIconFromClasspath("white/Search.png"));
+        searchTab = new QControlPanelButton("Spotify", getIconFromClasspath("white/Search.png"),
+                SwingConstants.TOP);
 
         searchTab.addActionListener(listener);
         searchTab.setActionCommand(EVENT_VIEW_SEARCH);
@@ -165,7 +168,8 @@ public class ControlPanel extends JPanel {
     }
 
     private void setupConfigurationTab() {
-        configTab = new QControlPanelButton("Config", getIconFromClasspath("white/Gear.png"));
+        configTab = new QControlPanelButton("Config", getIconFromClasspath("white/Settings.png"),
+                SwingConstants.TOP);
 
         configTab.addActionListener(listener);
         configTab.setActionCommand(EVENT_VIEW_CONFIGURATION);
@@ -173,7 +177,8 @@ public class ControlPanel extends JPanel {
 
     private void setupKeyboardTab() {
 
-        keyboardTab = new QControlPanelButton("Keys", getIconFromClasspath("white/Gear.png"));
+        keyboardTab = new QControlPanelButton("Keys", getIconFromClasspath("white/Settings.png"),
+                SwingConstants.TOP);
         keyboardTab.addActionListener(listener);
         keyboardTab.setActionCommand(ControlPanelController.EVENT_VIEW_KEYBOARD);
     }
@@ -201,7 +206,8 @@ public class ControlPanel extends JPanel {
     }
 
     private void setupExitButton() {
-        exitButton = new QControlPanelButton("End", getIconFromClasspath("white/Power.png"));
+        exitButton = new QControlPanelButton("End", getIconFromClasspath("white/Power.png"),
+                SwingConstants.TOP);
         exitButton.addActionListener(new ExitHandler());
     }
 

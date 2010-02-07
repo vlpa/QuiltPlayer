@@ -27,11 +27,11 @@ public class CrossFader extends JComponent implements ActionListener {
 
     private List<ImageIcon> icons;
 
+    private ImageIcon[] icon;
+
     private float alpha = 0;
 
     private int counter = 0;
-
-    private ImageIcon[] icon = new ImageIcon[2];
 
     public CrossFader() {
         animator = new javax.swing.Timer(100, this);
@@ -48,10 +48,14 @@ public class CrossFader extends JComponent implements ActionListener {
     }
 
     public void setImages(List<LocalImage> images) {
-
+        counter = 0;
         icon = new ImageIcon[2];
 
         icons = new ArrayList<ImageIcon>();
+
+        for (LocalImage localImage : images) {
+            System.out.println(localImage.getLargeImage().getAbsolutePath());
+        }
 
         for (LocalImage image : images) {
             icons.add(new ImageIcon(ImageUtils.scalePicture(new ImageIcon(image.getLargeImage()
@@ -60,6 +64,7 @@ public class CrossFader extends JComponent implements ActionListener {
     }
 
     public void paintComponent(Graphics g) {
+
         if (icons != null && icons.size() > 0) {
 
             Graphics2D g2d = (Graphics2D) g;

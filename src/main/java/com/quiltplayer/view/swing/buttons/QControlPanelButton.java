@@ -39,21 +39,21 @@ public class QControlPanelButton extends JButton {
 
     private Animator animator = new Animator(0);
 
-    public QControlPanelButton(String label, Icon icon) {
+    public QControlPanelButton(String label, Icon icon, int verticalTextPosition) {
         super(" ", icon);
 
         this.label = label;
 
-        setDefaults();
+        setDefaults(verticalTextPosition);
     }
 
-    private void setDefaults() {
+    private void setDefaults(int verticalTextPosition) {
         // setOpaque(false);
 
         setHorizontalTextPosition(AbstractButton.CENTER);
         setHorizontalAlignment(AbstractButton.CENTER);
 
-        setVerticalTextPosition(AbstractButton.TOP);
+        setVerticalTextPosition(verticalTextPosition);
         setVerticalAlignment(AbstractButton.CENTER);
 
         setFocusable(false);

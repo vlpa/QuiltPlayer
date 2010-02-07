@@ -102,6 +102,9 @@ public class JotifyAlbum implements Album {
     public List<LocalImage> getImages() {
         List<LocalImage> images = new ArrayList<LocalImage>();
 
+        if (spotifyAlbum.getCover() == null)
+            spotifyAlbum = jotifyRepository.getInstance().browseAlbum(spotifyAlbum.getId());
+
         File localImagePath = new File(Configuration.ALBUM_COVERS_PATH, spotifyAlbum.getCover()
                 + ".jpg");
 

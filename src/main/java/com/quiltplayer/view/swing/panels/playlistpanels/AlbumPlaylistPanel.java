@@ -83,7 +83,7 @@ public class AlbumPlaylistPanel extends JPanel {
     private CrossFader crossFader;
 
     public AlbumPlaylistPanel() {
-        super(new MigLayout("insets 0, wrap 1, alignx center, aligny center"));
+        super(new MigLayout("insets 0, wrap 1, alignx center, aligny center, fill"));
         setOpaque(false);
     }
 

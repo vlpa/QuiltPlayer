@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.annotation.PostConstruct;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -81,20 +82,22 @@ public class AlbumControlPanel extends JPanel {
     }
 
     private void setupLyricsButton() {
-        lyricsButton = new QControlPanelButton("Lyrics", getIconFromClasspath("white/IM.png"));
+        lyricsButton = new QControlPanelButton("Lyrics", getIconFromClasspath("white/Lyrics.png"),
+                SwingConstants.BOTTOM);
         lyricsButton.addActionListener(controlPanelListener);
         lyricsButton.setActionCommand(ControlPanelController.EVENT_VIEW_LYRICS);
     }
 
     private void setupPlaylistButton() {
-        albumButton = new QControlPanelButton("Album", getIconFromClasspath("white/Music.png"));
+        albumButton = new QControlPanelButton("Album", getIconFromClasspath("white/Play.png"),
+                SwingConstants.BOTTOM);
         albumButton.addActionListener(controlPanelListener);
         albumButton.setActionCommand(ControlPanelController.EVENT_VIEW_ALBUM);
     }
 
     private void setupEditButton() {
         editButton = new QControlPanelButton("Edit album",
-                getIconFromClasspath("white/Settings.png"));
+                getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM);
         editButton.addActionListener(editAlbumListener);
         editButton.setActionCommand(PlaylistPanel.EVENT_UPDATE_ALBUM_ID3);
     }

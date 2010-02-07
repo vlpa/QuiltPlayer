@@ -86,8 +86,6 @@ public class PlaylistPanel extends JPanel {
         mainPanel.add(albumPanel, "dock south");
 
         setupSongsPanel();
-
-        // addPlaylistPanelButtons();
     }
 
     public void progress(long time) {
