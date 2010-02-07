@@ -21,6 +21,7 @@ import com.quiltplayer.view.swing.ColorConstantsDark;
  * @author Vlado Palczynski
  */
 public final class Configuration implements Serializable {
+
     private static final long serialVersionUID = 7625101231832775970L;
 
     private static final Logger log = Logger.getLogger(Configuration.class);

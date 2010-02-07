@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.effects.ReflectionIcon;
 import com.quiltplayer.view.swing.images.QIcon;
@@ -37,7 +38,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
 
     protected Album album;
 
-    private Color background = new Color(35, 35, 35);
+    private Color background = ColorConstantsDark.BACKGROUND;
 
     public SquaredAlbumPanel(Album album) {
         super(new MigLayout("insets 0, filly, fillx"));
@@ -83,7 +84,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
              */
             @Override
             public void mouseExited(MouseEvent e) {
-                background = new Color(35, 35, 35);
+                background = ColorConstantsDark.BACKGROUND;
 
                 repaint();
                 updateUI();

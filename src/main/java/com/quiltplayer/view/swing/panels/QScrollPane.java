@@ -1,33 +1,42 @@
 package com.quiltplayer.view.swing.panels;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.JScrollBar;
+import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
-import javax.swing.Timer;
 
-public class QScrollPane extends JScrollPane implements ActionListener {
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
-    private enum State {
-        RUNNING, WAITING, STOPPING
-    }
-
-    private State state = State.WAITING;
+/**
+ * Scroller should be variable to time and distance. It should follow the fingers position and when
+ * released it should decrease against the time and distance of the movement.
+ * 
+ * @author vlado
+ * 
+ */
+public class QScrollPane extends JScrollPane implements MouseListener, MouseMotionListener {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer pressedPosition;
+    private Integer pressedXPosition;
 
-    private Timer timer;
+    private Integer pressedHorizontalBar;
 
-    private Integer mouseY;
+    private Integer releasedXPosition;
+
+    private Integer pressedYPosition;
+
+    private Integer pressedVerticalBar;
+
+    private Integer releasedYPosition;
+
+    private Animator animator;
+
+    private Integer mouseX;
 
     private int steps;
 
@@ -45,138 +54,118 @@ public class QScrollPane extends JScrollPane implements ActionListener {
 
     private void setDefaults() {
 
-        addMouseListener(getMouseListener());
-        addMouseMotionListener(getMouseMotionListener());
+        setOpaque(false);
 
-        // setAutoscrolls(true);
-        // setDoubleBuffered(true);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+
+        setBorder(BorderFactory.createEmptyBorder());
+
+        setAutoscrolls(true);
+        setDoubleBuffered(true);
 
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
-    private MouseListener getMouseListener() {
-        return new MouseAdapter() {
+    private void animate(int distance) {
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
-             */
-            @Override
-            public void mousePressed(MouseEvent e) {
-                pressedPosition = e.getY();
+        if (animator != null && animator.isRunning())
+            animator.stop();
 
-                super.mousePressed(e);
-            }
+        PropertySetter setter = new PropertySetter(this.getHorizontalScrollBar(), "value",
+                getHorizontalScrollBar().getValue(), getHorizontalScrollBar().getValue() + distance);
+        animator = new Animator(600, setter);
+        animator.setDeceleration(0.7f);
+        animator.start();
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
-             */
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (timer != null) {
-                    timer.stop();
-                    timer = getTimer();
-                    state = State.STOPPING;
-                    timer.start();
-                    steps = 1;
-                }
-
-                super.mouseReleased(e);
-
-            }
-        };
-    }
-
-    private MouseMotionListener getMouseMotionListener() {
-
-        return new MouseMotionAdapter() {
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseAdapter#mouseMoved(java.awt.event.MouseEvent)
-             */
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                super.mouseMoved(e);
-            }
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseAdapter#mouseDragged(java.awt.event.MouseEvent)
-             */
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                mouseY = e.getY();
-
-                if (state != State.RUNNING) {
-                    timer = getTimer();
-                    timer.start();
-
-                    state = State.RUNNING;
-                }
-
-                super.mouseDragged(e);
-            }
-        };
-    }
-
-    private Timer getTimer() {
-
-        if (timer == null || !timer.isRunning()) {
-            timer = new Timer(0, this);
-            timer.setInitialDelay(0);
-        }
-
-        return timer;
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void mouseClicked(MouseEvent e) {
+        // TODO Auto-generated method stub
 
-        final JScrollBar verticalScrollBar = getVerticalScrollBar();
-
-        boolean b = pressedPosition < mouseY;
-
-        if (state == State.RUNNING) {
-            if (b) {
-                int move = (mouseY - pressedPosition) / 3;
-                verticalScrollBar.setValue(verticalScrollBar.getValue() - move);
-            }
-            else {
-                /* Downwards */
-                int move = (pressedPosition - mouseY) / 3;
-                verticalScrollBar.setValue(verticalScrollBar.getValue() + move);
-            }
-        }
-        else if (state == State.STOPPING) {
-            if (b) {
-                int distance = (mouseY - pressedPosition);
-                verticalScrollBar.setValue(verticalScrollBar.getValue() - (distance / steps) / 3);
-            }
-            else {
-                int distance = (pressedPosition - mouseY);
-                verticalScrollBar.setValue(verticalScrollBar.getValue() + (distance / steps) / 3);
-            }
-
-            steps++;
-
-            if (steps == 5) {
-                timer.stop();
-                state = State.WAITING;
-            }
-        }
-
-        repaint();
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if (e.getX() > pressedXPosition)
+            getHorizontalScrollBar().setValue(pressedHorizontalBar - (e.getX() - pressedXPosition));
+        else
+            getHorizontalScrollBar().setValue(pressedHorizontalBar + (pressedXPosition - e.getX()));
+
+        if (e.getY() > pressedYPosition)
+            getVerticalScrollBar().setValue(pressedVerticalBar - (e.getY() - pressedYPosition));
+        else
+            getVerticalScrollBar().setValue(pressedVerticalBar + (pressedYPosition - e.getY()));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mousePressed(MouseEvent e) {
+        System.out.println("!PRESSED!");
+        pressedXPosition = e.getX();
+        pressedYPosition = e.getY();
+
+        pressedHorizontalBar = getHorizontalScrollBar().getValue();
+        pressedVerticalBar = getVerticalScrollBar().getValue();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+    }
+
 }

@@ -39,16 +39,6 @@ public class AlbumControlPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String EVENT_VIEW_ARTIST = "view.artist";
-
-    public static final String EVENT_ALBUM_QUILT = "album.quilt";
-
-    public static final String EVENT_VIEW_CONFIGURATION = "view.configuration";
-
-    public static final String EVENT_VIEW_SEARCH = "view.search";
-
-    public static final String EVENT_VIEW_ABOUT = "view.about";
-
     private static final String LAYOUT = "h 2cm, w 2cm, alignx center, aligny center";
     @Autowired
     private EditAlbumListener editAlbumListener;

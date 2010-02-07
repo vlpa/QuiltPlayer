@@ -14,7 +14,7 @@ import com.quiltplayer.core.repo.ArtistRepository;
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.panels.AlfabeticArtistPane;
-import com.quiltplayer.view.swing.views.AbstractView;
+import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.views.ArtistView;
 
 /**
@@ -23,11 +23,9 @@ import com.quiltplayer.view.swing.views.ArtistView;
  * @author Vlado Palczynski
  */
 @org.springframework.stereotype.Component
-public class DefaultArtistView extends AbstractView implements ArtistView {
+public class DefaultArtistView implements ArtistView {
 
     private static final long serialVersionUID = 1L;
-
-    private static final int VERTICAL_UNIT_INCRENET = 40;
 
     @Autowired
     private ArtistListener artistListener;
@@ -71,6 +69,6 @@ public class DefaultArtistView extends AbstractView implements ArtistView {
         final JPanel wrapper = new JPanel(new MigLayout("insets 0, fill"));
         wrapper.add(panel, "w 90%, h 100%, alignx right, aligny center");
 
-        return getScrollPane(wrapper, VERTICAL_UNIT_INCRENET);
+        return new QScrollPane(wrapper);
     }
 }

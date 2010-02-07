@@ -15,11 +15,9 @@ import net.miginfocom.layout.PlatformDefaults;
 import net.miginfocom.layout.UnitValue;
 import net.miginfocom.swing.MigLayout;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.quiltplayer.controller.ControlPanelController;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
@@ -114,7 +112,7 @@ public class QuiltPlayerFrame extends JFrame {
         System.out.println("DPI from PlatformDefaults: " + PlatformDefaults.getDefaultDPI());
         System.out.println("DPI from Tookit: " + Toolkit.getDefaultToolkit().getScreenResolution());
 
-        setLayout(new MigLayout("insets 10"));
+        setLayout(new MigLayout("insets 0, fill"));
 
         setTitle("QuiltPlayer");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -155,7 +153,7 @@ public class QuiltPlayerFrame extends JFrame {
         // JXLayer<JComponent> layer = new JXLayer<JComponent>(controlPanel,
         // debugUI);
 
-        getContentPane().add(controlPanel, "cell 0 0, dock north");
+        getContentPane().add(controlPanel, "cell 0 0, dock north, h 1.5cm!");
 
         addAlbumView();
 
@@ -226,7 +224,6 @@ public class QuiltPlayerFrame extends JFrame {
         }
         else if (currentView.equals(ActiveView.ABOUT_VIEW)) {
             ui = aboutView.getUI();
-            glassPane.updateUI();
             controlPanel.updateTab(null);
         }
         else if (currentView.equals(ActiveView.EDIT_ALBUM_VIEW)) {
@@ -234,7 +231,8 @@ public class QuiltPlayerFrame extends JFrame {
             controlPanel.updateTab(null);
         }
 
-        getContentPane().add(ui, "cell 2 0,w  100%,  h 100%, gapx 0");
+        getContentPane().add(ui, "cell 2 0, w 100%, h 100%");
+
         SwingUtilities.updateComponentTreeUI(this);
     }
 
@@ -277,10 +275,10 @@ public class QuiltPlayerFrame extends JFrame {
         }
 
         repaint();
+        updateUI();
     }
 
     private void addAlbumView() {
-        getContentPane().add(playlistPanel,
-                "cell 1 0, dock west, w " + (ImageSizes.LARGE.getSize() + 90) + "px!");
+        getContentPane().add(playlistPanel, "cell 1 0, dock west");
     }
 }

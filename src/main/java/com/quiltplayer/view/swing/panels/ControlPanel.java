@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import com.quiltplayer.controller.ControlPanelController;
 import com.quiltplayer.controller.PlayerController;
 import com.quiltplayer.controller.PlayerListener;
+import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
 import com.quiltplayer.view.swing.buttons.QTextButton;
@@ -57,7 +58,7 @@ public class ControlPanel extends JPanel {
     private Color[] gradient = { new Color(100, 100, 100), new Color(60, 60, 60),
             new Color(40, 40, 40), new Color(10, 10, 10) };
 
-    private float[] dist = { 0.0f, 0.48f, 0.52f, 1.0f };
+    private float[] dist = { 0.0f, 0.60f, 0.64f, 1.0f };
 
     @Autowired
     private ControlPanelListener listener;
@@ -89,7 +90,7 @@ public class ControlPanel extends JPanel {
     }
 
     public void setDefaults() {
-        setLayout(new MigLayout("insets 0, fillx, wrap 10, aligny center, w 100%"));
+        setLayout(new MigLayout("insets 0, fill, wrap 10"));
 
         setupQuiltCollectionButton();
 
@@ -111,15 +112,23 @@ public class ControlPanel extends JPanel {
 
         // addDecreaseVolumeButton();
 
-        final String s = "h 2cm, alignx center";
+        final String s = "h 100%, w 3cm";
 
-        add(albumViewButton, s);
-        add(quiltTab, s);
-        add(artistsTab, s);
-        add(searchTab, s);
-        add(configTab, s);
-        add(keyboardTab, s);
-        add(exitButton, s);
+        final JPanel albumButtons = new JPanel(new MigLayout("insets 0"));
+        albumButtons.setOpaque(false);
+        albumButtons.add(albumViewButton, s);
+
+        final JPanel applicationButtons = new JPanel(new MigLayout("insets 0, alignx center"));
+        applicationButtons.setOpaque(false);
+        applicationButtons.add(quiltTab, s);
+        applicationButtons.add(artistsTab, s);
+        applicationButtons.add(searchTab, s);
+        applicationButtons.add(configTab, s);
+        applicationButtons.add(keyboardTab, s);
+        applicationButtons.add(exitButton, s);
+
+        add(albumButtons, "w " + ImageSizes.LARGE.getSize() + "px, dock west");
+        add(applicationButtons, "w 100% - " + ImageSizes.LARGE.getSize() + "px");
     }
 
     private void setupQuiltCollectionButton() {
@@ -142,6 +151,7 @@ public class ControlPanel extends JPanel {
                 getIconFromClasspath("white/Media-Player.png"));
         albumViewButton.addActionListener(listener);
         albumViewButton.setActionCommand(ControlPanelController.EVENT_TOGGLE_ALBUM_VIEW);
+        albumViewButton.activate();
     }
 
     private void setupSearchTab() {

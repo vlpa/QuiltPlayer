@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.quiltplayer.core.scanner.CoverScanner;
-import com.quiltplayer.core.scanner.Id3Scanner;
 import com.quiltplayer.core.scanner.ScanningEvent;
 import com.quiltplayer.core.scanner.ScanningEvent.Scanner;
 import com.quiltplayer.core.scanner.ScanningEvent.Status;
@@ -34,9 +33,6 @@ public class ScanningController implements ScanningListener {
     private QuiltPlayerFrame frame;
 
     @Autowired
-    private Id3Scanner collectionScanner;
-
-    @Autowired
     private CoverScanner coverScanner;
 
     @Autowired
@@ -61,10 +57,10 @@ public class ScanningController implements ScanningListener {
             coverScanner.cancelScanCovers();
         }
         else if (e.getActionCommand().equals(ConfigurationView.EVENT_UPDATE_COLLECTION)) {
-            collectionScanner.scanCollection();
+            // collectionScanner.scanCollection();
         }
         else if (e.getActionCommand().equals(ConfigurationView.EVENT_CANCEL_UPDATE_COLLECTION)) {
-            collectionScanner.cancelScanCollection();
+            // collectionScanner.cancelScanCollection();
         }
         else if (e.getActionCommand().equals(EVENT_RESCAN_ALBUM)) {
             Album album = (Album) e.getSource();
@@ -89,19 +85,19 @@ public class ScanningController implements ScanningListener {
     public final void scannerEvent(final ScanningEvent e) {
         if (Scanner.ID3 == e.getScanner()) {
             if (Status.STARTED == e.getStatus()) {
-                configurationView.disableUpdateButton();
+                // configurationView.disableUpdateButton();
             }
             else if (Status.DONE == e.getStatus()) {
-                configurationView.enableUpdateButton();
+                // configurationView.enableUpdateButton();
                 frame.updateUI();
             }
         }
         else if (Scanner.COVERS == e.getScanner()) {
             if (Status.STARTED == e.getStatus()) {
-                configurationView.disableScanButton();
+                // configurationView.disableScanButton();
             }
             else if (Status.DONE == e.getStatus()) {
-                configurationView.enableScanButton();
+                // configurationView.enableScanButton();
                 frame.updateUI();
                 playlistPanel.updateAlbumUI();
             }

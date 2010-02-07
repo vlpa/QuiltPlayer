@@ -1,7 +1,6 @@
 package com.quiltplayer.view.swing.views.impl;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.io.Serializable;
 import java.util.Enumeration;

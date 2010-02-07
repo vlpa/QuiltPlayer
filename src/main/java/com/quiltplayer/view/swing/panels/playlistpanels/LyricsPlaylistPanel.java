@@ -1,15 +1,14 @@
 package com.quiltplayer.view.swing.panels.playlistpanels;
 
 import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.springframework.stereotype.Component;
 
-import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.panels.QScrollPane;
@@ -21,7 +20,7 @@ import com.quiltplayer.view.swing.panels.QScrollPane;
  * 
  */
 @Component
-public class LyricsPlaylistPanel extends AbstractPlaylistPanel {
+public class LyricsPlaylistPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,6 +30,7 @@ public class LyricsPlaylistPanel extends AbstractPlaylistPanel {
 
     public LyricsPlaylistPanel() {
         super(new MigLayout("insets 15, wrap 1, alignx center, aligny center"));
+        setOpaque(false);
 
         setupTextArea();
     }
@@ -45,8 +45,7 @@ public class LyricsPlaylistPanel extends AbstractPlaylistPanel {
         lyricsArea.setWrapStyleWord(true);
         lyricsArea.setLineWrap(true);
         lyricsArea.setForeground(ColorConstantsDark.PLAYLIST_LYRICS_COLOR);
-        lyricsArea.setBackground(Configuration.getInstance().getColorConstants()
-                .getPlaylistPanelBackground());
+        lyricsArea.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
         JScrollPane lyricsScroller = new QScrollPane(lyricsArea);
         lyricsScroller.setBorder(BorderFactory.createEmptyBorder());
@@ -63,7 +62,8 @@ public class LyricsPlaylistPanel extends AbstractPlaylistPanel {
     public final void setLyrics(String lyrics) {
         lyricsArea.setText(lyrics);
 
-        SwingUtilities.updateComponentTreeUI(this);
+        repaint();
+        updateUI();
     }
 
 }

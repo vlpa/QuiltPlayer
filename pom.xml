@@ -114,6 +114,11 @@
             <version>1.1.1</version>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
             <groupId>com.jgoodies</groupId>
             <artifactId>forms</artifactId>
             <version>1.1</version>
@@ -187,6 +192,11 @@
             <groupId>javazoom.spi</groupId>
             <artifactId>vorbisspi</artifactId>
             <version>0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.cmc</groupId>
+            <artifactId>myid3</artifactId>
+            <version>0.83</version>
         </dependency>
         <dependency>
             <groupId>org.cmc</groupId>

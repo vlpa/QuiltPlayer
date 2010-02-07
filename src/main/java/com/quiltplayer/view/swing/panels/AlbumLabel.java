@@ -1,17 +1,12 @@
 package com.quiltplayer.view.swing.panels;
 
-import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import net.miginfocom.swing.MigLayout;
@@ -31,10 +26,11 @@ public class AlbumLabel extends QPanel {
 
     private Album album;
 
-    public AlbumLabel(final Album album, final JPanel glassPane) {
+    public AlbumLabel(final Album album) {
 
         super(new MigLayout("insets 0"));
 
+        setAutoscrolls(true);
         setToolTipText(album.getArtist().getArtistName().getName() + " - " + album.getTitle());
 
         setOpaque(false);
@@ -48,20 +44,6 @@ public class AlbumLabel extends QPanel {
 
         iconLabel = new JLabel();
         iconLabel.setIcon(icon);
-
-        MouseListener l = new MouseAdapter() {
-            /*
-             * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent )
-             */
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-
-                setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-        };
-
-        addMouseListener(l);
 
         add(iconLabel, "w " + ImageSizes.SMALL.getSize() + ", h " + ImageSizes.SMALL.getSize()
                 + "lp");

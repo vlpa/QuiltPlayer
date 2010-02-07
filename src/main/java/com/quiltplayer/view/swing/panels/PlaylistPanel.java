@@ -16,6 +16,7 @@ import net.miginfocom.swing.MigLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ColorConstantsDark;
@@ -69,33 +70,18 @@ public class PlaylistPanel extends JPanel {
     private QTab lyricsButton;
 
     public PlaylistPanel() {
-        super(new MigLayout("insets 0, wrap 1, alignx center, w 100%, h 100%, fillx, filly"));
+        super(new MigLayout("insets 0, wrap 1, alignx center, w 100%, h 100%, fill"));
     }
 
     @PostConstruct
     public void init() {
         mainPanel = new JPanel(new MigLayout(
-                "insets 0, w 100%, h 100%, fillx, filly, alignx center")) {
-
-            private static final long serialVersionUID = 1L;
-
-            // Paint the round background and label.
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g;
-
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
-
-                g2d.setColor(Configuration.getInstance().getColorConstants()
-                        .getPlaylistSongBackgroundInactive());
-                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
-            }
-        };
+                "insets 30, w 100%, h 100%, fillx, filly, alignx center"));
 
         mainPanel.setOpaque(true);
         mainPanel.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
-        add(mainPanel, "w 100%, h 100%, gapx 30lp, shrinkprio 0");
+        add(mainPanel, "w 100%, h 100%, shrinkprio 0, w " + ImageSizes.LARGE.getSize() + "px!");
 
         mainPanel.add(albumPanel, "dock south");
 

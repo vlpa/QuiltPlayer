@@ -11,10 +11,14 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import org.springframework.stereotype.Component;
+
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.external.covers.model.LocalImage;
 import com.quiltplayer.external.covers.util.ImageUtils;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 
+@Component
 public class CrossFader extends JComponent implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -44,6 +48,9 @@ public class CrossFader extends JComponent implements ActionListener {
     }
 
     public void setImages(List<LocalImage> images) {
+
+        icon = new ImageIcon[2];
+
         icons = new ArrayList<ImageIcon>();
 
         for (LocalImage image : images) {
@@ -53,13 +60,13 @@ public class CrossFader extends JComponent implements ActionListener {
     }
 
     public void paintComponent(Graphics g) {
-        if (icons != null) {
+        if (icons != null && icons.size() > 0) {
 
             Graphics2D g2d = (Graphics2D) g;
 
             if (icons.size() > 1) {
 
-                g2d.setPaint(getBackground());
+                g2d.setPaint(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
 
                 if (alpha < 10) {
@@ -88,8 +95,8 @@ public class CrossFader extends JComponent implements ActionListener {
     }
 
     private void nextIcons() {
-        if (icons != null) {
-                icon[0] = icons.get(counter);
+        if (icons != null && icons.size() > 0) {
+            icon[0] = icons.get(counter);
             icon[1] = icons.get(getCounter());
         }
     }

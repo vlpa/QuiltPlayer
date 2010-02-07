@@ -1,6 +1,5 @@
 package com.quiltplayer.view.swing.panels.playlistpanels;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,7 +13,7 @@ import java.awt.event.MouseListener;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
@@ -27,7 +26,6 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.model.impl.NullAlbum;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.model.neo.NeoAlbum;
-import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.effects.CrossFader;
 import com.quiltplayer.view.swing.labels.ArtistLabel;
@@ -45,7 +43,7 @@ import com.quiltplayer.view.swing.panels.components.SongsComponent;
  * @author Vlado Palczynski
  */
 @org.springframework.stereotype.Component
-public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
+public class AlbumPlaylistPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
@@ -54,8 +52,6 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
     private JButton editButton;
 
     private JButton albumsButton;
-
-    private JPanel songs = new JPanel(new MigLayout("insets 0, wrap 1"));
 
     private SongsComponent songsComponent;
 
@@ -67,8 +63,6 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
 
     @Autowired
     private AlbumPresentationPanel albumPresentationPanel;
-
-    JSeparator songSeparator = new JSeparator(JSeparator.HORIZONTAL);
 
     @Autowired
     private ArtistListener artistListener;
@@ -83,59 +77,48 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
 
     private Album album;
 
+    private JScrollPane songs;
+
+    @Autowired
     private CrossFader crossFader;
 
     public AlbumPlaylistPanel() {
-        super();
+        super(new MigLayout("insets 0, wrap 1, alignx center, aligny center"));
+        setOpaque(false);
     }
 
     @PostConstruct
     public void init() {
         this.album = new NullAlbum();
 
-        songSeparator = new JSeparator(JSeparator.HORIZONTAL);
-        songSeparator.setBackground(Color.WHITE);
-        songSeparator.setForeground(Color.GRAY);
-
-        playlistButtonPanel = new JPanel(new MigLayout("insets 0, wrap 1, center, aligny center"));
-
-        // iconLabel = new PlaylistImageLabel(album, jotifyRepository);
-
-        crossFader = new CrossFader();
+        playlistButtonPanel = new JPanel(new MigLayout(
+                "insets 0, wrap 1, center, aligny center, fill"));
 
         setupImageControlPanel(false);
-        setupEditAlbumButton();
 
-        add(albumPresentationPanel, "top, w " + ImageSizes.LARGE.getSize() + "px!");
-        add(crossFader, "alignx center,  aligny top, h " + ImageSizes.LARGE.getSize() + "px!, w "
-                + ImageSizes.LARGE.getSize() + "px!, gapy 20");
-        add(imageControlPanel, "alignx center, aligny top, h 30lp!, w "
-                + ImageSizes.LARGE.getSize() + "px!");
-
-        // addPlaylistButtons();
-        addEditAlbumButton();
-
-        // playlistButtonPanel.setVisible(false);
+        add(albumPresentationPanel, "top, w 100%");
+        add(crossFader, "alignx center,  aligny top, h " + ImageSizes.LARGE.getSize()
+                + "px, w 100%, gapy 20");
+        add(imageControlPanel, "alignx center, aligny top, h 30lp!, w 100%");
 
         songsComponent = new SongsComponent();
         songsComponent.setPlayerListener(playerListener);
     }
 
     private void setupSongsPanel() {
+        if (songs != null)
+            remove(songs);
+
         songs = songsComponent.create(album);
 
-        add(songs, "h 40%, w " + ImageSizes.LARGE.getSize() + "px!, top, gapy 5");
-
-        // playlistButtonPanel.setVisible(true);
+        add(songs, "h 40%, w 100%, top, gapy 5");
 
         if (album instanceof NeoAlbum) {
-            addEditAlbumButton();
+            // addEditAlbumButton();
         }
         else if (album instanceof JotifyAlbum) {
-            addAddToCollectionButton();
+            // addAddToCollectionButton();
         }
-
-        // playlistButtonPanel.repaint();
 
         SwingUtilities.updateComponentTreeUI(this);
     }
@@ -161,8 +144,7 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
         if (album.getImages() != null && album.getImages().size() > 1) {
             imageButtons = new JPanel();
             imageButtons.setLayout(new MigLayout("insets 0, wrap 4, fillx"));
-            imageButtons.setBackground(Configuration.getInstance().getColorConstants()
-                    .getPlaylistSongBackgroundInactive());
+            imageButtons.setOpaque(false);
 
             // ImageControlLabel increase = new ImageControlLabel("[ + ]");
             // increase.setToolTipText("Next album picture");
@@ -199,14 +181,6 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
 
             imageControlPanel.add(imageButtons, "w 100%");
         }
-    }
-
-    private void addEditAlbumButton() {
-        playlistButtonPanel.add(editButton, "cell 0 0, wmin 2.5cm");
-    }
-
-    private void addAddToCollectionButton() {
-        playlistButtonPanel.remove(editButton);
     }
 
     private void setupAlbumsByArtistButton() {
@@ -277,23 +251,6 @@ public class AlbumPlaylistPanel extends AbstractPlaylistPanel {
      */
     public SongLabel getCurrentSongLabel() {
         return currentSongLabel;
-    }
-
-    /**
-     * 
-     */
-    private void setupEditAlbumButton() {
-        editButton = new QButton("Edit album");
-        editButton.setToolTipText("Edit the ID3 information of this album.");
-
-        ActionListener actionListener = new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                // editAlbumListener.actionPerformed(new ActionEvent(album, 0,
-                // PlaylistPanel.EVENT_UPDATE_ALBUM_ID3));
-            }
-        };
-
-        editButton.addActionListener(actionListener);
     }
 
     /*

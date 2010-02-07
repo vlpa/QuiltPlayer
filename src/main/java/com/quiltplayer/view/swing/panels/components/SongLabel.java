@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -65,17 +64,15 @@ public class SongLabel extends JPanel {
 
     private QSongButton titleButton;
 
-    private Color[] passiveGradient = { new Color(20, 20, 20), new Color(15, 15, 15) };
-
     private Color[] activeGradient = { new Color(60, 60, 60), new Color(40, 40, 40) };
-
-    private Color[] currentGradient = passiveGradient;
 
     private Animator animator;
 
+    private boolean isActive = false;
+
     public SongLabel(Song song) {
-        setLayout(new MigLayout("insets 0, aligny center, wmax " + ImageSizes.LARGE.getSize()
-                + "px", " [50px!|" + (ImageSizes.LARGE.getSize() - 100) + "px!|50px!]"));
+        setLayout(new MigLayout("insets 0, aligny center, fill", " [50px!|"
+                + (ImageSizes.LARGE.getSize() - 50) + "]"));
 
         setOpaque(false);
 
@@ -86,11 +83,6 @@ public class SongLabel extends JPanel {
 
         titleButton.addMouseListener(listener);
         titleButton.setSelected(false);
-
-        button = new JButton("");
-        pauseLabel = new JLabel("");
-        pauseLabel.setBackground(Color.WHITE);
-        pauseLabel.addMouseListener(listener);
 
         titleButton.setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
         titleButton.setForeground(Configuration.getInstance().getColorConstants()
@@ -145,22 +137,12 @@ public class SongLabel extends JPanel {
 
         setBackground(Configuration.getInstance().getColorConstants()
                 .getPlaylistSongBackgroundCurrent());
-        setOpaque(true);
 
-        currentGradient = activeGradient;
+        isActive = true;
 
         titleButton.setSelected(true);
 
         add(timeLabel, "cell 0 0, alignx left, aligny center, gapx 5px!");
-
-        button.setText("||");
-        button.setBackground(Color.DARK_GRAY);
-        button.setOpaque(false);
-
-        pauseLabel.setText("||");
-        pauseLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        pauseLabel.setForeground(Color.white);
-        add(pauseLabel, "cell 2 0, right, w 55");
 
         status = STATUS_PLAYING;
 
@@ -194,13 +176,11 @@ public class SongLabel extends JPanel {
 
         status = STATUS_STOPPED;
 
-        currentGradient = passiveGradient;
+        isActive = false;
 
         titleButton.setSelected(false);
         setBackground(Configuration.getInstance().getColorConstants().getPlaylistPanelBackground());
 
-        remove(button);
-        remove(pauseLabel);
         remove(timeLabel);
 
         if (animator != null)
@@ -270,12 +250,14 @@ public class SongLabel extends JPanel {
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Point2D start = new Point2D.Float(0, 0);
-        Point2D end = new Point2D.Float(0, getHeight() - 1);
+        if (isActive) {
+            Point2D start = new Point2D.Float(0, 0);
+            Point2D end = new Point2D.Float(0, getHeight() - 1);
 
-        LinearGradientPaint p = new LinearGradientPaint(start, end, dist, currentGradient);
+            LinearGradientPaint p = new LinearGradientPaint(start, end, dist, activeGradient);
 
-        g2d.setPaint(p);
-        g2d.fillRoundRect(1, 1, getWidth() - 1, getHeight(), 11, 11);
+            g2d.setPaint(p);
+            g2d.fillRect(1, 1, getWidth() - 1, getHeight());
+        }
     }
 }

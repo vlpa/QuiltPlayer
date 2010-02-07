@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -174,7 +175,7 @@ public class EditAlbumController implements EditAlbumListener {
             songFiles.add(new File(song.getPath()));
         }
 
-        List<Id3DataModel> list = id3Extractor.extractByAlbum(songFiles);
+        Collection<Id3DataModel> list = id3Extractor.extractId3Tags(songFiles);
 
         for (Id3DataModel tmp : list) {
             tmp.setArtistName(model.getArtistName());
@@ -185,7 +186,6 @@ public class EditAlbumController implements EditAlbumListener {
             id3Modifier.modifyId3Tags(list);
         }
         catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
     }

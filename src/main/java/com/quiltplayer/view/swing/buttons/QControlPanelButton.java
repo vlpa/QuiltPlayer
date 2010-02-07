@@ -5,16 +5,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Ellipse2D;
 
 import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
 
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
@@ -47,22 +44,21 @@ public class QControlPanelButton extends JButton {
 
         this.label = label;
 
-        setVerticalTextPosition(AbstractButton.BOTTOM);
-        setHorizontalTextPosition(AbstractButton.CENTER);
-        setVerticalAlignment(AbstractButton.CENTER);
-        setHorizontalAlignment(AbstractButton.CENTER);
-
         setDefaults();
     }
 
     private void setDefaults() {
+        // setOpaque(false);
+
+        setHorizontalTextPosition(AbstractButton.CENTER);
+        setHorizontalAlignment(AbstractButton.CENTER);
+
+        setVerticalTextPosition(AbstractButton.TOP);
+        setVerticalAlignment(AbstractButton.CENTER);
+
         setFocusable(false);
 
         setForeground(new Color(220, 220, 220));
-
-        setVerticalAlignment(SwingConstants.BOTTOM);
-
-        setHorizontalAlignment(SwingConstants.LEFT);
 
         setContentAreaFilled(false);
 
@@ -139,18 +135,6 @@ public class QControlPanelButton extends JButton {
         // No border should be painted.
     }
 
-    // Hit detection.
-    Shape shape;
-
-    public boolean contains(int x, int y) {
-        // If the button has changed size,
-        // make a new shape object.
-        if (shape == null || !shape.getBounds().equals(getBounds())) {
-            shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
-        }
-        return shape.contains(x, y);
-    }
-
     public void inactivate() {
         setText(" ");
         active = false;
@@ -161,9 +145,11 @@ public class QControlPanelButton extends JButton {
     }
 
     public void activate() {
+        setText(label);
         active = true;
 
-        PropertySetter setter = new PropertySetter(this, "alpha", highlightAlpha, defaultAlpha);
+        PropertySetter setter = new PropertySetter(this, "alpha", highlightAlpha,
+                highlightAlpha - 0.2f);
         animator = new Animator(1000, Animator.INFINITE, Animator.RepeatBehavior.REVERSE, setter);
         animator.start();
     }

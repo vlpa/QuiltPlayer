@@ -1,16 +1,14 @@
-package com.quiltplayer.core.scanner.impl;
+package com.quiltplayer.core.scanner.tasks;
 
 import java.io.File;
+import java.util.Collection;
 
+import javax.swing.SwingWorker;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import com.quiltplayer.core.scanner.Id3Scanner;
-import com.quiltplayer.core.scanner.ScanningEvent;
-import com.quiltplayer.core.scanner.ScanningEvent.Scanner;
-import com.quiltplayer.core.scanner.ScanningEvent.Status;
 import com.quiltplayer.core.storage.ArtistStorage;
 import com.quiltplayer.core.storage.Storage;
 import com.quiltplayer.internal.id3.Id3Extractor;
@@ -22,40 +20,54 @@ import com.quiltplayer.model.ArtistName;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;
 import com.quiltplayer.properties.Configuration;
-import com.quiltplayer.view.swing.listeners.ScanningListener;
 
-/**
- * Default implementation of Id3Scanner.
- * 
- * @author Vlado Palczynski
- */
-@Component
-public class DefaultId3Scanner implements Id3Scanner, Runnable {
-    /**
-     * The logger.
-     */
-    private static Logger log = Logger.getLogger(DefaultId3Scanner.class);
+public class FileScannerTask extends SwingWorker<Integer, Void> {
 
-    private Thread t;
-    /**
-     * The id3 extractor.
-     */
-    @Autowired
+    private static Logger log = Logger.getLogger(FileScannerTask.class);
+
     private Id3Extractor id3Extractor;
 
-    @Autowired
     private Storage storage;
 
-    @Autowired
     private ArtistStorage artistStorage;
 
-    /**
-     * The scanning listener.
+    private Collection<File> files;
+
+    public FileScannerTask(Id3Extractor id3Extractor, Storage storage, ArtistStorage artistStorage) {
+        this.id3Extractor = id3Extractor;
+        this.storage = storage;
+        this.artistStorage = artistStorage;
+
+        getLengthOfTask();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.SwingWorker#doInBackground()
      */
-    @Autowired
-    private ScanningListener listener;
+    @Override
+    protected Integer doInBackground() throws Exception {
+
+        id3Extractor.extractId3Tags(files, dataStorage);
+
+        return null;
+    }
 
     private DataStorage dataStorage = new DataStorage() {
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see com.quiltplayer.internal.id3.model.DataStorage#progress()
+         */
+        @Override
+        public void progress(int count) {
+            Double d = new Double(count);
+            double f = (d / files.size());
+            setProgress(((Double) (f * 100)).intValue());
+        }
+
         /*
          * (non-Javadoc)
          * 
@@ -115,65 +127,17 @@ public class DefaultId3Scanner implements Id3Scanner, Runnable {
                 song.setSpotifyId(null);
                 song.setType(Song.TYPE_FILE);
             }
-
         }
     };
 
-    /*
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run() {
-        log.debug("Id3 colection scanning thread started...");
+    @SuppressWarnings("unchecked")
+    public int getLengthOfTask() {
+        File root = new File(Configuration.getInstance().getMusicPath());
 
-        // Extract ID3-information from songs.
-        listener.scannerEvent(new ScanningEvent(Status.STARTED, Scanner.ID3));
+        Collection files = FileUtils.listFiles(root, new String[] { "mp3", "MP3" }, true);
 
-        id3Extractor.extractId3Tags(new File(Configuration.getInstance().getMusicPath()),
-                dataStorage);
+        this.files = files;
 
-        listener.scannerEvent(new ScanningEvent(Status.DONE, Scanner.ID3));
-
-        log.debug("Id3 colection scanning finished.");
-    }
-
-    /*
-     * @see org.coverrock.CollectionScanner#scanCollection()
-     */
-    @Override
-    public void scanCollection() {
-        t = new Thread(this);
-        t.start();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.quiltplayer.core.scanner.CollectionScanner#cancelScanCollection()
-     */
-    @SuppressWarnings("deprecation")
-    @Override
-    public void cancelScanCollection() {
-        t.stop();
-
-        listener.scannerEvent(new ScanningEvent(Status.DONE, Scanner.ID3));
-
-        log.debug("Id3 colection scanning stopped.");
-    }
-
-    /*
-     * @see org.coverrock.CollectionScanner#updateCollection()
-     */
-    @Override
-    public void updateCollection() {
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.quiltplayer.core.scanner.CollectionScanner#cancelUpdateCollection()
-     */
-    @Override
-    public void cancelUpdateCollection() {
+        return files.size();
     }
 }

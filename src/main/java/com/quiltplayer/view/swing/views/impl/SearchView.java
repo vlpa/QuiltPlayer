@@ -33,8 +33,8 @@ import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.listeners.SearchListener;
 import com.quiltplayer.view.swing.panels.QPanel;
+import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.textfields.QTextField;
-import com.quiltplayer.view.swing.views.AbstractView;
 import com.quiltplayer.view.swing.views.View;
 
 import de.felixbruns.jotify.media.Album;
@@ -48,11 +48,9 @@ import de.felixbruns.jotify.media.Result;
  * 
  */
 @org.springframework.stereotype.Component
-public class SearchView extends AbstractView implements Serializable, View {
+public class SearchView implements Serializable, View {
 
     private static final long serialVersionUID = 1L;
-
-    private static final int VERTICAL_UNIT_INCRENET = 110;
 
     public static final String EVENT_SEARCH = "search";
 
@@ -121,13 +119,13 @@ public class SearchView extends AbstractView implements Serializable, View {
             addArtists(panel);
             addAlbums(panel);
             addTracks(panel);
-
-            return getScrollPane(panel, VERTICAL_UNIT_INCRENET);
         }
+
+        QScrollPane pane = new QScrollPane(panel);
 
         searchField.requestFocus();
 
-        return panel;
+        return pane;
     }
 
     private void setupSearchField() {

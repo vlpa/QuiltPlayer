@@ -1,22 +1,18 @@
 package com.quiltplayer.view.swing.views.impl;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 import java.util.List;
 
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.cmc.shared.swing.FlowWrapLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.controller.ChangeAlbumController;
@@ -24,10 +20,9 @@ import com.quiltplayer.core.storage.ArtistStorage;
 import com.quiltplayer.core.storage.Storage;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
-import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.panels.AlbumLabel;
-import com.quiltplayer.view.swing.views.AbstractView;
+import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.views.ListView;
 
 /**
@@ -36,11 +31,9 @@ import com.quiltplayer.view.swing.views.ListView;
  * @author Vlado Palczynski
  */
 @org.springframework.stereotype.Component
-public class QuiltView extends AbstractView implements ListView<Album> {
+public class QuiltView implements ListView<Album> {
 
     private static final long serialVersionUID = 1L;
-
-    private static final int VERTICAL_UNIT_INCRENET = ImageSizes.SMALL.getSize() + 4;
 
     @Autowired
     private ChangeAlbumListener changeAlbumListener;
@@ -79,41 +72,15 @@ public class QuiltView extends AbstractView implements ListView<Album> {
      */
     @Override
     public Component getUI() {
-        panel = new JPanel(new FlowWrapLayout(10, 10, 10, 10)) {
+        panel = new JPanel(new MigLayout("insets 20, wrap 5, flowy, novisualpadding"));
 
-            private static final long serialVersionUID = -8314219595057537932L;
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see javax.swing.JComponent#paint(java.awt.Graphics)
-             */
-            @Override
-            public void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g;
-
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
-
-                int w = getWidth();
-                int h = getHeight();
-
-                Color color1 = getBackground();
-                Color color2 = Color.white;
-
-                // Paint a gradient from top to bottom
-                GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
-
-                g2d.setPaint(gp);
-                g2d.fillRect(0, 0, w, h);
-
-                super.paintComponent(g);
-            }
-        };
+        final QScrollPane pane = new QScrollPane(panel);
 
         MouseListener l = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
                 if (panel.contains(e.getX(), e.getY())) {
                     AlbumLabel albumPane = (AlbumLabel) e.getSource();
 
@@ -123,21 +90,44 @@ public class QuiltView extends AbstractView implements ListView<Album> {
                             ChangeAlbumController.EVENT_CHANGE_ALBUM));
                 }
             }
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mousePressed(MouseEvent e) {
+                pane.mousePressed(e);
+            }
+        };
+
+        MouseMotionListener ml = new MouseMotionAdapter() {
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseMotionAdapter#mouseDragged(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                System.out.println(e.getX());
+                pane.mouseDragged(e);
+            }
         };
 
         for (Album album : storage.getAlbums(artistStorage.getArtists())) {
             if (album.getFrontImage() != null) {
-                AlbumLabel p = new AlbumLabel(album, glassPane);
+                AlbumLabel p = new AlbumLabel(album);
                 p.addMouseListener(l);
+                p.addMouseMotionListener(ml);
+                p.setAutoscrolls(true);
 
                 panel.add(p, "h " + ImageSizes.SMALL.getSize() + "px!");
             }
         }
 
-        final JPanel wrapper = new JPanel(new MigLayout("insets 0, fillx"));
-        wrapper.add(panel, "w 90%, alignx right, aligny center");
-
-        return getScrollPane(wrapper, VERTICAL_UNIT_INCRENET);
+        return pane;
     }
 
     public Album getSelectedAlbum() {

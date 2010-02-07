@@ -12,8 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.cmc.shared.swing.FlowWrapLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,14 +21,13 @@ import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.jotify.JotifyAlbum;
-import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.panels.AlbumView;
+import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.panels.SpotifySquaredAlbumPanel;
 import com.quiltplayer.view.swing.panels.SquaredAlbumPanel;
-import com.quiltplayer.view.swing.views.AbstractView;
 import com.quiltplayer.view.swing.views.ListView;
 
 /**
@@ -39,7 +36,7 @@ import com.quiltplayer.view.swing.views.ListView;
  * @author Vlado Palczynski
  */
 @org.springframework.stereotype.Component
-public class DefaultAlbumView extends AbstractView implements Serializable, ListView<Album> {
+public class DefaultAlbumView implements Serializable, ListView<Album> {
 
     private static final long serialVersionUID = 1L;
 
@@ -128,7 +125,7 @@ public class DefaultAlbumView extends AbstractView implements Serializable, List
 
         }
 
-        return getScrollPane(panel, VERTICAL_UNIT_INCRENET);
+        return new QScrollPane(panel);
     }
 
     /*

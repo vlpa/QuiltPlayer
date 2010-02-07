@@ -3,15 +3,12 @@ package com.quiltplayer.model.impl;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-
 import com.quiltplayer.external.covers.model.LocalImage;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.SongCollection;
 import com.quiltplayer.model.StringId;
-import com.quiltplayer.properties.ImageProperties;
 
 /**
  * Model class representing an album without data, will point to default picture and text.

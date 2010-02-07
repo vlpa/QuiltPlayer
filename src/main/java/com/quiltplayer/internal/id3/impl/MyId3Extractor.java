@@ -1,8 +1,6 @@
 package com.quiltplayer.internal.id3.impl;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,39 +24,39 @@ import com.quiltplayer.internal.id3.model.Id3DataModel;
 @Component
 public class MyId3Extractor implements Id3Extractor {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.quiltplayer.id3utils.Id3Extractor#extractFile(java.io.File)
-     */
-    public Id3DataModel extractFile(File file) {
-        if (file.isDirectory())
-            throw new IllegalArgumentException("File cannot be directory");
-
-        return extract(file);
-    }
+    private DataStorage storage;
 
     /*
      * (non-Javadoc)
      * 
      * @see com.quiltplayer.id3utils.Id3Extractor#extractFile(java.io.File)
      */
-    public Id3DataModel extractFile(File file, DataStorage storage) {
+    public void extractId3Tags(Collection<File> files, DataStorage storage) {
         this.storage = storage;
 
-        return extract(file);
+        int i = 0;
+
+        for (File file : files) {
+            extract(file);
+            storage.progress(++i);
+        }
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.quiltplayer.id3utils.Id3Extractor#getFiles(java.io.File)
+     * @see com.quiltplayer.id3utils.Id3Extractor#extractByAlbum(java.util.List)
      */
-    public File[] getFiles(File path) {
-        return findFiles(path);
-    }
+    public Collection<Id3DataModel> extractId3Tags(Collection<File> files) {
 
-    private DataStorage storage;
+        List<Id3DataModel> l = new ArrayList<Id3DataModel>();
+
+        for (File file : files) {
+            extract(file);
+        }
+
+        return l;
+    }
 
     /**
      * Storage for unsuccessful entries.
@@ -75,113 +73,12 @@ public class MyId3Extractor implements Id3Extractor {
      */
     private MyID3 myID3 = new MyID3();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.quiltplayer.core.extractor.id3.Id3Extractor#extractId3Tags()
-     */
-    public final List<Id3DataModel> extractId3Tags(File path) {
-        List<Id3DataModel> l = new ArrayList<Id3DataModel>();
-
-        File[] files = findFiles(path);
-
-        for (File file : files) {
-            l.add(extract(file));
-        }
-
-        return l;
-    }
-
-    private File[] findFiles(File root) {
-        FileFilter filter = new FileFilter() {
-            public boolean accept(File f) {
-                return f.isFile()
-                        && (f.getName().toLowerCase().endsWith(".mp3") || f.getName().toLowerCase()
-                                .endsWith(".ogg"));
-            }
-        };
-
-        Collection<File> files = listFiles(root, filter);
-
-        File[] arr = new File[files.size()];
-        return files.toArray(arr);
-
-    }
-
-    private Collection<File> listFiles(File directory, FileFilter filter) {
-        // List of files / directories
-        List<File> files = new ArrayList<File>();
-
-        // Get files / directories in the directory
-        File[] entries = directory.listFiles();
-
-        // Go over entries
-        if (entries != null) {
-            for (File entry : entries) {
-                if (filter.accept(entry))
-                    files.add(entry);
-
-                if (entry.isDirectory())
-                    files.addAll(listFiles(entry, filter));
-            }
-        }
-
-        return files;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.quiltplayer.id3utils.Id3Extractor#extractId3Tags(java.io.File,
-     * com.quiltplayer.id3utils.model.DataStorage)
-     */
-    public void extractId3Tags(File path, DataStorage storage) {
-
-        this.storage = storage;
-
-        List<Id3DataModel> l = new ArrayList<Id3DataModel>();
-        traverse(path, l);
-    }
-
-    private final void traverse(final File f, final List<Id3DataModel> l) {
-        if (f.isDirectory()) {
-            onDirectory(f);
-
-            final File[] childs = f.listFiles();
-            for (File child : childs) {
-                traverse(child, l);
-            }
-            return;
-        }
-        onFile(f, l);
-    }
-
-    /**
-     * @param directory
-     *            the directory to set.
-     */
-    private void onDirectory(final File directory) {
-        // Could be used for information gathering and publishing
-        log.debug("Scanning directory: " + directory.getName());
-    }
-
-    /**
-     * @param file
-     *            the file to extract.
-     */
-    private void onFile(final File file, List<Id3DataModel> l) {
-        // Could also be used for information gathering and publishing
-        if (file.getName().toLowerCase().endsWith(".mp3")) {
-            l.add(extract(file));
-        }
-    }
-
     /**
      * @param file
      *            the file to extract from.
      * @return Id3DataModel
      */
-    private Id3DataModel extract(final File file) {
+    private void extract(final File file) {
         String albumTitle = null;
         String artistName = null;
         String songTitle = null;
@@ -193,7 +90,7 @@ public class MyId3Extractor implements Id3Extractor {
 
             // perhaps no metadata
             if (srcSet == null) {
-                return null;
+                return;
             }
 
             IMusicMetadata metadata = srcSet.getSimplified();
@@ -227,40 +124,10 @@ public class MyId3Extractor implements Id3Extractor {
             if (storage != null) {
                 storage.store(model);
             }
-
-            return model;
-
-        }
-        catch (IOException e) {
-            /*
-             * Could be strange chars in the filepath. Could be published in the application.
-             */
-            unsuccessfull.add(file);
-            log.error(e.getMessage());
-
-            return null;
         }
         catch (Exception e) {
             unsuccessfull.add(file);
             log.error(e.getMessage());
-
-            return null;
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.quiltplayer.id3utils.Id3Extractor#extractByAlbum(java.util.List)
-     */
-    public List<Id3DataModel> extractByAlbum(List<File> files) {
-
-        List<Id3DataModel> l = new ArrayList<Id3DataModel>();
-
-        for (File file : files) {
-            l.add(extract(file));
-        }
-
-        return l;
     }
 }

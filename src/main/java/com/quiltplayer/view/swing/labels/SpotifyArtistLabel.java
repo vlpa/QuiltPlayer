@@ -18,7 +18,7 @@ public class SpotifyArtistLabel extends ArtistLabel
 {
 	private static final long serialVersionUID = 1L;
 
-	public SpotifyArtistLabel(Artist artist)
+    public SpotifyArtistLabel(Artist artist)
 	{
 		super(artist);
 	}

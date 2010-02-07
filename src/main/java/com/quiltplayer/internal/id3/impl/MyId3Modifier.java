@@ -2,7 +2,7 @@ package com.quiltplayer.internal.id3.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 import org.cmc.music.metadata.IMusicMetadata;
 import org.cmc.music.metadata.MusicMetadata;
@@ -30,7 +30,7 @@ public class MyId3Modifier implements Id3Modifier {
      * 
      * @see com.quiltplayer.id3utils.Id3Modifier#modifyId3Tags(java.util.List)
      */
-    public void modifyId3Tags(final List<Id3DataModel> models) throws IOException {
+    public void modifyId3Tags(final Collection<Id3DataModel> models) throws IOException {
 
         for (Id3DataModel model : models) {
             try {
@@ -38,8 +38,8 @@ public class MyId3Modifier implements Id3Modifier {
 
                 MusicMetadataSet src_set = myID3.read(src);
 
-                if (src_set != null) // perhaps no metadata
-                {
+                /* perhaps no metadata */
+                if (src_set != null) {
                     IMusicMetadata metadata = src_set.getSimplified();
 
                     metadata.setArtist(model.getArtistName());
