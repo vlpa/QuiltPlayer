@@ -1,11 +1,11 @@
 package com.quiltplayer;
 
-import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.quiltplayer.view.swing.theme.QMetalTheme;
+import com.quiltplayer.view.swing.theme.QUiProperties;
 
 /**
  * Main class.
@@ -26,7 +26,9 @@ public class QuiltPlayer {
         /*
          * Initialize look and feel.
          */
-        MetalLookAndFeel.setCurrentTheme(new QMetalTheme());
+
+        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        QUiProperties.setProperties();
 
         /*
          * Initialize log4j

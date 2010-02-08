@@ -3,14 +3,11 @@ package com.quiltplayer.view.swing.panels;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.LinearGradientPaint;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
-import java.io.IOException;
 
 import javax.annotation.PostConstruct;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -18,20 +15,16 @@ import javax.swing.SwingConstants;
 import net.miginfocom.swing.MigLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.controller.ControlPanelController;
-import com.quiltplayer.controller.PlayerController;
-import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.utils.ClassPathUtils;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
-import com.quiltplayer.view.swing.buttons.QTextButton;
 import com.quiltplayer.view.swing.handlers.ExitHandler;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
-import com.quiltplayer.view.swing.util.SizeHelper;
+import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
 
 /**
  * GUI for the control panel.
@@ -64,9 +57,6 @@ public class ControlPanel extends JPanel {
     @Autowired
     private ControlPanelListener listener;
 
-    @Autowired
-    private PlayerListener playerListener;
-
     public enum Tab {
         NONE, QUILT, ARTISTS, CONFIGURATION, SEARCH
     };
@@ -81,9 +71,12 @@ public class ControlPanel extends JPanel {
 
     private QControlPanelButton keyboardTab;
 
-    private QControlPanelButton albumViewButton;
+    public QControlPanelButton albumViewButton;
 
     private JButton exitButton;
+
+    @Autowired
+    private PlayerControlPanel playerControlPanel;
 
     @PostConstruct
     public void init() {
@@ -97,9 +90,9 @@ public class ControlPanel extends JPanel {
 
         setupAlfabeticArtistsButton();
 
-        setupSearchTab();
+        setupSearchButton();
 
-        setupConfigurationTab();
+        setupConfigurationButton();
 
         // addAboutButton();
 
@@ -109,15 +102,7 @@ public class ControlPanel extends JPanel {
 
         setupAlbumViewButton();
 
-        // addIncreaseVolumeButton();
-
-        // addDecreaseVolumeButton();
-
         final String s = "h 100%, w 3cm";
-
-        final JPanel albumButtons = new JPanel(new MigLayout("insets 0"));
-        albumButtons.setOpaque(false);
-        albumButtons.add(albumViewButton, s);
 
         final JPanel applicationButtons = new JPanel(new MigLayout("insets 0, alignx center"));
         applicationButtons.setOpaque(false);
@@ -128,37 +113,39 @@ public class ControlPanel extends JPanel {
         applicationButtons.add(keyboardTab, s);
         applicationButtons.add(exitButton, s);
 
-        add(albumButtons, "w " + ImageSizes.LARGE.getSize() + "px, dock west");
-        add(applicationButtons, "w 100% - " + ImageSizes.LARGE.getSize() + "px");
+        playerControlPanel.add(albumViewButton, "cell 0 0");
+
+        add(playerControlPanel, "w " + ImageSizes.LARGE.getSize() + "px, dock west, gapx 10 50");
+        add(applicationButtons, "w 100% - " + ImageSizes.LARGE.getSize() + "px, gapx 100 100");
     }
 
     private void setupQuiltCollectionButton() {
-        quiltTab = new QControlPanelButton("Quilt", getIconFromClasspath("black/small-tiles.png"),
-                SwingConstants.TOP);
+        quiltTab = new QControlPanelButton("Quilt", ClassPathUtils
+                .getIconFromClasspath("black/small-tiles.png"), SwingConstants.TOP);
 
         quiltTab.addActionListener(listener);
         quiltTab.setActionCommand(EVENT_ALBUM_QUILT);
     }
 
     private void setupAlfabeticArtistsButton() {
-        artistsTab = new QControlPanelButton("Artists",
-                getIconFromClasspath("black/large-tiles.png"), SwingConstants.TOP);
+        artistsTab = new QControlPanelButton("Artists", ClassPathUtils
+                .getIconFromClasspath("black/large-tiles.png"), SwingConstants.TOP);
 
         artistsTab.addActionListener(listener);
         artistsTab.setActionCommand(EVENT_VIEW_ARTIST);
     }
 
     private void setupAlbumViewButton() {
-        albumViewButton = new QControlPanelButton("Album view",
-                getIconFromClasspath("white/Media-Player.png"), SwingConstants.TOP);
+        albumViewButton = new QControlPanelButton("Album view", ClassPathUtils
+                .getIconFromClasspath("white/AlbumView.png"), SwingConstants.TOP);
         albumViewButton.addActionListener(listener);
         albumViewButton.setActionCommand(ControlPanelController.EVENT_TOGGLE_ALBUM_VIEW);
         albumViewButton.activate();
     }
 
-    private void setupSearchTab() {
-        searchTab = new QControlPanelButton("Spotify", getIconFromClasspath("white/Search.png"),
-                SwingConstants.TOP);
+    private void setupSearchButton() {
+        searchTab = new QControlPanelButton("Spotify", ClassPathUtils
+                .getIconFromClasspath("white/Search.png"), SwingConstants.TOP);
 
         searchTab.addActionListener(listener);
         searchTab.setActionCommand(EVENT_VIEW_SEARCH);
@@ -167,9 +154,9 @@ public class ControlPanel extends JPanel {
             enableSearchTab(false);
     }
 
-    private void setupConfigurationTab() {
-        configTab = new QControlPanelButton("Config", getIconFromClasspath("white/Settings.png"),
-                SwingConstants.TOP);
+    private void setupConfigurationButton() {
+        configTab = new QControlPanelButton("Config", ClassPathUtils
+                .getIconFromClasspath("white/Settings.png"), SwingConstants.TOP);
 
         configTab.addActionListener(listener);
         configTab.setActionCommand(EVENT_VIEW_CONFIGURATION);
@@ -177,55 +164,16 @@ public class ControlPanel extends JPanel {
 
     private void setupKeyboardTab() {
 
-        keyboardTab = new QControlPanelButton("Keys", getIconFromClasspath("white/Settings.png"),
-                SwingConstants.TOP);
+        keyboardTab = new QControlPanelButton("Keys", ClassPathUtils
+                .getIconFromClasspath("white/Settings.png"), SwingConstants.TOP);
         keyboardTab.addActionListener(listener);
         keyboardTab.setActionCommand(ControlPanelController.EVENT_VIEW_KEYBOARD);
     }
 
-    private void addDecreaseVolumeButton() {
-        JButton decreaseButton = new QTextButton(")");
-        decreaseButton.addActionListener(playerListener);
-        decreaseButton.setActionCommand(PlayerController.EVENT_DECREASE_GAIN);
-        decreaseButton.setToolTipText("Decrease volume");
-        decreaseButton.setBorderPainted(false);
-        decreaseButton.setOpaque(false);
-
-        add(decreaseButton, "dock east, gapx 5, gapafter 2");
-    }
-
-    private void addIncreaseVolumeButton() {
-        JButton decreaseButton = new QTextButton(")))");
-        decreaseButton.addActionListener(playerListener);
-        decreaseButton.setActionCommand(PlayerController.EVENT_INCREASE_GAIN);
-        decreaseButton.setToolTipText("Increase volume");
-        decreaseButton.setBorderPainted(false);
-        decreaseButton.setOpaque(false);
-
-        add(decreaseButton, "dock east, gapx 2, gapafter 30, shrinkprio 1");
-    }
-
     private void setupExitButton() {
-        exitButton = new QControlPanelButton("End", getIconFromClasspath("white/Power.png"),
-                SwingConstants.TOP);
+        exitButton = new QControlPanelButton("End", ClassPathUtils
+                .getIconFromClasspath("white/Power.png"), SwingConstants.TOP);
         exitButton.addActionListener(new ExitHandler());
-    }
-
-    private ImageIcon getIconFromClasspath(final String classPathName) {
-        Resource gearImage = new ClassPathResource(classPathName);
-        ImageIcon icon = null;
-        try {
-            icon = new ImageIcon(gearImage.getURL());
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Image img = icon.getImage();
-        img = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
-                .getControlPanelIconSize(), java.awt.Image.SCALE_SMOOTH);
-        icon = new ImageIcon(img);
-        return icon;
     }
 
     public void updateTab(Tab tab) {
@@ -261,12 +209,6 @@ public class ControlPanel extends JPanel {
      */
     @Override
     protected void paintBorder(Graphics g) {
-        // g.setColor(new Color(25, 25, 25));
-        // g.drawLine(0, getHeight() - 3, getWidth(), getHeight() - 3);
-        // g.setColor(new Color(20, 20, 20));
-        // g.drawLine(0, getHeight() - 2, getWidth(), getHeight() - 2);
-        // g.setColor(new Color(15, 15, 15));
-        // g.drawLine(0, getHeight() - 1, getWidth(), getHeight() - 1);
     }
 
     public void enableSearchTab(boolean b) {
@@ -274,6 +216,10 @@ public class ControlPanel extends JPanel {
             searchTab.setEnabled(true);
         else
             searchTab.setEnabled(false);
+    }
+
+    public PlayerControlPanel getPlayerControlPanel() {
+        return playerControlPanel;
     }
 
     @Override

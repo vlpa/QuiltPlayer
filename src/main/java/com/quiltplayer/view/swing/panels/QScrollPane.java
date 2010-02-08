@@ -150,7 +150,6 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("!PRESSED!");
         pressedXPosition = e.getX();
         pressedYPosition = e.getY();
 

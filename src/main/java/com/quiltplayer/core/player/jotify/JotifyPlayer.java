@@ -59,18 +59,19 @@ public class JotifyPlayer implements Player, PlaybackListener {
     @Override
     public void pause() {
         if (!isPaused) {
+
             jotifyRepository.getInstance().pause();
 
-            // actionListener.actionPerformed(new ActionEvent(currentSong, 0,
-            // PlayerController.EVENT_PAUSE_SONG));
+            playerListener.actionPerformed(new ActionEvent("", 0, EVENT_PAUSED_SONG));
 
             isPaused = true;
         }
         else {
             jotifyRepository.getInstance().play();
 
-            // actionListener.actionPerformed(new ActionEvent(currentSong, 0,
-            // PlayerController.EVENT_RESUME_SONG));
+            playerListener.actionPerformed(new ActionEvent("", 0, EVENT_RESUMED_SONG));
+
+            isPaused = false;
         }
     }
 
@@ -106,6 +107,8 @@ public class JotifyPlayer implements Player, PlaybackListener {
         log.debug("Stopping play...");
 
         jotifyRepository.getInstance().stop();
+
+        playerListener.actionPerformed(new ActionEvent("", 0, EVENT_STOPPED_SONG));
     }
 
     /*

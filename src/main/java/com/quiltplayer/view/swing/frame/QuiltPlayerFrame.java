@@ -84,9 +84,6 @@ public class QuiltPlayerFrame extends JFrame {
     private boolean b = true;
 
     public QuiltPlayerFrame() {
-
-        setBackground(Configuration.getInstance().getColorConstants().getBackground());
-
         float swingDPI = Toolkit.getDefaultToolkit().getScreenResolution();
         float migDPI = PlatformDefaults.getDefaultDPI();
 
@@ -154,6 +151,7 @@ public class QuiltPlayerFrame extends JFrame {
         // debugUI);
 
         getContentPane().add(controlPanel, "cell 0 0, dock north, h 1.5cm!");
+        controlPanel.getPlayerControlPanel().setStopped();
 
         addAlbumView();
 
@@ -231,7 +229,7 @@ public class QuiltPlayerFrame extends JFrame {
             controlPanel.updateTab(null);
         }
 
-        getContentPane().add(ui, "cell 2 0, w 100%, h 100%");
+        getContentPane().add(ui, "cell 2 0, w 100%, h 100%, gapx 20 20, gapy 20 20");
 
         SwingUtilities.updateComponentTreeUI(this);
     }
@@ -267,10 +265,12 @@ public class QuiltPlayerFrame extends JFrame {
     public void toggleAlbumView() {
         if (b) {
             remove(playlistPanel);
+            controlPanel.albumViewButton.inactivate();
             b = false;
         }
         else {
             addAlbumView();
+            controlPanel.albumViewButton.activate();
             b = true;
         }
 

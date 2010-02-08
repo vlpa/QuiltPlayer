@@ -38,8 +38,7 @@ public class ArtistLabel extends JLabel {
         setText(artist.getArtistName().getName());
 
         setHorizontalTextPosition(LEFT);
-        setForeground(Configuration.getInstance().getColorConstants()
-                .getArtistViewTextColor());
+        setForeground(Configuration.getInstance().getColorConstants().getArtistViewTextColor());
 
         this.addMouseListener(mouseListener);
     }
@@ -47,8 +46,7 @@ public class ArtistLabel extends JLabel {
     protected transient MouseListener mouseListener = new MouseAdapter() {
 
         /*
-         * @see
-         * java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
+         * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
          */
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -58,8 +56,7 @@ public class ArtistLabel extends JLabel {
         /*
          * (non-Javadoc)
          * 
-         * @see
-         * java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
+         * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
          */
         @Override
         public void mouseExited(MouseEvent e) {
@@ -67,13 +64,11 @@ public class ArtistLabel extends JLabel {
         }
 
         /*
-         * @see
-         * java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+         * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
          */
         @Override
         public void mouseClicked(MouseEvent e) {
-            listener.actionPerformed(new ActionEvent(artist, 0,
-                    ACTION_GET_ARTIST_ALBUMS));
+            listener.actionPerformed(new ActionEvent(artist, 0, ACTION_GET_ARTIST_ALBUMS));
         }
 
     };
@@ -81,8 +76,7 @@ public class ArtistLabel extends JLabel {
     public void setSelected() {
         HighlightColorUtils.setSelected(this);
 
-        setBackground(Configuration.getInstance().getColorConstants()
-                .getBackground());
+        setBackground(Configuration.getInstance().getColorConstants().getBackground());
     }
 
     public void setInactive() {
@@ -102,8 +96,7 @@ public class ArtistLabel extends JLabel {
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         super.paint(g);
     }

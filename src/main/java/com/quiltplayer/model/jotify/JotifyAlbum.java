@@ -60,7 +60,6 @@ public class JotifyAlbum implements Album {
         List<Song> songs = new ArrayList<Song>();
 
         if (spotifyAlbum.getTracks().isEmpty()) {
-            System.out.println(jotifyRepository);
             spotifyAlbum = jotifyRepository.getInstance().browse(spotifyAlbum);
         }
 

@@ -72,7 +72,6 @@ public class PlayerFactory implements Player {
     @Override
     public void pause() {
         currentPlayer.pause();
-
     }
 
     /*

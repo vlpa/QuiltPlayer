@@ -126,9 +126,6 @@ public class WebServiceArtist extends CommonWebserviceMethods {
 
                 return null;
             }
-
-            System.out.println(resp.getRequests());
-
         }
         finally {
             if (stream != null)

@@ -304,8 +304,6 @@ public class WebServiceAlbum extends CommonWebserviceMethods {
     private List<String> getReleasesMatchingAlbum(final String albumTitle, final Resp resp) {
         List<String> albumId = new ArrayList<String>();
         for (ArtistRelease release : resp.getArtist().getReleases()) {
-            System.out.println(release.getTitle());
-            System.out.println(albumTitle);
             if (release.getTitle().equalsIgnoreCase(albumTitle)) {
                 albumId.add(release.getId());
             }

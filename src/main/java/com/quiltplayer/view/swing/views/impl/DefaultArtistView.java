@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.cmc.shared.swing.FlowWrapLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -66,9 +64,6 @@ public class DefaultArtistView implements ArtistView {
             }
         }
 
-        final JPanel wrapper = new JPanel(new MigLayout("insets 0, fill"));
-        wrapper.add(panel, "w 90%, h 100%, alignx right, aligny center");
-
-        return new QScrollPane(wrapper);
+        return new QScrollPane(panel);
     }
 }

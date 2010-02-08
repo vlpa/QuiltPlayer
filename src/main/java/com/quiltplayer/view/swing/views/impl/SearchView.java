@@ -98,6 +98,7 @@ public class SearchView implements Serializable, View {
      */
     @Override
     public Component getUI() {
+
         panel = new QPanel();
         panel.setOpaque(true);
         panel.addFocusListener(focusListener);
@@ -169,7 +170,7 @@ public class SearchView implements Serializable, View {
             }
         }
 
-        panel.add(artists, "wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
+        panel.add(artists, "top, wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
     }
 
     private void setupAlbums(JPanel panel) {
@@ -187,7 +188,7 @@ public class SearchView implements Serializable, View {
             }
         }
 
-        panel.add(albums, "wmin 10%, w 30%, wmax 30%, alignx center");
+        panel.add(albums, "top, wmin 10%, w 30%, wmax 30%, alignx center");
     }
 
     private void addTracks(JPanel panel) {
@@ -206,7 +207,7 @@ public class SearchView implements Serializable, View {
             }
         }
 
-        panel.add(tracks, "wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
+        panel.add(tracks, "top, wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
     }
 
     private JLabel addHeader(String title) {

@@ -103,8 +103,7 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
 
                 controller.resume();
 
-                playerListener.actionPerformed(new ActionEvent(song, 0,
-                        PlayerController.EVENT_RESUME_SONG));
+                playerListener.actionPerformed(new ActionEvent("", 0, EVENT_RESUMED_SONG));
             }
 
             setVolume();
@@ -140,16 +139,12 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
             if (player.getStatus() == BasicPlayer.PLAYING) {
                 controller.pause();
 
-                // actionListener.actionPerformed(new ActionEvent(currentSong,
-                // 0,
-                // PlayerController.EVENT_PAUSE_SONG));
+                playerListener.actionPerformed(new ActionEvent("", 0, EVENT_PAUSED_SONG));
             }
             else if (player.getStatus() == BasicPlayer.PAUSED) {
                 controller.resume();
 
-                // actionListener.actionPerformed(new ActionEvent(currentSong,
-                // 0,
-                // PlayerController.EVENT_RESUME_SONG));
+                playerListener.actionPerformed(new ActionEvent("", 0, EVENT_RESUMED_SONG));
             }
         }
         catch (BasicPlayerException ex) {

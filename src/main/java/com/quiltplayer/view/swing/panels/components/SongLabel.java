@@ -123,7 +123,7 @@ public class SongLabel extends JPanel {
             }
             else if (titleButton.isSelected()) {
                 actionListener.actionPerformed(new ActionEvent(getSong(), 0,
-                        PlayerController.EVENT_RESUME_SONG));
+                        PlayerController.EVENT_PLAY_SONG));
             }
             else {
                 actionListener.actionPerformed(new ActionEvent(getSong(), 0,
