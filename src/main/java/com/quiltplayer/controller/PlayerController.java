@@ -102,7 +102,9 @@ public class PlayerController implements PlayerListener {
             SwingUtilities.invokeLater(invoker);
         }
         else if (Player.EVENT_STOPPED_SONG == cmd) {
-            playlistPanel.getCurrentSongLabel().setInactive();
+            if (playlistPanel.getCurrentSongLabel() != null)
+                playlistPanel.getCurrentSongLabel().setInactive();
+
             controlPanel.getPlayerControlPanel().setStopped();
         }
         else if (Player.EVENT_PAUSED_SONG == cmd) {

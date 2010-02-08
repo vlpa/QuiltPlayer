@@ -7,6 +7,5 @@ import java.awt.event.ActionListener;
  * @author Vlado Palczynski
  * 
  */
-public interface ArtistListener extends ActionListener
-{
+public interface ArtistListener extends ActionListener {
 }

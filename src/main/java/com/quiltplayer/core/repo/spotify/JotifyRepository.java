@@ -17,11 +17,11 @@ import de.felixbruns.jotify.exceptions.ConnectionException;
 @Repository
 public class JotifyRepository {
 
-    private JotifyPool jotifyPool;
+    private JotifyPool jotifyPool = new JotifyPool(5);
 
     private boolean loggedIn;
 
-    public Jotify getInstance() {
+    public synchronized Jotify getInstance() {
         jotifyPool = JotifyPool.getInstance();
 
         if (!loggedIn) {
@@ -39,6 +39,6 @@ public class JotifyRepository {
             loggedIn = true;
         }
 
-        return JotifyPool.getInstance();
+        return jotifyPool;
     }
 }

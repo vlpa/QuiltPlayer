@@ -26,6 +26,8 @@ public class SpotifySquaredAlbumPanel extends SquaredAlbumPanel {
 
     public Icon icon;
 
+    public Icon icon2;
+
     public JTextArea titleLabel;
 
     public JLabel artistLabel;
@@ -34,14 +36,14 @@ public class SpotifySquaredAlbumPanel extends SquaredAlbumPanel {
 
     private JLabel iconLabel;
 
-    private Thread invoker;
-
     private JotifyRepository jotifyRepository;
 
     public SpotifySquaredAlbumPanel(final Album album, JotifyRepository jotifyRepository) {
         super(album);
 
         this.jotifyRepository = jotifyRepository;
+
+        invoker.start();
     }
 
     @Override
@@ -51,29 +53,33 @@ public class SpotifySquaredAlbumPanel extends SquaredAlbumPanel {
 
         add(iconLabel, "cell 0 0, aligny center");
 
-        /*
-         * Update the time counter
-         */
-        invoker = new Thread() {
-            public void run() {
-                try {
+        return iconLabel;
+    }
+
+    private Thread invoker = new Thread() {
+        public void run() {
+            try {
+                if (((JotifyAlbum) album).getSpotifyAlbum().getCover() != null) {
+
                     final Image image = jotifyRepository.getInstance().image(
                             ((JotifyAlbum) album).getSpotifyAlbum().getCover());
 
-                    icon = new ImageIcon(ImageUtils
-                            .scalePicture(image, ImageSizes.MEDIUM.getSize()));
+                    icon2 = new ImageIcon(ImageUtils.scalePicture(image, ImageSizes.MEDIUM
+                            .getSize()));
 
-                    iconLabel.setIcon(icon);
+                    iconLabel.setIcon(icon2);
+
+                    fetched = true;
 
                     repaint();
-                }
-                catch (Exception e) {
+                    updateUI();
                 }
             }
-        };
-
-        return iconLabel;
-    }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     /*
      * (non-Javadoc)
@@ -82,13 +88,11 @@ public class SpotifySquaredAlbumPanel extends SquaredAlbumPanel {
      */
     @Override
     public void paintComponent(Graphics g) {
-
-        if (!fetched) {
-            SwingUtilities.invokeLater(invoker);
-            fetched = true;
+        if (fetched) {
+            fetched = false;
+            SwingUtilities.updateComponentTreeUI(this);
         }
 
         super.paintComponent(g);
-
     }
 }

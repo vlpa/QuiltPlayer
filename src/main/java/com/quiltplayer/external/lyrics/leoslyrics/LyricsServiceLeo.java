@@ -36,14 +36,17 @@ public class LyricsServiceLeo implements LyricsService {
     @Autowired
     private LyricsListener lyricsListener;
 
+    private String artistName;
+
+    private String title;
+
     /*
      * (non-Javadoc)
      * 
-     * @see com.quiltplayer.external.lyrics.LyricsService#getLyrics(java.lang.String,
-     * java.lang.String)
+     * @see java.lang.Runnable#run()
      */
     @Override
-    public void getLyrics(String artistName, String title) {
+    public void run() {
         try {
             String hid = parseHidValue(artistName, title);
 
@@ -52,11 +55,43 @@ public class LyricsServiceLeo implements LyricsService {
                 parseLyrics(hid, l);
 
                 lyricsListener.lyricsEvent(new LyricsEvent(Status.FOUND, l.getLyrics()));
+
+                return;
+            }
+
+            if (title.contains("(")) {
+                title = title.substring(0, title.indexOf('('));
+
+                hid = parseHidValue(artistName, title.trim());
+
+                if (hid != null) {
+                    final Lyrics l = new LyricsImpl();
+                    parseLyrics(hid, l);
+
+                    lyricsListener.lyricsEvent(new LyricsEvent(Status.FOUND, l.getLyrics()));
+                }
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.quiltplayer.external.lyrics.LyricsService#getLyrics(java.lang.String,
+     * java.lang.String)
+     */
+    @Override
+    public void getLyrics(String artistName, String title) {
+        this.artistName = artistName;
+
+        this.title = title;
+
+        Thread t = new Thread(this);
+        t.start();
+
     }
 
     private void parseLyrics(String hid, Lyrics l) throws MalformedURLException,

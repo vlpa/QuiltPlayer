@@ -5,7 +5,7 @@ package com.quiltplayer.external.lyrics;
  * 
  * @author Vlado Palczynski
  */
-public interface LyricsService {
+public interface LyricsService extends Runnable {
 
     /**
      * Get lyrics.

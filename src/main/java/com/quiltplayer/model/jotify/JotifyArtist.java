@@ -110,7 +110,8 @@ public class JotifyArtist implements Artist {
             spotifyArtist = jotifyRepository.getInstance().browse(spotifyArtist);
 
             for (de.felixbruns.jotify.media.Album album : spotifyArtist.getAlbums()) {
-                albums.add(SpotifyObjectFactory.getAlbum(album));
+                if (album.getArtist().getName().equalsIgnoreCase(name.getName()))
+                    albums.add(SpotifyObjectFactory.getAlbum(album));
             }
 
             Collections.sort(albums, new YearComparator());

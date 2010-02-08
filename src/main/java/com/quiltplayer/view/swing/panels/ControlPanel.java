@@ -115,7 +115,7 @@ public class ControlPanel extends JPanel {
 
         playerControlPanel.add(albumViewButton, "cell 0 0");
 
-        add(playerControlPanel, "w " + ImageSizes.LARGE.getSize() + "px, dock west, gapx 10 50");
+        add(playerControlPanel, "w " + ImageSizes.LARGE.getSize() + "px, dock west, gapx 10 10");
         add(applicationButtons, "w 100% - " + ImageSizes.LARGE.getSize() + "px, gapx 100 100");
     }
 

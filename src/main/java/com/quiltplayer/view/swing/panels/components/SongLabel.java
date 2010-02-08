@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JButton;
@@ -78,8 +79,13 @@ public class SongLabel extends JPanel {
 
         this.song = song;
 
-        titleButton = new QSongButton(stripTitleLength(song.getTitle()),
-                ImageSizes.LARGE.getSize() - 50 - 50);
+        try {
+            titleButton = new QSongButton(stripTitleLength(new String(song.getTitle().getBytes(
+                    "UTF-8"))), ImageSizes.LARGE.getSize() - 50 - 50);
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         titleButton.addMouseListener(listener);
         titleButton.setSelected(false);

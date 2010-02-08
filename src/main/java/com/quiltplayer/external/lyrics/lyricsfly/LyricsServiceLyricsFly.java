@@ -39,6 +39,17 @@ public class LyricsServiceLyricsFly implements LyricsService {
     @Autowired
     private LyricsListener lyricsListener;
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Runnable#run()
+     */
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+
+    }
+
     private String code = "0febc5f3fcf7b93b3-temporary.API.access";
 
     /*
