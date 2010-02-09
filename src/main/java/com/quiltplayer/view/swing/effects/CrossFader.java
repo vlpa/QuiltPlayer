@@ -54,9 +54,11 @@ public class CrossFader extends JComponent implements ActionListener {
         icons = new ArrayList<ImageIcon>();
 
         for (LocalImage image : images) {
-            icons.add(new ImageIcon(ImageUtils.scalePicture(new ImageIcon(image.getLargeImage()
-                    .getAbsolutePath()).getImage(), ImageSizes.LARGE.getSize())));
+            ImageIcon tmp = new ImageIcon(image.getLargeImage().getAbsolutePath());
+            icons.add(ImageUtils.scalePicture(tmp, ImageSizes.LARGE.getSize()));
         }
+
+        startAnimation();
     }
 
     public void paintComponent(Graphics g) {

@@ -26,34 +26,9 @@ import com.quiltplayer.view.swing.panels.components.SongLabel;
 @Controller
 public class PlayerController implements PlayerListener {
 
-    /**
-     * Event for stopping play, should free up audio resources.
-     */
-    public static final String EVENT_STOP_SONG = "stop.song";
-
-    /**
-     * Event for pausing song.
-     */
-    public static final String EVENT_PAUSE_SONG = "pause.song";
-
-    /**
-     * Event for resuming song.
-     */
-    public static final String EVENT_PLAY_SONG = "play.song";
-
-    /**
-     * Event for decreasing volume.
-     */
-    public static final String EVENT_FINISHED_SONG = "finished.song";
-
-    /**
-     * Event for changing song.
-     */
-    public static final String EVENT_CHANGE_SONG = "change.song";
-
-    public static final String EVENT_NEXT_SONG = "next.song";
-
-    public static final String EVENT_PREVIOUS_SONG = "previous.song";
+    public enum PlayerSongEvents {
+        CHANGE, STOP, PAUSE, PLAY, FINISHED, PREVIOUS, NEXT
+    }
 
     /**
      * Swing invoker.
@@ -130,32 +105,31 @@ public class PlayerController implements PlayerListener {
             }
             controlPanel.getPlayerControlPanel().setPlaying();
         }
-        else if (EVENT_STOP_SONG == cmd) {
-            playerFactory.stop();
+        else if (PlayerSongEvents.STOP.toString() == cmd) {
+            playerFactory.stopPlay();
         }
-        else if (EVENT_PAUSE_SONG == cmd) {
+        else if (PlayerSongEvents.PAUSE.toString().equals(cmd)) {
             playerFactory.pause();
         }
-        else if (EVENT_PLAY_SONG == cmd) {
+        else if (PlayerSongEvents.PLAY.toString() == cmd) {
             playerFactory.pause();
         }
-        else if (EVENT_CHANGE_SONG == cmd) {
-            playerFactory.stop();
+        else if (PlayerSongEvents.CHANGE.toString() == cmd) {
             playlistPanel.inactivateCurrentSongLabel();
             playList.jumpToSong((Song) e.getSource());
             playerFactory.play(playList.getCurrentSong());
         }
-        else if (EVENT_NEXT_SONG == cmd) {
+        else if (PlayerSongEvents.NEXT.toString() == cmd) {
             playlistPanel.inactivateCurrentSongLabel();
             playList.nextSong();
             playerFactory.play(playList.getCurrentSong());
         }
-        else if (EVENT_PREVIOUS_SONG == cmd) {
+        else if (PlayerSongEvents.PREVIOUS.toString() == cmd) {
             playlistPanel.inactivateCurrentSongLabel();
             playList.prevSong();
             playerFactory.play(playList.getCurrentSong());
         }
-        else if (EVENT_FINISHED_SONG == cmd) {
+        else if (PlayerSongEvents.FINISHED.toString() == cmd) {
             playlistPanel.inactivateCurrentSongLabel();
             playList.nextSong();
             playerFactory.play(playList.getCurrentSong());

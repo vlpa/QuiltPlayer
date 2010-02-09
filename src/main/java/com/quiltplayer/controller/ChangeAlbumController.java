@@ -48,7 +48,7 @@ public class ChangeAlbumController implements ChangeAlbumListener {
                 log.error("Album could not be found, inconsistency in the collection...");
             }
 
-            playerFactory.stop();
+            playerFactory.stopPlay();
 
             playlistPanel.changeAlbum(album);
 
@@ -66,7 +66,7 @@ public class ChangeAlbumController implements ChangeAlbumListener {
                 log.error("Album could not be found, inconsistency in the collection...");
             }
 
-            playerFactory.stop();
+            playerFactory.stopPlay();
 
             playlistPanel.changeAlbum(album);
 

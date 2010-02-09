@@ -12,32 +12,28 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.animation.timing.Animator;
-import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
 import com.quiltplayer.controller.PlayerController;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.buttons.QSongButton;
 
 /**
  * Represents a song line in the playlist view.
  * 
  * @author Vlado Palczynski
  */
-public class SongLabel extends JPanel {
+public class SongLabel extends JButton {
 
     private static final long serialVersionUID = 1L;
 
@@ -63,8 +59,6 @@ public class SongLabel extends JPanel {
 
     private float[] dist = { 0.0f, 1.0f };
 
-    private QSongButton titleButton;
-
     private Color[] activeGradient = { new Color(60, 60, 60), new Color(40, 40, 40) };
 
     private Animator animator;
@@ -72,6 +66,8 @@ public class SongLabel extends JPanel {
     private boolean isActive = false;
 
     public SongLabel(Song song) {
+        super(song.getTitle());
+
         setLayout(new MigLayout("insets 0, aligny center, fill", " [50px!|"
                 + (ImageSizes.LARGE.getSize() - 50) + "]"));
 
@@ -79,22 +75,11 @@ public class SongLabel extends JPanel {
 
         this.song = song;
 
-        try {
-            titleButton = new QSongButton(stripTitleLength(new String(song.getTitle().getBytes(
-                    "UTF-8"))), ImageSizes.LARGE.getSize() - 50 - 50);
-        }
-        catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        addMouseListener(listener);
+        setSelected(false);
 
-        titleButton.addMouseListener(listener);
-        titleButton.setSelected(false);
-
-        titleButton.setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
-        titleButton.setForeground(Configuration.getInstance().getColorConstants()
-                .getPlaylistTitle());
-
-        add(titleButton, "cell 1 0");
+        setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
+        setForeground(Configuration.getInstance().getColorConstants().getPlaylistTitle());
 
         timeLabel = new JLabel();
         timeLabel.setForeground(Color.white);
@@ -125,15 +110,11 @@ public class SongLabel extends JPanel {
         public void mousePressed(MouseEvent e) {
             if (status == STATUS_PLAYING) {
                 actionListener.actionPerformed(new ActionEvent(getSong(), 0,
-                        PlayerController.EVENT_PAUSE_SONG));
-            }
-            else if (titleButton.isSelected()) {
-                actionListener.actionPerformed(new ActionEvent(getSong(), 0,
-                        PlayerController.EVENT_PLAY_SONG));
+                        PlayerController.PlayerSongEvents.PAUSE.toString()));
             }
             else {
                 actionListener.actionPerformed(new ActionEvent(getSong(), 0,
-                        PlayerController.EVENT_CHANGE_SONG));
+                        PlayerController.PlayerSongEvents.CHANGE.toString()));
             }
         }
     };
@@ -146,16 +127,9 @@ public class SongLabel extends JPanel {
 
         isActive = true;
 
-        titleButton.setSelected(true);
-
         add(timeLabel, "cell 0 0, alignx left, aligny center, gapx 5px!");
 
         status = STATUS_PLAYING;
-
-        PropertySetter setter = new PropertySetter(titleButton, "foreground", Color.GRAY,
-                Color.WHITE);
-        animator = new Animator(900, Animator.INFINITE, Animator.RepeatBehavior.REVERSE, setter);
-        animator.start();
 
         repaint();
     }
@@ -184,7 +158,6 @@ public class SongLabel extends JPanel {
 
         isActive = false;
 
-        titleButton.setSelected(false);
         setBackground(Configuration.getInstance().getColorConstants().getPlaylistPanelBackground());
 
         remove(timeLabel);
@@ -219,20 +192,12 @@ public class SongLabel extends JPanel {
     }
 
     public void setProgress(long progress) {
+        if (progress < 0)
+            progress = 0;
+
         timeLabel.setText(formatter.format(progress / 1000));
 
         updateUI();
-    }
-
-    private String stripTitleLength(String title) {
-        // TODO should be own object.
-        if (title == null || title.length() == 0)
-            return "N/A";
-
-        if (title.length() > 35)
-            title = title.substring(0, 35) + "...";
-
-        return title;
     }
 
     /**

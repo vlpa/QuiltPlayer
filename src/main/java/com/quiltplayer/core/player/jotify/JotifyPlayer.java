@@ -24,6 +24,7 @@ import de.felixbruns.jotify.player.PlaybackListener;
  */
 @Component
 public class JotifyPlayer implements Player, PlaybackListener {
+
     private Logger log = Logger.getLogger(JotifyPlayer.class);
 
     @Autowired
@@ -39,14 +40,15 @@ public class JotifyPlayer implements Player, PlaybackListener {
 
     private boolean isPaused = false;
 
+    private Thread playThread;
+
     @Override
     public void decreaseVolume() {
         // TODO Auto-generated method stub
-
     }
 
     @Override
-    public long getElapsedTime() {
+    public synchronized long getElapsedTime() {
         return (long) jotifyRepository.getInstance().position() * 1000000;
     }
 
@@ -57,9 +59,8 @@ public class JotifyPlayer implements Player, PlaybackListener {
     }
 
     @Override
-    public void pause() {
+    public synchronized void pause() {
         if (!isPaused) {
-
             jotifyRepository.getInstance().pause();
 
             playerListener.actionPerformed(new ActionEvent("", 0, EVENT_PAUSED_SONG));
@@ -81,29 +82,46 @@ public class JotifyPlayer implements Player, PlaybackListener {
      * @see com.quiltplayer.core.player.Player#play(com.quiltplayer.model.Song)
      */
     @Override
-    public void play(Song s) {
+    public synchronized void play(final Song s) {
         log.debug("Initializing play for spotify song:" + s.getTitle());
 
         currentSong = s;
 
         isPaused = false;
 
-        if (s instanceof JotifySong) {
-            jotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), this);
-        }
-        else {
-            Track track = new Track(s.getSpotifyId());
-            track = jotifyRepository.getInstance().browse(track);
+        final PlaybackListener pl = this;
 
-            jotifyRepository.getInstance().play(track, this);
-        }
+        if (playThread != null && playThread.isAlive())
+            playThread.interrupt();
+
+        playThread = new Thread() {
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.lang.Thread#run()
+             */
+            @Override
+            public void run() {
+                if (s instanceof JotifySong) {
+                    jotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), pl);
+                }
+                else {
+                    Track track = new Track(s.getSpotifyId());
+                    track = jotifyRepository.getInstance().browse(track);
+
+                    jotifyRepository.getInstance().play(track, pl);
+                }
+            }
+        };
+
+        playThread.start();
 
         playerListener.actionPerformed(new ActionEvent(s, 0, EVENT_PLAYING_NEW_SONG));
         lyricsListener.actionPerformed(new ActionEvent(s, 0, EVENT_PLAYING_NEW_SONG));
     }
 
     @Override
-    public void stop() {
+    public synchronized void stopPlay() {
         log.debug("Stopping play...");
 
         jotifyRepository.getInstance().stop();
@@ -118,9 +136,9 @@ public class JotifyPlayer implements Player, PlaybackListener {
      * .jotify.media.Track)
      */
     @Override
-    public void playbackFinished(Track track) {
+    public synchronized void playbackFinished(Track track) {
         playerListener.actionPerformed(new ActionEvent(currentSong, 0,
-                PlayerController.EVENT_FINISHED_SONG));
+                PlayerController.PlayerSongEvents.FINISHED.toString()));
     }
 
     /*
@@ -130,7 +148,7 @@ public class JotifyPlayer implements Player, PlaybackListener {
      * .jotify.media.Track, int)
      */
     @Override
-    public void playbackPosition(Track track, int position) {
+    public synchronized void playbackPosition(Track track, int position) {
         playerListener.actionPerformed(new ActionEvent(currentSong, 0, EVENT_PROGRESS));
     }
 

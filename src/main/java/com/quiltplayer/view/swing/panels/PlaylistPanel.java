@@ -16,7 +16,6 @@ import net.miginfocom.swing.MigLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ColorConstantsDark;
@@ -70,18 +69,17 @@ public class PlaylistPanel extends JPanel {
     private QTab lyricsButton;
 
     public PlaylistPanel() {
-        super(new MigLayout("insets 0, wrap 1, alignx center, w 100%, h 100%, fill"));
+        super(new MigLayout("insets 0, wrap 1, alignx center"));
     }
 
     @PostConstruct
     public void init() {
-        mainPanel = new JPanel(new MigLayout(
-                "insets 30, w 100%, h 100%, fillx, filly, alignx center"));
+        mainPanel = new JPanel(new MigLayout("insets 0"));
 
         mainPanel.setOpaque(true);
         mainPanel.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
-        add(mainPanel, "w 100%, h 100%, shrinkprio 0, w " + ImageSizes.LARGE.getSize() + "px!");
+        add(mainPanel, "w 100%, h 100%, shrinkprio 0, growprio 200, gapx 0.4cm");
 
         mainPanel.add(albumPanel, "dock south");
 
@@ -180,7 +178,7 @@ public class PlaylistPanel extends JPanel {
     }
 
     private void addAlbumPlaylistPanelToMainPanel() {
-        mainPanel.add(albumPlaylistPanel, "w 100%, h 100%, alignx center, aligny center");
+        mainPanel.add(albumPlaylistPanel, "h 100%, w 100%");
     }
 
     public void viewAlbumPanel() {

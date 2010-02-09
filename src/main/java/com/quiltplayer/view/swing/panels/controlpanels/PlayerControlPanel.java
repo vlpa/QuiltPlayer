@@ -62,35 +62,35 @@ public class PlayerControlPanel extends JPanel {
         nextButton = new QControlPanelButton("Next", ClassPathUtils
                 .getIconFromClasspath("white/Next.png"), SwingConstants.TOP);
         nextButton.addActionListener(playerListener);
-        nextButton.setActionCommand(PlayerController.EVENT_NEXT_SONG);
+        nextButton.setActionCommand(PlayerController.PlayerSongEvents.NEXT.toString());
     }
 
     private void setupPreviousButton() {
         previousButton = new QControlPanelButton("Previous", ClassPathUtils
                 .getIconFromClasspath("white/Previous.png"), SwingConstants.TOP);
         previousButton.addActionListener(playerListener);
-        previousButton.setActionCommand(PlayerController.EVENT_PREVIOUS_SONG);
+        previousButton.setActionCommand(PlayerController.PlayerSongEvents.PREVIOUS.toString());
     }
 
     private void setupPlayButton() {
         playButton = new QControlPanelButton("Play", ClassPathUtils
                 .getIconFromClasspath("white/Play.png"), SwingConstants.TOP);
         playButton.addActionListener(playerListener);
-        playButton.setActionCommand(PlayerController.EVENT_PLAY_SONG);
+        playButton.setActionCommand(PlayerController.PlayerSongEvents.PLAY.toString());
     }
 
     private void setupStopButton() {
         stopButton = new QControlPanelButton("Stop", ClassPathUtils
                 .getIconFromClasspath("white/Stop.png"), SwingConstants.TOP);
         stopButton.addActionListener(playerListener);
-        stopButton.setActionCommand(PlayerController.EVENT_STOP_SONG);
+        stopButton.setActionCommand(PlayerController.PlayerSongEvents.STOP.toString());
     }
 
     private void setupPauseButton() {
         pauseButton = new QControlPanelButton("Pause", ClassPathUtils
                 .getIconFromClasspath("white/Pause.png"), SwingConstants.TOP);
         pauseButton.addActionListener(playerListener);
-        pauseButton.setActionCommand(PlayerController.EVENT_PAUSE_SONG);
+        pauseButton.setActionCommand(PlayerController.PlayerSongEvents.PAUSE.toString());
     }
 
     public void setPlaying() {

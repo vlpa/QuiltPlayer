@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.controller.PlayerListener;
@@ -44,6 +45,8 @@ import com.quiltplayer.view.swing.panels.components.SongsComponent;
  */
 @org.springframework.stereotype.Component
 public class AlbumPlaylistPanel extends JPanel {
+
+    private Logger log = Logger.getLogger(AlbumPlaylistPanel.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -96,10 +99,10 @@ public class AlbumPlaylistPanel extends JPanel {
 
         setupImageControlPanel(false);
 
-        add(albumPresentationPanel, "top, w 100%");
-        add(crossFader, "alignx center,  aligny top, h " + ImageSizes.LARGE.getSize()
-                + "px, w 100%, gapy 10");
-        add(imageControlPanel, "alignx center, aligny top, h 30lp!, w 100%");
+        add(albumPresentationPanel, "top, w 100%, gapx 0.5cm 0.5cm");
+        add(crossFader, "alignx center,  aligny top, h " + ImageSizes.LARGE.getSize() + "px!, w "
+                + ImageSizes.LARGE.getSize() + "px!, gapy 0.2cm");
+        add(imageControlPanel, "alignx center, aligny top, w 100%, gapx 0.5cm 0.5cm");
 
         songsComponent = new SongsComponent();
         songsComponent.setPlayerListener(playerListener);
@@ -111,7 +114,7 @@ public class AlbumPlaylistPanel extends JPanel {
 
         songs = songsComponent.create(album);
 
-        add(songs, "h 40%, w 100%, top, gapy 5");
+        add(songs, "h 40%, w 100%, top, gapy 0.1cm");
 
         if (album instanceof NeoAlbum) {
             // addEditAlbumButton();
@@ -201,16 +204,16 @@ public class AlbumPlaylistPanel extends JPanel {
     }
 
     public void changeAlbum(final Album album) {
+        log.debug("Changing album...");
         this.album = album;
 
         crossFader.setImages(album.getImages());
-        crossFader.startAnimation();
 
         albumPresentationPanel.update(album);
 
         setupSongsPanel();
-
         updateAlbumUI();
+        log.debug("Album is changed...");
     }
 
     /*

@@ -16,77 +16,78 @@ package com.quiltplayer.model;
  * @author Vlado Palczynski
  */
 public class ArtistName {
-	/**
-	 * The name.
-	 */
-	private String name;
+    /**
+     * The name.
+     */
+    private String name;
 
-	/**
-	 * The the.
-	 */
-	private boolean the;
+    /**
+     * The the.
+     */
+    private boolean the;
 
-	/**
-	 * @param name
-	 *            the name to set.
-	 */
-	public ArtistName(final String name) {
-		setName(name);
-	}
+    /**
+     * @param name
+     *            the name to set.
+     */
+    public ArtistName(final String name) {
+        setName(name);
+    }
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		if (the) {
-			return name + ", The";
-		}
+    /**
+     * @return the name
+     */
+    public String getName() {
+        if (the) {
+            return name + ", The";
+        }
 
-		return name;
-	}
+        return name;
+    }
 
-	public String getNameForSearches() {
-		if (name.toLowerCase().endsWith(", the")) {
-			return "The " + name.substring(0, name.length() - 5);
-		} else {
-			return name;
-		}
-	}
+    public String getNameForSearches() {
+        if (name.toLowerCase().endsWith(", the")) {
+            return "The " + name.substring(0, name.length() - 5);
+        }
+        else {
+            return name;
+        }
+    }
 
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		if (name.toLowerCase().startsWith("the ")) {
-			name = name.substring(4, name.length());
-			setThe(true);
-		}
+    /**
+     * @param name
+     *            the name to set
+     */
+    public void setName(String name) {
+        if (name.toLowerCase().startsWith("the ")) {
+            name = name.substring(4, name.length());
+            setThe(true);
+        }
 
-		this.name = name;
-	}
+        this.name = name;
+    }
 
-	/**
-	 * @return the the.
-	 */
-	public boolean isThe() {
-		return the;
-	}
+    /**
+     * @return the the.
+     */
+    public boolean isThe() {
+        return the;
+    }
 
-	/**
-	 * @param the
-	 *            the the to set
-	 */
-	public void setThe(final boolean the) {
-		this.the = the;
-	}
+    /**
+     * @param the
+     *            the the to set
+     */
+    public void setThe(final boolean the) {
+        this.the = the;
+    }
 
-	/**
-	 * toString() returns the name.
-	 */
-	@Override
-	public String toString() {
-		return name;
-	}
+    /**
+     * toString() returns the name.
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
 
 }

@@ -27,7 +27,7 @@ public interface Player {
     /**
      * Start playing songs from the playlist.
      */
-    void stop();
+    void stopPlay();
 
     /**
      * Pauses/resumes the playing song.

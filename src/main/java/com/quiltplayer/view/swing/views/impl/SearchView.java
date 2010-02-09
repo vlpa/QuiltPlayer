@@ -103,7 +103,7 @@ public class SearchView implements Serializable, View {
         panel.setOpaque(true);
         panel.addFocusListener(focusListener);
 
-        MigLayout layout = new MigLayout("wrap 3, alignx center, aligny top, top, gapy 50");
+        MigLayout layout = new MigLayout("wrap 3, alignx center, aligny top, top, gapy 1cm");
         panel.setLayout(layout);
         panel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
 

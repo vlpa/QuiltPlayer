@@ -69,8 +69,12 @@ public class LyricsServiceLeo implements LyricsService {
                     parseLyrics(hid, l);
 
                     lyricsListener.lyricsEvent(new LyricsEvent(Status.FOUND, l.getLyrics()));
+
+                    return;
                 }
             }
+
+            lyricsListener.lyricsEvent(new LyricsEvent(Status.NOT_FOUND, ""));
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -80,8 +80,8 @@ public class PlayerFactory implements Player {
      * @see com.quiltplayer.core.player.Player#stop()
      */
     @Override
-    public void stop() {
-        getPlayer(currentSong).stop();
+    public void stopPlay() {
+        getPlayer(currentSong).stopPlay();
     }
 
     /*

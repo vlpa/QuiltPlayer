@@ -72,48 +72,57 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
         this.setController(controller);
     }
 
-    public void play(Song song) {
+    public void play(final Song song) {
         log.debug("Playing...");
 
         currentSong = song;
 
-        try {
-            if (player.getStatus() == BasicPlayer.STOPPED
-                    || player.getStatus() == BasicPlayer.UNKNOWN) {
-                {
-                    File f = new File(song.getPath());
-                    controller.open(f);
+        new Thread() {
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.lang.Thread#run()
+             */
+            @Override
+            public void run() {
+                try {
+                    if (player.getStatus() == BasicPlayer.STOPPED
+                            || player.getStatus() == BasicPlayer.UNKNOWN) {
+                        {
+                            File f = new File(song.getPath());
+                            controller.open(f);
 
-                    controller.play();
+                            controller.play();
+                        }
+                    }
+                    else if (player.getStatus() == BasicPlayer.PLAYING) {
+                        log.debug("Player status is playing, stopping...");
+
+                        stopPlay();
+
+                        play(song);
+                    }
+                    else if (player.getStatus() == BasicPlayer.PAUSED) {
+                        log.debug("Player status is paused, resuming...");
+
+                        controller.resume();
+
+                        playerListener.actionPerformed(new ActionEvent("", 0, EVENT_RESUMED_SONG));
+                    }
+
+                    setVolume();
                 }
-
-                playerListener.actionPerformed(new ActionEvent(song, 0, EVENT_PLAYING_NEW_SONG));
-                lyricsListener.actionPerformed(new ActionEvent(song, 0, EVENT_PLAYING_NEW_SONG));
-
+                catch (BasicPlayerException ex) {
+                    log.error(ex.getMessage());
+                }
             }
-            else if (player.getStatus() == BasicPlayer.PLAYING) {
-                log.debug("Player status is playing, stopping...");
+        }.start();
 
-                stop();
-
-                play(song);
-            }
-            else if (player.getStatus() == BasicPlayer.PAUSED) {
-                log.debug("Player status is paused, resuming...");
-
-                controller.resume();
-
-                playerListener.actionPerformed(new ActionEvent("", 0, EVENT_RESUMED_SONG));
-            }
-
-            setVolume();
-        }
-        catch (BasicPlayerException ex) {
-            log.error(ex.getMessage());
-        }
+        playerListener.actionPerformed(new ActionEvent(song, 0, EVENT_PLAYING_NEW_SONG));
+        lyricsListener.actionPerformed(new ActionEvent(song, 0, EVENT_PLAYING_NEW_SONG));
     }
 
-    public void stop() {
+    public void stopPlay() {
         log.debug("Stopping the player...");
 
         if (player.getStatus() == BasicPlayer.PAUSED || player.getStatus() == BasicPlayer.PLAYING) {
@@ -205,7 +214,7 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
             log.debug("Event: OEM, jumping to next song...");
 
             playerListener.actionPerformed(new ActionEvent(currentSong, 0,
-                    PlayerController.EVENT_FINISHED_SONG));
+                    PlayerController.PlayerSongEvents.FINISHED.toString()));
         }
     }
 

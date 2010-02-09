@@ -229,7 +229,7 @@ public class QuiltPlayerFrame extends JFrame {
             controlPanel.updateTab(null);
         }
 
-        getContentPane().add(ui, "cell 2 0, w 100%, h 100%, gapx 20 20, gapy 20 20");
+        getContentPane().add(ui, "cell 2 0, w 100%, h 100%, gapx 0.2cm");
 
         SwingUtilities.updateComponentTreeUI(this);
     }
