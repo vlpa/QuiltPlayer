@@ -78,9 +78,11 @@ public class JotifyPlayer implements Player, PlaybackListener {
 
         isPaused = false;
 
+        stop();
+
         final PlaybackListener pl = this;
 
-        playThread = new Thread() {
+        new Thread() {
             /*
              * (non-Javadoc)
              * 
@@ -99,9 +101,7 @@ public class JotifyPlayer implements Player, PlaybackListener {
                     jotifyRepository.getInstance().play(track, pl);
                 }
             }
-        };
-
-        playThread.start();
+        }.start();
 
         playerListener.actionPerformed(new ActionEvent(s, 0, EVENT_PLAYING_NEW_SONG));
         lyricsListener.actionPerformed(new ActionEvent(s, 0, EVENT_PLAYING_NEW_SONG));

@@ -415,13 +415,9 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
         spotifySettings.add(TextFieldComponents.textFieldComponentForForms("Spotify user name",
                 spotifyUserName, Configuration.getInstance().getSpotifyUserName() + "", true),
                 "left, w 100%, newline");
-        // spotifySettings.add(getKeyboardButton(spotifyUserName),
-        // "left, w 10%");
         spotifySettings.add(TextFieldComponents.textFieldComponentForForms("Spotify password",
                 spotifyPassword, Configuration.getInstance().getSpotifyPassword() + "", true),
                 "left, w 100%, newline");
-        // spotifySettings.add(getKeyboardButton(spotifyPassword),
-        // "left, w 10%");
     }
 
     private void addScanCoversButton() {

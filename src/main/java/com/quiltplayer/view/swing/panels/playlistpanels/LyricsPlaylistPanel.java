@@ -29,7 +29,7 @@ public class LyricsPlaylistPanel extends JPanel {
     private JTextArea lyricsArea;
 
     public LyricsPlaylistPanel() {
-        super(new MigLayout("debug, insets 15, wrap 1, alignx center, aligny center"));
+        super(new MigLayout("insets 15, wrap 1, alignx center, aligny center"));
         setOpaque(false);
 
         setupTextArea();

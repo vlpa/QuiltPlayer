@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
@@ -54,7 +55,6 @@ public class TextFieldComponents {
         final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 2"));
 
         final JLabel label = new QLabel(name);
-        textField.setText(value);
         textField.setEnabled(enableTextField);
 
         panel.add(label, "left, wrap");

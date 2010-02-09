@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
 
+import com.quiltplayer.controller.ArtistController;
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.util.HighlightColorUtils;
@@ -21,8 +22,6 @@ import com.quiltplayer.view.swing.util.HighlightColorUtils;
  * @author Vlado Palczynski
  */
 public class ArtistLabel extends JLabel {
-
-    public static final String ACTION_GET_ARTIST_ALBUMS = "get.artist";
 
     private static final long serialVersionUID = 1L;
 
@@ -68,7 +67,8 @@ public class ArtistLabel extends JLabel {
          */
         @Override
         public void mouseClicked(MouseEvent e) {
-            listener.actionPerformed(new ActionEvent(artist, 0, ACTION_GET_ARTIST_ALBUMS));
+            listener.actionPerformed(new ActionEvent(artist, 0,
+                    ArtistController.ACTION_GET_ARTIST_ALBUMS));
         }
 
     };

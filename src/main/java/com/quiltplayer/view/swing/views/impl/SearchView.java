@@ -121,6 +121,8 @@ public class SearchView implements Serializable, View {
 
         searchField.requestFocus();
 
+        pane.repaint();
+
         return pane;
     }
 

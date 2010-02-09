@@ -21,8 +21,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.controller.ArtistController;
 import com.quiltplayer.controller.ControlPanelController;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
+import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
 import com.quiltplayer.view.swing.util.SizeHelper;
@@ -51,6 +53,9 @@ public class AlbumControlPanel extends JPanel {
     @Autowired
     private ControlPanelListener controlPanelListener;
 
+    @Autowired
+    private ArtistListener artistListener;
+
     private enum Buttons {
         LYRICS, EDIT, PLAYLIST
     };
@@ -61,13 +66,15 @@ public class AlbumControlPanel extends JPanel {
 
     private QControlPanelButton albumButton;
 
+    private QControlPanelButton moreAlbumsButton;
+
     @PostConstruct
     public void init() {
         setDefaults();
     }
 
     public void setDefaults() {
-        setLayout(new MigLayout("insets 0, fill, wrap 3"));
+        setLayout(new MigLayout("insets 0, fill, wrap 4"));
 
         setupLyricsButton();
 
@@ -75,11 +82,21 @@ public class AlbumControlPanel extends JPanel {
 
         setupPlaylistButton();
 
+        setupMoreAlbumsButton();
+
         final String layout = "h 2cm, w 3cm";
 
         add(albumButton, layout);
         add(lyricsButton, layout);
         add(editButton, layout);
+        add(moreAlbumsButton, layout);
+    }
+
+    private void setupMoreAlbumsButton() {
+        moreAlbumsButton = new QControlPanelButton("More albums",
+                getIconFromClasspath("white/MoreAlbums.png"), SwingConstants.BOTTOM);
+        moreAlbumsButton.addActionListener(artistListener);
+        moreAlbumsButton.setActionCommand(ArtistController.ACTION_GET_ARTIST_ALBUMS);
     }
 
     private void setupLyricsButton() {

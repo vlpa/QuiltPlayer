@@ -11,8 +11,8 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
-import com.quiltplayer.view.swing.labels.ArtistLabel;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
+import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.views.ListView;
 import com.quiltplayer.view.swing.views.impl.DefaultAlbumView;
 
@@ -25,6 +25,8 @@ import com.quiltplayer.view.swing.views.impl.DefaultAlbumView;
 public class ArtistController implements ArtistListener {
     public static final String EVENT_DELETE_ARTIST = "delete.artist";
 
+    public static final String ACTION_GET_ARTIST_ALBUMS = "get.artist";
+
     @Autowired
     private QuiltPlayerFrame frame;
 
@@ -35,6 +37,9 @@ public class ArtistController implements ArtistListener {
     @Autowired
     private ArtistStorage artistStorage;
 
+    @Autowired
+    private PlaylistPanel playlistPanel;
+
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
@@ -42,8 +47,12 @@ public class ArtistController implements ArtistListener {
     public final void actionPerformed(final ActionEvent e) {
         String actionCommand = e.getActionCommand();
 
-        if (ArtistLabel.ACTION_GET_ARTIST_ALBUMS == actionCommand) {
-            Artist artist = (Artist) e.getSource();
+        if (ACTION_GET_ARTIST_ALBUMS == actionCommand) {
+            Artist artist;
+            if (e.getSource() instanceof Artist)
+                artist = (Artist) e.getSource();
+            else
+                artist = playlistPanel.getCurrentSongLabel().getSong().getAlbum().getArtist();
 
             for (Album album : artist.getAlbums()) {
                 album.setArtist(artist);
