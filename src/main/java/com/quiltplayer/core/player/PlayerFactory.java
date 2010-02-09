@@ -31,17 +31,6 @@ public class PlayerFactory implements Player {
     /*
      * (non-Javadoc)
      * 
-     * @see com.quiltplayer.core.player.Player#decreaseVolume()
-     */
-    @Override
-    public void decreaseVolume() {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see com.quiltplayer.core.player.Player#getElapsedTime()
      */
     @Override
@@ -50,17 +39,6 @@ public class PlayerFactory implements Player {
             return 0;
 
         return getPlayer(currentSong).getElapsedTime();
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.quiltplayer.core.player.Player#increaseVolume()
-     */
-    @Override
-    public void increaseVolume() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -80,8 +58,8 @@ public class PlayerFactory implements Player {
      * @see com.quiltplayer.core.player.Player#stop()
      */
     @Override
-    public void stopPlay() {
-        getPlayer(currentSong).stopPlay();
+    public void stop() {
+        getPlayer(currentSong).stop();
     }
 
     /*

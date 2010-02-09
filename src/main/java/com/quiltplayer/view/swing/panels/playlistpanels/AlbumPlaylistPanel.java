@@ -28,13 +28,13 @@ import com.quiltplayer.model.impl.NullAlbum;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.model.neo.NeoAlbum;
 import com.quiltplayer.view.swing.buttons.QButton;
+import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.effects.CrossFader;
 import com.quiltplayer.view.swing.labels.ArtistLabel;
 import com.quiltplayer.view.swing.labels.ImageControlLabel;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ImageListener;
 import com.quiltplayer.view.swing.panels.AlbumPresentationPanel;
-import com.quiltplayer.view.swing.panels.components.SongLabel;
 import com.quiltplayer.view.swing.panels.components.SongsComponent;
 
 /**
@@ -50,7 +50,7 @@ public class AlbumPlaylistPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private SongLabel currentSongLabel;
+    private QSongButton currentSongLabel;
 
     private JButton editButton;
 
@@ -99,7 +99,7 @@ public class AlbumPlaylistPanel extends JPanel {
 
         setupImageControlPanel(false);
 
-        add(albumPresentationPanel, "top, w 100%, gapx 0.5cm 0.5cm");
+        add(albumPresentationPanel, "top, w 100%, gapx 0.3cm 0.3cm");
         add(crossFader, "alignx center,  aligny top, h " + ImageSizes.LARGE.getSize() + "px!, w "
                 + ImageSizes.LARGE.getSize() + "px!, gapy 0.2cm");
         add(imageControlPanel, "alignx center, aligny top, w 100%, gapx 0.5cm 0.5cm");
@@ -227,15 +227,11 @@ public class AlbumPlaylistPanel extends JPanel {
         return songsComponent.getSongsPanel().getComponents();
     }
 
-    public void progress(long time) {
-        currentSongLabel.setProgress(time);
-    }
-
     /**
      * @param currentSongLabel
      *            the currentSongLabel to set
      */
-    public void setCurrentSongLabel(final SongLabel currentSongLabel) {
+    public void setCurrentSongLabel(final QSongButton currentSongLabel) {
         this.currentSongLabel = currentSongLabel;
     }
 
@@ -252,7 +248,7 @@ public class AlbumPlaylistPanel extends JPanel {
     /**
      * @return the currentSongLabel
      */
-    public SongLabel getCurrentSongLabel() {
+    public QSongButton getCurrentSongLabel() {
         return currentSongLabel;
     }
 

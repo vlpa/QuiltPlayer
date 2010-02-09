@@ -19,8 +19,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ColorConstantsDark;
+import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.buttons.QTab;
-import com.quiltplayer.view.swing.panels.components.SongLabel;
 import com.quiltplayer.view.swing.panels.playlistpanels.AlbumPlaylistPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
 
@@ -45,7 +45,7 @@ public class PlaylistPanel extends JPanel {
 
     public static final String EVENT_UPDATE_ALBUM_ID3 = "update.album.id3";
 
-    private SongLabel currentSongLabel;
+    private QSongButton currentSongLabel;
 
     protected JPanel mainPanel;
 
@@ -94,7 +94,7 @@ public class PlaylistPanel extends JPanel {
      * @param currentSongLabel
      *            the currentSongLabel to set
      */
-    public void setCurrentSongLabel(final SongLabel currentSongLabel) {
+    public void setCurrentSongLabel(final QSongButton currentSongLabel) {
         this.currentSongLabel = currentSongLabel;
     }
 
@@ -111,7 +111,7 @@ public class PlaylistPanel extends JPanel {
     /**
      * @return the currentSongLabel
      */
-    public SongLabel getCurrentSongLabel() {
+    public QSongButton getCurrentSongLabel() {
         return currentSongLabel;
     }
 

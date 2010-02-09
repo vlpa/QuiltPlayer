@@ -27,22 +27,12 @@ public interface Player {
     /**
      * Start playing songs from the playlist.
      */
-    void stopPlay();
+    void stop();
 
     /**
      * Pauses/resumes the playing song.
      */
     void pause();
-
-    /**
-     * Increase the volume of the player.
-     */
-    void increaseVolume();
-
-    /**
-     * Decrease the volume of the player.
-     */
-    void decreaseVolume();
 
     /**
      * @return long

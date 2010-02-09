@@ -14,9 +14,9 @@ import com.quiltplayer.core.playlist.PlayList;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.SongStatus;
+import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.panels.ControlPanel;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
-import com.quiltplayer.view.swing.panels.components.SongLabel;
 
 /**
  * Controller regarding the player.
@@ -94,7 +94,7 @@ public class PlayerController implements PlayerListener {
             Component[] components = playlistPanel.getSongLabels();
 
             for (int i = 0; i < components.length; i++) {
-                SongLabel songLabel = (SongLabel) components[i];
+                QSongButton songLabel = (QSongButton) components[i];
 
                 if (songLabel.getSong().equals(s)) {
                     songLabel.setActive();
@@ -106,7 +106,7 @@ public class PlayerController implements PlayerListener {
             controlPanel.getPlayerControlPanel().setPlaying();
         }
         else if (PlayerSongEvents.STOP.toString() == cmd) {
-            playerFactory.stopPlay();
+            playerFactory.stop();
         }
         else if (PlayerSongEvents.PAUSE.toString().equals(cmd)) {
             playerFactory.pause();
@@ -116,7 +116,7 @@ public class PlayerController implements PlayerListener {
         }
         else if (PlayerSongEvents.CHANGE.toString() == cmd) {
             playlistPanel.inactivateCurrentSongLabel();
-            playList.jumpToSong((Song) e.getSource());
+            playList.jumpToSong(((QSongButton) e.getSource()).getSong());
             playerFactory.play(playList.getCurrentSong());
         }
         else if (PlayerSongEvents.NEXT.toString() == cmd) {

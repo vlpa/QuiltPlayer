@@ -109,7 +109,7 @@ public class EditAlbumController implements EditAlbumListener {
         else if (EVENT_DELETE_ALBUM == cmd) {
             log.debug("Deleting album");
 
-            playerFactory.stopPlay();
+            playerFactory.stop();
             playerFactory.removeCurrentSong();
 
             Album album = (Album) e.getSource();

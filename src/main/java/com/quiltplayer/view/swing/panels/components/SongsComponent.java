@@ -9,6 +9,7 @@ import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.ColorConstantsDark;
+import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.panels.QScrollPane;
 
 /**
@@ -48,7 +49,7 @@ public class SongsComponent extends JPanel {
         removeAll();
 
         for (Song song : album.getSongCollection().getSongs()) {
-            SongLabel songLabel = new SongLabel(song);
+            QSongButton songLabel = new QSongButton(song, playerListener);
             songLabel.addActionListener(playerListener);
 
             add(songLabel, "w 100%");

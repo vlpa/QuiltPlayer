@@ -72,7 +72,7 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
         this.setController(controller);
     }
 
-    public void play(final Song song) {
+    public synchronized void play(final Song song) {
         log.debug("Playing...");
 
         currentSong = song;
@@ -90,15 +90,15 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
                             || player.getStatus() == BasicPlayer.UNKNOWN) {
                         {
                             File f = new File(song.getPath());
-                            controller.open(f);
 
+                            controller.open(f);
                             controller.play();
                         }
                     }
                     else if (player.getStatus() == BasicPlayer.PLAYING) {
                         log.debug("Player status is playing, stopping...");
 
-                        stopPlay();
+                        controller.stop();
 
                         play(song);
                     }
@@ -109,8 +109,6 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
 
                         playerListener.actionPerformed(new ActionEvent("", 0, EVENT_RESUMED_SONG));
                     }
-
-                    setVolume();
                 }
                 catch (BasicPlayerException ex) {
                     log.error(ex.getMessage());
@@ -122,7 +120,7 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
         lyricsListener.actionPerformed(new ActionEvent(song, 0, EVENT_PLAYING_NEW_SONG));
     }
 
-    public void stopPlay() {
+    public synchronized void stop() {
         log.debug("Stopping the player...");
 
         if (player.getStatus() == BasicPlayer.PAUSED || player.getStatus() == BasicPlayer.PLAYING) {
@@ -141,7 +139,7 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
      * @see org.quiltplayer.core.player.Player#pause()
      */
     @Override
-    public void pause() {
+    public synchronized void pause() {
         log.debug("Pausing the player...");
 
         try {
@@ -216,59 +214,5 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
             playerListener.actionPerformed(new ActionEvent(currentSong, 0,
                     PlayerController.PlayerSongEvents.FINISHED.toString()));
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.quiltplayer.core.player.Player#decreaseVolume()
-     */
-    private void setVolume() {
-        try {
-            player.setGain(volume.doubleValue() / 10);
-        }
-        catch (BasicPlayerException e) {
-            log.error("Cannot set volume:" + e.getMessage());
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.quiltplayer.core.player.Player#decreaseVolume()
-     */
-    @Override
-    public void decreaseVolume() {
-        if (volume >= 0) {
-            try {
-                volume -= 1;
-                log.debug("Decreasing volume to: " + volume);
-                player.setGain(volume.doubleValue() / 10);
-            }
-            catch (Exception e) {
-                log.error("Cannot set volume:" + e.getMessage());
-            }
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.quiltplayer.core.player.Player#increaseVolume()
-     */
-    @Override
-    public void increaseVolume() {
-        if (volume < 10) {
-            try {
-                volume += 1;
-                log.debug("Increasing volume to: " + volume);
-
-                player.setGain(volume.doubleValue() / 10);
-            }
-            catch (Exception e) {
-                log.error("Cannot set volume:" + e.getMessage());
-            }
-        }
-
     }
 }

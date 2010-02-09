@@ -43,19 +43,8 @@ public class JotifyPlayer implements Player, PlaybackListener {
     private Thread playThread;
 
     @Override
-    public void decreaseVolume() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
     public synchronized long getElapsedTime() {
         return (long) jotifyRepository.getInstance().position() * 1000000;
-    }
-
-    @Override
-    public void increaseVolume() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -91,8 +80,7 @@ public class JotifyPlayer implements Player, PlaybackListener {
 
         final PlaybackListener pl = this;
 
-        if (playThread != null && playThread.isAlive())
-            playThread.interrupt();
+        jotifyRepository.getInstance().stop();
 
         playThread = new Thread() {
             /*
@@ -102,6 +90,7 @@ public class JotifyPlayer implements Player, PlaybackListener {
              */
             @Override
             public void run() {
+
                 if (s instanceof JotifySong) {
                     jotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), pl);
                 }
@@ -121,7 +110,7 @@ public class JotifyPlayer implements Player, PlaybackListener {
     }
 
     @Override
-    public synchronized void stopPlay() {
+    public synchronized void stop() {
         log.debug("Stopping play...");
 
         jotifyRepository.getInstance().stop();
@@ -148,7 +137,7 @@ public class JotifyPlayer implements Player, PlaybackListener {
      * .jotify.media.Track, int)
      */
     @Override
-    public synchronized void playbackPosition(Track track, int position) {
+    public void playbackPosition(Track track, int position) {
         playerListener.actionPerformed(new ActionEvent(currentSong, 0, EVENT_PROGRESS));
     }
 

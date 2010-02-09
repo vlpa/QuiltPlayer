@@ -59,6 +59,8 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
         addMouseListener(this);
         addMouseMotionListener(this);
 
+        setWheelScrollingEnabled(true);
+
         setBorder(BorderFactory.createEmptyBorder());
 
         setAutoscrolls(true);
