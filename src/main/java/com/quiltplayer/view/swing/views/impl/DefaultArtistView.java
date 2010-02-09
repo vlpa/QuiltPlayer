@@ -60,7 +60,7 @@ public class DefaultArtistView implements ArtistView {
                 p.addActionListener(artistListener);
                 p.setup(character, albumSet);
 
-                panel.add(p, "aligny top, gapy 30, gapx 10");
+                panel.add(p, "aligny top, gapy 0.2cm, gapx 0.1cm");
             }
         }
 

@@ -4,23 +4,19 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
-import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QSongButton;
-import com.quiltplayer.view.swing.buttons.QTab;
 import com.quiltplayer.view.swing.panels.playlistpanels.AlbumPlaylistPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
 
@@ -62,14 +58,8 @@ public class PlaylistPanel extends JPanel {
     @Autowired
     private AlbumControlPanel albumPanel;
 
-    private JPanel playlistButtonPanel;
-
-    private QTab songsButton;
-
-    private QTab lyricsButton;
-
     public PlaylistPanel() {
-        super(new MigLayout("insets 0, wrap 1, alignx center"));
+        super(new MigLayout("insets 0"));
     }
 
     @PostConstruct
@@ -79,7 +69,7 @@ public class PlaylistPanel extends JPanel {
         mainPanel.setOpaque(true);
         mainPanel.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
-        add(mainPanel, "w 100%, h 100%, shrinkprio 0, growprio 200, gapx 0.4cm");
+        add(mainPanel, "h 100%, w " + ImageSizes.LARGE.getSize() + "px!, gapx 0.15cm");
 
         mainPanel.add(albumPanel, "dock south");
 
@@ -136,8 +126,6 @@ public class PlaylistPanel extends JPanel {
     private void setupSongsPanel() {
 
         addAlbumPlaylistPanelToMainPanel();
-
-        SwingUtilities.updateComponentTreeUI(this);
     }
 
     public void changeAlbum(final Album album) {
@@ -146,35 +134,6 @@ public class PlaylistPanel extends JPanel {
 
     public void setLyrics(final String lyrics) {
         lyricsPlaylistPanel.setLyrics(lyrics);
-    }
-
-    private void addPlaylistPanelButtons() {
-        playlistButtonPanel = new JPanel(new MigLayout("insets 0, w 100%, wrap 2, alignx right"));
-
-        playlistButtonPanel.setOpaque(false);
-        playlistButtonPanel.setBackground(Configuration.getInstance().getColorConstants()
-                .getPlaylistSongBackgroundInactive());
-
-        setupSongsButton();
-
-        playlistButtonPanel.add(songsButton, "dock east, w 2.5cm, h 0.8cm!");
-        playlistButtonPanel.add(lyricsButton, "dock east, w 2.5cm, h 0.8cm!");
-
-        mainPanel.add(playlistButtonPanel, "dock north");
-    }
-
-    private void setupSongsButton() {
-        songsButton = new QTab("Songs");
-        songsButton.setToolTipText("Show songs list.");
-
-        songsButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                mainPanel.remove(lyricsPlaylistPanel);
-                addAlbumPlaylistPanelToMainPanel();
-
-                repaint();
-            }
-        });
     }
 
     private void addAlbumPlaylistPanelToMainPanel() {
@@ -186,8 +145,6 @@ public class PlaylistPanel extends JPanel {
         mainPanel.remove(lyricsPlaylistPanel);
         mainPanel.add(albumPlaylistPanel, "w 100%, h 100%");
 
-        SwingUtilities.updateComponentTreeUI(lyricsPlaylistPanel);
-
         repaint();
     }
 
@@ -195,8 +152,6 @@ public class PlaylistPanel extends JPanel {
 
         mainPanel.remove(albumPlaylistPanel);
         mainPanel.add(lyricsPlaylistPanel, "w 100%, h 100%");
-
-        SwingUtilities.updateComponentTreeUI(lyricsPlaylistPanel);
 
         repaint();
     }

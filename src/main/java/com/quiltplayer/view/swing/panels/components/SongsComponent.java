@@ -31,6 +31,8 @@ public class SongsComponent extends JPanel {
      */
     private Album album;
 
+    private QScrollPane pane = new QScrollPane(this);
+
     public SongsComponent() {
         setLayout(new MigLayout("insets 0, wrap 1, w 100%"));
         setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
@@ -40,9 +42,10 @@ public class SongsComponent extends JPanel {
     public JScrollPane create(Album album) {
         this.album = album;
 
-        addSongs();
+        if (album.getSongCollection() != null)
+            addSongs();
 
-        return new QScrollPane(this);
+        return pane;
     }
 
     private void addSongs() {

@@ -80,8 +80,6 @@ public class JotifyPlayer implements Player, PlaybackListener {
 
         final PlaybackListener pl = this;
 
-        jotifyRepository.getInstance().stop();
-
         playThread = new Thread() {
             /*
              * (non-Javadoc)
@@ -149,7 +147,7 @@ public class JotifyPlayer implements Player, PlaybackListener {
      */
     @Override
     public void playbackResumed(Track track) {
-        // TODO Auto-generated method stub
+        log.debug("Playback resumed...");
 
     }
 
@@ -161,6 +159,7 @@ public class JotifyPlayer implements Player, PlaybackListener {
      */
     @Override
     public void playbackStarted(Track track) {
+        log.debug("Playback started...");
     }
 
     /*
@@ -171,6 +170,6 @@ public class JotifyPlayer implements Player, PlaybackListener {
      */
     @Override
     public void playbackStopped(Track track) {
-
+        log.debug("Playback stopped...");
     }
 }

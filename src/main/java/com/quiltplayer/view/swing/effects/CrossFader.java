@@ -59,6 +59,7 @@ public class CrossFader extends JComponent implements ActionListener {
         }
 
         startAnimation();
+        repaint();
     }
 
     public void paintComponent(Graphics g) {

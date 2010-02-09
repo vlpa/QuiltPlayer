@@ -8,7 +8,6 @@ import java.awt.event.ComponentEvent;
 import javax.annotation.PostConstruct;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.layout.PlatformDefaults;
@@ -109,7 +108,7 @@ public class QuiltPlayerFrame extends JFrame {
         System.out.println("DPI from PlatformDefaults: " + PlatformDefaults.getDefaultDPI());
         System.out.println("DPI from Tookit: " + Toolkit.getDefaultToolkit().getScreenResolution());
 
-        setLayout(new MigLayout("insets 0, fill"));
+        setLayout(new MigLayout("insets 0, fill, w 100%, h 100%"));
 
         setTitle("QuiltPlayer");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -229,9 +228,11 @@ public class QuiltPlayerFrame extends JFrame {
             controlPanel.updateTab(null);
         }
 
-        getContentPane().add(ui, "cell 2 0, w 100%, h 100%, gapx 0.2cm");
+        getContentPane().add(ui, "cell 2 0, grow");
 
-        SwingUtilities.updateComponentTreeUI(this);
+        ui.repaint();
+        repaint();
+
     }
 
     public ActiveView getCurrentView() {
@@ -279,6 +280,6 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addAlbumView() {
-        getContentPane().add(playlistPanel, "cell 1 0, dock west");
+        getContentPane().add(playlistPanel, "cell 1 0, dock west, growx");
     }
 }

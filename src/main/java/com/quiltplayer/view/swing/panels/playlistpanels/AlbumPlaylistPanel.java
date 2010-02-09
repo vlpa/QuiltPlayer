@@ -4,8 +4,6 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,7 +12,6 @@ import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -27,10 +24,8 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.model.impl.NullAlbum;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.model.neo.NeoAlbum;
-import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.effects.CrossFader;
-import com.quiltplayer.view.swing.labels.ArtistLabel;
 import com.quiltplayer.view.swing.labels.ImageControlLabel;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ImageListener;
@@ -51,8 +46,6 @@ public class AlbumPlaylistPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private QSongButton currentSongLabel;
-
-    private JButton editButton;
 
     private JButton albumsButton;
 
@@ -86,7 +79,7 @@ public class AlbumPlaylistPanel extends JPanel {
     private CrossFader crossFader;
 
     public AlbumPlaylistPanel() {
-        super(new MigLayout("insets 0, wrap 1, alignx center, aligny center, fill"));
+        super(new MigLayout("insets 0, wrap 1, fill, h 100%"));
         setOpaque(false);
     }
 
@@ -94,27 +87,22 @@ public class AlbumPlaylistPanel extends JPanel {
     public void init() {
         this.album = new NullAlbum();
 
-        playlistButtonPanel = new JPanel(new MigLayout(
-                "insets 0, wrap 1, center, aligny center, fill"));
+        // playlistButtonPanel = new JPanel(new MigLayout("insets 0, wrap 1, fill"));
+        // setupImageControlPanel(false);
 
-        setupImageControlPanel(false);
-
-        add(albumPresentationPanel, "top, w 100%, gapx 0.3cm 0.3cm");
-        add(crossFader, "alignx center,  aligny top, h " + ImageSizes.LARGE.getSize() + "px!, w "
-                + ImageSizes.LARGE.getSize() + "px!, gapy 0.2cm");
-        add(imageControlPanel, "alignx center, aligny top, w 100%, gapx 0.5cm 0.5cm");
+        add(albumPresentationPanel, "top, gapx 0.3cm 0.3cm, gapy 0.2cm");
+        add(crossFader, "h " + ImageSizes.LARGE.getSize() + "px!, w 100%, top, gapy 0.2cm");
+        // add(imageControlPanel, "alignx center, aligny top, w 100%, gapx 0.5cm 0.5cm");
 
         songsComponent = new SongsComponent();
         songsComponent.setPlayerListener(playerListener);
+        
+        add(songsComponent.create(album), "grow, h 100%, top, gapy 0.2cm");
     }
 
     private void setupSongsPanel() {
-        if (songs != null)
-            remove(songs);
-
         songs = songsComponent.create(album);
-
-        add(songs, "h 40%, w 100%, top, gapy 0.1cm");
+        songs.repaint();
 
         if (album instanceof NeoAlbum) {
             // addEditAlbumButton();
@@ -122,8 +110,6 @@ public class AlbumPlaylistPanel extends JPanel {
         else if (album instanceof JotifyAlbum) {
             // addAddToCollectionButton();
         }
-
-        SwingUtilities.updateComponentTreeUI(this);
     }
 
     /**
@@ -186,23 +172,6 @@ public class AlbumPlaylistPanel extends JPanel {
         }
     }
 
-    private void setupAlbumsByArtistButton() {
-        /*
-         * Other albums by artist
-         */
-        albumsButton = new QButton("More albums");
-
-        ActionListener actionListener = new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-
-                artistListener.actionPerformed(new ActionEvent(album.getArtist(), 0,
-                        ArtistLabel.ACTION_GET_ARTIST_ALBUMS));
-            }
-        };
-
-        albumsButton.addActionListener(actionListener);
-    }
-
     public void changeAlbum(final Album album) {
         log.debug("Changing album...");
         this.album = album;
@@ -212,7 +181,9 @@ public class AlbumPlaylistPanel extends JPanel {
         albumPresentationPanel.update(album);
 
         setupSongsPanel();
-        updateAlbumUI();
+
+        repaint();
+
         log.debug("Album is changed...");
     }
 
@@ -220,7 +191,7 @@ public class AlbumPlaylistPanel extends JPanel {
      * @see javax.swing.JPanel#updateUI()
      */
     public void updateAlbumUI() {
-        setupImageControlPanel(true);
+        // setupImageControlPanel(true);
     }
 
     public Component[] getSongLabels() {

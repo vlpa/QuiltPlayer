@@ -65,7 +65,6 @@ public class AlbumPresentationPanel extends QPanel {
         add(this.albumTitleLabel, "left, w 80%, newline");
         add(this.addAlbumIcon, "right");
         add(this.yearAndLabelArea, "left, w 100%, newline");
-
     }
 
     private JLabel setupAddAlbumIcon() {

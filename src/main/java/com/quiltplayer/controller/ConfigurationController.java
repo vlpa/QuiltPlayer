@@ -38,8 +38,6 @@ public class ConfigurationController implements ConfigurationListener {
             Configuration.getInstance().storeConfiguration();
 
             SwingUtilities.updateComponentTreeUI(frame);
-            frame.repaint();
-            frame.updateUI();
         }
         else if (e.getActionCommand() == ConfigurationView.EVENT_TOGGLE_FULLSCREEN) {
             if (Configuration.getInstance().isFullScreen()) {
@@ -49,8 +47,7 @@ public class ConfigurationController implements ConfigurationListener {
                 frame.setResizable(true);
                 frame.setUndecorated(false);
                 frame.updateUI();
-                Dimension frameDimension = Configuration.getInstance()
-                        .getSavedDimensionOnFrame();
+                Dimension frameDimension = Configuration.getInstance().getSavedDimensionOnFrame();
                 frame.setSize(frameDimension);
                 frame.setLocation(screenSize.width / 2 - ((int) frameDimension.getWidth() / 2),
                         screenSize.height / 2 - ((int) frameDimension.getHeight() / 2));

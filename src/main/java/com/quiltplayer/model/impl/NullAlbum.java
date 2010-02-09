@@ -1,6 +1,7 @@
 package com.quiltplayer.model.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.quiltplayer.external.covers.model.LocalImage;
@@ -139,7 +140,10 @@ public class NullAlbum implements Album, Serializable {
      */
     @Override
     public List<LocalImage> getImages() {
-        // new ImageIcon(ImageProperties.LOGO_PATH.getURL())
+        final List<LocalImage> images = new ArrayList<LocalImage>();
+
+        // LocalImage image = new LocalImageImpl()
+
         return null;
     }
 

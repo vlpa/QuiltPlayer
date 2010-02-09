@@ -149,12 +149,6 @@ public class AlbumControlPanel extends JPanel {
      */
     @Override
     protected void paintBorder(Graphics g) {
-        // g.setColor(new Color(25, 25, 25));
-        // g.drawLine(0, getHeight() - 3, getWidth(), getHeight() - 3);
-        // g.setColor(new Color(20, 20, 20));
-        // g.drawLine(0, getHeight() - 2, getWidth(), getHeight() - 2);
-        // g.setColor(new Color(15, 15, 15));
-        // g.drawLine(0, getHeight() - 1, getWidth(), getHeight() - 1);
     }
 
     @Override

@@ -17,7 +17,7 @@ import de.felixbruns.jotify.exceptions.ConnectionException;
 @Repository
 public class JotifyRepository {
 
-    private JotifyPool jotifyPool = new JotifyPool(5);
+    private JotifyPool jotifyPool = new JotifyPool(3);
 
     private boolean loggedIn;
 
@@ -26,7 +26,7 @@ public class JotifyRepository {
 
         if (!loggedIn) {
             try {
-                this.jotifyPool.login(Configuration.getInstance().getSpotifyUserName(),
+                JotifyPool.getInstance().login(Configuration.getInstance().getSpotifyUserName(),
                         Configuration.getInstance().getSpotifyPassword());
             }
             catch (ConnectionException e) {

@@ -48,7 +48,7 @@ public class PlayerFactory implements Player {
      * @see com.quiltplayer.core.player.Player#pause()
      */
     @Override
-    public void pause() {
+    public synchronized void pause() {
         currentPlayer.pause();
     }
 
@@ -58,7 +58,7 @@ public class PlayerFactory implements Player {
      * @see com.quiltplayer.core.player.Player#stop()
      */
     @Override
-    public void stop() {
+    public synchronized void stop() {
         getPlayer(currentSong).stop();
     }
 
@@ -68,13 +68,13 @@ public class PlayerFactory implements Player {
      * @see com.quiltplayer.core.player.Player#play(com.quiltplayer.model.Song)
      */
     @Override
-    public void play(Song song) {
+    public synchronized void play(Song song) {
         currentSong = song;
 
         getPlayer(song).play(song);
     }
 
-    private Player getPlayer(Song song) {
+    private synchronized Player getPlayer(Song song) {
         if (song == null || song instanceof NeoSong && song.getType().equals(Song.TYPE_FILE)) {
             currentPlayer = basicPlayer;
 
