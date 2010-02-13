@@ -29,9 +29,9 @@ public class QControlPanelButton extends JButton {
 
     private String label;
 
-    private float defaultAlpha = 0.50f;
+    private float defaultAlpha = 0.5f;
 
-    private float alpha = defaultAlpha;
+    private float currentAlpha = defaultAlpha;
 
     private float highlightAlpha = 1.0f;
 
@@ -81,12 +81,9 @@ public class QControlPanelButton extends JButton {
                 if (animator.isRunning())
                     animator.stop();
 
-                PropertySetter setter = new PropertySetter(e.getSource(), "alpha", alpha,
-                        highlightAlpha);
-                animator = new Animator(300, setter);
-                animator.start();
-
                 setText(label);
+
+                animate(currentAlpha, highlightAlpha);
             }
         }
 
@@ -101,7 +98,7 @@ public class QControlPanelButton extends JButton {
                 if (animator.isRunning())
                     animator.stop();
 
-                animateToDefault((QControlPanelButton) e.getSource());
+                animate(currentAlpha, defaultAlpha);
 
                 setText(" ");
 
@@ -110,11 +107,11 @@ public class QControlPanelButton extends JButton {
         }
     };
 
-    private void animateToDefault(QControlPanelButton button) {
+    private void animate(final float fromAlpha, final float toAlpha) {
         if (animator.isRunning())
             animator.stop();
 
-        PropertySetter setter = new PropertySetter(button, "alpha", alpha, defaultAlpha);
+        PropertySetter setter = new PropertySetter(this, "alpha", fromAlpha, toAlpha);
         animator = new Animator(300, setter);
         animator.start();
     }
@@ -139,19 +136,14 @@ public class QControlPanelButton extends JButton {
         setText(" ");
         active = false;
 
-        animateToDefault(this);
-
-        repaint();
+        animate(currentAlpha, defaultAlpha);
     }
 
     public void activate() {
         setText(label);
         active = true;
 
-        PropertySetter setter = new PropertySetter(this, "alpha", highlightAlpha,
-                highlightAlpha - 0.2f);
-        animator = new Animator(1000, Animator.INFINITE, Animator.RepeatBehavior.REVERSE, setter);
-        animator.start();
+        animate(currentAlpha, highlightAlpha);
     }
 
     /*
@@ -160,14 +152,14 @@ public class QControlPanelButton extends JButton {
      */
     private AlphaComposite makeComposite() {
         int type = AlphaComposite.SRC_OVER;
-        return (AlphaComposite.getInstance(type, alpha));
+        return (AlphaComposite.getInstance(type, currentAlpha));
     }
 
     /**
      * @return the alpha
      */
     public final float getAlpha() {
-        return alpha;
+        return currentAlpha;
     }
 
     /**
@@ -175,7 +167,7 @@ public class QControlPanelButton extends JButton {
      *            the alpha to set
      */
     public final void setAlpha(float alpha) {
-        this.alpha = alpha;
+        this.currentAlpha = alpha;
 
         repaint();
     }
