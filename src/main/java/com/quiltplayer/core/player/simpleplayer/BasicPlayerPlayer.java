@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import com.quiltplayer.controller.PlayerController;
 import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.core.player.Player;
-import com.quiltplayer.external.lyrics.LyricsListener;
 import com.quiltplayer.model.Song;
 
 /**
@@ -29,8 +28,6 @@ import com.quiltplayer.model.Song;
 public class BasicPlayerPlayer implements BasicPlayerListener, Player {
 
     private Song currentSong;
-
-    private Integer volume = 5;
 
     /**
      * The logger.
@@ -49,12 +46,6 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
 
     @Autowired
     private PlayerListener playerListener;
-
-    /**
-     * Throw event when new song is playing.
-     */
-    @Autowired
-    private LyricsListener lyricsListener;
 
     /**
      * The time.
@@ -98,8 +89,6 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
                 log.debug("Player status is paused, resuming...");
 
                 controller.resume();
-
-                playerListener.actionPerformed(new ActionEvent("", 0, EVENT_RESUMED_SONG));
             }
         }
         catch (BasicPlayerException ex) {
@@ -113,8 +102,6 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
         if (player.getStatus() == BasicPlayer.PAUSED || player.getStatus() == BasicPlayer.PLAYING) {
             try {
                 controller.stop();
-
-                playerListener.actionPerformed(new ActionEvent(currentSong, 0, EVENT_STOPPED_SONG));
             }
             catch (BasicPlayerException ex) {
                 log.error(ex.getMessage());
@@ -132,13 +119,6 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
         try {
             if (player.getStatus() == BasicPlayer.PLAYING) {
                 controller.pause();
-
-                playerListener.actionPerformed(new ActionEvent("", 0, EVENT_PAUSED_SONG));
-            }
-            else if (player.getStatus() == BasicPlayer.PAUSED) {
-                controller.resume();
-
-                playerListener.actionPerformed(new ActionEvent("", 0, EVENT_RESUMED_SONG));
             }
         }
         catch (BasicPlayerException ex) {

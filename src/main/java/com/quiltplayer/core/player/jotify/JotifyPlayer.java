@@ -11,7 +11,6 @@ import com.quiltplayer.controller.PlayerController;
 import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.core.player.Player;
 import com.quiltplayer.core.repo.spotify.JotifyRepository;
-import com.quiltplayer.external.lyrics.LyricsListener;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.jotify.JotifySong;
 
@@ -34,36 +33,16 @@ public class JotifyPlayer implements Player, PlaybackListener {
     @Autowired
     private PlayerListener playerListener;
 
-    @Autowired
-    private LyricsListener lyricsListener;
-
     private Song currentSong;
-
-    private boolean isPaused = false;
-
-    private Thread playThread;
 
     @Override
     public synchronized long getElapsedTime() {
-        return (long) jotifyRepository.getInstance().position() * 1000000;
+        return (long) JotifyRepository.getInstance().position() * 1000000;
     }
 
     @Override
     public synchronized void pause() {
-        if (!isPaused) {
-            jotifyRepository.getInstance().pause();
-
-            playerListener.actionPerformed(new ActionEvent("", 0, EVENT_PAUSED_SONG));
-
-            isPaused = true;
-        }
-        else {
-            jotifyRepository.getInstance().play();
-
-            playerListener.actionPerformed(new ActionEvent("", 0, EVENT_RESUMED_SONG));
-
-            isPaused = false;
-        }
+        JotifyRepository.getInstance().pause();
     }
 
     /*
@@ -76,8 +55,6 @@ public class JotifyPlayer implements Player, PlaybackListener {
         log.debug("Initializing play for spotify song:" + s.getTitle());
 
         currentSong = s;
-
-        isPaused = false;
 
         stop();
 
@@ -107,9 +84,7 @@ public class JotifyPlayer implements Player, PlaybackListener {
     public synchronized void stop() {
         log.debug("Stopping play...");
 
-        jotifyRepository.getInstance().stop();
-
-        playerListener.actionPerformed(new ActionEvent("", 0, EVENT_STOPPED_SONG));
+        JotifyRepository.getInstance().stop();
     }
 
     /*

@@ -57,6 +57,8 @@ public class PlayerFactory {
      */
     public synchronized void pause() {
         playerSelector.pause();
+
+        playerListener.actionPerformed(new ActionEvent("", 0, Player.EVENT_PAUSED_SONG));
     }
 
     /*
@@ -66,6 +68,8 @@ public class PlayerFactory {
      */
     public synchronized void stop() {
         playerSelector.stop();
+
+        playerListener.actionPerformed(new ActionEvent("", 0, Player.EVENT_STOPPED_SONG));
     }
 
     /*
