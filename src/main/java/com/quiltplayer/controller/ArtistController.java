@@ -54,12 +54,9 @@ public class ArtistController implements ArtistListener {
             else
                 artist = playlistPanel.getCurrentSongLabel().getSong().getAlbum().getArtist();
 
-            for (Album album : artist.getAlbums()) {
-                album.setArtist(artist);
-            }
-
             albumView.setList(artist.getAlbums());
             ((DefaultAlbumView) albumView).setArtist(artist);
+
             frame.updateUI(ActiveView.ALBUM_VIEW);
 
         }

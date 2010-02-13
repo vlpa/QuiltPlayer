@@ -105,7 +105,7 @@ public class ColorConstantsDark implements ColorConstants {
      */
     @Override
     public Color getArtistViewCharBackground() {
-        return new Color(40, 40, 40);
+        return new Color(50, 50, 50);
     }
 
     /*

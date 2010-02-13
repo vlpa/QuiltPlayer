@@ -8,9 +8,9 @@ import org.springframework.stereotype.Controller;
 import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
-import com.quiltplayer.view.swing.panels.ControlPanel;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
-import com.quiltplayer.view.swing.panels.ControlPanel.Tab;
+import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel.Tab;
 import com.quiltplayer.view.swing.window.KeyboardPanel;
 
 /**

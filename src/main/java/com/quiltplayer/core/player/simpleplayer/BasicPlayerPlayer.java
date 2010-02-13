@@ -77,47 +77,34 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
 
         currentSong = song;
 
-        new Thread() {
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.lang.Thread#run()
-             */
-            @Override
-            public void run() {
-                try {
-                    if (player.getStatus() == BasicPlayer.STOPPED
-                            || player.getStatus() == BasicPlayer.UNKNOWN) {
-                        {
-                            File f = new File(song.getPath());
+        try {
+            if (player.getStatus() == BasicPlayer.STOPPED
+                    || player.getStatus() == BasicPlayer.UNKNOWN) {
+                {
+                    File f = new File(song.getPath());
 
-                            controller.open(f);
-                            controller.play();
-                        }
-                    }
-                    else if (player.getStatus() == BasicPlayer.PLAYING) {
-                        log.debug("Player status is playing, stopping...");
-
-                        controller.stop();
-
-                        play(song);
-                    }
-                    else if (player.getStatus() == BasicPlayer.PAUSED) {
-                        log.debug("Player status is paused, resuming...");
-
-                        controller.resume();
-
-                        playerListener.actionPerformed(new ActionEvent("", 0, EVENT_RESUMED_SONG));
-                    }
-                }
-                catch (BasicPlayerException ex) {
-                    log.error(ex.getMessage());
+                    controller.open(f);
+                    controller.play();
                 }
             }
-        }.start();
+            else if (player.getStatus() == BasicPlayer.PLAYING) {
+                log.debug("Player status is playing, stopping...");
 
-        playerListener.actionPerformed(new ActionEvent(song, 0, EVENT_PLAYING_NEW_SONG));
-        lyricsListener.actionPerformed(new ActionEvent(song, 0, EVENT_PLAYING_NEW_SONG));
+                controller.stop();
+
+                play(song);
+            }
+            else if (player.getStatus() == BasicPlayer.PAUSED) {
+                log.debug("Player status is paused, resuming...");
+
+                controller.resume();
+
+                playerListener.actionPerformed(new ActionEvent("", 0, EVENT_RESUMED_SONG));
+            }
+        }
+        catch (BasicPlayerException ex) {
+            log.error(ex.getMessage());
+        }
     }
 
     public synchronized void stop() {
@@ -214,5 +201,16 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
             playerListener.actionPerformed(new ActionEvent(currentSong, 0,
                     PlayerController.PlayerSongEvents.FINISHED.toString()));
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.quiltplayer.core.player.Player#removeCurrentSong()
+     */
+    @Override
+    public void removeCurrentSong() {
+        // TODO Auto-generated method stub
+
     }
 }

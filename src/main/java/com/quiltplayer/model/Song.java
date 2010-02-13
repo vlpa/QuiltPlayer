@@ -13,91 +13,90 @@ package com.quiltplayer.model;
 /**
  * @author Vlado Palczynski
  */
-public interface Song
-{
-	String TYPE_FILE = "file";
+public interface Song {
+    String TYPE_FILE = "file";
 
-	String TYPE_SPOTIFY = "spotify";
+    String TYPE_SPOTIFY = "spotify";
 
-	/**
-	 * @param songId
-	 *            the songId to set.
-	 */
-	void setId(StringId songId);
+    /**
+     * @param songId
+     *            the songId to set.
+     */
+    void setId(StringId songId);
 
-	/**
-	 * @return the id.
-	 */
-	StringId getId();
+    /**
+     * @return the id.
+     */
+    StringId getId();
 
-	/**
-	 * @param spotifyId
-	 *            the spotifyId to set.
-	 */
-	void setSpotifyId(String spotifyId);
+    /**
+     * @param spotifyId
+     *            the spotifyId to set.
+     */
+    void setSpotifyId(String spotifyId);
 
-	/**
-	 * @return the spotifyId.
-	 */
-	String getSpotifyId();
+    /**
+     * @return the spotifyId.
+     */
+    String getSpotifyId();
 
-	/**
-	 * @return the album.
-	 */
-	Album getAlbum();
+    /**
+     * @return the album.
+     */
+    Album getAlbum();
 
-	/**
-	 * @param album
-	 *            the album to set.
-	 */
-	void setAlbum(Album album);
+    /**
+     * @param album
+     *            the album to set.
+     */
+    void setAlbum(Album album);
 
-	/**
-	 * @return the title
-	 */
-	String getTitle();
+    /**
+     * @return the title
+     */
+    String getTitle();
 
-	/**
-	 * @param title
-	 *            the title to set
-	 */
-	void setTitle(String title);
+    /**
+     * @param title
+     *            the title to set
+     */
+    void setTitle(String title);
 
-	/**
-	 * @return the path
-	 */
-	String getPath();
+    /**
+     * @return the path
+     */
+    String getPath();
 
-	/**
-	 * @param path
-	 *            the path to set
-	 */
-	void setPath(String path);
+    /**
+     * @param path
+     *            the path to set
+     */
+    void setPath(String path);
 
-	/**
-	 * @return the trackNumber
-	 */
-	Number getTrackNumber();
+    /**
+     * @return the trackNumber
+     */
+    Number getTrackNumber();
 
-	/**
-	 * @param trackNumber
-	 *            the trackNumber to set
-	 */
-	void setTrackNumber(Number trackNumber);
+    /**
+     * @param trackNumber
+     *            the trackNumber to set
+     */
+    void setTrackNumber(Number trackNumber);
 
-	/**
-	 * @return the fileName
-	 */
-	String getFileName();
+    /**
+     * @return the fileName
+     */
+    String getFileName();
 
-	/**
-	 * @param fileName
-	 *            the fileName to set
-	 */
-	void setFileName(String fileName);
+    /**
+     * @param fileName
+     *            the fileName to set
+     */
+    void setFileName(String fileName);
 
-	void setType(String type);
+    void setType(String type);
 
-	String getType();
+    String getType();
 
 }

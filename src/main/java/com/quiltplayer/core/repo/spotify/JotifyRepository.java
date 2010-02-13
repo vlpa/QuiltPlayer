@@ -10,18 +10,19 @@ import de.felixbruns.jotify.exceptions.AuthenticationException;
 import de.felixbruns.jotify.exceptions.ConnectionException;
 
 /**
+ * Wrapper class for JotifyPool.
  * 
- * @author vlado
+ * @author Vlado Palczynski
  * 
  */
 @Repository
 public class JotifyRepository {
 
-    private JotifyPool jotifyPool = new JotifyPool(3);
+    private static JotifyPool jotifyPool = new JotifyPool(3);
 
-    private boolean loggedIn;
+    private static boolean loggedIn;
 
-    public synchronized Jotify getInstance() {
+    public static synchronized Jotify getInstance() {
         jotifyPool = JotifyPool.getInstance();
 
         if (!loggedIn) {

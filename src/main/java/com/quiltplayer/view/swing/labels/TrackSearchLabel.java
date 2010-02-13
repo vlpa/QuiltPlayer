@@ -28,28 +28,33 @@ public class TrackSearchLabel extends HighlightableQPanel {
 
     public TrackSearchLabel(final Song song) {
         super();
+        if (song.getAlbum() != null && song.getAlbum().getArtist() != null) {
 
-        JLabel artistLabel = new JLabel(song.getAlbum().getArtist().getArtistName().getName());
-        artistLabel.setFont(FontFactory.getFont(12f));
-        artistLabel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
-        artistLabel.setForeground(Color.gray);
-        artistLabel.setMaximumSize(new Dimension((int) getMaximumSize().getWidth(), 12));
+            JLabel artistLabel = new JLabel(song.getAlbum().getArtist().getArtistName().getName());
+            artistLabel.setFont(FontFactory.getFont(12f));
+            artistLabel.setBackground(Configuration.getInstance().getColorConstants()
+                    .getBackground());
+            artistLabel.setForeground(Color.gray);
+            artistLabel.setMaximumSize(new Dimension((int) getMaximumSize().getWidth(), 12));
 
-        JLabel albumLabel = new JLabel(song.getAlbum().getTitle());
-        albumLabel.setFont(FontFactory.getFont(12f));
-        albumLabel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
-        albumLabel.setForeground(Color.gray);
-        albumLabel.setMaximumSize(new Dimension((int) getMaximumSize().getWidth(), 12));
+            JLabel albumLabel = new JLabel(song.getAlbum().getTitle());
+            albumLabel.setFont(FontFactory.getFont(12f));
+            albumLabel.setBackground(Configuration.getInstance().getColorConstants()
+                    .getBackground());
+            albumLabel.setForeground(Color.gray);
+            albumLabel.setMaximumSize(new Dimension((int) getMaximumSize().getWidth(), 12));
 
-        JLabel songLabel = new JLabel(song.getTitle());
-        songLabel.setFont(FontFactory.getFont(14f));
-        songLabel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
-        songLabel.setForeground(Configuration.getInstance().getColorConstants()
-                .getArtistViewTextColor());
+            JLabel songLabel = new JLabel(song.getTitle());
+            songLabel.setFont(FontFactory.getFont(14f));
+            songLabel
+                    .setBackground(Configuration.getInstance().getColorConstants().getBackground());
+            songLabel.setForeground(Configuration.getInstance().getColorConstants()
+                    .getArtistViewTextColor());
 
-        add(artistLabel);
-        add(albumLabel);
-        add(songLabel);
+            add(artistLabel);
+            add(albumLabel);
+            add(songLabel);
+        }
 
         addMouseListener(new MouseAdapter() {
 

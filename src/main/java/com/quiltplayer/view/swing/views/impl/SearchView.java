@@ -22,7 +22,9 @@ import net.miginfocom.swing.MigLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.quiltplayer.core.factory.SpotifyObjectFactory;
+import com.quiltplayer.model.jotify.JotifyAlbum;
+import com.quiltplayer.model.jotify.JotifyArtist;
+import com.quiltplayer.model.jotify.JotifySong;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.buttons.QButton;
@@ -98,7 +100,6 @@ public class SearchView implements Serializable, View {
      */
     @Override
     public Component getUI() {
-
         panel = new QPanel();
         panel.setOpaque(true);
         panel.addFocusListener(focusListener);
@@ -165,7 +166,7 @@ public class SearchView implements Serializable, View {
 
         if (!result.getArtists().isEmpty()) {
             for (Artist artist : result.getArtists()) {
-                label = new SpotifyArtistLabel(SpotifyObjectFactory.getArtist(artist));
+                label = new SpotifyArtistLabel(new JotifyArtist(artist));
                 label.addActionListener(artistListener);
 
                 artists.add(label, "left");
@@ -183,9 +184,10 @@ public class SearchView implements Serializable, View {
 
         if (!result.getAlbums().isEmpty()) {
             for (Album album : result.getAlbums()) {
-                AlbumSearchLabel label = new AlbumSearchLabel(SpotifyObjectFactory.getAlbum(album));
-                label.addActionListener(changeAlbumListener);
+                AlbumSearchLabel label;
+                label = new AlbumSearchLabel(new JotifyAlbum(album));
 
+                label.addActionListener(changeAlbumListener);
                 albums.add(label);
             }
         }
@@ -195,16 +197,17 @@ public class SearchView implements Serializable, View {
 
     private void addTracks(JPanel panel) {
         JPanel tracks = new QPanel(new MigLayout("insets 0, wrap 1"));
-        tracks.setBackground(Configuration.getInstance().getColorConstants().getBackground());
+        tracks.setOpaque(false);
+
         TrackSearchLabel label = null;
 
         tracks.add(addHeader(" Tracks"), "w 100%, h 18");
+        System.out.println(result.getTracks().get(0));
 
         if (!result.getTracks().isEmpty()) {
             for (de.felixbruns.jotify.media.Track track : result.getTracks()) {
-                label = new TrackSearchLabel(SpotifyObjectFactory.getTrack(track));
+                label = new TrackSearchLabel(new JotifySong(track));
                 label.addActionListener(changeAlbumListener);
-
                 tracks.add(label, "left");
             }
         }

@@ -96,7 +96,7 @@ public class AlbumPlaylistPanel extends JPanel {
 
         songsComponent = new SongsComponent();
         songsComponent.setPlayerListener(playerListener);
-        
+
         add(songsComponent.create(album), "grow, h 100%, top, gapy 0.2cm");
     }
 

@@ -21,8 +21,8 @@ import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ActiveView;
-import com.quiltplayer.view.swing.panels.ControlPanel;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.views.ArtistView;
 import com.quiltplayer.view.swing.views.ListView;
 import com.quiltplayer.view.swing.views.View;
@@ -232,7 +232,6 @@ public class QuiltPlayerFrame extends JFrame {
 
         ui.repaint();
         repaint();
-
     }
 
     public ActiveView getCurrentView() {

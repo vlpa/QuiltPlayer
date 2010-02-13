@@ -1,6 +1,7 @@
 package com.quiltplayer.core.player.jotify;
 
 import java.awt.event.ActionEvent;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,31 +81,26 @@ public class JotifyPlayer implements Player, PlaybackListener {
 
         stop();
 
-        final PlaybackListener pl = this;
-
-        new Thread() {
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.lang.Thread#run()
-             */
-            @Override
-            public void run() {
-
-                if (s instanceof JotifySong) {
-                    jotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), pl);
-                }
-                else {
-                    Track track = new Track(s.getSpotifyId());
-                    track = jotifyRepository.getInstance().browse(track);
-
-                    jotifyRepository.getInstance().play(track, pl);
-                }
+        if (s instanceof JotifySong) {
+            try {
+                jotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), this);
             }
-        }.start();
-
-        playerListener.actionPerformed(new ActionEvent(s, 0, EVENT_PLAYING_NEW_SONG));
-        lyricsListener.actionPerformed(new ActionEvent(s, 0, EVENT_PLAYING_NEW_SONG));
+            catch (TimeoutException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        else {
+            Track track = new Track(s.getSpotifyId());
+            try {
+                /* We need the files of the track... */
+                track = jotifyRepository.getInstance().browse(track);
+                jotifyRepository.getInstance().play(track, this);
+            }
+            catch (TimeoutException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -171,5 +167,16 @@ public class JotifyPlayer implements Player, PlaybackListener {
     @Override
     public void playbackStopped(Track track) {
         log.debug("Playback stopped...");
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.quiltplayer.core.player.Player#removeCurrentSong()
+     */
+    @Override
+    public void removeCurrentSong() {
+        // TODO Auto-generated method stub
+
     }
 }

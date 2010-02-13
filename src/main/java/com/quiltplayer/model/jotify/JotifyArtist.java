@@ -3,11 +3,11 @@ package com.quiltplayer.model.jotify;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.lang.NotImplementedException;
 
 import com.quiltplayer.core.comparators.YearComparator;
-import com.quiltplayer.core.factory.SpotifyObjectFactory;
 import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Artist;
@@ -18,23 +18,14 @@ public class JotifyArtist implements Artist {
 
     private de.felixbruns.jotify.media.Artist spotifyArtist;
 
-    private JotifyRepository jotifyRepository;
-
     private List<Album> albums;
 
     private StringId id;
 
     private ArtistName name;
 
-    /**
-     * @param jotifyRepository
-     *            the jotifyRepository to set
-     */
-    public final void setJotifyRepository(JotifyRepository jotifyRepository) {
-        this.jotifyRepository = jotifyRepository;
-    }
-
     public JotifyArtist(de.felixbruns.jotify.media.Artist spotifyArtist) {
+
         this.spotifyArtist = spotifyArtist;
 
         name = new ArtistName(spotifyArtist.getName());
@@ -107,7 +98,12 @@ public class JotifyArtist implements Artist {
         if (albums == null) {
             albums = new ArrayList<Album>();
 
-            spotifyArtist = jotifyRepository.getInstance().browse(spotifyArtist);
+            try {
+                spotifyArtist = JotifyRepository.getInstance().browse(spotifyArtist);
+            }
+            catch (TimeoutException e) {
+                e.printStackTrace();
+            }
 
             for (de.felixbruns.jotify.media.Album album : spotifyArtist.getAlbums()) {
 
@@ -119,7 +115,7 @@ public class JotifyArtist implements Artist {
                     artistName = name.getName();
 
                 if (album.getArtist().getName().equalsIgnoreCase(artistName))
-                    albums.add(SpotifyObjectFactory.getAlbum(album));
+                    albums.add(new JotifyAlbum(album));
             }
 
             Collections.sort(albums, new YearComparator());

@@ -1,6 +1,7 @@
 package com.quiltplayer.controller;
 
 import java.awt.event.ActionEvent;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,6 @@ public class SearchController implements SearchListener {
     public static final String ACTION_GET_ARTIST = "get.artist";
 
     @Autowired
-    private JotifyRepository jotifyRepository;
-
-    @Autowired
     private QuiltPlayerFrame frame;
 
     @Autowired
@@ -45,7 +43,14 @@ public class SearchController implements SearchListener {
             String query = (String) e.getSource();
 
             if (StringUtils.isNotBlank(query)) {
-                Result result = jotifyRepository.getInstance().search(query);
+                Result result = null;
+                try {
+                    result = JotifyRepository.getInstance().search(query);
+                }
+                catch (TimeoutException e1) {
+                    e1.printStackTrace();
+                }
+
                 ((SearchView) searchView).setResult(result);
 
                 if (frame.getCurrentView() == ActiveView.SEARCH_VIEW)

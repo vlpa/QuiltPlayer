@@ -2,7 +2,7 @@ package com.quiltplayer.model.jotify;
 
 import org.apache.commons.lang.NotImplementedException;
 
-import com.quiltplayer.core.factory.SpotifyObjectFactory;
+import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;
@@ -13,16 +13,8 @@ public class JotifySong implements Song {
 
     private Track spotifyTrack;
 
-    private Album album;
-
-    public JotifySong(Track spotifyTrack, Album album) {
-        this.spotifyTrack = spotifyTrack;
-        this.album = album;
-    }
-
     public JotifySong(Track spotifyTrack) {
         this.spotifyTrack = spotifyTrack;
-        this.album = SpotifyObjectFactory.getAlbum(spotifyTrack.getAlbum());
     }
 
     /*
@@ -32,7 +24,7 @@ public class JotifySong implements Song {
      */
     @Override
     public Album getAlbum() {
-        return album;
+        return new JotifyAlbum(spotifyTrack.getAlbum());
     }
 
     /*

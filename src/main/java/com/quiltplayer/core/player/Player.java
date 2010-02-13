@@ -9,7 +9,7 @@ import com.quiltplayer.model.Song;
  */
 public interface Player {
 
-    String EVENT_PLAYING_NEW_SONG = "new.song";
+    String EVENT_PLAYING_NEW_SONG = "playing.new.song";
 
     String EVENT_STOPPED_SONG = "song.stopped";
 
@@ -38,4 +38,9 @@ public interface Player {
      * @return long
      */
     long getElapsedTime();
+
+    /**
+     * If an album gets removed.
+     */
+    void removeCurrentSong();
 }

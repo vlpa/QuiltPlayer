@@ -17,6 +17,7 @@ import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QSongButton;
+import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.AlbumPlaylistPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
 
@@ -69,7 +70,7 @@ public class PlaylistPanel extends JPanel {
         mainPanel.setOpaque(true);
         mainPanel.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
-        add(mainPanel, "h 100%, w " + ImageSizes.LARGE.getSize() + "px!, gapx 0.15cm");
+        add(mainPanel, "h 100%, w " + ImageSizes.LARGE.getSize() + "px!");
 
         mainPanel.add(albumPanel, "dock south");
 

@@ -34,7 +34,20 @@ public class AlfabeticArtistPane extends JPanel {
     public void setup(final String character, final List<Artist> artists) {
         this.character = character;
 
-        final JLabel charLabel = new JLabel();
+        final JLabel charLabel = new JLabel() {
+            private static final long serialVersionUID = 1L;
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+             */
+            @Override
+            protected void paintComponent(Graphics g) {
+                // TODO Auto-generated method stub
+                super.paintComponent(g);
+            }
+        };
 
         charLabel.setFont(FontFactory.getFont(15f));
         charLabel.setForeground(Configuration.getInstance().getColorConstants()

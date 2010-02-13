@@ -1,5 +1,12 @@
 package com.quiltplayer.view.swing.panels.controlpanels;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.LinearGradientPaint;
+import java.awt.RenderingHints;
+import java.awt.geom.Point2D;
+
 import javax.annotation.PostConstruct;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -11,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.quiltplayer.controller.PlayerController;
 import com.quiltplayer.controller.PlayerListener;
+import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.utils.ClassPathUtils;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
 
@@ -29,11 +37,16 @@ public class PlayerControlPanel extends JPanel {
 
     private QControlPanelButton previousButton;
 
+    private Color[] gradient = { new Color(80, 80, 80), new Color(50, 50, 50),
+            new Color(20, 20, 20), new Color(00, 00, 00) };
+
+    private float[] dist = { 0.0f, 0.60f, 0.64f, 1.0f };
+
     @Autowired
     private PlayerListener playerListener;
 
     public PlayerControlPanel() {
-        super(new MigLayout("insets 0, wrap 6"));
+        super(new MigLayout("insets 0, wrap 6, w " + ImageSizes.LARGE.getSize() + "px!"));
     }
 
     @PostConstruct
@@ -50,7 +63,8 @@ public class PlayerControlPanel extends JPanel {
 
         final String s = "h 100%, w 3cm";
 
-        setOpaque(false);
+        setOpaque(true);
+
         add(previousButton, s + ", cell 1 0");
         add(playButton, s + ", cell 2 0");
         add(pauseButton, s + ", cell 3 0");
@@ -111,4 +125,24 @@ public class PlayerControlPanel extends JPanel {
         playButton.inactivate();
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        if (!isOpaque()) {
+            super.paintComponent(g);
+            return;
+        }
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        Point2D start = new Point2D.Float(0, 0);
+        Point2D end = new Point2D.Float(0, getHeight());
+
+        LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
+
+        g2d.setPaint(p);
+
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+    }
 }

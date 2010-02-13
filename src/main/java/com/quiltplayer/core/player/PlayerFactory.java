@@ -1,13 +1,15 @@
 package com.quiltplayer.core.player;
 
+import java.awt.event.ActionEvent;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
-import com.quiltplayer.core.player.jotify.JotifyPlayer;
-import com.quiltplayer.core.player.simpleplayer.BasicPlayerPlayer;
+import com.quiltplayer.controller.PlayerListener;
+import com.quiltplayer.core.player.tasks.PlayTask;
+import com.quiltplayer.external.lyrics.LyricsListener;
 import com.quiltplayer.model.Song;
-import com.quiltplayer.model.impl.NullAlbum;
-import com.quiltplayer.model.neo.NeoSong;
 
 /**
  * Factory for players.
@@ -16,30 +18,36 @@ import com.quiltplayer.model.neo.NeoSong;
  * 
  */
 @Component
-public class PlayerFactory implements Player {
+public class PlayerFactory {
 
     @Autowired
-    private BasicPlayerPlayer basicPlayer;
+    private PlayerListener playerListener;
 
     @Autowired
-    private JotifyPlayer jotifyPlayer;
+    private LyricsListener lyricsListener;
 
-    private Player currentPlayer;
+    @Autowired
+    private TaskExecutor taskExecutor;
 
-    private Song currentSong;
+    @Autowired
+    private PlayerSelector playerSelector;
 
     /*
      * (non-Javadoc)
      * 
      * @see com.quiltplayer.core.player.Player#getElapsedTime()
      */
-    @Override
     public long getElapsedTime() {
-        if (currentSong instanceof NullAlbum)
-            return 0;
+        return playerSelector.getElapsedTime();
+    }
 
-        return getPlayer(currentSong).getElapsedTime();
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.quiltplayer.core.player.Player#removeCurrentSong()
+     */
+    public void removeCurrentSong() {
+        playerSelector.removeCurrentSong();
     }
 
     /*
@@ -47,9 +55,8 @@ public class PlayerFactory implements Player {
      * 
      * @see com.quiltplayer.core.player.Player#pause()
      */
-    @Override
     public synchronized void pause() {
-        currentPlayer.pause();
+        playerSelector.pause();
     }
 
     /*
@@ -57,9 +64,8 @@ public class PlayerFactory implements Player {
      * 
      * @see com.quiltplayer.core.player.Player#stop()
      */
-    @Override
     public synchronized void stop() {
-        getPlayer(currentSong).stop();
+        playerSelector.stop();
     }
 
     /*
@@ -67,26 +73,10 @@ public class PlayerFactory implements Player {
      * 
      * @see com.quiltplayer.core.player.Player#play(com.quiltplayer.model.Song)
      */
-    @Override
     public synchronized void play(Song song) {
-        currentSong = song;
+        taskExecutor.execute(new PlayTask(song, playerSelector));
 
-        getPlayer(song).play(song);
-    }
-
-    private synchronized Player getPlayer(Song song) {
-        if (song == null || song instanceof NeoSong && song.getType().equals(Song.TYPE_FILE)) {
-            currentPlayer = basicPlayer;
-
-            return basicPlayer;
-        }
-
-        currentPlayer = jotifyPlayer;
-
-        return jotifyPlayer;
-    }
-
-    public void removeCurrentSong() {
-        currentSong = null;
+        playerListener.actionPerformed(new ActionEvent(song, 0, Player.EVENT_PLAYING_NEW_SONG));
+        lyricsListener.actionPerformed(new ActionEvent(song, 0, Player.EVENT_PLAYING_NEW_SONG));
     }
 }

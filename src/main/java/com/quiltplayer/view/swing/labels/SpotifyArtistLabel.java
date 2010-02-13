@@ -14,35 +14,30 @@ import com.quiltplayer.model.Artist;
  * 
  * @author Vlado Palczynski
  */
-public class SpotifyArtistLabel extends ArtistLabel
-{
-	private static final long serialVersionUID = 1L;
+public class SpotifyArtistLabel extends ArtistLabel {
+    private static final long serialVersionUID = 1L;
 
-    public SpotifyArtistLabel(Artist artist)
-	{
-		super(artist);
-	}
+    public SpotifyArtistLabel(Artist artist) {
+        super(artist);
+    }
 
-	public SpotifyArtistLabel(Artist artist, Image portrait)
-	{
-		super(artist);
+    public SpotifyArtistLabel(Artist artist, Image portrait) {
+        super(artist);
 
-		setIcon(new ImageIcon(portrait));
-	}
+        setIcon(new ImageIcon(portrait));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
-	 */
-	@Override
-	public void paint(Graphics g)
-	{
-		Graphics2D g2d = (Graphics2D) g;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     */
+    @Override
+    public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
 
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		super.paint(g);
-	}
+        super.paint(g);
+    }
 }

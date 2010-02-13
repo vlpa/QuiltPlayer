@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import javax.imageio.ImageIO;
 
@@ -14,7 +15,6 @@ import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.quiltplayer.core.factory.SpotifyObjectFactory;
 import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.external.covers.model.LocalImage;
@@ -28,6 +28,7 @@ import com.quiltplayer.model.StringId;
 import com.quiltplayer.model.impl.LocalImageImpl;
 import com.quiltplayer.properties.Configuration;
 
+import de.felixbruns.jotify.media.Disc;
 import de.felixbruns.jotify.media.Track;
 
 public class JotifyAlbum implements Album {
@@ -42,32 +43,8 @@ public class JotifyAlbum implements Album {
 
     private SongCollection songCollection;
 
-    private JotifyRepository jotifyRepository;
-
     public JotifyAlbum(de.felixbruns.jotify.media.Album album) {
         this.spotifyAlbum = album;
-
-        setupArtist();
-    }
-
-    private void setupArtist() {
-        artist = SpotifyObjectFactory.getArtist(spotifyAlbum.getArtist());
-    }
-
-    private void setupCollection() {
-
-        songCollection = new JotifySongCollection();
-        List<Song> songs = new ArrayList<Song>();
-
-        if (spotifyAlbum.getTracks().isEmpty()) {
-            spotifyAlbum = jotifyRepository.getInstance().browse(spotifyAlbum);
-        }
-
-        for (Track track : spotifyAlbum.getTracks()) {
-            songs.add(SpotifyObjectFactory.getTrack(track, this));
-        }
-
-        songCollection.setSongs(songs);
     }
 
     @Override
@@ -84,7 +61,10 @@ public class JotifyAlbum implements Album {
 
     @Override
     public Artist getArtist() {
-        return artist;
+        if (spotifyAlbum != null && spotifyAlbum.getArtist() != null)
+            return new JotifyArtist(spotifyAlbum.getArtist());
+
+        return null;
     }
 
     @Override
@@ -102,7 +82,12 @@ public class JotifyAlbum implements Album {
         List<LocalImage> images = new ArrayList<LocalImage>();
 
         if (spotifyAlbum.getCover() == null)
-            spotifyAlbum = jotifyRepository.getInstance().browseAlbum(spotifyAlbum.getId());
+            try {
+                spotifyAlbum = JotifyRepository.getInstance().browseAlbum(spotifyAlbum.getId());
+            }
+            catch (TimeoutException e1) {
+                e1.printStackTrace();
+            }
 
         File localImagePath = new File(Configuration.ALBUM_COVERS_PATH, spotifyAlbum.getCover()
                 + ".jpg");
@@ -111,14 +96,21 @@ public class JotifyAlbum implements Album {
 
         if (!localImagePath.exists()) {
             log.debug("Didn't find cached image, stream&create...");
+            try {
+                if (spotifyAlbum.getCover() == null) {
+                    de.felixbruns.jotify.media.Album freshAlbum;
 
-            if (spotifyAlbum.getCover() == null) {
-                de.felixbruns.jotify.media.Album freshAlbum = jotifyRepository.getInstance()
-                        .browse(spotifyAlbum);
-                image = jotifyRepository.getInstance().image(freshAlbum.getCover());
+                    freshAlbum = JotifyRepository.getInstance().browse(spotifyAlbum);
+                    image = JotifyRepository.getInstance().image(freshAlbum.getCover());
+                }
+                else {
+                    image = JotifyRepository.getInstance().image(spotifyAlbum.getCover());
+                }
             }
-            else {
-                image = jotifyRepository.getInstance().image(spotifyAlbum.getCover());
+
+            catch (TimeoutException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
 
             try {
@@ -192,8 +184,16 @@ public class JotifyAlbum implements Album {
 
     @Override
     public SongCollection getSongCollection() {
-        if (songCollection == null)
-            setupCollection();
+        songCollection = new JotifySongCollection();
+        List<Song> songs = new ArrayList<Song>();
+
+        for (Disc disc : spotifyAlbum.getDiscs()) {
+            for (Track track : disc.getTracks()) {
+                songs.add(new JotifySong(track));
+            }
+        }
+
+        songCollection.setSongs(songs);
 
         return songCollection;
     }
@@ -341,9 +341,5 @@ public class JotifyAlbum implements Album {
     public void deleteImages() {
         // TODO Auto-generated method stub
 
-    }
-
-    public final void setJotifyRepository(JotifyRepository jotifyRepository) {
-        this.jotifyRepository = jotifyRepository;
     }
 }

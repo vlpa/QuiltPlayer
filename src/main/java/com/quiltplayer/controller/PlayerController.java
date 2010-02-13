@@ -15,8 +15,8 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.SongStatus;
 import com.quiltplayer.view.swing.buttons.QSongButton;
-import com.quiltplayer.view.swing.panels.ControlPanel;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 
 /**
  * Controller regarding the player.

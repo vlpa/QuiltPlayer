@@ -41,6 +41,8 @@ public class ArtistName {
         if (the) {
             return name + ", The";
         }
+        else if (name == null)
+            return "";
 
         return name;
     }
