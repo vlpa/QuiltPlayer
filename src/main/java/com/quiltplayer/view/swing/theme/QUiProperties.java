@@ -58,7 +58,7 @@ public class QUiProperties {
     }
 
     private static void setupComboBox() {
-        UIManager.put("ComboBox.selectionBackground", Color.yellow);
+        // UIManager.put("ComboBox.selectionBackground", Color.yellow);
         UIManager.put("ComboBox.selectionForeground", Color.BLACK);
         UIManager.put("ComboBox.buttonHighlight", Color.PINK);
         UIManager.put("ComboBox.buttonBackground", Color.PINK);

@@ -1,8 +1,6 @@
 package com.quiltplayer.view.swing.views.impl;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
@@ -12,25 +10,26 @@ import java.awt.event.KeyListener;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.model.jotify.JotifyArtist;
 import com.quiltplayer.model.jotify.JotifySong;
 import com.quiltplayer.properties.Configuration;
-import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.labels.AlbumSearchLabel;
 import com.quiltplayer.view.swing.labels.SpotifyArtistLabel;
+import com.quiltplayer.view.swing.labels.StringOrCharLabel;
 import com.quiltplayer.view.swing.labels.TrackSearchLabel;
+import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.listeners.SearchListener;
@@ -122,9 +121,9 @@ public class SearchView implements Serializable, View {
 
         searchField.requestFocus();
 
-        pane.repaint();
+        final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
 
-        return pane;
+        return jx;
     }
 
     private void setupSearchBar() {
@@ -162,7 +161,7 @@ public class SearchView implements Serializable, View {
         artists.setBackground(Configuration.getInstance().getColorConstants().getBackground());
         SpotifyArtistLabel label = null;
 
-        artists.add(addHeader(" Artists"), "w 100%, h 18");
+        artists.add(new StringOrCharLabel(" Artists"), "w 100%, h 18");
 
         if (!result.getArtists().isEmpty()) {
             for (Artist artist : result.getArtists()) {
@@ -180,7 +179,7 @@ public class SearchView implements Serializable, View {
         JPanel albums = new QPanel(new MigLayout("insets 0, top, wrap 1"));
         albums.setBackground(Configuration.getInstance().getColorConstants().getBackground());
 
-        albums.add(addHeader(" Albums"), "w 100%, h 18");
+        albums.add(new StringOrCharLabel(" Albums"), "w 100%, h 18");
 
         if (!result.getAlbums().isEmpty()) {
             for (Album album : result.getAlbums()) {
@@ -201,8 +200,7 @@ public class SearchView implements Serializable, View {
 
         TrackSearchLabel label = null;
 
-        tracks.add(addHeader(" Tracks"), "w 100%, h 18");
-        System.out.println(result.getTracks().get(0));
+        tracks.add(new StringOrCharLabel(" Tracks"), "w 100%, h 18");
 
         if (!result.getTracks().isEmpty()) {
             for (de.felixbruns.jotify.media.Track track : result.getTracks()) {
@@ -213,23 +211,6 @@ public class SearchView implements Serializable, View {
         }
 
         panel.add(tracks, "top, wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
-    }
-
-    private JLabel addHeader(String title) {
-        JLabel charLabel = new JLabel();
-
-        Font font = FontFactory.getFont(15f);
-
-        charLabel.setFont(font);
-        charLabel.setForeground(Configuration.getInstance().getColorConstants()
-                .getArtistViewCharColor());
-        charLabel.setText(title);
-        charLabel.setBackground(Configuration.getInstance().getColorConstants()
-                .getArtistViewCharBackground());
-        charLabel.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 50)));
-        charLabel.setOpaque(true);
-
-        return charLabel;
     }
 
     private void setupSearchButton() {

@@ -70,7 +70,7 @@ public class PlaylistPanel extends JPanel {
         mainPanel.setOpaque(true);
         mainPanel.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
-        add(mainPanel, "h 100%, w " + ImageSizes.LARGE.getSize() + "px!");
+        add(mainPanel, "h 100%, w " + ImageSizes.LARGE.getSize() + "px!, gapx 0.15cm");
 
         mainPanel.add(albumPanel, "dock south");
 

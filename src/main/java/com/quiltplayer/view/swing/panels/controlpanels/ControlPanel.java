@@ -24,7 +24,6 @@ import com.quiltplayer.utils.ClassPathUtils;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
 import com.quiltplayer.view.swing.handlers.ExitHandler;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
-import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
 
 /**
  * GUI for the control panel.

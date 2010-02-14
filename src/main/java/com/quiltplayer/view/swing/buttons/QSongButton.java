@@ -6,12 +6,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.text.SimpleDateFormat;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
@@ -30,7 +30,7 @@ import com.quiltplayer.view.swing.FontFactory;
  * 
  * @author Vlado Palczynski
  */
-public class QSongButton extends JButton {
+public class QSongButton extends ScrollableButton {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,7 +50,11 @@ public class QSongButton extends JButton {
 
     private boolean isActive = false;
 
+    private PlayerListener playerListener;
+
     public QSongButton(Song song, PlayerListener playerListener) {
+        this.playerListener = playerListener;
+
         setLayout(new MigLayout("insets 0, wrap 2, aligny center, fill"));
 
         this.song = song;
@@ -65,9 +69,6 @@ public class QSongButton extends JButton {
         setOpaque(false);
 
         addMouseListener(listener);
-
-        addActionListener(playerListener);
-        setActionCommand(PlayerSongEvents.CHANGE.toString());
 
         setSelected(false);
 
@@ -152,6 +153,17 @@ public class QSongButton extends JButton {
             g2d.setPaint(p);
             g2d.fillRect(1, 1, getWidth() - 1, getHeight());
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.quiltplayer.view.swing.buttons.ScrollableButton#triggerAction()
+     */
+    @Override
+    public void triggerAction() {
+        playerListener
+                .actionPerformed(new ActionEvent(song, 0, PlayerSongEvents.CHANGE.toString()));
     }
 
     /*

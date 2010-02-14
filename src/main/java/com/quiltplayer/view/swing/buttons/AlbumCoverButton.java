@@ -1,9 +1,11 @@
-package com.quiltplayer.view.swing.panels;
+package com.quiltplayer.view.swing.buttons;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -11,32 +13,38 @@ import javax.swing.Timer;
 
 import net.miginfocom.swing.MigLayout;
 
+import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
+import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 
-public class AlbumLabel extends QPanel {
+public class AlbumCoverButton extends ScrollableButton {
 
     private static final long serialVersionUID = 1L;
 
-    public Icon icon;
+    private Icon icon;
 
-    public JLabel iconLabel;
+    private JLabel iconLabel;
 
-    public Timer currentTimer;
+    private Timer currentTimer;
 
     private Album album;
 
-    public AlbumLabel(final Album album) {
+    private ChangeAlbumListener changeAlbumListener;
 
-        super(new MigLayout("insets 0, w " + ImageSizes.SMALL.getSize() + "px!, h "
-                + ImageSizes.SMALL.getSize() + "px!"));
-
-        setAutoscrolls(true);
-        setToolTipText(album.getArtist().getArtistName().getName() + " - " + album.getTitle());
-
-        setOpaque(false);
+    public AlbumCoverButton(final Album album, final ChangeAlbumListener changeAlbumListener) {
 
         this.album = album;
+        this.changeAlbumListener = changeAlbumListener;
+
+        setLayout(new MigLayout("insets 10, w " + ImageSizes.SMALL.getSize() + "px!, h "
+                + ImageSizes.SMALL.getSize() + "px!"));
+
+        setToolTipText(album.getArtist().getArtistName().getName() + " - " + album.getTitle());
+
+        setBorder(BorderFactory.createEmptyBorder());
+
+        setOpaque(false);
 
         if (album.getImages().size() > 0)
             icon = new ImageIcon(album.getImages().get(0).getSmallImage().getAbsolutePath());
@@ -50,19 +58,16 @@ public class AlbumLabel extends QPanel {
                 + "lp");
     }
 
-    /**
-     * @return the album
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.quiltplayer.view.swing.buttons.ScrollableButton#triggerAction()
      */
-    public Album getAlbum() {
-        return album;
-    }
+    @Override
+    public void triggerAction() {
+        changeAlbumListener.actionPerformed(new ActionEvent(album, 0,
+                ChangeAlbumController.EVENT_CHANGE_ALBUM));
 
-    /**
-     * @param album
-     *            the album to set
-     */
-    public void setAlbum(Album album) {
-        this.album = album;
     }
 
     /*

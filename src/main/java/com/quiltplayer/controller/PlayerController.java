@@ -112,11 +112,12 @@ public class PlayerController implements PlayerListener {
             playerFactory.pause();
         }
         else if (PlayerSongEvents.PLAY.toString() == cmd) {
-            playerFactory.pause();
+            playerFactory.play(playList.getCurrentSong());
         }
         else if (PlayerSongEvents.CHANGE.toString() == cmd) {
             playlistPanel.inactivateCurrentSongLabel();
-            playList.jumpToSong(((QSongButton) e.getSource()).getSong());
+            playerFactory.stop();
+            playList.jumpToSong((Song) e.getSource());
             playerFactory.play(playList.getCurrentSong());
         }
         else if (PlayerSongEvents.NEXT.toString() == cmd) {

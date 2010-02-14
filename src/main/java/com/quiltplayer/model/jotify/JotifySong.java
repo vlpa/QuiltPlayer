@@ -2,7 +2,6 @@ package com.quiltplayer.model.jotify;
 
 import org.apache.commons.lang.NotImplementedException;
 
-import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;

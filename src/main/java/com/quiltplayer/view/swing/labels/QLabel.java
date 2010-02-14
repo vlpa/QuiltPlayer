@@ -45,8 +45,7 @@ public class QLabel extends JLabel {
 
         setMaximumSize(new Dimension(200, 30));
 
-        setForeground(Configuration.getInstance().getColorConstants()
-                .getQLabelForegroundColor());
+        setForeground(Configuration.getInstance().getColorConstants().getQLabelForegroundColor());
     }
 
     /*
@@ -58,8 +57,7 @@ public class QLabel extends JLabel {
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         super.paintComponent(g2d);
     }

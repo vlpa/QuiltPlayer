@@ -11,7 +11,6 @@ import java.awt.event.MouseListener;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -73,7 +72,7 @@ public class AlbumPlaylistPanel extends JPanel {
 
     private Album album;
 
-    private JScrollPane songs;
+    private Component songs;
 
     @Autowired
     private CrossFader crossFader;
@@ -103,6 +102,7 @@ public class AlbumPlaylistPanel extends JPanel {
     private void setupSongsPanel() {
         songs = songsComponent.create(album);
         songs.repaint();
+        repaint();
 
         if (album instanceof NeoAlbum) {
             // addEditAlbumButton();

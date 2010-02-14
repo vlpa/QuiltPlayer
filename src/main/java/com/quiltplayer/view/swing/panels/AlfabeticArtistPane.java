@@ -6,16 +6,14 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.model.Artist;
-import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.labels.ArtistLabel;
+import com.quiltplayer.view.swing.labels.StringOrCharLabel;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 
 public class AlfabeticArtistPane extends JPanel {
@@ -34,31 +32,7 @@ public class AlfabeticArtistPane extends JPanel {
     public void setup(final String character, final List<Artist> artists) {
         this.character = character;
 
-        final JLabel charLabel = new JLabel() {
-            private static final long serialVersionUID = 1L;
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-             */
-            @Override
-            protected void paintComponent(Graphics g) {
-                // TODO Auto-generated method stub
-                super.paintComponent(g);
-            }
-        };
-
-        charLabel.setFont(FontFactory.getFont(15f));
-        charLabel.setForeground(Configuration.getInstance().getColorConstants()
-                .getArtistViewCharColor());
-        charLabel.setText(" " + character);
-        charLabel.setBackground(Configuration.getInstance().getColorConstants()
-                .getArtistViewCharBackground());
-        charLabel.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 50)));
-        charLabel.setOpaque(true);
-
-        add(charLabel, "w 4cm!, h 0.75cm");
+        add(new StringOrCharLabel(character), "w 4cm!, h 0.75cm");
 
         for (final Artist artist : artists) {
             final ArtistLabel label = new ArtistLabel(artist);

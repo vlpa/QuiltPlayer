@@ -45,7 +45,6 @@ public class AboutView implements Serializable, View {
         panel = new JPanel();
         panel.setLayout(new MigLayout(
                 "insets 0, wrap 1, alignx center, aligny center, fillx, filly"));
-        panel.setOpaque(false);
 
         WikipediaService ws = new WikipediaService();
 

@@ -59,11 +59,11 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setWheelScrollingEnabled(true);
+        // setWheelScrollingEnabled(true);
 
         setBorder(BorderFactory.createEmptyBorder());
 
-        setAutoscrolls(true);
+        // setAutoscrolls(true);
         setDoubleBuffered(true);
 
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -101,15 +101,19 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
      */
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (e.getX() > pressedXPosition)
-            getHorizontalScrollBar().setValue(pressedHorizontalBar - (e.getX() - pressedXPosition));
+        if (e.getXOnScreen() > pressedXPosition)
+            getHorizontalScrollBar().setValue(
+                    pressedHorizontalBar - (e.getXOnScreen() - pressedXPosition));
         else
-            getHorizontalScrollBar().setValue(pressedHorizontalBar + (pressedXPosition - e.getX()));
+            getHorizontalScrollBar().setValue(
+                    pressedHorizontalBar + (pressedXPosition - e.getXOnScreen()));
 
-        if (e.getY() > pressedYPosition)
-            getVerticalScrollBar().setValue(pressedVerticalBar - (e.getY() - pressedYPosition));
+        if (e.getYOnScreen() > pressedYPosition)
+            getVerticalScrollBar().setValue(
+                    pressedVerticalBar - (e.getYOnScreen() - pressedYPosition));
         else
-            getVerticalScrollBar().setValue(pressedVerticalBar + (pressedYPosition - e.getY()));
+            getVerticalScrollBar().setValue(
+                    pressedVerticalBar + (pressedYPosition - e.getYOnScreen()));
     }
 
     /*
@@ -120,7 +124,6 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
     @Override
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
-
     }
 
     /*
@@ -131,7 +134,6 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
-
     }
 
     /*
@@ -142,7 +144,6 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
     @Override
     public void mouseMoved(MouseEvent e) {
         // TODO Auto-generated method stub
-
     }
 
     /*
@@ -152,8 +153,8 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        pressedXPosition = e.getX();
-        pressedYPosition = e.getY();
+        pressedXPosition = e.getXOnScreen();
+        pressedYPosition = e.getYOnScreen();
 
         pressedHorizontalBar = getHorizontalScrollBar().getValue();
         pressedVerticalBar = getVerticalScrollBar().getValue();

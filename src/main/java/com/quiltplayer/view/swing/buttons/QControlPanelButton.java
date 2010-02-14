@@ -19,7 +19,7 @@ import org.jdesktop.animation.timing.interpolation.PropertySetter;
 import com.quiltplayer.view.swing.FontFactory;
 
 /**
- * Default tab implementation.
+ * Default control panel button implementation.
  * 
  * @author Vlado Palczynski.
  */
@@ -29,7 +29,7 @@ public class QControlPanelButton extends JButton {
 
     private String label;
 
-    private float defaultAlpha = 0.5f;
+    private float defaultAlpha = 0.4f;
 
     private float currentAlpha = defaultAlpha;
 
