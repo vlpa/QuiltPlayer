@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
 
 import net.miginfocom.swing.MigLayout;
 
-import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.util.ColorUtils;
 
 /**
@@ -21,7 +21,7 @@ public class HighlightableQPanel extends QPanel {
 
     private static final long serialVersionUID = 1L;
 
-    protected Color background = Configuration.getInstance().getColorConstants().getBackground();
+    protected Color background = ColorConstantsDark.BACKGROUND;
 
     // Hit detection.
     Shape shape;

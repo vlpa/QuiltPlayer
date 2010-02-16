@@ -83,8 +83,8 @@ public class QSongButton extends ScrollableButton {
         timeLabel.setForeground(Color.WHITE);
         timeLabel.setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
 
-        add(timeLabel, "cell 0 0, west, gapx 0.1cm");
-        add(titleLabel, "cell 1 0, west, gapx 0.2cm");
+        add(timeLabel, "cell 0 0, west, gapx 0.05cm");
+        add(titleLabel, "cell 1 0, west, gapx 0.1cm");
     }
 
     private transient MouseListener listener = new MouseAdapter() {

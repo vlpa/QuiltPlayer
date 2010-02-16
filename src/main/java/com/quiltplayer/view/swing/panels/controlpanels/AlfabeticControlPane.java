@@ -1,7 +1,5 @@
 package com.quiltplayer.view.swing.panels.controlpanels;
 
-import java.awt.Color;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -44,12 +42,11 @@ public class AlfabeticControlPane implements View {
         if (layer == null) {
             final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 1, fill"));
 
-            panel.setForeground(Color.WHITE);
-            panel.setOpaque(false);
+            panel.setOpaque(true);
 
             for (String s : strings) {
                 panel.add(new AlfabeticControlPanelButton(s, selectionListener),
-                        "w 1.3cm!, h 1.3cm!");
+                        "w 1.1cm!, h 1.1cm!, alignx center");
             }
 
             final QScrollPane pane = new QScrollPane(panel);

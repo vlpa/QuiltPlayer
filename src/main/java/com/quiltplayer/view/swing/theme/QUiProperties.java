@@ -23,8 +23,7 @@ import com.quiltplayer.view.swing.borders.QBorder;
  * 
  */
 public class QUiProperties {
-    private static final Color BACKGROUND = Configuration.getInstance().getColorConstants()
-            .getBackground();
+    private static final Color BACKGROUND = ColorConstantsDark.BACKGROUND;
 
     public static void setProperties() {
         System.setProperty("swing.aatext", "true");

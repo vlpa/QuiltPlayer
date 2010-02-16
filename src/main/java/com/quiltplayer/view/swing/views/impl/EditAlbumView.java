@@ -27,6 +27,7 @@ import com.quiltplayer.internal.id3.model.Id3DataModel;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.neo.NeoAlbum;
 import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.designcomponents.TextFieldComponents;
@@ -111,8 +112,7 @@ public class EditAlbumView implements Serializable, View, AlbumView, ActionListe
         saveButton.setEnabled(bool);
 
         JPanel buttonPanel = new JPanel(new MigLayout("insets 0, wrap 3"));
-        buttonPanel.setBackground(Configuration.getInstance().getColorConstants()
-                .getBackground());
+        buttonPanel.setBackground(ColorConstantsDark.BACKGROUND);
         buttonPanel.add(saveButton, "w 2.5cm");
         buttonPanel.add(rescanButton, "w 2.5cm");
         buttonPanel.add(deleteButton, "w 2.5cm");

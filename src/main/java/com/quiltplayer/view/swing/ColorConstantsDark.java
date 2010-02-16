@@ -8,19 +8,12 @@ import java.awt.Color;
  * @author Vlado Palczynski
  */
 public class ColorConstantsDark implements ColorConstants {
+
     private static final long serialVersionUID = 8562550268099323144L;
 
-    public static final Color BACKGROUND = new Color(50, 50, 50);
+    public static final Color BACKGROUND = new Color(30, 30, 30);
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.quiltplayer.view.swing.ColorConstants#getBackground()
-     */
-    @Override
-    public Color getBackground() {
-        return BACKGROUND;
-    }
+    public static final Color PLAYLIST_BACKGROUND = new Color(15, 15, 15);
 
     /*
      * @see com.quiltplayer.view.swing.ColorConstants#getControlPanelBackground()
@@ -56,7 +49,7 @@ public class ColorConstantsDark implements ColorConstants {
      */
     @Override
     public Color getPlaylistPanelBackground() {
-        return new Color(15, 15, 15);
+        return new Color(10, 10, 10);
     }
 
     /*

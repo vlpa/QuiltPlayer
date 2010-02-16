@@ -9,7 +9,7 @@ import java.awt.geom.Ellipse2D;
 
 import javax.swing.JButton;
 
-import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
 
 /**
@@ -17,57 +17,49 @@ import com.quiltplayer.view.swing.FontFactory;
  * 
  * @author Vlado Palczynski.
  */
-public class QTextButton extends JButton
-{
-	private static final long serialVersionUID = 1L;
+public class QTextButton extends JButton {
+    private static final long serialVersionUID = 1L;
 
-	public QTextButton(String label)
-	{
-		super(label);
+    public QTextButton(String label) {
+        super(label);
 
-		setDefaults();
-	}
+        setDefaults();
+    }
 
-	private void setDefaults()
-	{
-		setFocusable(false);
+    private void setDefaults() {
+        setFocusable(false);
 
-		setForeground(new Color(220, 220, 220));
-		setBackground(Configuration.getInstance().getColorConstants()
-				.getBackground());
+        setForeground(new Color(220, 220, 220));
+        setBackground(ColorConstantsDark.BACKGROUND);
 
-		setContentAreaFilled(false);
+        setContentAreaFilled(false);
 
-		setFont(FontFactory.getFont(16f));
-	}
+        setFont(FontFactory.getFont(16f));
+    }
 
-	// Hit detection.
-	Shape shape;
+    // Hit detection.
+    Shape shape;
 
-	public boolean contains(int x, int y)
-	{
-		// If the button has changed size,
-		// make a new shape object.
-		if (shape == null || !shape.getBounds().equals(getBounds()))
-		{
-			shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
-		}
-		return shape.contains(x, y);
-	}
+    public boolean contains(int x, int y) {
+        // If the button has changed size,
+        // make a new shape object.
+        if (shape == null || !shape.getBounds().equals(getBounds())) {
+            shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
+        }
+        return shape.contains(x, y);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
-	 */
-	@Override
-	public void paint(Graphics g)
-	{
-		Graphics2D g2d = (Graphics2D) g;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     */
+    @Override
+    public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
 
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		super.paint(g);
-	}
+        super.paint(g);
+    }
 }

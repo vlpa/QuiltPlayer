@@ -1,7 +1,6 @@
 package com.quiltplayer.view.swing.labels.search;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JLabel;

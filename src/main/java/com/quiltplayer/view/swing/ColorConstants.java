@@ -24,7 +24,6 @@ public interface ColorConstants extends Serializable {
      * 
      * @return
      */
-    Color getBackground();
 
     Color getSearchBackground();
 

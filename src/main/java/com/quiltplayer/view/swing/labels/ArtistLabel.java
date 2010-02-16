@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import com.quiltplayer.controller.ArtistController;
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.util.HighlightColorUtils;
 
 /**
@@ -76,7 +77,7 @@ public class ArtistLabel extends JLabel {
     public void setSelected() {
         HighlightColorUtils.setSelected(this);
 
-        setBackground(Configuration.getInstance().getColorConstants().getBackground());
+        setBackground(ColorConstantsDark.BACKGROUND);
     }
 
     public void setInactive() {

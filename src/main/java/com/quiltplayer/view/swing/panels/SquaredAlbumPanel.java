@@ -140,7 +140,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
         final JLabel tracksLabel = new JLabel();
         tracksLabel.setFont(FontFactory.getSansFont(12f));
         tracksLabel.setText(album.getSongCollection().getSongs().size() + " tracks");
-        tracksLabel.setForeground(Configuration.getInstance().getColorConstants().getBackground());
+        tracksLabel.setForeground(ColorConstantsDark.BACKGROUND);
 
         return tracksLabel;
     }

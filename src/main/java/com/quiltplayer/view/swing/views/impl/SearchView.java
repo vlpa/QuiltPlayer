@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.model.jotify.JotifyArtist;
 import com.quiltplayer.model.jotify.JotifySong;
-import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.labels.SpotifyArtistLabel;
 import com.quiltplayer.view.swing.labels.StringOrCharLabel;
@@ -148,7 +148,7 @@ public class SearchView implements Serializable, View {
 
     private void setupArtists(JPanel panel) {
         JPanel artists = new QPanel(new MigLayout("insets 0, wrap 1, top, fill"));
-        artists.setBackground(Configuration.getInstance().getColorConstants().getBackground());
+        artists.setBackground(ColorConstantsDark.BACKGROUND);
         SpotifyArtistLabel label = null;
 
         artists.add(new StringOrCharLabel(" Artists"), "w 100%, h 18");
@@ -167,7 +167,7 @@ public class SearchView implements Serializable, View {
 
     private void setupAlbums(JPanel panel) {
         JPanel albums = new QPanel(new MigLayout("insets 0, top, wrap 1"));
-        albums.setBackground(Configuration.getInstance().getColorConstants().getBackground());
+        albums.setBackground(ColorConstantsDark.BACKGROUND);
 
         albums.add(new StringOrCharLabel(" Albums"), "w 100%, h 18");
 

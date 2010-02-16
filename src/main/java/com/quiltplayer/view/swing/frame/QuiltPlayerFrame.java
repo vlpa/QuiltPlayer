@@ -245,7 +245,7 @@ public class QuiltPlayerFrame extends JFrame {
 
     private void addAlfabeticControlPanel() {
         getContentPane().add(alfabeticControlPane.getUI(),
-                "dock east, aligny center, h 50%!, w 1.3cm!, gapx 0cm 0.3cm");
+                "dock east, align center, h 75%!, w 1.7cm!");
     }
 
     public ActiveView getCurrentView() {
