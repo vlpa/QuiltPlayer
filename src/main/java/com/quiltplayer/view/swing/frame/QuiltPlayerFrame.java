@@ -75,6 +75,8 @@ public class QuiltPlayerFrame extends JFrame {
 
     private Component ui;
 
+    private Component alfabeticControlPaneUi;
+
     private ActiveView currentView = ActiveView.ABOUT_VIEW;
 
     @Autowired
@@ -88,6 +90,8 @@ public class QuiltPlayerFrame extends JFrame {
     private boolean b = true;
 
     public QuiltPlayerFrame() {
+        setTitle("QuiltPlayer");
+
         float swingDPI = Toolkit.getDefaultToolkit().getScreenResolution();
         float migDPI = PlatformDefaults.getDefaultDPI();
 
@@ -115,7 +119,6 @@ public class QuiltPlayerFrame extends JFrame {
 
         setLayout(new MigLayout("insets 0, fill, w 100%, h 100%"));
 
-        setTitle("QuiltPlayer");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         Dimension screenSize = null;
@@ -150,6 +153,8 @@ public class QuiltPlayerFrame extends JFrame {
 
         ui = aboutView.getUI();
 
+        alfabeticControlPaneUi = alfabeticControlPane.getUI();
+
         // DebugRepaintingUI debugUI = new DebugRepaintingUI();
         // JXLayer<JComponent> layer = new JXLayer<JComponent>(controlPanel,
         // debugUI);
@@ -158,8 +163,6 @@ public class QuiltPlayerFrame extends JFrame {
         controlPanel.getPlayerControlPanel().setStopped();
 
         addAlbumView();
-
-        addAlfabeticControlPanel();
 
         updateUI();
     }
@@ -211,6 +214,7 @@ public class QuiltPlayerFrame extends JFrame {
 
         if (currentView.equals(ActiveView.QUILT_VIEW)) {
             ui = quiltView.getUI();
+            addAlfabeticControlPanel();
         }
         else if (currentView.equals(ActiveView.ALFABETIC_ARTISTS_VIEW)) {
             ui = artistView.getUI();
@@ -229,7 +233,6 @@ public class QuiltPlayerFrame extends JFrame {
         else if (currentView.equals(ActiveView.ABOUT_VIEW)) {
             ui = aboutView.getUI();
             controlPanel.updateTab(null);
-            addAlfabeticControlPanel();
         }
         else if (currentView.equals(ActiveView.EDIT_ALBUM_VIEW)) {
             ui = editAlbumView.getUI();
@@ -244,8 +247,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addAlfabeticControlPanel() {
-        getContentPane().add(alfabeticControlPane.getUI(),
-                "dock east, align center, h 75%!, w 1.7cm!");
+        add(alfabeticControlPaneUi, "dock east, align center, h 75%!, w 1.7cm!");
     }
 
     public ActiveView getCurrentView() {
