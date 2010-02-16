@@ -29,7 +29,7 @@ public class QControlPanelButton extends JButton {
 
     private String label;
 
-    private float defaultAlpha = 0.4f;
+    private float defaultAlpha = 1.0f;
 
     private float currentAlpha = defaultAlpha;
 

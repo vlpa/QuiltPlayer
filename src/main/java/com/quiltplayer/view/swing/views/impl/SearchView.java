@@ -25,10 +25,10 @@ import com.quiltplayer.model.jotify.JotifyArtist;
 import com.quiltplayer.model.jotify.JotifySong;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.buttons.QButton;
-import com.quiltplayer.view.swing.labels.AlbumSearchLabel;
 import com.quiltplayer.view.swing.labels.SpotifyArtistLabel;
 import com.quiltplayer.view.swing.labels.StringOrCharLabel;
-import com.quiltplayer.view.swing.labels.TrackSearchLabel;
+import com.quiltplayer.view.swing.labels.search.AlbumSearchLabel;
+import com.quiltplayer.view.swing.labels.search.TrackSearchLabel;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
@@ -76,15 +76,6 @@ public class SearchView implements Serializable, View {
 
     private FocusListener focusListener = new com.quiltplayer.view.swing.listeners.FocusListener();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.quiltplayer.view.components.View#close()
-     */
-    @Override
-    public void close() {
-    }
-
     @PostConstruct
     public void init() {
         setupSearchField();
@@ -105,7 +96,6 @@ public class SearchView implements Serializable, View {
 
         MigLayout layout = new MigLayout("wrap 3, alignx center, aligny top, top, gapy 1cm");
         panel.setLayout(layout);
-        panel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
 
         setupSearchBar();
 
@@ -128,7 +118,7 @@ public class SearchView implements Serializable, View {
 
     private void setupSearchBar() {
         searchPanel = new JPanel(new MigLayout("insets 0, top"));
-        searchPanel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
+        searchPanel.setOpaque(false);
 
         searchPanel.add(searchField, "center, w 6cm, gapy 15");
         searchPanel.add(searchButton, "left, gapy 15");

@@ -8,6 +8,7 @@ import java.awt.event.ComponentEvent;
 import javax.annotation.PostConstruct;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.layout.PlatformDefaults;
@@ -22,6 +23,7 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.AlfabeticControlPane;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.views.ArtistView;
 import com.quiltplayer.view.swing.views.ListView;
@@ -77,6 +79,9 @@ public class QuiltPlayerFrame extends JFrame {
 
     @Autowired
     private KeyboardPanel keyboardPanel;
+
+    @Autowired
+    private AlfabeticControlPane alfabeticControlPane;
 
     private JPanel glassPane;
 
@@ -154,6 +159,8 @@ public class QuiltPlayerFrame extends JFrame {
 
         addAlbumView();
 
+        addAlfabeticControlPanel();
+
         updateUI();
     }
 
@@ -222,16 +229,23 @@ public class QuiltPlayerFrame extends JFrame {
         else if (currentView.equals(ActiveView.ABOUT_VIEW)) {
             ui = aboutView.getUI();
             controlPanel.updateTab(null);
+            addAlfabeticControlPanel();
         }
         else if (currentView.equals(ActiveView.EDIT_ALBUM_VIEW)) {
             ui = editAlbumView.getUI();
             controlPanel.updateTab(null);
         }
 
-        getContentPane().add(ui, "cell 2 0, grow, gapx 0.2cm");
+        getContentPane().add(ui, "cell 2 0, grow");
 
-        ui.repaint();
         repaint();
+
+        SwingUtilities.updateComponentTreeUI(ui);
+    }
+
+    private void addAlfabeticControlPanel() {
+        getContentPane().add(alfabeticControlPane.getUI(),
+                "dock east, aligny center, h 50%!, w 1.3cm!, gapx 0cm 0.3cm");
     }
 
     public ActiveView getCurrentView() {

@@ -55,7 +55,7 @@ public class QSongButton extends ScrollableButton {
     public QSongButton(Song song, PlayerListener playerListener) {
         this.playerListener = playerListener;
 
-        setLayout(new MigLayout("insets 0, wrap 2, aligny center, fill"));
+        setLayout(new MigLayout("insets 0, wrap 2, fill"));
 
         this.song = song;
 
@@ -70,8 +70,6 @@ public class QSongButton extends ScrollableButton {
 
         addMouseListener(listener);
 
-        setSelected(false);
-
         setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
 
         titleLabel = new JLabel(song.getTitle());
@@ -80,12 +78,13 @@ public class QSongButton extends ScrollableButton {
         titleLabel.setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
 
         timeLabel = new JLabel();
+        timeLabel.setText(formatter.format(0 / 1000));
         timeLabel.setVisible(false);
         timeLabel.setForeground(Color.WHITE);
         timeLabel.setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
 
-        add(timeLabel, "cell 0 0, left, w 0.8cm!");
-        add(titleLabel, "cell 1 0, left, w 100%");
+        add(timeLabel, "cell 0 0, west, gapx 0.1cm");
+        add(titleLabel, "cell 1 0, west, gapx 0.2cm");
     }
 
     private transient MouseListener listener = new MouseAdapter() {
@@ -151,7 +150,7 @@ public class QSongButton extends ScrollableButton {
             LinearGradientPaint p = new LinearGradientPaint(start, end, dist, activeGradient);
 
             g2d.setPaint(p);
-            g2d.fillRect(1, 1, getWidth() - 1, getHeight());
+            g2d.fillRoundRect(1, 1, getWidth() - 1, getHeight(), 15, 15);
         }
     }
 

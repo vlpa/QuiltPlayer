@@ -7,7 +7,6 @@ import java.util.List;
  * 
  * @author Vlado Palczynski
  */
-public interface ListView<T> extends View
-{
-	void setList(List<T> list);
+public interface ListView<T> extends View {
+    void setList(List<T> list);
 }

@@ -37,7 +37,7 @@ public class AlbumCoverButton extends ScrollableButton {
         this.album = album;
         this.changeAlbumListener = changeAlbumListener;
 
-        setLayout(new MigLayout("insets 10, w " + ImageSizes.SMALL.getSize() + "px!, h "
+        setLayout(new MigLayout("insets 0, w " + ImageSizes.SMALL.getSize() + "px!, h "
                 + ImageSizes.SMALL.getSize() + "px!"));
 
         setToolTipText(album.getArtist().getArtistName().getName() + " - " + album.getTitle());
@@ -67,7 +67,6 @@ public class AlbumCoverButton extends ScrollableButton {
     public void triggerAction() {
         changeAlbumListener.actionPerformed(new ActionEvent(album, 0,
                 ChangeAlbumController.EVENT_CHANGE_ALBUM));
-
     }
 
     /*

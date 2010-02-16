@@ -18,53 +18,52 @@ import java.io.Serializable;
  * 
  * @author Vlado Palczynski
  */
-public interface ColorConstants extends Serializable
-{
-	/**
-	 * Returns the background color for the application.
-	 * 
-	 * @return
-	 */
-	Color getBackground();
+public interface ColorConstants extends Serializable {
+    /**
+     * Returns the background color for the application.
+     * 
+     * @return
+     */
+    Color getBackground();
 
-	Color getSearchBackground();
+    Color getSearchBackground();
 
-	Color getPlaylistPanelBackground();
+    Color getPlaylistPanelBackground();
 
-	Color getPlaylistSongBackgroundInactive();
+    Color getPlaylistSongBackgroundInactive();
 
-	Color getPlaylistSongBackgroundCurrent();
+    Color getPlaylistSongBackgroundCurrent();
 
-	/*
-	 * Playlist
-	 */
+    /*
+     * Playlist
+     */
 
-	Color getPlaylistTitle();
+    Color getPlaylistTitle();
 
-	public static final Color PLAYLIST_LYRICS_COLOR = new Color(220, 220, 220);
+    public static final Color PLAYLIST_LYRICS_COLOR = new Color(220, 220, 220);
 
-	/*
-	 * Alfabetic artist view
-	 */
-	public static final Color ARTIST_PANEL = Color.BLACK;
+    /*
+     * Alfabetic artist view
+     */
+    public static final Color ARTIST_PANEL = Color.BLACK;
 
-	public static final Color ARTISTS_PANEL_BACKGROUND = Color.BLACK;
+    public static final Color ARTISTS_PANEL_BACKGROUND = Color.BLACK;
 
-	Color getArtistViewCharBackground();
+    Color getArtistViewCharBackground();
 
-	Color getArtistViewCharColor();
+    Color getArtistViewCharColor();
 
-	Color getArtistViewTextColor();
+    Color getArtistViewTextColor();
 
-	Color getArtistViewTextHighlightColor();
+    Color getArtistViewTextHighlightColor();
 
-	Color getAlbumViewTitleColor();
+    Color getAlbumViewTitleColor();
 
-	Color getAlbumViewYearColor();
+    Color getAlbumViewYearColor();
 
-	Color getControlPanelBackground();
+    Color getControlPanelBackground();
 
-	Color[] getControlPanelGradientColors();
+    Color[] getControlPanelGradientColors();
 
-	Color getQLabelForegroundColor();
+    Color getQLabelForegroundColor();
 }

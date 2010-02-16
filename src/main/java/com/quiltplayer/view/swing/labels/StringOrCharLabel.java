@@ -18,7 +18,7 @@ public class StringOrCharLabel extends JLabel {
 
     private float[] dist = new float[] { 0.0f, 1.0f };
 
-    private Color[] gradient = { new Color(60, 60, 60), new Color(40, 40, 40) };
+    private Color[] gradient = { new Color(80, 80, 80), new Color(60, 60, 60) };
 
     public StringOrCharLabel(String title) {
         super(" " + title);
@@ -35,7 +35,7 @@ public class StringOrCharLabel extends JLabel {
     private void setDefaults() {
         setOpaque(false);
 
-        setForeground(new Color(200, 200, 200));
+        setForeground(Color.GRAY);
 
         setFont(FontFactory.getFont(15f));
 

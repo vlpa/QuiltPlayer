@@ -65,12 +65,12 @@ public class PlaylistPanel extends JPanel {
 
     @PostConstruct
     public void init() {
-        mainPanel = new JPanel(new MigLayout("insets 0"));
+        mainPanel = new JPanel(new MigLayout("insets 0, fill"));
 
         mainPanel.setOpaque(true);
         mainPanel.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
-        add(mainPanel, "h 100%, w " + ImageSizes.LARGE.getSize() + "px!, gapx 0.15cm");
+        add(mainPanel, "h 100%, w " + ImageSizes.LARGE.getSize() + "px!");
 
         mainPanel.add(albumPanel, "dock south");
 

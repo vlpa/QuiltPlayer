@@ -81,17 +81,6 @@ public class EditAlbumView implements Serializable, View, AlbumView, ActionListe
     /*
      * (non-Javadoc)
      * 
-     * @see org.quiltplayer.view.components.View#close()
-     */
-    @Override
-    public void close() {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.quiltplayer.view.components.View#getUI()
      */
     @Override

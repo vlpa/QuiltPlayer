@@ -29,6 +29,8 @@ public class JotifyRepository {
             try {
                 JotifyPool.getInstance().login(Configuration.getInstance().getSpotifyUserName(),
                         Configuration.getInstance().getSpotifyPassword());
+
+                loggedIn = true;
             }
             catch (ConnectionException e) {
                 e.printStackTrace();
@@ -36,8 +38,6 @@ public class JotifyRepository {
             catch (AuthenticationException e) {
                 e.printStackTrace();
             }
-
-            loggedIn = true;
         }
 
         return jotifyPool;

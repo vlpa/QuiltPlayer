@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.borders.QBorder;
 
@@ -29,7 +30,7 @@ public class QUiProperties {
         System.setProperty("swing.aatext", "true");
         UIManager.put("swing.boldMetal", Boolean.FALSE);
 
-        UIManager.put("Panel.background", BACKGROUND);
+        UIManager.put("Panel.background", ColorConstantsDark.BACKGROUND);
         UIManager.put("Panel.foreground", new Color(220, 220, 220));
 
         UIManager.put("List.background", new Color(30, 30, 30));

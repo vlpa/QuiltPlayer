@@ -1,8 +1,10 @@
 package com.quiltplayer.view.swing.views.impl;
 
 import java.awt.Component;
+import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -43,12 +45,11 @@ public class QuiltView implements ListView<Album> {
 
     private JPanel panel;
 
-    /*
-     * @see org.coverok.gui.components.AlbumView#close()
-     */
-    @Override
-    public void close() {
-        panel = null;
+    private List<Album> albums;
+
+    @PostConstruct
+    public void init() {
+        albums = storage.getAlbums(artistStorage.getArtists());
     }
 
     /*
@@ -56,6 +57,7 @@ public class QuiltView implements ListView<Album> {
      */
     @Override
     public void setList(List<Album> list) {
+        albums = list;
     }
 
     /*
@@ -63,9 +65,12 @@ public class QuiltView implements ListView<Album> {
      */
     @Override
     public Component getUI() {
-        panel = new JPanel(new FlowWrapLayout());
+        panel = new JPanel(new FlowWrapLayout(10, 10, 10, 10));
+        panel.setOpaque(true);
 
-        for (Album album : storage.getAlbums(artistStorage.getArtists())) {
+        Collections.sort(albums);
+
+        for (Album album : albums) {
             if (album.getFrontImage() != null) {
                 AlbumCoverButton p = new AlbumCoverButton(album, changeAlbumListener);
                 panel.add(p, "h " + ImageSizes.SMALL.getSize() + "px!");

@@ -27,22 +27,13 @@ public class AboutView implements Serializable, View {
     /*
      * (non-Javadoc)
      * 
-     * @see org.quiltplayer.view.components.View#close()
-     */
-    @Override
-    public void close() {
-        panel = null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.quiltplayer.view.components.View#getUI()
      */
     @Override
     public Component getUI() {
 
         panel = new JPanel();
+        panel.setOpaque(false);
         panel.setLayout(new MigLayout(
                 "insets 0, wrap 1, alignx center, aligny center, fillx, filly"));
 

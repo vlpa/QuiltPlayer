@@ -28,8 +28,9 @@ public abstract class ScrollableButton extends JButton {
              */
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (!moved)
+                if (!moved) {
                     triggerAction();
+                }
                 else
                     moved = false;
             }
@@ -62,5 +63,5 @@ public abstract class ScrollableButton extends JButton {
         });
     }
 
-    abstract void triggerAction();
+    protected abstract void triggerAction();
 }

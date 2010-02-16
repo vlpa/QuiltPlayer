@@ -208,23 +208,12 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
     /*
      * (non-Javadoc)
      * 
-     * @see org.quiltplayer.view.components.View#close()
-     */
-    @Override
-    public void close() {
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.quiltplayer.view.components.View#getUI()
      */
     @Override
     public Component getUI() {
         if (panel == null) {
             panel = new JPanel();
-            panel.setOpaque(true);
-            panel.setBackground(Configuration.getInstance().getColorConstants().getBackground());
 
             panel.setLayout(new MigLayout("insets 0, wrap 3, alignx center, aligny center"));
 

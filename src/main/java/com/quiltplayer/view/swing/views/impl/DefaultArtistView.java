@@ -49,7 +49,7 @@ public class DefaultArtistView implements ArtistView {
     private Component getAlfabeticArtistComponent() {
 
         final JPanel panel = new JPanel();
-        panel.setLayout(new FlowWrapLayout(20, 20, 20, 20));
+        panel.setLayout(new FlowWrapLayout(10, 10, 10, 10));
         panel.setOpaque(true);
 
         if (artistRepository.getArtistsByChars() != null) {
@@ -60,7 +60,7 @@ public class DefaultArtistView implements ArtistView {
                 p.addActionListener(artistListener);
                 p.setup(character, albumSet);
 
-                panel.add(p, "aligny top, gapy 0.2cm, gapx 0.1cm");
+                panel.add(p);
             }
         }
 

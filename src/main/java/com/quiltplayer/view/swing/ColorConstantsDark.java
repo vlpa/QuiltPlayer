@@ -10,7 +10,7 @@ import java.awt.Color;
 public class ColorConstantsDark implements ColorConstants {
     private static final long serialVersionUID = 8562550268099323144L;
 
-    public static final Color BACKGROUND = new Color(30, 30, 30);
+    public static final Color BACKGROUND = new Color(50, 50, 50);
 
     /*
      * (non-Javadoc)
@@ -19,7 +19,7 @@ public class ColorConstantsDark implements ColorConstants {
      */
     @Override
     public Color getBackground() {
-        return new Color(30, 30, 30);
+        return BACKGROUND;
     }
 
     /*
@@ -79,7 +79,7 @@ public class ColorConstantsDark implements ColorConstants {
 
     public static final Color ALBUM_VIEW = Color.BLACK;
 
-    public static final Color ALBUM_PANEL = Color.BLACK;
+    public static final Color ALBUM_PANEL = new Color(20, 20, 20);
 
     public static final Color ARTIST_VIEW = Color.BLACK;
 

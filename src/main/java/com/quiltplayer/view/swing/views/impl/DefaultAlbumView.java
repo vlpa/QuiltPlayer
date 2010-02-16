@@ -2,7 +2,7 @@ package com.quiltplayer.view.swing.views.impl;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.Serializable;
@@ -10,9 +10,11 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.event.MouseInputAdapter;
 
 import org.cmc.shared.swing.FlowWrapLayout;
+import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.controller.ArtistController;
@@ -22,6 +24,7 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.view.swing.buttons.QButton;
+import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.panels.AlbumView;
@@ -40,8 +43,6 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
 
     private static final long serialVersionUID = 1L;
 
-    private static final int VERTICAL_UNIT_INCRENET = 110;
-
     @Autowired
     private JotifyRepository jotifyRepository;
 
@@ -58,13 +59,6 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
     private JPanel panel;
 
     private Artist artist;
-
-    /*
-     * @see org.coverok.gui.components.AlbumView#close()
-     */
-    @Override
-    public void close() {
-    }
 
     /*
      * @see org.coverok.gui.components.AlbumView#getUI()
@@ -109,23 +103,22 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
         }
         else {
             final JButton deleteArtistButton = new QButton("Delete artist");
-            deleteArtistButton.addMouseListener(new MouseAdapter() {
-                /*
-                 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event. MouseEvent)
-                 */
+            deleteArtistButton.addActionListener(new ActionListener() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void actionPerformed(ActionEvent e) {
                     artistListener.actionPerformed(new ActionEvent(artist, 0,
                             ArtistController.EVENT_DELETE_ARTIST));
                 }
-
             });
 
             panel.add(deleteArtistButton);
 
         }
 
-        return new QScrollPane(panel);
+        final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(new QScrollPane(panel),
+                new JScrollPaneLayerUI());
+
+        return jx;
     }
 
     /*

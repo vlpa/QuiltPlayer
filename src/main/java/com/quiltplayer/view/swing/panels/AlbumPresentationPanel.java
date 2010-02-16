@@ -5,28 +5,16 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import com.quiltplayer.controller.AddAlbumController;
 import com.quiltplayer.model.Album;
-import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.listeners.AddAlbumListener;
 
 /**
  * Presents info of an album playing.
@@ -38,76 +26,29 @@ public class AlbumPresentationPanel extends QPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private JTextArea artistNameLabel;
+    private JLabel artistNameLabel;
 
-    private JTextArea albumTitleLabel;
+    private JLabel albumTitleLabel;
 
-    private JLabel addAlbumIcon;
-
-    private JTextArea yearAndLabelArea;
-
-    @Autowired
-    private AddAlbumListener addAlbumListener;
-
-    private Album album;
+    private JLabel yearAndLabelArea;
 
     public AlbumPresentationPanel() {
-        super(new MigLayout("insets 0, wrap 2"));
+        super(new MigLayout("insets 0, fillx, w 100%"));
 
         setOpaque(false);
 
-        artistNameLabel = setupArtistNameArea("");
-        albumTitleLabel = setupAlbumTitleArea("");
-        addAlbumIcon = setupAddAlbumIcon();
-        yearAndLabelArea = setupYearAndLabelArea("");
+        artistNameLabel = setupArtistNameArea(" ");
+        albumTitleLabel = setupAlbumTitleArea(" ");
+        yearAndLabelArea = setupYearAndLabelArea(" ");
 
-        add(this.artistNameLabel, "left, w 100%, newline");
-        add(this.albumTitleLabel, "left, w 80%, newline");
-        add(this.addAlbumIcon, "right");
+        add(this.artistNameLabel, "left, w 100%, newline, gapy 0.2cm 0.2cm");
+        add(this.albumTitleLabel, "left, w 100%, newline, gapy 0.0cm 0.1cm");
         add(this.yearAndLabelArea, "left, w 100%, newline");
     }
 
-    private JLabel setupAddAlbumIcon() {
-        final JLabel label = new JLabel();
-
-        Resource image = new ClassPathResource("1.png");
-
-        ImageIcon icon = null;
-        try {
-            icon = new ImageIcon(image.getURL());
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        label.setIcon(icon);
-        label.setVisible(false);
-        label.setToolTipText("Add album to your collection.");
-
-        label.addMouseListener(new MouseAdapter() {
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
-             */
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                addAlbumListener.actionPerformed(new ActionEvent(album, 0,
-                        AddAlbumController.EVENT_ADD_ALBUM));
-            }
-
-        });
-
-        return label;
-    }
-
-    private JTextArea setupArtistNameArea(final String name) {
-        final JTextArea textArea = new JTextArea();
+    private JLabel setupArtistNameArea(final String name) {
+        final JLabel textArea = new JLabel();
         textArea.setText(name);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setEditable(false);
         textArea.setOpaque(false);
         textArea.setForeground(new Color(110, 110, 110));
         textArea.setFont(FontFactory.getSansFont(18f).deriveFont(Font.PLAIN));
@@ -115,11 +56,8 @@ public class AlbumPresentationPanel extends QPanel {
         return textArea;
     }
 
-    private JTextArea setupAlbumTitleArea(final String title) {
-        final JTextArea textArea = new JTextArea();
-        textArea.setLineWrap(true);
-        textArea.setEditable(false);
-        textArea.setWrapStyleWord(true);
+    private JLabel setupAlbumTitleArea(final String title) {
+        final JLabel textArea = new JLabel();
         textArea.setOpaque(false);
         textArea.setForeground(new Color(200, 200, 200));
         textArea.setFont(FontFactory.getSansFont(12f));
@@ -127,11 +65,8 @@ public class AlbumPresentationPanel extends QPanel {
         return textArea;
     }
 
-    private JTextArea setupYearAndLabelArea(final String yearAndLabel) {
-        final JTextArea textArea = new JTextArea();
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setEditable(false);
+    private JLabel setupYearAndLabelArea(final String yearAndLabel) {
+        final JLabel textArea = new JLabel();
         textArea.setOpaque(false);
         textArea.setForeground(new Color(110, 110, 110));
         textArea.setFont(FontFactory.getSansFont(12f));
@@ -164,26 +99,19 @@ public class AlbumPresentationPanel extends QPanel {
 
         if (StringUtils.isNotBlank(year))
             if (year.length() > 4)
-                yearAndLabelArea.setText(year.substring(0, 4));
-            else
-                yearAndLabelArea.setText(year);
+                yearAndLabelArea.setText(year.substring(0, 4) + " ");
+            else if (year.length() == 4)
+                yearAndLabelArea.setText(year + " ");
 
         if (StringUtils.isNotBlank(label))
-            yearAndLabelArea.setText(yearAndLabelArea.getText() + " " + label);
+            yearAndLabelArea.setText(yearAndLabelArea.getText() + label);
 
     }
 
     public void update(final Album album) {
-        this.album = album;
-
         setAlbumTitle(album.getTitle(), album.getYear());
         setArtistName(album.getArtist().getArtistName().getName());
         setYearAndLabel(album.getYear(), album.getLabel());
-
-        if (album instanceof JotifyAlbum)
-            addAlbumIcon.setVisible(true);
-        else
-            addAlbumIcon.setVisible(false);
     }
 
     /*

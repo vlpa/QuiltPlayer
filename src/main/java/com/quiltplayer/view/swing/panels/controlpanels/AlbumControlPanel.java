@@ -21,9 +21,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.controller.AddAlbumController;
 import com.quiltplayer.controller.ArtistController;
 import com.quiltplayer.controller.ControlPanelController;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
+import com.quiltplayer.view.swing.listeners.AddAlbumListener;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
@@ -57,13 +60,18 @@ public class AlbumControlPanel extends JPanel {
     @Autowired
     private ArtistListener artistListener;
 
+    @Autowired
+    private AddAlbumListener addAlbumListener;
+
     private enum Buttons {
-        LYRICS, EDIT, PLAYLIST
+        LYRICS, EDIT, PLAYLIST, ADD
     };
 
     private QControlPanelButton lyricsButton;
 
     private QControlPanelButton editButton;
+
+    private QControlPanelButton addButton;
 
     private QControlPanelButton albumButton;
 
@@ -75,11 +83,17 @@ public class AlbumControlPanel extends JPanel {
     }
 
     public void setDefaults() {
-        setLayout(new MigLayout("insets 0, fill, wrap 4"));
+        setLayout(new MigLayout("insets 0, wrap 4"));
+
+        setOpaque(true);
+
+        setBackground(ColorConstantsDark.ALBUM_PANEL);
 
         setupLyricsButton();
 
         setupEditButton();
+
+        setupAddButton();
 
         setupPlaylistButton();
 
@@ -87,10 +101,10 @@ public class AlbumControlPanel extends JPanel {
 
         final String layout = "h 2cm, w 3cm";
 
-        add(albumButton, layout);
-        add(lyricsButton, layout);
-        add(editButton, layout);
-        add(moreAlbumsButton, layout);
+        add(albumButton, layout + ", cell 0 0");
+        add(lyricsButton, layout + ", cell 1 0");
+        add(editButton, layout + ", cell 2 0");
+        add(moreAlbumsButton, layout + ", cell 3 0");
     }
 
     private void setupMoreAlbumsButton() {
@@ -119,6 +133,16 @@ public class AlbumControlPanel extends JPanel {
                 getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM);
         editButton.addActionListener(editAlbumListener);
         editButton.setActionCommand(PlaylistPanel.EVENT_UPDATE_ALBUM_ID3);
+    }
+
+    private void setupAddButton() {
+        addButton = new QControlPanelButton("Add album",
+                getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM);
+        addButton.addActionListener(addAlbumListener);
+        addButton.setActionCommand(AddAlbumController.EVENT_ADD_ALBUM);
+
+        // addAlbumListener.actionPerformed(new ActionEvent(album, 0,
+        // AddAlbumController.EVENT_ADD_ALBUM));
     }
 
     private ImageIcon getIconFromClasspath(final String classPathName) {

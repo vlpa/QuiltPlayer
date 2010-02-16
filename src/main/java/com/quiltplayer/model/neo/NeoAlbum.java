@@ -115,9 +115,7 @@ public class NeoAlbum implements Album {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.quiltplayer.model.Album#addLocalImage(com.quiltplayer.model.LocalImage
-     * )
+     * @see com.quiltplayer.model.Album#addLocalImage(com.quiltplayer.model.LocalImage )
      */
     @Override
     public void addLocalImage(final LocalImage image) {
@@ -148,8 +146,8 @@ public class NeoAlbum implements Album {
 
         Transaction tx = NeoTx.beginTx();
 
-        for (Relationship rel : node.getRelationships(
-                QuiltPlayerRelationshipTypes.HAS_ALBUM, Direction.INCOMING)) {
+        for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_ALBUM,
+                Direction.INCOMING)) {
             artist = new NeoArtist(rel.getStartNode());
         }
 
@@ -163,8 +161,8 @@ public class NeoAlbum implements Album {
      */
     @Override
     public StringId getId() {
-        return new StringId((String) NeoSingelton.getInstance().getNeoUtil()
-                .getProperty(node, PROPERTY_ID));
+        return new StringId((String) NeoSingelton.getInstance().getNeoUtil().getProperty(node,
+                PROPERTY_ID));
     }
 
     /*
@@ -172,8 +170,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public void setId(final StringId albumId) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_ID,
-                albumId.getId());
+        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_ID, albumId.getId());
 
     }
 
@@ -201,8 +198,7 @@ public class NeoAlbum implements Album {
     private QList<LocalImage> getFrontImages() {
         final QList<LocalImage> frontImages = new QList<LocalImage>();
 
-        for (Relationship rel : node.getRelationships(
-                QuiltPlayerRelationshipTypes.HAS_FRONT_IMAGE,
+        for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_FRONT_IMAGE,
                 Direction.OUTGOING)) {
             frontImages.add(new NeoLocalImage(rel.getEndNode()));
         }
@@ -215,8 +211,8 @@ public class NeoAlbum implements Album {
     private QList<LocalImage> getOtherImages() {
         final QList<LocalImage> otherImages = new QList<LocalImage>();
 
-        for (Relationship rel : node.getRelationships(
-                QuiltPlayerRelationshipTypes.HAS_IMAGE, Direction.OUTGOING)) {
+        for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_IMAGE,
+                Direction.OUTGOING)) {
             otherImages.add(new NeoLocalImage(rel.getEndNode()));
         }
 
@@ -277,8 +273,7 @@ public class NeoAlbum implements Album {
     }
 
     /*
-     * @see com.quiltplayer.model.Album#setSongCollection(com.quiltplayer.model.
-     * SongCollection)
+     * @see com.quiltplayer.model.Album#setSongCollection(com.quiltplayer.model. SongCollection)
      */
     @Override
     public void setSongCollection(final SongCollection songCollection) {
@@ -294,8 +289,9 @@ public class NeoAlbum implements Album {
     public void addSong(Song song) {
         Transaction tx = NeoTx.beginTx();
 
-        node.createRelationshipTo(((NeoSong) song).getNode(),
-                QuiltPlayerRelationshipTypes.HAS_SONG);
+        node
+                .createRelationshipTo(((NeoSong) song).getNode(),
+                        QuiltPlayerRelationshipTypes.HAS_SONG);
 
         NeoTx.finishTx(tx);
 
@@ -306,8 +302,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public String getTitle() {
-        return (String) NeoSingelton.getInstance().getNeoUtil().getProperty(
-                node, PROPERTY_TITLE);
+        return (String) NeoSingelton.getInstance().getNeoUtil().getProperty(node, PROPERTY_TITLE);
     }
 
     /*
@@ -318,8 +313,8 @@ public class NeoAlbum implements Album {
     @Override
     public String getLabel() {
         if (node.hasProperty(PROPERTY_LABEL))
-            return (String) NeoSingelton.getInstance().getNeoUtil()
-                    .getProperty(node, PROPERTY_LABEL);
+            return (String) NeoSingelton.getInstance().getNeoUtil().getProperty(node,
+                    PROPERTY_LABEL);
 
         return "";
     }
@@ -329,8 +324,8 @@ public class NeoAlbum implements Album {
      */
     @Override
     public String getTitleToPublish() {
-        return (String) NeoSingelton.getInstance().getNeoUtil().getProperty(
-                node, PROPERTY_TITLE_TO_PUBLISH);
+        return (String) NeoSingelton.getInstance().getNeoUtil().getProperty(node,
+                PROPERTY_TITLE_TO_PUBLISH);
     }
 
     /*
@@ -386,8 +381,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public void setReleaseId(final String releaseId) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node,
-                PROPERTY_RELEASE_ID, releaseId);
+        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_RELEASE_ID, releaseId);
     }
 
     /*
@@ -395,8 +389,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public void setTitle(final String title) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node,
-                PROPERTY_TITLE, title);
+        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_TITLE, title);
 
         setTitleToPublish(title);
     }
@@ -409,8 +402,7 @@ public class NeoAlbum implements Album {
     @Override
     public void setLabel(final String label) {
         if (StringUtils.isNotBlank(label))
-            NeoSingelton.getInstance().getNeoUtil().setProperty(node,
-                    PROPERTY_LABEL, label);
+            NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_LABEL, label);
     }
 
     /*
@@ -420,8 +412,8 @@ public class NeoAlbum implements Album {
      */
     @Override
     public void setTitleToPublish(final String titleToPublish) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node,
-                PROPERTY_TITLE_TO_PUBLISH, titleToPublish);
+        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_TITLE_TO_PUBLISH,
+                titleToPublish);
     }
 
     /*
@@ -430,19 +422,15 @@ public class NeoAlbum implements Album {
     @Override
     public void setYear(final String year) {
         if (StringUtils.isNotBlank(year)) {
-            NeoSingelton.getInstance().getNeoUtil().setProperty(node,
-                    PROPERTY_YEAR, year);
+            NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_YEAR, year);
         }
     }
 
     /*
-     * @see
-     * com.quiltplayer.model.Album#changeFrontImage(com.quiltplayer.model.LocalImage
-     * )
+     * @see com.quiltplayer.model.Album#changeFrontImage(com.quiltplayer.model.LocalImage )
      */
     @Override
-    public void changeFrontImage(final Album album,
-            final LocalImage toFrontImage) {
+    public void changeFrontImage(final Album album, final LocalImage toFrontImage) {
 
         Transaction tx = NeoTx.beginTx();
 
@@ -452,21 +440,18 @@ public class NeoAlbum implements Album {
         for (LocalImage image : album.getImages()) {
             NeoLocalImage neoImage = (NeoLocalImage) image;
             for (Relationship rel : neoImage.getNode().getRelationships(
-                    QuiltPlayerRelationshipTypes.HAS_FRONT_IMAGE,
-                    Direction.INCOMING)) {
+                    QuiltPlayerRelationshipTypes.HAS_FRONT_IMAGE, Direction.INCOMING)) {
                 rel.delete();
             }
 
-            node.createRelationshipTo(neoImage.getNode(),
-                    QuiltPlayerRelationshipTypes.HAS_IMAGE);
+            node.createRelationshipTo(neoImage.getNode(), QuiltPlayerRelationshipTypes.HAS_IMAGE);
 
             neoImage.setType(LocalImage.TYPE_SECONDARY);
         }
 
         if (toFrontImage != null) {
-            for (Relationship rel : ((NeoLocalImage) toFrontImage).getNode()
-                    .getRelationships(QuiltPlayerRelationshipTypes.HAS_IMAGE,
-                            Direction.INCOMING)) {
+            for (Relationship rel : ((NeoLocalImage) toFrontImage).getNode().getRelationships(
+                    QuiltPlayerRelationshipTypes.HAS_IMAGE, Direction.INCOMING)) {
                 rel.delete();
             }
             node.createRelationshipTo(((NeoLocalImage) toFrontImage).getNode(),
@@ -483,8 +468,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public int compareTo(final Album o) {
-        // TODO Auto-generated method stub
-        return 0;
+        return getTitle().compareTo(o.getTitle());
     }
 
     @Override
@@ -507,8 +491,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public String toString() {
-        return "Album: " + getTitle() + " by "
-                + getArtist().getArtistName().getName();
+        return "Album: " + getTitle() + " by " + getArtist().getArtistName().getName();
     }
 
     /*
@@ -538,8 +521,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public void setType(String type) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node,
-                PROPERTY_TYPE, type);
+        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_TYPE, type);
     }
 
     /*
@@ -570,8 +552,8 @@ public class NeoAlbum implements Album {
     @Override
     public void setSpotifyId(String spotifyId) {
         if (spotifyId != null) {
-            NeoSingelton.getInstance().getNeoUtil().setProperty(node,
-                    PROPERTY_SPOTIFY_ID, spotifyId);
+            NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_SPOTIFY_ID,
+                    spotifyId);
         }
     }
 }
