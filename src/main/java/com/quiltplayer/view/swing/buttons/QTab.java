@@ -69,7 +69,7 @@ public class QTab extends JButton {
 
         setContentAreaFilled(false);
 
-        setFont(FontFactory.getSansFont(11f));
+        setFont(FontFactory.getSansFont(14f));
     }
 
     // Paint the round background and label.

@@ -80,7 +80,6 @@ public class SearchView implements Serializable, View {
     public void init() {
         setupSearchField();
         setupSearchButton();
-        // addKeyboardButton();
     }
 
     /*
@@ -94,12 +93,12 @@ public class SearchView implements Serializable, View {
         panel.setOpaque(true);
         panel.addFocusListener(focusListener);
 
-        MigLayout layout = new MigLayout("wrap 3, alignx center, aligny top, top, gapy 1cm");
+        MigLayout layout = new MigLayout("wrap 3, alignx center, top");
         panel.setLayout(layout);
 
         setupSearchBar();
 
-        panel.add(searchPanel, "top, span 4, alignx center");
+        panel.add(searchPanel, "top, span 4, alignx center, gapy 0.3cm 0.3cm");
 
         if (result != null) {
             setupArtists(panel);
@@ -120,8 +119,8 @@ public class SearchView implements Serializable, View {
         searchPanel = new JPanel(new MigLayout("insets 0, top"));
         searchPanel.setOpaque(false);
 
-        searchPanel.add(searchField, "center, w 6cm, gapy 15");
-        searchPanel.add(searchButton, "left, gapy 15");
+        searchPanel.add(searchField, "west, center, w 6cm, gapy 15");
+        searchPanel.add(searchButton, "gapy 15");
     }
 
     private void setupSearchField() {

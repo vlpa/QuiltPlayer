@@ -71,6 +71,8 @@ public class ConfigurationController implements ConfigurationListener {
                 Configuration.getInstance().setFullScreen(true);
                 Configuration.getInstance().storeConfiguration();
             }
+
+            SwingUtilities.updateComponentTreeUI(frame);
         }
     }
 }

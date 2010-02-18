@@ -35,7 +35,7 @@ public class StringOrCharLabel extends JLabel {
     private void setDefaults() {
         setOpaque(false);
 
-        setForeground(Color.GRAY);
+        setForeground(Color.WHITE);
 
         setFont(FontFactory.getFont(15f));
 
@@ -55,7 +55,7 @@ public class StringOrCharLabel extends JLabel {
 
         g2d.setPaint(p);
 
-        g2d.fillRect(0, 0, getWidth(), getHeight());
+        g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
 
         super.paintComponent(g2d);
     }

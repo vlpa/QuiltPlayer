@@ -60,7 +60,7 @@ public class PlaylistPanel extends JPanel {
     private AlbumControlPanel albumPanel;
 
     public PlaylistPanel() {
-        super(new MigLayout("insets 0 0.3cm 0 0.3cm"));
+        super(new MigLayout("insets 0 0.35cm 0 0.35cm"));
 
         setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
     }

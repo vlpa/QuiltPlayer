@@ -5,23 +5,14 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -33,18 +24,15 @@ import com.quiltplayer.core.storage.ArtistStorage;
 import com.quiltplayer.core.storage.Storage;
 import com.quiltplayer.internal.id3.Id3Extractor;
 import com.quiltplayer.properties.Configuration;
-import com.quiltplayer.view.swing.ColorConstantsLight;
 import com.quiltplayer.view.swing.buttons.QButton;
-import com.quiltplayer.view.swing.checkbox.QCheckBox;
-import com.quiltplayer.view.swing.designcomponents.TextFieldComponents;
-import com.quiltplayer.view.swing.labels.QLabel;
+import com.quiltplayer.view.swing.buttons.QTab;
 import com.quiltplayer.view.swing.listeners.ConfigurationListener;
-import com.quiltplayer.view.swing.listeners.ScanningListener;
 import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
-import com.quiltplayer.view.swing.textfields.QPasswordField;
-import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.views.View;
+import com.quiltplayer.view.swing.views.impl.configurations.ConfigurationPanel;
+import com.quiltplayer.view.swing.views.impl.configurations.ScannerPanel;
+import com.quiltplayer.view.swing.views.impl.configurations.SpotifyPanel;
 
 /**
  * Configurations view.
@@ -56,6 +44,12 @@ import com.quiltplayer.view.swing.views.View;
 public class ConfigurationView implements View, ActionListener, PropertyChangeListener {
 
     private static final String SAVE = "save";
+
+    private enum TAB {
+        CONFIGURATION, SPOTIFY, SCANNERS, PROXY
+    };
+
+    private Component tab;
 
     @Autowired
     private ControlPanel controlPanel;
@@ -69,11 +63,22 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
     @Autowired
     private ArtistStorage artistStorage;
 
-    /**
-     * Scanning listener.
-     */
     @Autowired
-    private ScanningListener scanningListener;
+    private SpotifyPanel spotifyPanel;
+
+    @Autowired
+    private ScannerPanel scannerPanel;
+
+    @Autowired
+    private ConfigurationPanel configurationPanel;
+
+    private QTab proxy;
+
+    private QTab spotify;
+
+    private QTab music;
+
+    private QTab configuration;
 
     private JFileChooser fc;
 
@@ -103,103 +108,17 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
     public static final String EVENT_CANCEL_SCAN_COVERS = "cancel.scan.covers";
 
     /**
-     * The path to music.
-     */
-    private JTextField musicPath = new QTextField();
-
-    /**
-     * The light color profile JRadioButton.
-     */
-    private JRadioButton lightColorProfile, darkColorProfile;
-
-    /**
-     * Color profile light.
-     */
-    private static final String COLOR_PROFILE_LIGHT = "light";
-
-    /**
-     * Color profile dark.
-     */
-    private static final String COLOR_PROFILE_DARK = "dark";
-
-    /**
-     * The proxy port.
-     */
-    private static JTextField proxyPort;
-
-    /**
-     * The proxy url.
-     */
-    private static JTextField proxyUrl;
-
-    /**
-     * The proxy user name.
-     */
-    private static JTextField proxyUsername;
-
-    /**
-     * The proxy password.
-     */
-    private static JPasswordField proxyPassword;
-
-    /**
      * Action listener.
      */
     @Autowired
     private ConfigurationListener listener;
 
     /**
-     * The scan button.
-     */
-    private JButton scanCoversButton, cancelScanCoversButton;
-
-    /**
-     * The update button.
-     */
-    private JButton scanPathButton, cancelScanPathButton;
-
-    /**
-     * Enable/disable fullscreen button
-     */
-    private JButton fullscreenButton;
-
-    private JButton fileChooserButton;
-    /**
      * The main panel.
      */
     private JPanel panel;
 
-    /**
-     * The proxy settings panel.
-     */
-    private JPanel proxySettings;
-
-    private JComboBox fontSelectBox;
-
-    /**
-     * The proxy checkbox.
-     */
-    private JCheckBox proxyCheckBox;
-
-    /**
-     * The spotify checkbox.
-     */
-    private JCheckBox spotifyCheckBox;
-
-    /**
-     * The spotify settings panel.
-     */
-    private JPanel spotifySettings;
-
-    /**
-     * The spotify user name.
-     */
-    private static JTextField spotifyUserName = new QTextField();
-
-    /**
-     * The spotify password.
-     */
-    private static JPasswordField spotifyPassword = new QPasswordField();
+    private JPanel tabPanel;
 
     private JProgressBar musicScrollBar;
 
@@ -212,241 +131,90 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
      */
     @Override
     public Component getUI() {
-        if (panel == null) {
-            panel = new JPanel();
+        panel = new JPanel(new MigLayout("insets 0, wrap 1, alignx center, aligny top"));
 
-            panel.setLayout(new MigLayout("insets 0, wrap 3, alignx center, aligny center"));
+        setupTabs();
 
-            fileChooserButton = new QButton("Select");
-            fileChooserButton.addActionListener(this);
+        tabPanel = new JPanel(new MigLayout("ins 0, wrap 4, center"));
 
-            panel.add(TextFieldComponents.textFieldComponentForForms("Root folder",
-                    Configuration.ROOT_PATH, false), "left, w 40%, newline");
-            panel.add(TextFieldComponents.textFieldComponentForForms("Storage folder",
-                    Configuration.STORAGE_PATH, false), "left, w 40%, newline");
-            panel.add(TextFieldComponents.textFieldComponentForForms("Album covers folder",
-                    Configuration.ALBUM_COVERS_PATH, false), "left, w 40%, newline");
-            panel.add(TextFieldComponents.textFieldComponentForFormsWithButton(
-                    "Music directory to scan", musicPath, Configuration.ALBUM_COVERS_PATH, false,
-                    fileChooserButton), "left, w 40%, newline");
+        final String s = "h 1.3cm, w 3cm";
 
-            addFontSize();
+        tabPanel.add(configuration, s);
+        tabPanel.add(music, s);
+        tabPanel.add(spotify, s);
+        tabPanel.add(proxy, s);
 
-            // addColorProfile();
+        changeTab(TAB.CONFIGURATION);
 
-            // addProxySettings();
+        JButton saveButton = setupSaveButton();
+        tabPanel.add(saveButton, "cell 0 2, span 4, right");
 
-            addSpotifySettings();
-            panel.add(spotifySettings, "left, w 40%, newline");
-
-            JButton saveButton = new QButton("Save");
-            saveButton.addActionListener(this);
-            saveButton.setActionCommand(SAVE);
-
-            panel.add(saveButton, "w 40% - 2cm, span 2, w 2cm, newline, gapy 20 0, right, wrap");
-
-            addScanMusicButton();
-
-            addScanCoversButton();
-
-            addToggleFullscreenButton();
-        }
+        panel.add(tabPanel, "top, gapy 0.5cm, cell 0 0, w 100%, center");
 
         return new QScrollPane(panel);
     }
 
-    // private void addColorProfile()
-    // {
-    // JLabel colorProfileLabel = addColorProfileButtons();
-    // panel.add(colorProfileLabel, "left, newline");
-    //
-    // JPanel tmpPanel = new JPanel();
-    // tmpPanel.setOpaque(false);
-    // tmpPanel.add(lightColorProfile);
-    // tmpPanel.add(darkColorProfile);
-    // panel.add(tmpPanel, "left, newline");
-    // }
+    private JButton setupSaveButton() {
+        JButton saveButton = new QButton("Save");
+        saveButton.addActionListener(this);
+        saveButton.setActionCommand(SAVE);
 
-    private void addFontSize() {
-        fontSelectBox = new JComboBox(new String[] { "-3", "-2", "-1", "0", "+1", "+2", "+3" });
-        fontSelectBox.setOpaque(true);
-
-        int currentValue = ((Integer) ((Float) Configuration.getInstance().getFontBalancer())
-                .intValue());
-
-        String currentValueAsString = null;
-        if (currentValue > 0)
-            currentValueAsString = "+" + currentValue;
-        else
-            currentValueAsString = currentValue + "";
-
-        fontSelectBox.setSelectedItem(currentValueAsString);
-
-        panel.add(new QLabel("Font adjust"), "left, newline");
-        panel.add(fontSelectBox, "left, w 2cm, newline");
+        return saveButton;
     }
 
-    /**
-     * Setup the color profile selector.
-     * 
-     * @return Color profile label
-     */
-    private JLabel addColorProfileButtons() {
-        JLabel colorProfileLabel = new QLabel("Color profile");
-        lightColorProfile = new JRadioButton("Light");
-        lightColorProfile.setOpaque(false);
-        lightColorProfile.setActionCommand(COLOR_PROFILE_LIGHT);
-        lightColorProfile.addActionListener(this);
-
-        darkColorProfile = new JRadioButton("Dark");
-        darkColorProfile.setOpaque(false);
-        darkColorProfile.setActionCommand(COLOR_PROFILE_DARK);
-        darkColorProfile.addActionListener(this);
-
-        if (Configuration.getInstance().getColorConstants() instanceof ColorConstantsLight) {
-            lightColorProfile.setSelected(true);
-        }
-        else {
-            darkColorProfile.setSelected(true);
-        }
-
-        return colorProfileLabel;
-    }
-
-    /**
-	 * 
-	 */
-    private void addProxySettings() {
-        proxyCheckBox = new JCheckBox("Proxy");
-        proxyCheckBox.setOpaque(false);
-
-        MouseListener l = new MouseAdapter() {
+    private void setupTabs() {
+        configuration = new QTab("Configuration");
+        configuration.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if (proxyCheckBox.isSelected())
-                    proxySettings.setVisible(true);
-                else
-                    proxySettings.setVisible(false);
+            public void actionPerformed(ActionEvent e) {
+                changeTab(TAB.CONFIGURATION);
             }
-        };
+        });
 
-        proxyCheckBox.addMouseListener(l);
-
-        panel.add(proxyCheckBox, "left");
-        panel.add(proxyCheckBox, "right");
-
-        proxySettings = new JPanel(new MigLayout("insets 0, wrap 2, alignx center, aligny center"));
-        proxySettings.setOpaque(false);
-
-        if (Configuration.getInstance().isUseProxy()) {
-            proxySettings.setVisible(true);
-            proxyCheckBox.setSelected(true);
-        }
-        else
-            proxySettings.setVisible(false);
-
-        JLabel proxyPortLabel = new JLabel("Proxy port");
-        proxyPort = new QTextField(false);
-        proxyPort.setText(Configuration.getInstance().getProxyPort() + "");
-        proxySettings.add(proxyPortLabel, "right");
-        proxySettings.add(proxyPort, "left");
-
-        JLabel proxyUrlLabel = new JLabel("Proxy URL");
-        proxyUrl = new QTextField(false);
-        proxyUrl.setText(Configuration.getInstance().getProxyUrl() + "");
-        proxySettings.add(proxyUrlLabel, "right");
-        proxySettings.add(proxyUrl, "left");
-
-        JLabel proxyUsernameLabel = new QLabel("Proxy username");
-        proxyUsername = new QTextField(false);
-        proxyUsername.setText(Configuration.getInstance().getProxyUsername() + "");
-        proxySettings.add(proxyUsernameLabel, "right");
-        proxySettings.add(proxyUsername, "left");
-
-        JLabel proxyPasswordLabel = new QLabel("Proxy password (not saved)");
-        proxyPassword = new QPasswordField();
-        proxySettings.add(proxyPasswordLabel, "right");
-        proxySettings.add(proxyPassword, "left");
-
-        panel.add(proxySettings);
-    }
-
-    /**
-	 * 
-	 */
-    private void addSpotifySettings() {
-        spotifySettings = new JPanel(new MigLayout("insets 0, wrap 2, fillx"));
-        spotifySettings.setOpaque(false);
-
-        spotifyCheckBox = new QCheckBox("Spotify account");
-
-        MouseListener l = new MouseAdapter() {
+        music = new QTab("Scan music");
+        music.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if (spotifyCheckBox.isSelected())
-                    spotifySettings.setVisible(true);
-                else
-                    spotifySettings.setVisible(false);
+            public void actionPerformed(ActionEvent e) {
+                changeTab(TAB.SCANNERS);
             }
-        };
+        });
 
-        spotifyCheckBox.addMouseListener(l);
+        spotify = new QTab("Spotify");
+        spotify.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changeTab(TAB.SPOTIFY);
+            }
+        });
 
-        panel.add(spotifyCheckBox, "newline");
+        proxy = new QTab("Proxy");
+        proxy.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changeTab(TAB.PROXY);
+            }
+        });
+    }
 
-        if (Configuration.getInstance().isUseSpotify()) {
-            spotifySettings.setVisible(true);
-            spotifyCheckBox.setSelected(true);
+    private void changeTab(final TAB tab) {
+        if (this.tab != null) {
+            tabPanel.remove(this.tab);
         }
-        else
-            spotifySettings.setVisible(false);
 
-        spotifySettings.add(TextFieldComponents.textFieldComponentForForms("Spotify user name",
-                spotifyUserName, Configuration.getInstance().getSpotifyUserName() + "", true),
-                "left, w 100%, newline");
-        spotifySettings.add(TextFieldComponents.textFieldComponentForForms("Spotify password",
-                spotifyPassword, Configuration.getInstance().getSpotifyPassword() + "", true),
-                "left, w 100%, newline");
-    }
+        if (tab == TAB.CONFIGURATION) {
+            this.tab = configurationPanel;
+        }
+        else if (tab == TAB.PROXY) {
+        }
+        else if (tab == TAB.SCANNERS) {
+            this.tab = scannerPanel;
+        }
+        else if (tab == TAB.SPOTIFY) {
+            this.tab = spotifyPanel;
+        }
 
-    private void addScanCoversButton() {
-        scanCoversButton = new QButton("Search covers");
-        scanCoversButton.addActionListener(scanningListener);
-        scanCoversButton.setActionCommand(EVENT_SCAN_COVERS);
-
-        panel.add(scanCoversButton, "w 2.7cm");
-
-        cancelScanCoversButton = new QButton("X");
-        cancelScanCoversButton.setOpaque(false);
-        cancelScanCoversButton.addActionListener(scanningListener);
-        cancelScanCoversButton.setActionCommand(EVENT_CANCEL_SCAN_COVERS);
-
-        panel.add(cancelScanCoversButton, "gapy 10 0, w 0.8cm");
-    }
-
-    private void addScanMusicButton() {
-        scanPathButton = new QButton("Scan path");
-        scanPathButton.addActionListener(this);
-        scanPathButton.setActionCommand(EVENT_UPDATE_COLLECTION);
-
-        panel.add(scanPathButton, "w 2.7cm");
-
-        musicScrollBar = new JProgressBar(0, 100);
-        panel.add(musicScrollBar, "w 100");
-
-        cancelScanPathButton = new QButton("X");
-        cancelScanPathButton.addActionListener(this);
-        cancelScanPathButton.setActionCommand(EVENT_CANCEL_UPDATE_COLLECTION);
-
-        panel.add(cancelScanPathButton, "gapy 0 0, w 0.8cm");
-    }
-
-    private void addToggleFullscreenButton() {
-        fullscreenButton = new QButton("Toggle fullscreen");
-        fullscreenButton.addActionListener(listener);
-        fullscreenButton.setActionCommand(EVENT_TOGGLE_FULLSCREEN);
-
-        panel.add(fullscreenButton, "gapy 10, w 2.7cm");
+        tabPanel.add(this.tab, "cell 0 1, top, left, span 6, w 50%, newline, shrink");
+        tabPanel.updateUI();
     }
 
     /*
@@ -458,50 +226,45 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
     public void actionPerformed(ActionEvent e) {
 
         if (e.getActionCommand() == EVENT_UPDATE_COLLECTION) {
-            scanPathButton.setEnabled(false);
-            cancelScanPathButton.setEnabled(true);
-            scanPathButton.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            scannerPanel.scanPathButton.setEnabled(false);
+            scannerPanel.cancelScanPathButton.setEnabled(true);
+            scannerPanel.scanPathButton.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             task = new FileScannerTask(id3Extractor, storage, artistStorage);
             task.addPropertyChangeListener(this);
             task.execute();
         }
         else if (e.getActionCommand() == EVENT_CANCEL_UPDATE_COLLECTION) {
             task.cancel(true);
-            scanPathButton.setEnabled(true);
-            cancelScanPathButton.setEnabled(false);
+            scannerPanel.scanPathButton.setEnabled(true);
+            scannerPanel.cancelScanPathButton.setEnabled(false);
         }
-        else if (e.getActionCommand() == COLOR_PROFILE_LIGHT) {
-            lightColorProfile.setSelected(true);
-            darkColorProfile.setSelected(false);
-        }
-        else if (e.getActionCommand() == COLOR_PROFILE_DARK) {
-            darkColorProfile.setSelected(true);
-            lightColorProfile.setSelected(false);
-        }
+
         else if (e.getActionCommand() == SAVE) {
             Configuration config = Configuration.getInstance();
-            config.setMusicPath(musicPath.getText());
-            config.setUseSpotify(spotifyCheckBox.isSelected());
+            config.setMusicPath(scannerPanel.musicPath.getText());
+            config.setUseSpotify(spotifyPanel.spotifyCheckBox.isSelected());
 
-            if (spotifyCheckBox.isSelected()) {
-                config.setSpotifyUserName(spotifyUserName.getText());
-                config.setSpotifyPassword(new String(spotifyPassword.getPassword()).toCharArray());
+            if (spotifyPanel.spotifyCheckBox.isSelected()) {
+                config.setSpotifyUserName(spotifyPanel.spotifyUserName.getText());
+                config.setSpotifyPassword(new String(spotifyPanel.spotifyPassword.getPassword())
+                        .toCharArray());
 
                 controlPanel.enableSearchTab(true);
             }
             else
                 controlPanel.enableSearchTab(false);
 
-            if (!fontSelectBox.getSelectedItem().equals(
+            if (!configurationPanel.fontSelectBox.getSelectedItem().equals(
                     Configuration.getInstance().getFontBalancer())) {
-                config.setFontBalancer(Float.parseFloat((String) fontSelectBox.getSelectedItem()));
+                config.setFontBalancer(Float.parseFloat((String) configurationPanel.fontSelectBox
+                        .getSelectedItem()));
             }
 
             listener.actionPerformed(new ActionEvent("", 0,
                     ConfigurationController.EVENT_UPDATE_CONFIGURATION));
         }
 
-        else if (e.getSource() == fileChooserButton) {
+        else if (e.getSource() == scannerPanel.fileChooserButton) {
             if (fc == null) {
                 fc = new JFileChooser();
                 fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -514,7 +277,7 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
             int returnVal = fc.showOpenDialog(frame);
 
             if (returnVal == JFileChooser.APPROVE_OPTION)
-                musicPath.setText(fc.getSelectedFile().getAbsolutePath());
+                scannerPanel.musicPath.setText(fc.getSelectedFile().getAbsolutePath());
         }
 
     }
@@ -527,8 +290,8 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (task.isDone()) {
-            scanPathButton.setEnabled(true);
-            cancelScanPathButton.setEnabled(false);
+            scannerPanel.scanPathButton.setEnabled(true);
+            scannerPanel.cancelScanPathButton.setEnabled(false);
         }
         else {
             int progress = task.getProgress();

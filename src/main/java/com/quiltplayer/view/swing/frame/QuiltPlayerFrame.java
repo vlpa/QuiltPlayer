@@ -210,6 +210,7 @@ public class QuiltPlayerFrame extends JFrame {
     public void updateUI() {
         if (ui != null) {
             remove(ui);
+            getContentPane().remove(alfabeticControlPaneUi);
         }
 
         if (currentView.equals(ActiveView.QUILT_VIEW)) {
@@ -219,7 +220,6 @@ public class QuiltPlayerFrame extends JFrame {
         else if (currentView.equals(ActiveView.ALFABETIC_ARTISTS_VIEW)) {
             ui = artistView.getUI();
         }
-
         else if (currentView.equals(ActiveView.ALBUM_VIEW)) {
             ui = albumView.getUI();
             controlPanel.updateTab(null);
@@ -247,7 +247,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addAlfabeticControlPanel() {
-        add(alfabeticControlPaneUi, "dock east, align center, h 75%!, w 1.7cm!");
+        getContentPane().add(alfabeticControlPaneUi, "dock east, align center, h 75%!, w 1.7cm!");
     }
 
     public ActiveView getCurrentView() {
@@ -291,7 +291,7 @@ public class QuiltPlayerFrame extends JFrame {
         }
 
         repaint();
-        updateUI();
+        playlistPanel.repaint();
     }
 
     private void addAlbumView() {

@@ -36,12 +36,8 @@ public class SpotifySquaredAlbumPanel extends SquaredAlbumPanel {
 
     private JLabel iconLabel;
 
-    private JotifyRepository jotifyRepository;
-
-    public SpotifySquaredAlbumPanel(final Album album, JotifyRepository jotifyRepository) {
+    public SpotifySquaredAlbumPanel(final Album album) {
         super(album);
-
-        this.jotifyRepository = jotifyRepository;
 
         invoker.start();
     }
@@ -61,7 +57,7 @@ public class SpotifySquaredAlbumPanel extends SquaredAlbumPanel {
             try {
                 if (((JotifyAlbum) album).getSpotifyAlbum().getCover() != null) {
 
-                    final Image image = jotifyRepository.getInstance().image(
+                    final Image image = JotifyRepository.getInstance().image(
                             ((JotifyAlbum) album).getSpotifyAlbum().getCover());
 
                     icon2 = new ImageIcon(ImageUtils.scalePicture(image, ImageSizes.MEDIUM

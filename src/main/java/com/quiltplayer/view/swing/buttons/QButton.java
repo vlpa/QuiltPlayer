@@ -19,9 +19,11 @@ import com.quiltplayer.view.swing.FontFactory;
 public class QButton extends JButton {
     private static final long serialVersionUID = 1L;
 
-    private static final Color DEFAULT = new Color(40, 40, 40);
+    private static final Color DEFAULT = new Color(60, 60, 60);
 
     private static final Color HOOVER = new Color(80, 80, 80);
+
+    private static final Color PRESSED = new Color(184, 207, 229);
 
     private Color color = DEFAULT;
 
@@ -45,16 +47,41 @@ public class QButton extends JButton {
             @Override
             public void mouseExited(MouseEvent e) {
                 color = DEFAULT;
-                repaint();
 
+                repaint();
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
                 color = HOOVER;
-                repaint();
 
+                repaint();
             }
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mousePressed(MouseEvent e) {
+                color = PRESSED;
+
+                repaint();
+            }
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                color = HOOVER;
+
+                repaint();
+            }
+
         });
     }
 
@@ -74,9 +101,6 @@ public class QButton extends JButton {
         g2d.setColor(color);
         g2d.fillRoundRect(0, 0, w, h, 15, 15);
 
-        g2d.setColor(new Color(70, 70, 70));
-        g2d.drawRoundRect(0, 0, w - 1, h - 1, 15 - 1, 15 - 1);
-
         super.paintComponent(g);
     }
 
@@ -87,6 +111,8 @@ public class QButton extends JButton {
      */
     @Override
     protected void paintBorder(Graphics g) {
-        // Empty
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(DEFAULT);
+        g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15 - 1, 15 - 1);
     }
 }

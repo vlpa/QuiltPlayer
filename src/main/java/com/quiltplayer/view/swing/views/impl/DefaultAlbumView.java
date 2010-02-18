@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.controller.ArtistController;
 import com.quiltplayer.controller.ChangeAlbumController;
-import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.jotify.JotifyAlbum;
@@ -42,9 +41,6 @@ import com.quiltplayer.view.swing.views.ListView;
 public class DefaultAlbumView implements Serializable, ListView<Album> {
 
     private static final long serialVersionUID = 1L;
-
-    @Autowired
-    private JotifyRepository jotifyRepository;
 
     @Autowired
     private transient ChangeAlbumListener changeAlbumListener;
@@ -91,7 +87,7 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
                     if (!((JotifyAlbum) album).isPlayable())
                         continue;
 
-                    p = new SpotifySquaredAlbumPanel(album, jotifyRepository);
+                    p = new SpotifySquaredAlbumPanel(album);
                 }
                 else
                     p = new SquaredAlbumPanel(album);
