@@ -29,6 +29,16 @@ public class ScanningController implements ScanningListener {
 
     public static final String EVENT_RESCAN_ALBUM = "rescan.album";
 
+    /**
+     * Event to start updating collection.
+     */
+    public static final String EVENT_UPDATE_COLLECTION = "update.collection";
+
+    /**
+     * Event to cancel update collection.
+     */
+    public static final String EVENT_CANCEL_UPDATE_COLLECTION = "cancel.update.collection";
+
     @Autowired
     private QuiltPlayerFrame frame;
 
@@ -56,10 +66,10 @@ public class ScanningController implements ScanningListener {
         else if (e.getActionCommand().equals(ConfigurationView.EVENT_CANCEL_SCAN_COVERS)) {
             coverScanner.cancelScanCovers();
         }
-        else if (e.getActionCommand().equals(ConfigurationView.EVENT_UPDATE_COLLECTION)) {
+        else if (e.getActionCommand().equals(EVENT_UPDATE_COLLECTION)) {
             // collectionScanner.scanCollection();
         }
-        else if (e.getActionCommand().equals(ConfigurationView.EVENT_CANCEL_UPDATE_COLLECTION)) {
+        else if (e.getActionCommand().equals(EVENT_CANCEL_UPDATE_COLLECTION)) {
             // collectionScanner.cancelScanCollection();
         }
         else if (e.getActionCommand().equals(EVENT_RESCAN_ALBUM)) {

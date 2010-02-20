@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.FocusEvent;
 
 import javax.swing.JTextField;
 
 import com.quiltplayer.view.swing.FontFactory;
+import com.quiltplayer.view.swing.window.KeyboardPanel;
 
 /**
  * Quilt implementation of a text field.
@@ -22,14 +24,20 @@ public class QTextField extends JTextField {
 
     private boolean callFocus = false;
 
-    public QTextField() {
+    private KeyboardPanel keyboardPanel;
+
+    public QTextField(KeyboardPanel keyboardPanel) {
         super();
+
+        this.keyboardPanel = keyboardPanel;
 
         setDefaults();
     }
 
-    public QTextField(boolean focus) {
+    public QTextField(boolean focus, KeyboardPanel keyboardPanel) {
         super();
+
+        this.keyboardPanel = keyboardPanel;
 
         callFocus = focus;
 
@@ -82,5 +90,18 @@ public class QTextField extends JTextField {
      */
     @Override
     protected void paintBorder(Graphics g) {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.awt.Component#processFocusEvent(java.awt.event.FocusEvent)
+     */
+    @Override
+    protected void processFocusEvent(FocusEvent e) {
+        if (e.getID() == FocusEvent.FOCUS_GAINED)
+            keyboardPanel.setTextField(this);
+
+        super.processFocusEvent(e); 
     }
 }

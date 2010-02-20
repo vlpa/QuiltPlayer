@@ -10,6 +10,7 @@ import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.view.swing.labels.QLabel;
 import com.quiltplayer.view.swing.textfields.QTextField;
+import com.quiltplayer.view.swing.window.KeyboardPanel;
 
 /**
  * 
@@ -19,11 +20,11 @@ import com.quiltplayer.view.swing.textfields.QTextField;
 public class TextFieldComponents {
 
     public static JComponent textFieldComponentForForms(final String name, final String value,
-            final boolean enableTextField) {
+            final boolean enableTextField, final KeyboardPanel keyboardPanel) {
         final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 1"));
 
         final JLabel label = new QLabel(name);
-        final JTextField textField = new QTextField();
+        final JTextField textField = new QTextField(keyboardPanel);
         textField.setText(value);
         textField.setEnabled(enableTextField);
 
@@ -64,12 +65,13 @@ public class TextFieldComponents {
     }
 
     public static JComponent textFieldComponentForFormsWithButton(final String name,
-            final String value, final boolean enableTextField, final JButton button) {
+            final String value, final boolean enableTextField, final JButton button,
+            final KeyboardPanel keyboardPanel) {
 
         final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 2"));
 
         final JLabel label = new QLabel(name);
-        final JTextField textField = new QTextField();
+        final JTextField textField = new QTextField(keyboardPanel);
         textField.setText(value);
         textField.setEnabled(enableTextField);
 

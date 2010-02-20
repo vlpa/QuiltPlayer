@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,13 +14,15 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.view.swing.FontFactory;
+import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 
 /**
  * 
- * Keyboard emulator component. Will always be on top.
+ * Keyboard emulator component.
  * 
  * @author Vlado Palczynski
  * 
@@ -27,6 +30,9 @@ import com.quiltplayer.view.swing.FontFactory;
 @Component
 public class KeyboardPanel extends JPanel {
     private static final long serialVersionUID = 1L;
+
+    @Autowired
+    private ControlPanel controlPanel;
 
     private JTextField textField;
 
@@ -44,6 +50,8 @@ public class KeyboardPanel extends JPanel {
                 / 2 - ((int) this.getHeight() / 2));
 
         setup();
+
+        setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
 
         setVisible(false);
     }
@@ -87,9 +95,6 @@ public class KeyboardPanel extends JPanel {
         }
 
         this.add(panel, "center, newline");
-
-        // JButton exitButton = setupOkButton(frame);
-        // this.add(exitButton, "newline, right, w 2cm");
 
     }
 
@@ -139,10 +144,17 @@ public class KeyboardPanel extends JPanel {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                textField.setText(textField.getText() + label.toLowerCase());
+                if (textField != null)
+                    textField.setText(textField.getText() + label.toLowerCase());
             }
         });
 
         return button;
+    }
+
+    public void setTextField(final JTextField textField) {
+        this.textField = textField;
+
+        controlPanel.flashKeyboard();
     }
 }

@@ -16,7 +16,14 @@ import com.quiltplayer.view.swing.designcomponents.TextFieldComponents;
 import com.quiltplayer.view.swing.labels.QLabel;
 import com.quiltplayer.view.swing.listeners.ConfigurationListener;
 import com.quiltplayer.view.swing.views.impl.ConfigurationView;
+import com.quiltplayer.view.swing.window.KeyboardPanel;
 
+/**
+ * Panel for the configurations properties tab in configurations view.
+ * 
+ * @author Vlado Palczynski
+ * 
+ */
 @Component
 public class ConfigurationPanel extends JPanel {
 
@@ -30,35 +37,43 @@ public class ConfigurationPanel extends JPanel {
     public JComboBox fontSelectBox;
 
     @Autowired
+    private KeyboardPanel keyboardPanel;
+
+    @Autowired
     private ConfigurationListener configurationListener;
 
     public ConfigurationPanel() {
-        super(new MigLayout("ins 0, w 100%"));
+        super(new MigLayout("ins 0.2cm 0.2cm 0.2cm 0.2cm, fill"));
     }
 
     @PostConstruct
     public void init() {
+
+        setupFontSize();
+        setupToggleFullscreenButton();
+
         add(TextFieldComponents.textFieldComponentForForms("Root folder", Configuration.ROOT_PATH,
-                false), "left, w 40%, newline");
+                false, keyboardPanel), "left, w 60%, newline, gapy 0.2cm");
         add(TextFieldComponents.textFieldComponentForForms("Storage folder",
-                Configuration.STORAGE_PATH, false), "left, w 70%, newline");
+                Configuration.STORAGE_PATH, false, keyboardPanel),
+                "left, w 60%, newline ,gapy 0.2cm");
         add(TextFieldComponents.textFieldComponentForForms("Album covers folder",
-                Configuration.ALBUM_COVERS_PATH, false), "left, w 70%, newline");
+                Configuration.ALBUM_COVERS_PATH, false, keyboardPanel),
+                "left, w 60%, newline, gapy 0.2cm");
 
-        addFontSize();
+        add(new QLabel("Font adjust"), "left, newline, gapy 0.2cm");
+        add(fontSelectBox, "left, w 2cm, newline, gapy 0.2cm");
 
-        addToggleFullscreenButton();
+        add(fullscreenButton, "gapy 10, w 2.7cm, newline, gapy 1.0cm");
     }
 
-    private void addToggleFullscreenButton() {
+    private void setupToggleFullscreenButton() {
         fullscreenButton = new QButton("Toggle fullscreen");
         fullscreenButton.addActionListener(configurationListener);
         fullscreenButton.setActionCommand(ConfigurationView.EVENT_TOGGLE_FULLSCREEN);
-
-        add(fullscreenButton, "gapy 10, w 2.7cm");
     }
 
-    private void addFontSize() {
+    private void setupFontSize() {
         fontSelectBox = new JComboBox(new String[] { "-3", "-2", "-1", "0", "+1", "+2", "+3" });
         fontSelectBox.setOpaque(true);
 
@@ -72,8 +87,5 @@ public class ConfigurationPanel extends JPanel {
             currentValueAsString = currentValue + "";
 
         fontSelectBox.setSelectedItem(currentValueAsString);
-
-        add(new QLabel("Font adjust"), "left, newline");
-        add(fontSelectBox, "left, w 2cm, newline");
     }
 }

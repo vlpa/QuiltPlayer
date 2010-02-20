@@ -36,7 +36,6 @@ public class ConfigurationController implements ConfigurationListener {
     public final void actionPerformed(final ActionEvent e) {
         if (e.getActionCommand().equals(EVENT_UPDATE_CONFIGURATION)) {
             Configuration.getInstance().storeConfiguration();
-
             SwingUtilities.updateComponentTreeUI(frame);
         }
         else if (e.getActionCommand() == ConfigurationView.EVENT_TOGGLE_FULLSCREEN) {

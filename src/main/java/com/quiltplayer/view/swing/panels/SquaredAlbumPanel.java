@@ -59,8 +59,8 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
         panel.add(artist, "cell 0 1");
         panel.add(trackLabel, "cell 0 2, bottom");
 
-        add(icon, "cell 0 0, gapx 20 5, gapy 20 20");
-        add(panel, "cell 1 0, aligny top, gapx 0 10, gapy 20 20");
+        add(icon, "cell 0 0, gapx 0.2cm  0.05cm, gapy 0.2cm 0.2cm");
+        add(panel, "cell 1 0, aligny top, gapx 0 0.1cm, gapy 0.2cm 0.2cm");
 
         addMouseListener(new MouseAdapter() {
             /*

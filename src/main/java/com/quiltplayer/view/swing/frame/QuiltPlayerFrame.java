@@ -295,6 +295,6 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addAlbumView() {
-        getContentPane().add(playlistPanel, "cell 1 0, dock west, growx");
+        getContentPane().add(playlistPanel, "cell 1 0, dock west, growx, gapx 0.2cm");
     }
 }

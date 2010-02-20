@@ -12,17 +12,22 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.labels.QLabel;
 import com.quiltplayer.view.swing.textfields.QPasswordField;
 import com.quiltplayer.view.swing.textfields.QTextField;
+import com.quiltplayer.view.swing.window.KeyboardPanel;
 
 @Component
 public class ProxyPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
+
+    @Autowired
+    private KeyboardPanel keyboardPanel;
 
     /**
      * The proxy checkbox.
@@ -86,25 +91,25 @@ public class ProxyPanel extends JPanel {
             setVisible(false);
 
         JLabel proxyPortLabel = new JLabel("Proxy port");
-        proxyPort = new QTextField(false);
+        proxyPort = new QTextField(false, keyboardPanel);
         proxyPort.setText(Configuration.getInstance().getProxyPort() + "");
         add(proxyPortLabel, "right");
         add(proxyPort, "left");
 
         JLabel proxyUrlLabel = new JLabel("Proxy URL");
-        proxyUrl = new QTextField(false);
+        proxyUrl = new QTextField(false, keyboardPanel);
         proxyUrl.setText(Configuration.getInstance().getProxyUrl() + "");
         add(proxyUrlLabel, "right");
         add(proxyUrl, "left");
 
         JLabel proxyUsernameLabel = new QLabel("Proxy username");
-        proxyUsername = new QTextField(false);
+        proxyUsername = new QTextField(false, keyboardPanel);
         proxyUsername.setText(Configuration.getInstance().getProxyUsername() + "");
         add(proxyUsernameLabel, "right");
         add(proxyUsername, "left");
 
         JLabel proxyPasswordLabel = new QLabel("Proxy password (not saved)");
-        proxyPassword = new QPasswordField();
+        proxyPassword = new QPasswordField(keyboardPanel);
         add(proxyPasswordLabel, "right");
         add(proxyPassword, "left");
     }

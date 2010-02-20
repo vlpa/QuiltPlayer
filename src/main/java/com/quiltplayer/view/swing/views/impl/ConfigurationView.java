@@ -1,28 +1,17 @@
 package com.quiltplayer.view.swing.views.impl;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.controller.ConfigurationController;
-import com.quiltplayer.core.scanner.tasks.FileScannerTask;
-import com.quiltplayer.core.storage.ArtistStorage;
-import com.quiltplayer.core.storage.Storage;
-import com.quiltplayer.internal.id3.Id3Extractor;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.buttons.QTab;
@@ -31,8 +20,8 @@ import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.views.View;
 import com.quiltplayer.view.swing.views.impl.configurations.ConfigurationPanel;
-import com.quiltplayer.view.swing.views.impl.configurations.ScannerPanel;
-import com.quiltplayer.view.swing.views.impl.configurations.SpotifyPanel;
+import com.quiltplayer.view.swing.views.impl.configurations.ScanningConfigurationPanel;
+import com.quiltplayer.view.swing.views.impl.configurations.SpotifyConfigurationPanel;
 
 /**
  * Configurations view.
@@ -41,7 +30,7 @@ import com.quiltplayer.view.swing.views.impl.configurations.SpotifyPanel;
  * 
  */
 @org.springframework.stereotype.Component
-public class ConfigurationView implements View, ActionListener, PropertyChangeListener {
+public class ConfigurationView implements View, ActionListener {
 
     private static final String SAVE = "save";
 
@@ -55,19 +44,10 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
     private ControlPanel controlPanel;
 
     @Autowired
-    private Id3Extractor id3Extractor;
+    private SpotifyConfigurationPanel spotifyPanel;
 
     @Autowired
-    private Storage storage;
-
-    @Autowired
-    private ArtistStorage artistStorage;
-
-    @Autowired
-    private SpotifyPanel spotifyPanel;
-
-    @Autowired
-    private ScannerPanel scannerPanel;
+    private ScanningConfigurationPanel scannerPanel;
 
     @Autowired
     private ConfigurationPanel configurationPanel;
@@ -80,22 +60,10 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
 
     private QTab configuration;
 
-    private JFileChooser fc;
-
-    /**
-     * Event to start updating collection.
-     */
-    public static final String EVENT_UPDATE_COLLECTION = "update.collection";
-
     /**
      * Event to toggle full screen.
      */
     public static final String EVENT_TOGGLE_FULLSCREEN = "toggle.fullscreen";
-
-    /**
-     * Event to cancel update collection.
-     */
-    public static final String EVENT_CANCEL_UPDATE_COLLECTION = "cancel.update.collection";
 
     /**
      * Event to start scanning covers,
@@ -120,10 +88,6 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
 
     private JPanel tabPanel;
 
-    private JProgressBar musicScrollBar;
-
-    private FileScannerTask task;
-
     /*
      * (non-Javadoc)
      * 
@@ -146,10 +110,10 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
 
         changeTab(TAB.CONFIGURATION);
 
-        JButton saveButton = setupSaveButton();
-        tabPanel.add(saveButton, "cell 0 2, span 4, right");
+        final JButton saveButton = setupSaveButton();
+        tabPanel.add(saveButton, "cell 0 2, span 4, right, gapy 0.5cm");
 
-        panel.add(tabPanel, "top, gapy 0.5cm, cell 0 0, w 100%, center");
+        panel.add(tabPanel, "top,cell 0 0, w 100%, center, gapy 0.5cm");
 
         return new QScrollPane(panel);
     }
@@ -213,7 +177,8 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
             this.tab = spotifyPanel;
         }
 
-        tabPanel.add(this.tab, "cell 0 1, top, left, span 6, w 50%, newline, shrink");
+        tabPanel.add(this.tab,
+                "cell 0 1, top, left, span 6, w 50%, newline, shrink, gapy 0.5cm 0.5cm");
         tabPanel.updateUI();
     }
 
@@ -225,21 +190,7 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getActionCommand() == EVENT_UPDATE_COLLECTION) {
-            scannerPanel.scanPathButton.setEnabled(false);
-            scannerPanel.cancelScanPathButton.setEnabled(true);
-            scannerPanel.scanPathButton.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            task = new FileScannerTask(id3Extractor, storage, artistStorage);
-            task.addPropertyChangeListener(this);
-            task.execute();
-        }
-        else if (e.getActionCommand() == EVENT_CANCEL_UPDATE_COLLECTION) {
-            task.cancel(true);
-            scannerPanel.scanPathButton.setEnabled(true);
-            scannerPanel.cancelScanPathButton.setEnabled(false);
-        }
-
-        else if (e.getActionCommand() == SAVE) {
+        if (e.getActionCommand() == SAVE) {
             Configuration config = Configuration.getInstance();
             config.setMusicPath(scannerPanel.musicPath.getText());
             config.setUseSpotify(spotifyPanel.spotifyCheckBox.isSelected());
@@ -263,42 +214,5 @@ public class ConfigurationView implements View, ActionListener, PropertyChangeLi
             listener.actionPerformed(new ActionEvent("", 0,
                     ConfigurationController.EVENT_UPDATE_CONFIGURATION));
         }
-
-        else if (e.getSource() == scannerPanel.fileChooserButton) {
-            if (fc == null) {
-                fc = new JFileChooser();
-                fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                fc.setOpaque(false);
-            }
-
-            JFrame frame = new JFrame();
-            frame.setBackground(Color.black);
-
-            int returnVal = fc.showOpenDialog(frame);
-
-            if (returnVal == JFileChooser.APPROVE_OPTION)
-                scannerPanel.musicPath.setText(fc.getSelectedFile().getAbsolutePath());
-        }
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (task.isDone()) {
-            scannerPanel.scanPathButton.setEnabled(true);
-            scannerPanel.cancelScanPathButton.setEnabled(false);
-        }
-        else {
-            int progress = task.getProgress();
-            musicScrollBar.setValue(progress);
-            musicScrollBar.repaint();
-            musicScrollBar.updateUI();
-        }
-
     }
 }

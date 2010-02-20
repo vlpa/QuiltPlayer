@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.FocusEvent;
 
 import javax.swing.JPasswordField;
 
 import com.quiltplayer.view.swing.FontFactory;
+import com.quiltplayer.view.swing.window.KeyboardPanel;
 
 /**
  * 
@@ -17,8 +19,12 @@ import com.quiltplayer.view.swing.FontFactory;
 public class QPasswordField extends JPasswordField {
     private static final long serialVersionUID = -7358149534963586489L;
 
-    public QPasswordField() {
+    private KeyboardPanel keyboardPanel;
+
+    public QPasswordField(final KeyboardPanel keyboardPanel) {
         super();
+
+        this.keyboardPanel = keyboardPanel;
 
         setDefaults();
     }
@@ -35,11 +41,9 @@ public class QPasswordField extends JPasswordField {
         final int w = getWidth();
         final int h = getHeight();
 
-        RenderingHints renderHints = new RenderingHints(
-                RenderingHints.KEY_ANTIALIASING,
+        RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        renderHints.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
+        renderHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
@@ -58,5 +62,18 @@ public class QPasswordField extends JPasswordField {
      */
     @Override
     protected void paintBorder(Graphics g) {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.awt.Component#processFocusEvent(java.awt.event.FocusEvent)
+     */
+    @Override
+    protected void processFocusEvent(FocusEvent e) {
+        if (e.getID() == FocusEvent.FOCUS_GAINED)
+            keyboardPanel.setTextField(this);
+
+        super.processFocusEvent(e);
     }
 }

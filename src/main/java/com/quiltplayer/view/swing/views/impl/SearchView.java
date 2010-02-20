@@ -37,6 +37,7 @@ import com.quiltplayer.view.swing.panels.QPanel;
 import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.views.View;
+import com.quiltplayer.view.swing.window.KeyboardPanel;
 
 import de.felixbruns.jotify.media.Album;
 import de.felixbruns.jotify.media.Artist;
@@ -72,6 +73,9 @@ public class SearchView implements Serializable, View {
     @Autowired
     private ChangeAlbumListener changeAlbumListener;
 
+    @Autowired
+    private KeyboardPanel keyboardPanel;
+
     private Result result;
 
     private FocusListener focusListener = new com.quiltplayer.view.swing.listeners.FocusListener();
@@ -98,7 +102,7 @@ public class SearchView implements Serializable, View {
 
         setupSearchBar();
 
-        panel.add(searchPanel, "top, span 4, alignx center, gapy 0.3cm 0.3cm");
+        panel.add(searchPanel, "top, span 4, alignx center, gapy 0.3cm 0.5cm");
 
         if (result != null) {
             setupArtists(panel);
@@ -124,7 +128,7 @@ public class SearchView implements Serializable, View {
     }
 
     private void setupSearchField() {
-        searchField = new QTextField(true);
+        searchField = new QTextField(true, keyboardPanel);
 
         KeyListener k = new KeyAdapter() {
             /*
