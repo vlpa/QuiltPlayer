@@ -39,7 +39,7 @@ public class StringOrCharLabel extends JLabel {
 
         setFont(FontFactory.getFont(15f));
 
-        setBorder(BorderFactory.createLineBorder(new Color(50, 50, 50)));
+        setBorder(BorderFactory.createEmptyBorder());
     }
 
     @Override

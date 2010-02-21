@@ -66,11 +66,6 @@ public class ConfigurationView implements View, ActionListener {
     public static final String EVENT_TOGGLE_FULLSCREEN = "toggle.fullscreen";
 
     /**
-     * Event to start scanning covers,
-     */
-    public static final String EVENT_SCAN_COVERS = "scan.covers";
-
-    /**
      * Event to cancel scan covers.
      */
     public static final String EVENT_CANCEL_SCAN_COVERS = "cancel.scan.covers";

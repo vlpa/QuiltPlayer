@@ -69,14 +69,20 @@ public class SpotifyConfigurationPanel extends JPanel {
         MouseListener l = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // if (spotifyCheckBox.isSelected())
-                // spotifySettings.setVisible(true);
-                // else
-                // spotifySettings.setVisible(false);
+                if (spotifyCheckBox.isSelected()) {
+                    spotifyUserName.setVisible(true);
+                    spotifyPassword.setVisible(true);
+                }
+                else {
+                    spotifyUserName.setVisible(false);
+                    spotifyPassword.setVisible(false);
+                }
             }
         };
 
         spotifyCheckBox.addMouseListener(l);
+
+        add(spotifyCheckBox, "");
 
         add(TextFieldComponents.textFieldComponentForForms("Spotify user name", spotifyUserName,
                 Configuration.getInstance().getSpotifyUserName() + "", true),

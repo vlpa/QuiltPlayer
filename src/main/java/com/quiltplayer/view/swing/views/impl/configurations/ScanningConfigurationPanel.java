@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -85,7 +86,10 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
     public ScanningConfigurationPanel() {
 
         super(new MigLayout("ins 0, wrap 2, fill"));
+    }
 
+    @PostConstruct
+    public void init() {
         fileChooserButton = new QButton("Select");
         fileChooserButton.addActionListener(this);
 
@@ -101,7 +105,7 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
     private void addScanCoversButton() {
         scanCoversButton = new QButton("Search covers");
         scanCoversButton.addActionListener(scanningListener);
-        scanCoversButton.setActionCommand(ConfigurationView.EVENT_SCAN_COVERS);
+        scanCoversButton.setActionCommand(ScanningController.EVENT_SCAN_COVERS);
 
         add(scanCoversButton, "w 2.7cm, newline");
 

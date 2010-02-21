@@ -48,7 +48,6 @@ public class QControlPanelButton extends JButton {
     }
 
     private void setDefaults(int verticalTextPosition) {
-        // setOpaque(false);
 
         setHorizontalTextPosition(AbstractButton.CENTER);
         setHorizontalAlignment(AbstractButton.CENTER);

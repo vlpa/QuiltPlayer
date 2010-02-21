@@ -31,16 +31,27 @@ import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 public class KeyboardPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
+    private static final String CAPS_LOCK = "Caps Lock";
+    private static final String ERASE = "<--";
+
+    private boolean toggler = false;
+
     @Autowired
     private ControlPanel controlPanel;
 
     private JTextField textField;
 
-    String[] row1 = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-    String[] row2 = new String[] { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", };
-    String[] row3 = new String[] { "A", "S", "D", "F", "G", "H", "J", "K", "L" };
-    String[] row4 = new String[] { "Z", "X", "C", "V", "B", "N", "M" };
-    String[] row5 = new String[] { " " };
+    String[][] noCaps = new String[][] {
+            { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ERASE },
+            { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", },
+            { CAPS_LOCK, "A", "S", "D", "F", "G", "H", "J", "K", "L" },
+            { "Z", "X", "C", "V", "B", "N", "M" }, { " " } };
+
+    String[][] caps = new String[][] {
+            { "!", "\"", "#", "¤", "%", "&", "/", "(", ")", "=", ERASE },
+            { "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", },
+            { CAPS_LOCK, "a", "s", "d", "f", "g", "h", "j", "k", "l" },
+            { "z", "x", "c", "v", "b", "n", "m" }, { " " } };
 
     public KeyboardPanel() {
         setLayout(new MigLayout("insets 25, center"));
@@ -49,53 +60,50 @@ public class KeyboardPanel extends JPanel {
                 - ((int) this.getWidth() / 2), Toolkit.getDefaultToolkit().getScreenSize().height
                 / 2 - ((int) this.getHeight() / 2));
 
-        setup();
+        setup(toggler);
 
         setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
 
         setVisible(false);
     }
 
-    private void setup() {
+    private void setup(final boolean capsLock) {
+        removeAll();
+
         JPanel panel = new JPanel(new MigLayout("insets 0"));
         panel.setBackground(Color.DARK_GRAY);
 
-        for (String label : row1) {
-            panel.add(getButton(label), "w 1.0cm!, h 1.0cm!");
+        final String layout = "w 1.2cm, h 1.2cm";
+
+        final String[][] sds;
+
+        if (capsLock)
+            sds = caps;
+        else
+            sds = noCaps;
+
+        for (String[] s : sds) {
+
+            panel = new JPanel(new MigLayout("insets 0"));
+
+            for (String label : s) {
+                JButton button = new JButton(label);
+
+                if (label == CAPS_LOCK)
+                    setupCapsLockButton(button);
+                else if (label == ERASE)
+                    setupEraseButton(button);
+                else {
+                    setupButton(button);
+                }
+
+                panel.add(button, layout);
+            }
+
+            this.add(panel, "center, newline");
         }
 
-        this.add(panel, "center,newline");
-
-        panel = new JPanel(new MigLayout("insets 0"));
-        for (String label : row2) {
-            panel.add(getButton(label), "w 1.0cm!, h 1.0cm!");
-        }
-
-        panel.add(setupEraseButton(), "w 1.5cm!, h 1.0cm!");
-
-        this.add(panel, "center, newline");
-
-        panel = new JPanel(new MigLayout("insets 0"));
-        for (String label : row3) {
-            panel.add(getButton(label), "w 1.0cm!, h 1.0cm!");
-        }
-
-        this.add(panel, "center, newline");
-
-        panel = new JPanel(new MigLayout("insets 0"));
-        for (String label : row4) {
-            panel.add(getButton(label), "w 1.0cm!, h 1.0cm!");
-        }
-
-        this.add(panel, "center, newline");
-
-        panel = new JPanel(new MigLayout("insets 0"));
-        for (String label : row5) {
-            panel.add(getButton(label), "w 5.0cm!, h 1.0cm!");
-        }
-
-        this.add(panel, "center, newline");
-
+        updateUI();
     }
 
     private JButton setupOkButton(final JFrame frame) {
@@ -114,9 +122,8 @@ public class KeyboardPanel extends JPanel {
         return exitButton;
     }
 
-    private JButton setupEraseButton() {
-        JButton eraseButton = new JButton("<--");
-        eraseButton.addActionListener(new ActionListener() {
+    private void setupEraseButton(final JButton button) {
+        button.addActionListener(new ActionListener() {
             /*
              * (non-Javadoc)
              * 
@@ -129,11 +136,27 @@ public class KeyboardPanel extends JPanel {
                             textField.getText().length() - 1));
             }
         });
-        return eraseButton;
     }
 
-    private JButton getButton(final String label) {
-        final JButton button = new JButton(label);
+    private JButton setupCapsLockButton(final JButton button) {
+        button.addActionListener(new ActionListener() {
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event. ActionEvent)
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggler = !toggler;
+
+                setup(toggler);
+            }
+        });
+
+        return button;
+    }
+
+    private void setupButton(final JButton button) {
         button.setFont(FontFactory.getSansFont(16f).deriveFont(Font.ITALIC));
 
         button.addActionListener(new ActionListener() {
@@ -145,11 +168,9 @@ public class KeyboardPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (textField != null)
-                    textField.setText(textField.getText() + label.toLowerCase());
+                    textField.setText(textField.getText() + button.getText());
             }
         });
-
-        return button;
     }
 
     public void setTextField(final JTextField textField) {

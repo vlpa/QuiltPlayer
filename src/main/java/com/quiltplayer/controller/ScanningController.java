@@ -39,6 +39,11 @@ public class ScanningController implements ScanningListener {
      */
     public static final String EVENT_CANCEL_UPDATE_COLLECTION = "cancel.update.collection";
 
+    /**
+     * Event to start scanning covers,
+     */
+    public static final String EVENT_SCAN_COVERS = "scan.covers";
+
     @Autowired
     private QuiltPlayerFrame frame;
 
@@ -60,7 +65,7 @@ public class ScanningController implements ScanningListener {
     @Override
     public final void actionPerformed(final ActionEvent e) {
 
-        if (e.getActionCommand().equals(ConfigurationView.EVENT_SCAN_COVERS)) {
+        if (e.getActionCommand().equals(EVENT_SCAN_COVERS)) {
             coverScanner.scanCovers();
         }
         else if (e.getActionCommand().equals(ConfigurationView.EVENT_CANCEL_SCAN_COVERS)) {
