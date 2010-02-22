@@ -38,7 +38,7 @@ public class ImageUtils {
     public static ImageIcon scalePicture(ImageIcon icon, int width) {
         ImageIcon imageIcon = new ImageIcon(icon.getImage().getScaledInstance(width, -1,
                 Image.SCALE_SMOOTH));
-        int borderWidth = 1;
+        int borderWidth = 0;
         int spaceAroundIcon = 0;
         Color borderColor = new Color(40, 40, 40);
 

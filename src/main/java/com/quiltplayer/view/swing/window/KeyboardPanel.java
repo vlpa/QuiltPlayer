@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.annotation.PostConstruct;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -16,7 +17,9 @@ import net.miginfocom.swing.MigLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.controller.ControlPanelController;
 import com.quiltplayer.view.swing.FontFactory;
+import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 
 /**
@@ -32,25 +35,29 @@ public class KeyboardPanel extends JPanel {
 
     private static final String CAPS_LOCK = "Caps Lock";
     private static final String ERASE = "<--";
+    private static final String CLEAR = "Clear";
+    private static final String CLOSE = "Exit";
 
     private boolean toggler = false;
 
     @Autowired
     private ControlPanel controlPanel;
 
+    @Autowired
+    private ControlPanelListener controlPanelListener;
+
     private JTextField textField;
 
-    String[][] noCaps = new String[][] {
-            { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ERASE },
+    String[][] noCaps = new String[][] { { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" },
             { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", },
             { CAPS_LOCK, "A", "S", "D", "F", "G", "H", "J", "K", "L" },
-            { "Z", "X", "C", "V", "B", "N", "M" }, { " " } };
+            { "Z", "X", "C", "V", "B", "N", "M" }, { CLEAR, " ", CLOSE } };
 
     String[][] caps = new String[][] {
             { "!", "\"", "#", "¤", "%", "&", "/", "(", ")", "=", ERASE },
             { "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", },
             { CAPS_LOCK, "a", "s", "d", "f", "g", "h", "j", "k", "l" },
-            { "z", "x", "c", "v", "b", "n", "m" }, { " " } };
+            { "z", "x", "c", "v", "b", "n", "m" }, { CLEAR, " ", CLOSE } };
 
     public KeyboardPanel() {
         setLayout(new MigLayout("insets 25, center"));
@@ -59,6 +66,10 @@ public class KeyboardPanel extends JPanel {
                 - ((int) this.getWidth() / 2), Toolkit.getDefaultToolkit().getScreenSize().height
                 / 2 - ((int) this.getHeight() / 2));
 
+    }
+
+    @PostConstruct
+    public void init() {
         setup(toggler);
 
         setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
@@ -92,6 +103,10 @@ public class KeyboardPanel extends JPanel {
                     setupCapsLockButton(button);
                 else if (label == ERASE)
                     setupEraseButton(button);
+                else if (label == CLEAR)
+                    setupClearButton(button);
+                else if (label == CLOSE)
+                    setupCloseButton(button);
                 else {
                     setupButton(button);
                 }
@@ -117,6 +132,25 @@ public class KeyboardPanel extends JPanel {
                 if (textField.getText().length() > 0)
                     textField.setText(textField.getText().substring(0,
                             textField.getText().length() - 1));
+            }
+        });
+    }
+
+    private void setupCloseButton(final JButton button) {
+        button.addActionListener(controlPanelListener);
+        button.setActionCommand(ControlPanelController.EVENT_VIEW_KEYBOARD);
+    }
+
+    private void setupClearButton(final JButton button) {
+        button.addActionListener(new ActionListener() {
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event. ActionEvent)
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textField.setText("");
             }
         });
     }
@@ -151,7 +185,11 @@ public class KeyboardPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (textField != null)
-                    textField.setText(textField.getText() + button.getText());
+                    textField.setText(new StringBuilder(textField.getText()).insert(
+                            textField.getCaretPosition(), button.getText()).toString());
+
+                // TODO Focus is probably lost as this does not work.
+                // textField.setCaretPosition(textField.getCaretPosition() + 1);
             }
         });
     }

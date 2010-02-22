@@ -58,7 +58,7 @@ public class ControlPanel extends JPanel {
     private float[] dist = { 0.0f, 0.60f, 0.64f, 1.0f };
 
     @Autowired
-    private ControlPanelListener listener;
+    private ControlPanelListener controlPanelListener;
 
     public enum Tab {
         NONE, QUILT, ARTISTS, CONFIGURATION, SEARCH
@@ -119,14 +119,14 @@ public class ControlPanel extends JPanel {
         playerControlPanel.add(albumViewButton, "cell 0 0");
 
         add(playerControlPanel, "w " + ImageSizes.LARGE.getSize() + "px, dock west");
-        add(applicationButtons, "w 100% - " + ImageSizes.LARGE.getSize() + "px, gapx 100 100");
+        add(applicationButtons, "w 100% - " + ImageSizes.LARGE.getSize() + "px, gapx 2cm 2cm");
     }
 
     private void setupQuiltCollectionButton() {
         quiltTab = new QControlPanelButton("Quilt", ClassPathUtils
                 .getIconFromClasspath("white/small-tiles.png"), SwingConstants.TOP);
 
-        quiltTab.addActionListener(listener);
+        quiltTab.addActionListener(controlPanelListener);
         quiltTab.setActionCommand(EVENT_ALBUM_QUILT);
     }
 
@@ -134,14 +134,14 @@ public class ControlPanel extends JPanel {
         artistsTab = new QControlPanelButton("Artists", ClassPathUtils
                 .getIconFromClasspath("white/large-tiles.png"), SwingConstants.TOP);
 
-        artistsTab.addActionListener(listener);
+        artistsTab.addActionListener(controlPanelListener);
         artistsTab.setActionCommand(EVENT_VIEW_ARTIST);
     }
 
     private void setupAlbumViewButton() {
         albumViewButton = new QControlPanelButton("Album view", ClassPathUtils
                 .getIconFromClasspath("white/AlbumView.png"), SwingConstants.TOP);
-        albumViewButton.addActionListener(listener);
+        albumViewButton.addActionListener(controlPanelListener);
         albumViewButton.setActionCommand(ControlPanelController.EVENT_TOGGLE_ALBUM_VIEW);
         albumViewButton.activate();
     }
@@ -150,7 +150,7 @@ public class ControlPanel extends JPanel {
         searchTab = new QControlPanelButton("Spotify", ClassPathUtils
                 .getIconFromClasspath("white/Search.png"), SwingConstants.TOP);
 
-        searchTab.addActionListener(listener);
+        searchTab.addActionListener(controlPanelListener);
         searchTab.setActionCommand(EVENT_VIEW_SEARCH);
 
         if (!Configuration.getInstance().isUseSpotify())
@@ -161,7 +161,7 @@ public class ControlPanel extends JPanel {
         configTab = new QControlPanelButton("Config", ClassPathUtils
                 .getIconFromClasspath("white/Settings.png"), SwingConstants.TOP);
 
-        configTab.addActionListener(listener);
+        configTab.addActionListener(controlPanelListener);
         configTab.setActionCommand(EVENT_VIEW_CONFIGURATION);
     }
 
@@ -169,7 +169,7 @@ public class ControlPanel extends JPanel {
 
         keyboardTab = new QControlPanelButton("Keys", ClassPathUtils
                 .getIconFromClasspath("white/Settings.png"), SwingConstants.TOP);
-        keyboardTab.addActionListener(listener);
+        keyboardTab.addActionListener(controlPanelListener);
         keyboardTab.setActionCommand(ControlPanelController.EVENT_VIEW_KEYBOARD);
     }
 

@@ -9,10 +9,10 @@ import java.beans.PropertyChangeListener;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
@@ -20,6 +20,7 @@ import net.miginfocom.swing.MigLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.controller.ConfigurationController;
 import com.quiltplayer.controller.ScanningController;
 import com.quiltplayer.core.scanner.tasks.FileScannerTask;
 import com.quiltplayer.core.storage.ArtistStorage;
@@ -28,7 +29,9 @@ import com.quiltplayer.internal.id3.Id3Extractor;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.designcomponents.TextFieldComponents;
+import com.quiltplayer.view.swing.listeners.ConfigurationListener;
 import com.quiltplayer.view.swing.listeners.ScanningListener;
+import com.quiltplayer.view.swing.progressbars.QProgressBar;
 import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.views.impl.ConfigurationView;
 import com.quiltplayer.view.swing.window.KeyboardPanel;
@@ -62,12 +65,12 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
     /**
      * The path to music.
      */
-    public JTextField musicPath = new QTextField(keyboardPanel);
+    private JTextField musicPath = new QTextField(keyboardPanel);
 
     /**
      * The scan button.
      */
-    public JButton scanCoversButton, cancelScanCoversButton;
+    private JButton scanCoversButton, cancelScanCoversButton;
 
     /**
      * The update button.
@@ -77,14 +80,18 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
     @Autowired
     private ScanningListener scanningListener;
 
-    private JProgressBar musicScrollBar;
+    @Autowired
+    private ConfigurationListener configurationListener;
+
+    private QProgressBar musicScrollBar;
 
     private JFileChooser fc;
 
     private FileScannerTask task;
 
-    public ScanningConfigurationPanel() {
+    private JComponent musicPathComponent;
 
+    public ScanningConfigurationPanel() {
         super(new MigLayout("ins 0, wrap 2, fill"));
     }
 
@@ -93,45 +100,52 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
         fileChooserButton = new QButton("Select");
         fileChooserButton.addActionListener(this);
 
-        add(TextFieldComponents.textFieldComponentForFormsWithButton("Music directory to scan",
-                musicPath, Configuration.ALBUM_COVERS_PATH, false, fileChooserButton),
-                "left, w 40%, newline");
+        musicPath.setText(Configuration.getInstance().getMusicPath());
 
-        addScanMusicButton();
+        setupScanMusicButton();
 
-        addScanCoversButton();
+        musicPathComponent = TextFieldComponents.textFieldComponentForFormsWithButton(
+                "Music directory to scan", musicPath, Configuration.ALBUM_COVERS_PATH, false,
+                fileChooserButton);
+
+        addMusicComponent(musicPathComponent);
+        add(scanPathButton, "cell 1 1, w 2.7cm, right, aligny bottom, gapy 0.5cm");
+
+        // add(musicScrollBar, "w 80%, h 1.0cm");
+        // add(cancelScanPathButton, "gapy 0 0, w 0.8cm, newline");
+
+        setupScanCoversButton();
+
+        add(scanCoversButton, "cell 0 2, w 2.7cm, gapy 0.3cm, span 2, right");
+        // add(cancelScanCoversButton, "span 2, gapy 0.1cm 0, w 0.8cm, newline");
     }
 
-    private void addScanCoversButton() {
+    private void addMusicComponent(JComponent component) {
+        add(component, "cell 0 0, left, aligny bottom, grow, span 2");
+    }
+
+    private void setupScanCoversButton() {
         scanCoversButton = new QButton("Search covers");
         scanCoversButton.addActionListener(scanningListener);
         scanCoversButton.setActionCommand(ScanningController.EVENT_SCAN_COVERS);
-
-        add(scanCoversButton, "w 2.7cm, newline");
 
         cancelScanCoversButton = new QButton("X");
         cancelScanCoversButton.setOpaque(false);
         cancelScanCoversButton.addActionListener(scanningListener);
         cancelScanCoversButton.setActionCommand(ConfigurationView.EVENT_CANCEL_SCAN_COVERS);
-
-        add(cancelScanCoversButton, "gapy 0.1cm 0, w 0.8cm, newline");
     }
 
-    private void addScanMusicButton() {
+    private void setupScanMusicButton() {
+
         scanPathButton = new QButton("Scan path");
         scanPathButton.addActionListener(this);
         scanPathButton.setActionCommand(ScanningController.EVENT_UPDATE_COLLECTION);
 
-        add(scanPathButton, "w 2.7cm");
-
-        musicScrollBar = new JProgressBar(0, 100);
-        add(musicScrollBar, "w 100");
+        musicScrollBar = new QProgressBar(0, 100);
 
         cancelScanPathButton = new QButton("X");
         cancelScanPathButton.addActionListener(this);
         cancelScanPathButton.setActionCommand(ScanningController.EVENT_CANCEL_UPDATE_COLLECTION);
-
-        add(cancelScanPathButton, "gapy 0 0, w 0.8cm, newline");
     }
 
     /*
@@ -142,6 +156,14 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == ScanningController.EVENT_UPDATE_COLLECTION) {
+            Configuration.getInstance().setMusicPath(musicPath.getText());
+
+            configurationListener.actionPerformed(new ActionEvent("", 0,
+                    ConfigurationController.EVENT_UPDATE_CONFIGURATION));
+
+            remove(musicPathComponent);
+            addMusicComponent(musicScrollBar);
+
             scanPathButton.setEnabled(false);
             cancelScanPathButton.setEnabled(true);
             scanPathButton.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -179,6 +201,10 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
         if (task.isDone()) {
             scanPathButton.setEnabled(true);
             cancelScanPathButton.setEnabled(false);
+            remove(musicScrollBar);
+            addMusicComponent(musicPathComponent);
+
+            repaint();
         }
         else {
             int progress = task.getProgress();

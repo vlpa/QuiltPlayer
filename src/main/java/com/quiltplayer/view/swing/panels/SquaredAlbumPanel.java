@@ -71,7 +71,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
             @Override
             public void mouseEntered(MouseEvent e) {
                 background = new Color(50, 50, 50);
-                trackLabel.setForeground(new Color(200, 200, 200));
+                trackLabel.setVisible(true);
 
                 repaint();
                 updateUI();
@@ -85,6 +85,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
             @Override
             public void mouseExited(MouseEvent e) {
                 background = ColorConstantsDark.BACKGROUND;
+                trackLabel.setVisible(false);
 
                 repaint();
                 updateUI();
@@ -140,7 +141,7 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
         final JLabel tracksLabel = new JLabel();
         tracksLabel.setFont(FontFactory.getSansFont(12f));
         tracksLabel.setText(album.getSongCollection().getSongs().size() + " tracks");
-        tracksLabel.setForeground(ColorConstantsDark.BACKGROUND);
+        tracksLabel.setForeground(new Color(200, 200, 200));
 
         return tracksLabel;
     }

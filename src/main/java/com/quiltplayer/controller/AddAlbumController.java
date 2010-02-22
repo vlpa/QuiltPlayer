@@ -16,6 +16,7 @@ import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.view.swing.listeners.AddAlbumListener;
+import com.quiltplayer.view.swing.panels.PlaylistPanel;
 
 /**
  * Controller for adding non-ID3 albums.
@@ -36,72 +37,93 @@ public class AddAlbumController implements AddAlbumListener {
     @Autowired
     private ArtistStorage artistStorage;
 
+    @Autowired
+    private PlaylistPanel playlistPanel;
+
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
     public final void actionPerformed(final ActionEvent e) {
+
         if (EVENT_ADD_ALBUM == e.getActionCommand()) {
-            Album album = (Album) e.getSource();
+            final Album album = playlistPanel.getPlayingAlbum();
+
             if (album instanceof JotifyAlbum) {
-                // TODO double code, same as in DefaultID3Scanner.
-                StringId artistId = new StringId(album.getArtist().getArtistName().getName());
-                Artist artist = artistStorage.getArtist(artistId);
 
-                if (artist == null) {
-                    log.debug("Artist " + artistId.getId() + " not found, creating...");
-                    artist = artistStorage.createArtist(artistId);
-                }
+                // TODO Could be a Task...
+                new Thread() {
 
-                artist.setArtistName(new ArtistName(album.getArtist().getArtistName().getName()));
-                artist.setSpotifyId(album.getArtist().getSpotifyId());
+                    /*
+                     * (non-Javadoc)
+                     * 
+                     * @see java.lang.Thread#run()
+                     */
+                    @Override
+                    public void run() {
+                        // TODO double code, same as in DefaultID3Scanner.
+                        StringId artistId = new StringId(album.getArtist().getArtistName()
+                                .getName());
+                        Artist artist = artistStorage.getArtist(artistId);
 
-                StringId albumId = new StringId(album.getTitle());
-                Album quiltAlbum = storage.getAlbum(albumId);
+                        if (artist == null) {
+                            log.debug("Artist " + artistId.getId() + " not found, creating...");
+                            artist = artistStorage.createArtist(artistId);
+                        }
 
-                if (quiltAlbum == null) {
-                    log.debug("Album not found, creating...");
-                    quiltAlbum = storage.createAlbum(albumId);
-                    artist.addAlbum(quiltAlbum);
-                }
+                        artist.setArtistName(new ArtistName(album.getArtist().getArtistName()
+                                .getName()));
+                        artist.setSpotifyId(album.getArtist().getSpotifyId());
 
-                if (!artist.hasAlbum(quiltAlbum))
-                    artist.addAlbum(quiltAlbum);
+                        StringId albumId = new StringId(album.getTitle());
+                        Album quiltAlbum = storage.getAlbum(albumId);
 
-                quiltAlbum.setTitle(album.getTitle());
-                quiltAlbum.setArtist(artist);
-                quiltAlbum.setType(Album.TYPE_SPOTIFY);
-                quiltAlbum.setSpotifyId(album.getSpotifyId());
-                quiltAlbum.setYear(album.getYear());
+                        if (quiltAlbum == null) {
+                            log.debug("Album not found, creating...");
+                            quiltAlbum = storage.createAlbum(albumId);
+                            artist.addAlbum(quiltAlbum);
+                        }
 
-                for (Song s : album.getSongCollection().getSongs()) {
-                    StringId songId = new StringId(album.getTitle() + s.getTitle());
-                    Song song = storage.getSong(album.getTitle(), songId);
+                        if (!artist.hasAlbum(quiltAlbum))
+                            artist.addAlbum(quiltAlbum);
 
-                    if (song == null) {
-                        song = storage.createSong(songId);
-                        quiltAlbum.addSong(song);
+                        quiltAlbum.setTitle(album.getTitle());
+                        quiltAlbum.setArtist(artist);
+                        quiltAlbum.setType(Album.TYPE_SPOTIFY);
+                        quiltAlbum.setSpotifyId(album.getSpotifyId());
+                        quiltAlbum.setYear(album.getYear());
+
+                        for (Song s : album.getSongCollection().getSongs()) {
+                            StringId songId = new StringId(album.getTitle() + s.getTitle());
+                            Song song = storage.getSong(album.getTitle(), songId);
+
+                            if (song == null) {
+                                song = storage.createSong(songId);
+                                quiltAlbum.addSong(song);
+                            }
+
+                            song.setFileName(s.getFileName());
+                            song.setTitle(s.getTitle());
+                            song.setTrackNumber(s.getTrackNumber());
+                            song.setSpotifyId(s.getSpotifyId());
+                            song.setType(Song.TYPE_SPOTIFY);
+                        }
+
+                        /* Add cover */
+                        if (!album.getImages().isEmpty()) {
+                            quiltAlbum.deleteImages();
+
+                            LocalImage image = album.getImages().get(0);
+                            image.setType(LocalImage.TYPE_PRIMARY);
+
+                            LocalImage localImage = storage.createLocalImage(quiltAlbum, image
+                                    .getLargeImage().getName(), image);
+
+                            album.getImages().add(localImage);
+                        }
                     }
 
-                    song.setFileName(s.getFileName());
-                    song.setTitle(s.getTitle());
-                    song.setTrackNumber(s.getTrackNumber());
-                    song.setSpotifyId(s.getSpotifyId());
-                    song.setType(Song.TYPE_SPOTIFY);
-                }
-
-                /* Add cover */
-                if (!album.getImages().isEmpty()) {
-                    quiltAlbum.deleteImages();
-
-                    LocalImage image = album.getImages().get(0);
-                    image.setType(LocalImage.TYPE_PRIMARY);
-
-                    LocalImage localImage = storage.createLocalImage(quiltAlbum, image
-                            .getLargeImage().getName(), image);
-
-                    album.getImages().add(localImage);
-                }
+                }.start();
 
             }
         }

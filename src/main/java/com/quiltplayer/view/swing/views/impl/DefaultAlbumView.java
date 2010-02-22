@@ -43,10 +43,10 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
     private static final long serialVersionUID = 1L;
 
     @Autowired
-    private transient ChangeAlbumListener changeAlbumListener;
+    private ChangeAlbumListener changeAlbumListener;
 
     @Autowired
-    private transient ArtistListener artistListener;
+    private ArtistListener artistListener;
 
     private Album selectedAlbum = null;
 

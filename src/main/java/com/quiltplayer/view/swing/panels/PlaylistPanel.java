@@ -57,7 +57,7 @@ public class PlaylistPanel extends JPanel {
     protected LyricsPlaylistPanel lyricsPlaylistPanel;
 
     @Autowired
-    private AlbumControlPanel albumPanel;
+    private AlbumControlPanel albumControlPanel;
 
     public PlaylistPanel() {
         super(new MigLayout("insets 0 0.35cm 0 0.35cm"));
@@ -74,7 +74,7 @@ public class PlaylistPanel extends JPanel {
 
         add(mainPanel, "h 100%, w " + ImageSizes.LARGE.getSize() + "px!");
 
-        mainPanel.add(albumPanel, "dock south");
+        mainPanel.add(albumControlPanel, "dock south");
 
         setupSongsPanel();
     }
@@ -132,7 +132,11 @@ public class PlaylistPanel extends JPanel {
     }
 
     public void changeAlbum(final Album album) {
+        this.album = album;
+
         albumPlaylistPanel.changeAlbum(album);
+
+        albumControlPanel.update(album);
     }
 
     public void setLyrics(final String lyrics) {

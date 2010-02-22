@@ -24,6 +24,8 @@ import org.springframework.stereotype.Component;
 import com.quiltplayer.controller.AddAlbumController;
 import com.quiltplayer.controller.ArtistController;
 import com.quiltplayer.controller.ControlPanelController;
+import com.quiltplayer.model.Album;
+import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
 import com.quiltplayer.view.swing.listeners.AddAlbumListener;
@@ -49,8 +51,8 @@ public class AlbumControlPanel extends JPanel {
     @Autowired
     private EditAlbumListener editAlbumListener;
 
-    private Color[] gradient = { new Color(100, 100, 100), new Color(60, 60, 60),
-            new Color(40, 40, 40), new Color(10, 10, 10) };
+    private Color[] gradient = { new Color(80, 80, 80), new Color(50, 50, 50),
+            new Color(20, 20, 20), new Color(00, 00, 00) };
 
     private float[] dist = { 0.0f, 0.48f, 0.52f, 1.0f };
 
@@ -77,6 +79,8 @@ public class AlbumControlPanel extends JPanel {
 
     private QControlPanelButton moreAlbumsButton;
 
+    private static final String LAYOUT = "h 2cm, w 3cm";
+
     @PostConstruct
     public void init() {
         setDefaults();
@@ -99,12 +103,25 @@ public class AlbumControlPanel extends JPanel {
 
         setupMoreAlbumsButton();
 
-        final String layout = "h 2cm, w 3cm";
+        add(albumButton, LAYOUT + ", cell 0 0");
+        add(lyricsButton, LAYOUT + ", cell 1 0");
+        add(editButton, LAYOUT + ", cell 2 0");
+        add(moreAlbumsButton, LAYOUT + ", cell 3 0");
+    }
 
-        add(albumButton, layout + ", cell 0 0");
-        add(lyricsButton, layout + ", cell 1 0");
-        add(editButton, layout + ", cell 2 0");
-        add(moreAlbumsButton, layout + ", cell 3 0");
+    public void update(final Album album) {
+        if (album instanceof JotifyAlbum) {
+            remove(editButton);
+            remove(addButton);
+            add(addButton, LAYOUT + ", cell 2 0");
+        }
+        else {
+            remove(editButton);
+            remove(addButton);
+            add(editButton, LAYOUT + ", cell 2 0");
+        }
+
+        repaint();
     }
 
     private void setupMoreAlbumsButton() {
@@ -140,9 +157,6 @@ public class AlbumControlPanel extends JPanel {
                 getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM);
         addButton.addActionListener(addAlbumListener);
         addButton.setActionCommand(AddAlbumController.EVENT_ADD_ALBUM);
-
-        // addAlbumListener.actionPerformed(new ActionEvent(album, 0,
-        // AddAlbumController.EVENT_ADD_ALBUM));
     }
 
     private ImageIcon getIconFromClasspath(final String classPathName) {

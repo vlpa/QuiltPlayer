@@ -74,7 +74,7 @@ public class ConfigurationView implements View, ActionListener {
      * Action listener.
      */
     @Autowired
-    private ConfigurationListener listener;
+    private ConfigurationListener configurationListener;
 
     /**
      * The main panel.
@@ -94,7 +94,7 @@ public class ConfigurationView implements View, ActionListener {
 
         setupTabs();
 
-        tabPanel = new JPanel(new MigLayout("ins 0, wrap 4, center"));
+        tabPanel = new JPanel(new MigLayout("ins 0, wrap 4, center, w 50%"));
 
         final String s = "h 1.3cm, w 3cm";
 
@@ -172,8 +172,7 @@ public class ConfigurationView implements View, ActionListener {
             this.tab = spotifyPanel;
         }
 
-        tabPanel.add(this.tab,
-                "cell 0 1, top, left, span 6, w 50%, newline, shrink, gapy 0.5cm 0.5cm");
+        tabPanel.add(this.tab, "cell 0 1, top, left, span 4, newline, grow, gapy 0.5cm 0.5cm");
         tabPanel.updateUI();
     }
 
@@ -187,7 +186,6 @@ public class ConfigurationView implements View, ActionListener {
 
         if (e.getActionCommand() == SAVE) {
             Configuration config = Configuration.getInstance();
-            config.setMusicPath(scannerPanel.musicPath.getText());
             config.setUseSpotify(spotifyPanel.spotifyCheckBox.isSelected());
 
             if (spotifyPanel.spotifyCheckBox.isSelected()) {
@@ -206,7 +204,7 @@ public class ConfigurationView implements View, ActionListener {
                         .getSelectedItem()));
             }
 
-            listener.actionPerformed(new ActionEvent("", 0,
+            configurationListener.actionPerformed(new ActionEvent("", 0,
                     ConfigurationController.EVENT_UPDATE_CONFIGURATION));
         }
     }

@@ -28,7 +28,7 @@ public class TextFieldComponents {
         textField.setText(value);
         textField.setEnabled(enableTextField);
 
-        panel.add(label, "left");
+        panel.add(label, "left, w 100%");
         panel.add(textField, "left, w 100%");
 
         return panel;
@@ -42,7 +42,7 @@ public class TextFieldComponents {
         textField.setText(value);
         textField.setEnabled(enableTextField);
 
-        panel.add(label, "left");
+        panel.add(label, "left, w 100%");
         panel.add(textField, "left, w 100%");
 
         return panel;
@@ -52,14 +52,14 @@ public class TextFieldComponents {
             final JTextField textField, final String value, final boolean enableTextField,
             final JButton button) {
 
-        final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 2"));
+        final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 2, fill"));
 
         final JLabel label = new QLabel(name);
         textField.setEnabled(enableTextField);
 
         panel.add(label, "left, wrap");
-        panel.add(textField, "left, w 100% - 50");
-        panel.add(button, "left, w 50");
+        panel.add(textField, "left, grow");
+        panel.add(button, "left, w 1cm");
 
         return panel;
     }
@@ -76,8 +76,8 @@ public class TextFieldComponents {
         textField.setEnabled(enableTextField);
 
         panel.add(label, "left, wrap");
-        panel.add(textField, "left, w 100% - 50");
-        panel.add(button, "left, w 50");
+        panel.add(textField, "left, grow");
+        panel.add(button, "left, w 1cm");
 
         return panel;
     }

@@ -37,8 +37,6 @@ public class FileScannerTask extends SwingWorker<Integer, Void> {
         this.id3Extractor = id3Extractor;
         this.storage = storage;
         this.artistStorage = artistStorage;
-
-        getLengthOfTask();
     }
 
     /*
@@ -48,6 +46,8 @@ public class FileScannerTask extends SwingWorker<Integer, Void> {
      */
     @Override
     protected Integer doInBackground() throws Exception {
+
+        getLengthOfTask();
 
         id3Extractor.extractId3Tags(files, dataStorage);
 
@@ -131,7 +131,7 @@ public class FileScannerTask extends SwingWorker<Integer, Void> {
     };
 
     @SuppressWarnings("unchecked")
-    public int getLengthOfTask() {
+    private int getLengthOfTask() {
         File root = new File(Configuration.getInstance().getMusicPath());
 
         Collection files = FileUtils.listFiles(root, new String[] { "mp3", "MP3" }, true);

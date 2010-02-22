@@ -54,9 +54,11 @@ public class ConfigurationPanel extends JPanel {
 
         add(TextFieldComponents.textFieldComponentForForms("Root folder", Configuration.ROOT_PATH,
                 false, keyboardPanel), "left, w 60%, newline, gapy 0.2cm");
+
         add(TextFieldComponents.textFieldComponentForForms("Storage folder",
                 Configuration.STORAGE_PATH, false, keyboardPanel),
                 "left, w 60%, newline ,gapy 0.2cm");
+
         add(TextFieldComponents.textFieldComponentForForms("Album covers folder",
                 Configuration.ALBUM_COVERS_PATH, false, keyboardPanel),
                 "left, w 60%, newline, gapy 0.2cm");

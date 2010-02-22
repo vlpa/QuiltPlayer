@@ -18,7 +18,7 @@ import com.quiltplayer.view.swing.window.KeyboardPanel;
  * 
  */
 public class QTextField extends JTextField {
-    private static final long serialVersionUID = -7358149534963586489L;
+    private static final long serialVersionUID = 1L;
 
     private Color borderColor = null;
 

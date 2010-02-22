@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -39,13 +40,17 @@ public class SpotifyConfigurationPanel extends JPanel {
      */
     public JTextField spotifyUserName;
 
+    private JComponent userNameComponent;
+
+    private JComponent passwordComponent;
+
     /**
      * The spotify password.
      */
     public JPasswordField spotifyPassword;
 
     public SpotifyConfigurationPanel() {
-        super(new MigLayout("ins 0, fill"));
+        super(new MigLayout("ins 0, fill, wrap 3"));
     }
 
     @PostConstruct
@@ -70,12 +75,12 @@ public class SpotifyConfigurationPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (spotifyCheckBox.isSelected()) {
-                    spotifyUserName.setVisible(true);
-                    spotifyPassword.setVisible(true);
+                    userNameComponent.setVisible(true);
+                    passwordComponent.setVisible(true);
                 }
                 else {
-                    spotifyUserName.setVisible(false);
-                    spotifyPassword.setVisible(false);
+                    userNameComponent.setVisible(false);
+                    passwordComponent.setVisible(false);
                 }
             }
         };
@@ -84,12 +89,14 @@ public class SpotifyConfigurationPanel extends JPanel {
 
         add(spotifyCheckBox, "");
 
-        add(TextFieldComponents.textFieldComponentForForms("Spotify user name", spotifyUserName,
-                Configuration.getInstance().getSpotifyUserName() + "", true),
-                "left, w 60%, newline");
-        add(TextFieldComponents.textFieldComponentForForms("Spotify password", spotifyPassword,
-                Configuration.getInstance().getSpotifyPassword() + "", true),
-                "left, w 60%, newline");
+        userNameComponent = TextFieldComponents.textFieldComponentForForms("Spotify user name",
+                spotifyUserName, Configuration.getInstance().getSpotifyUserName(), true);
 
+        add(userNameComponent, "left, w 60%, newline");
+
+        passwordComponent = TextFieldComponents.textFieldComponentForForms("Spotify password",
+                spotifyPassword, Configuration.getInstance().getSpotifyPassword(), true);
+
+        add(passwordComponent, "left, w 60%, newline");
     }
 }
