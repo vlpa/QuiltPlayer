@@ -56,6 +56,9 @@ public class QTextField extends JTextField {
     }
 
     protected void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         final int w = getWidth();
         final int h = getHeight();
 
@@ -70,7 +73,6 @@ public class QTextField extends JTextField {
         renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHints(renderHints);
         g2d.setColor(Color.white);
         g2d.fillRoundRect(0, 0, w, h, 11, 11);
@@ -102,6 +104,6 @@ public class QTextField extends JTextField {
         if (e.getID() == FocusEvent.FOCUS_GAINED)
             keyboardPanel.setTextField(this);
 
-        super.processFocusEvent(e); 
+        super.processFocusEvent(e);
     }
 }

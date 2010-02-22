@@ -1,11 +1,13 @@
 package com.quiltplayer.view.swing.buttons;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -16,6 +18,7 @@ import net.miginfocom.swing.MigLayout;
 import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 
 public class AlbumCoverButton extends ScrollableButton {
@@ -42,9 +45,9 @@ public class AlbumCoverButton extends ScrollableButton {
 
         setToolTipText(album.getArtist().getArtistName().getName() + " - " + album.getTitle());
 
-        setBorder(BorderFactory.createEmptyBorder());
+        setOpaque(true);
 
-        setOpaque(false);
+        // setBorder(BorderFactory.createLineBorder(ColorConstantsDark.BACKGROUND, 3));
 
         if (album.getImages().size() > 0)
             icon = new ImageIcon(album.getImages().get(0).getSmallImage().getAbsolutePath());
@@ -52,10 +55,38 @@ public class AlbumCoverButton extends ScrollableButton {
             icon = new ImageIcon("images/nocover.gif");
 
         iconLabel = new JLabel();
+        iconLabel.setBackground(ColorConstantsDark.BACKGROUND);
         iconLabel.setIcon(icon);
 
-        add(iconLabel, "w " + ImageSizes.SMALL.getSize() + ", h " + ImageSizes.SMALL.getSize()
-                + "lp");
+        add(iconLabel, "w " + ImageSizes.SMALL.getSize() + "px!, h " + ImageSizes.SMALL.getSize()
+                + "px!");
+
+        addMouseListener(new MouseAdapter() {
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setBackground(Color.ORANGE);
+
+                repaint();
+            }
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setBackground(ColorConstantsDark.BACKGROUND);
+
+                repaint();
+
+            }
+        });
     }
 
     /*
@@ -81,5 +112,14 @@ public class AlbumCoverButton extends ScrollableButton {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         super.paintComponent(g);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.AbstractButton#paintBorder(java.awt.Graphics)
+     */
+    @Override
+    protected void paintBorder(Graphics g) {
     }
 }

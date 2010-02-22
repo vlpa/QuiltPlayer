@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -104,22 +103,6 @@ public class KeyboardPanel extends JPanel {
         }
 
         updateUI();
-    }
-
-    private JButton setupOkButton(final JFrame frame) {
-        JButton exitButton = new JButton("Ok");
-        exitButton.addActionListener(new ActionListener() {
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event. ActionEvent)
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-            }
-        });
-        return exitButton;
     }
 
     private void setupEraseButton(final JButton button) {
