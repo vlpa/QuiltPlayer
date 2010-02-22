@@ -1,4 +1,4 @@
-package com.quiltplayer.view.swing.labels;
+package com.quiltplayer.view.swing.borders;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,6 +10,7 @@ import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.ScrollableButton;
+import com.quiltplayer.view.swing.labels.Highlightable;
 import com.quiltplayer.view.swing.listeners.HighlightableMouseListener;
 
 /**

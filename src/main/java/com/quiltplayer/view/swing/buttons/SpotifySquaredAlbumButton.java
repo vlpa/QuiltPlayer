@@ -1,4 +1,4 @@
-package com.quiltplayer.view.swing.panels;
+package com.quiltplayer.view.swing.buttons;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -15,13 +15,14 @@ import com.quiltplayer.external.covers.util.ImageUtils;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.view.swing.images.QIcon;
+import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 
 /**
  * Implementation with squared albums.
  * 
  * @author Vlado Palczynski
  */
-public class SpotifySquaredAlbumPanel extends SquaredAlbumPanel {
+public class SpotifySquaredAlbumButton extends SquaredAlbumButton {
     private static final long serialVersionUID = 1L;
 
     public Icon icon;
@@ -36,8 +37,9 @@ public class SpotifySquaredAlbumPanel extends SquaredAlbumPanel {
 
     private JLabel iconLabel;
 
-    public SpotifySquaredAlbumPanel(final Album album) {
-        super(album);
+    public SpotifySquaredAlbumButton(final Album album,
+            final ChangeAlbumListener changeAlbumListener) {
+        super(album, changeAlbumListener);
 
         invoker.start();
     }

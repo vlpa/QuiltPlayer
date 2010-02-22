@@ -239,7 +239,7 @@ public class QuiltPlayerFrame extends JFrame {
             controlPanel.updateTab(null);
         }
 
-        getContentPane().add(ui, "cell 2 0, grow");
+        getContentPane().add(ui, "cell 2 0, gapx 0.4cm, grow");
 
         repaint();
 

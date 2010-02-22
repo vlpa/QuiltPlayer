@@ -3,33 +3,28 @@ package com.quiltplayer.view.swing.views.impl;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.Serializable;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.event.MouseInputAdapter;
 
 import org.cmc.shared.swing.FlowWrapLayout;
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.controller.ArtistController;
-import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.view.swing.buttons.QButton;
+import com.quiltplayer.view.swing.buttons.SpotifySquaredAlbumButton;
+import com.quiltplayer.view.swing.buttons.SquaredAlbumButton;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
-import com.quiltplayer.view.swing.panels.AlbumView;
 import com.quiltplayer.view.swing.panels.QScrollPane;
-import com.quiltplayer.view.swing.panels.SpotifySquaredAlbumPanel;
-import com.quiltplayer.view.swing.panels.SquaredAlbumPanel;
 import com.quiltplayer.view.swing.views.ListView;
 
 /**
@@ -65,34 +60,18 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
         panel = new JPanel(new FlowWrapLayout(30, 30, 30, 30));
         panel.setOpaque(true);
 
-        MouseListener l = new MouseInputAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (panel.contains(e.getX(), e.getY())) {
-                    AlbumView albumPane = (AlbumView) e.getSource();
-
-                    selectedAlbum = albumPane.getAlbum();
-
-                    changeAlbumListener.actionPerformed(new ActionEvent(selectedAlbum, 0,
-                            ChangeAlbumController.EVENT_CHANGE_ALBUM));
-                }
-            }
-        };
-
         if (albums != null && !albums.isEmpty()) {
             for (final Album album : albums) {
-                SquaredAlbumPanel p = null;
+                SquaredAlbumButton p = null;
 
                 if (album instanceof JotifyAlbum) {
                     if (!((JotifyAlbum) album).isPlayable())
                         continue;
 
-                    p = new SpotifySquaredAlbumPanel(album);
+                    p = new SpotifySquaredAlbumButton(album, changeAlbumListener);
                 }
                 else
-                    p = new SquaredAlbumPanel(album);
-
-                p.addMouseListener(l);
+                    p = new SquaredAlbumButton(album, changeAlbumListener);
 
                 panel.add(p, "aligny top, gapy 25");
             }

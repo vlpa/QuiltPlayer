@@ -9,7 +9,7 @@ import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.labels.ScrollableAndHighlightableSearchResultButton;
+import com.quiltplayer.view.swing.borders.ScrollableAndHighlightableSearchResultButton;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.listeners.HighlightableMouseListener;
 
@@ -22,7 +22,7 @@ public class TrackSearchLabel extends ScrollableAndHighlightableSearchResultButt
 
     private static final long serialVersionUID = 1L;
 
-    protected ChangeAlbumListener listener;
+    protected ChangeAlbumListener changeAlbumListener;
 
     private Song song;
 
@@ -59,12 +59,12 @@ public class TrackSearchLabel extends ScrollableAndHighlightableSearchResultButt
         objects[0] = song.getAlbum();
         objects[1] = song;
 
-        listener.actionPerformed(new ActionEvent(objects, 0,
+        changeAlbumListener.actionPerformed(new ActionEvent(objects, 0,
                 ChangeAlbumController.EVENT_CHANGE_ALBUM_AND_PLAY_SONG));
 
     }
 
     public void addActionListener(ChangeAlbumListener listener) {
-        this.listener = listener;
+        this.changeAlbumListener = listener;
     }
 }

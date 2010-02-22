@@ -1,11 +1,10 @@
-package com.quiltplayer.view.swing.panels;
+package com.quiltplayer.view.swing.buttons;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -17,19 +16,24 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
-import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
+import com.quiltplayer.view.swing.borders.ScrollableAndHighlightableSearchResultButton;
 import com.quiltplayer.view.swing.effects.ReflectionIcon;
 import com.quiltplayer.view.swing.images.QIcon;
+import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
+import com.quiltplayer.view.swing.listeners.HighlightableMouseListener;
+import com.quiltplayer.view.swing.panels.AlbumView;
 
 /**
  * Implementation with squared albums.
  * 
  * @author Vlado Palczynski
  */
-public class SquaredAlbumPanel extends JPanel implements AlbumView {
+public class SquaredAlbumButton extends ScrollableAndHighlightableSearchResultButton implements
+        AlbumView {
     private static final long serialVersionUID = 1L;
 
     public Icon icon;
@@ -38,14 +42,15 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
 
     protected Album album;
 
-    private Color background = ColorConstantsDark.BACKGROUND;
+    protected ChangeAlbumListener changeAlbumListener;
 
-    public SquaredAlbumPanel(Album album) {
-        super(new MigLayout("insets 0, filly, fillx"));
+    public SquaredAlbumButton(final Album album, ChangeAlbumListener changeAlbumListener) {
+        super();
 
         this.album = album;
+        this.changeAlbumListener = changeAlbumListener;
 
-        setOpaque(true);
+        setLayout(new MigLayout("insets 0, filly, fillx"));
 
         final JLabel icon = setupImage(album);
         final JTextArea title = setupTitleLabelToPanel();
@@ -62,36 +67,8 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
         add(icon, "cell 0 0, gapx 0.2cm  0.05cm, gapy 0.2cm 0.2cm");
         add(panel, "cell 1 0, aligny top, gapx 0 0.1cm, gapy 0.2cm 0.2cm");
 
-        addMouseListener(new MouseAdapter() {
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent )
-             */
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                background = new Color(50, 50, 50);
-                trackLabel.setVisible(true);
+        addMouseListener(new HighlightableMouseListener(background, this));
 
-                repaint();
-                updateUI();
-            }
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent )
-             */
-            @Override
-            public void mouseExited(MouseEvent e) {
-                background = ColorConstantsDark.BACKGROUND;
-                trackLabel.setVisible(false);
-
-                repaint();
-                updateUI();
-            }
-
-        });
     }
 
     protected JLabel setupImage(Album album) {
@@ -177,5 +154,16 @@ public class SquaredAlbumPanel extends JPanel implements AlbumView {
      */
     public void setAlbum(Album album) {
         this.album = album;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.quiltplayer.view.swing.buttons.ScrollableButton#triggerAction()
+     */
+    @Override
+    protected void triggerAction() {
+        changeAlbumListener.actionPerformed(new ActionEvent(album, 0,
+                ChangeAlbumController.EVENT_CHANGE_ALBUM));
     }
 }

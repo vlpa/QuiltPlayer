@@ -9,7 +9,7 @@ import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.labels.ScrollableAndHighlightableSearchResultButton;
+import com.quiltplayer.view.swing.borders.ScrollableAndHighlightableSearchResultButton;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 
 /**

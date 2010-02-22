@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.core.storage.ArtistStorage;
 import com.quiltplayer.core.storage.Storage;
-import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.buttons.AlbumCoverButton;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
@@ -65,7 +64,7 @@ public class QuiltView implements ListView<Album> {
      */
     @Override
     public Component getUI() {
-        panel = new JPanel(new FlowWrapLayout(10, 10, 10, 10));
+        panel = new JPanel(new FlowWrapLayout(0, 0, 0, 0));
         panel.setOpaque(true);
 
         Collections.sort(albums);
@@ -73,15 +72,13 @@ public class QuiltView implements ListView<Album> {
         for (Album album : albums) {
             if (album.getFrontImage() != null) {
                 AlbumCoverButton p = new AlbumCoverButton(album, changeAlbumListener);
-                panel.add(p, "h " + ImageSizes.SMALL.getSize() + "px!");
+                panel.add(p, "");
             }
         }
 
         final QScrollPane pane = new QScrollPane(panel);
 
-        final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
-
-        return jx;
+        return new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
     }
 
     public Album getSelectedAlbum() {
