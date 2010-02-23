@@ -30,7 +30,8 @@ public class LyricsPlaylistPanel extends JPanel {
 
     public LyricsPlaylistPanel() {
         super(new MigLayout("insets 15, wrap 1, alignx center, aligny center"));
-        setOpaque(false);
+        setOpaque(true);
+        setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
 
         setupTextArea();
     }

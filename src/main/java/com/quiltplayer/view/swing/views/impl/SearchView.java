@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
+import java.util.concurrent.TimeoutException;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.model.jotify.JotifyArtist;
 import com.quiltplayer.model.jotify.JotifySong;
@@ -177,6 +179,13 @@ public class SearchView implements Serializable, View {
         if (!result.getAlbums().isEmpty()) {
             for (Album album : result.getAlbums()) {
                 AlbumSearchLabel label;
+                if (album.getTracks().size() <= 0)
+                    try {
+                        album = JotifyRepository.getInstance().browse(album);
+                    }
+                    catch (TimeoutException e) {
+                        e.printStackTrace();
+                    }
                 label = new AlbumSearchLabel(new JotifyAlbum(album));
 
                 label.addActionListener(changeAlbumListener);

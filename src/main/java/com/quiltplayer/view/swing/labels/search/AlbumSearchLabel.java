@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
 import com.quiltplayer.controller.ChangeAlbumController;
+import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.Album;
+import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.borders.ScrollableAndHighlightableSearchResultButton;

@@ -13,7 +13,7 @@ public class ColorConstantsDark implements ColorConstants {
 
     public static final Color BACKGROUND = new Color(30, 30, 30);
 
-    public static final Color PLAYLIST_BACKGROUND = new Color(15, 15, 15);
+    public static final Color PLAYLIST_BACKGROUND = new Color(10, 10, 10);
 
     /*
      * @see com.quiltplayer.view.swing.ColorConstants#getControlPanelBackground()

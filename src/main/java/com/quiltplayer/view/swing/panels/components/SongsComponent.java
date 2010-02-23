@@ -1,24 +1,21 @@
 package com.quiltplayer.view.swing.panels.components;
 
-import java.awt.Component;
-
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.jdesktop.jxlayer.JXLayer;
+import org.cmc.shared.swing.FlowWrapLayout;
 
 import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.ColorConstantsDark;
+import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.buttons.QSongButton;
-import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
-import com.quiltplayer.view.swing.panels.QScrollPane;
 
 /**
- * Show the tracks.
+ * Show the tracks. Create new instance as the panel seems to keep the dimensions of the previous
+ * album when trying just ro remove all and add new songs again.
  * 
  * @author Vlado Palczynski
  */
@@ -36,45 +33,62 @@ public class SongsComponent extends JPanel {
      */
     private Album album;
 
-    private QScrollPane pane = new QScrollPane(this);
+    public SongsComponent(final Album album, final PlayerListener playerListener) {
+        super(new FlowWrapLayout());
 
-    final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
-
-    public SongsComponent() {
-        setLayout(new MigLayout("insets 0, wrap 1, w 100%"));
-        setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
-        setOpaque(true);
-    }
-
-    public Component create(Album album) {
+        this.playerListener = playerListener;
         this.album = album;
 
-        if (album.getSongCollection() != null)
-            addSongs();
+        setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
+        setOpaque(true);
 
-        return jx;
+        JPanel panel = new JPanel(new MigLayout("ins 0, wrap 1"));
+        panel.setOpaque(false);
+        setup(panel);
+
+        int songSize = album.getSongCollection().getSongs().size();
+
+        JPanel p1 = new JPanel(new MigLayout("ins 0, wrap 1"));
+        JPanel p2 = new JPanel(new MigLayout("ins 0, wrap 1"));
+
+        setupButtons(songSize, p1, p2);
+
+        // add(p1, "west, gapy 0.0cm");
+        // add(panel, "w 100%, gapy 0.20cm!, aligny top");
+        // add(p2, "east, gapy 0.65cm");
+
     }
 
-    private void addSongs() {
-        removeAll();
+    private void setupButtons(int songSize, JPanel p1, JPanel p2) {
+        final String layout = "w 1cm!, h 1cm!, gapy 0 0.25cm! ";
 
-        for (Song song : album.getSongCollection().getSongs()) {
-            QSongButton songLabel = new QSongButton(song, playerListener);
-            songLabel.addActionListener(playerListener);
-
-            add(songLabel, "w 100%");
+        for (int i = 1; i <= songSize; i++) {
+            if (i % 2 == 0) {
+                p2.add(new QButton(i + ""), layout);
+            }
+            else {
+                p1.add(new QButton(i + ""), layout);
+            }
         }
     }
 
-    /**
-     * @param playerListener
-     *            the playerListener to set.
-     */
-    public void setPlayerListener(PlayerListener playerListener) {
-        this.playerListener = playerListener;
-    }
+    public void setup(final JPanel panel) {
+        if (album.getSongCollection() != null) {
 
-    public JPanel getSongsPanel() {
-        return this;
+            int i = 1;
+
+            for (Song song : album.getSongCollection().getSongs()) {
+
+                QSongButton songLabel = null;
+                songLabel = new QSongButton(song, playerListener, i);
+                songLabel.addActionListener(playerListener);
+
+                songLabel.setOpaque(false);
+
+                add(songLabel);
+
+                i++;
+            }
+        }
     }
 }

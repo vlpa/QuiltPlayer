@@ -4,16 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.LinearGradientPaint;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
-import java.awt.geom.Point2D;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -44,33 +41,24 @@ public class QSongButton extends ScrollableButton {
 
     private SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
 
-    private float[] dist = { 0.0f, 1.0f };
-
-    private Color[] activeGradient = { new Color(60, 60, 60), new Color(40, 40, 40) };
-
-    private boolean isActive = false;
-
     private PlayerListener playerListener;
 
-    public QSongButton(Song song, PlayerListener playerListener) {
+    private QPlaylistButton numberButton;
+
+    public QSongButton(final Song song, final PlayerListener playerListener, final int counter) {
         this.playerListener = playerListener;
 
-        setLayout(new MigLayout("insets 0, wrap 2, fill"));
+        setLayout(new MigLayout("insets 0, wrap 2, aligny center, fill"));
+
+        setBorder(BorderFactory.createEmptyBorder());
 
         this.song = song;
-
-        setHorizontalTextPosition(SwingConstants.LEFT);
-        setHorizontalAlignment(SwingConstants.LEFT);
-        setVerticalAlignment(SwingConstants.CENTER);
-        setVerticalTextPosition(SwingConstants.CENTER);
 
         setAutoscrolls(true);
 
         setOpaque(false);
 
-        addMouseListener(listener);
-
-        setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
+        setFont(FontFactory.getFont(12f).deriveFont(Font.PLAIN));
 
         titleLabel = new JLabel(song.getTitle());
         titleLabel
@@ -81,19 +69,27 @@ public class QSongButton extends ScrollableButton {
         timeLabel.setText(formatter.format(0 / 1000));
         timeLabel.setVisible(false);
         timeLabel.setForeground(Color.WHITE);
-        timeLabel.setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
+        timeLabel.setFont(FontFactory.getFont(17f).deriveFont(Font.PLAIN));
 
-        add(timeLabel, "cell 0 0, west, gapx 0.05cm");
-        add(titleLabel, "cell 1 0, west, gapx 0.1cm");
+        final String layout = "w 0.75cm!, h 0.75cm!, gapx 0.1cm 0.1cm, gapy 0.1cm 0.1cm, aligny center";
+        numberButton = new QPlaylistButton(counter + "");
+        numberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playerListener.actionPerformed(new ActionEvent(song, 0, PlayerSongEvents.CHANGE
+                        .toString()));
+
+            }
+        });
+        add(numberButton, layout);
+
+        add(titleLabel, "cell 1 0, east, aligny bottom, h 0.75cm");
     }
-
-    private transient MouseListener listener = new MouseAdapter() {
-    };
 
     public void setActive() {
         log.debug("Activating " + song.getTitle());
 
-        isActive = true;
+        numberButton.activate();
 
         repaint();
     }
@@ -101,11 +97,11 @@ public class QSongButton extends ScrollableButton {
     public void setInactive() {
         log.debug("Inactivating " + song.getTitle());
 
-        isActive = false;
-
         setBackground(Configuration.getInstance().getColorConstants().getPlaylistPanelBackground());
 
         timeLabel.setVisible(false);
+
+        numberButton.inactivare();
 
         repaint();
         updateUI();
@@ -139,19 +135,9 @@ public class QSongButton extends ScrollableButton {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        super.paintComponent(g);
-
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (isActive) {
-            Point2D start = new Point2D.Float(0, 0);
-            Point2D end = new Point2D.Float(0, getHeight() - 1);
-
-            LinearGradientPaint p = new LinearGradientPaint(start, end, dist, activeGradient);
-
-            g2d.setPaint(p);
-            g2d.fillRoundRect(1, 1, getWidth() - 1, getHeight(), 15, 15);
-        }
+        super.paintComponent(g);
     }
 
     /*

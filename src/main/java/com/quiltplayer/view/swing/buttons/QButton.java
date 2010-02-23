@@ -19,21 +19,21 @@ import com.quiltplayer.view.swing.FontFactory;
 public class QButton extends JButton {
     private static final long serialVersionUID = 1L;
 
-    private static final Color DEFAULT = new Color(60, 60, 60);
+    protected static Color DEFAULT = new Color(60, 60, 60);
 
-    private static final Color HOOVER = new Color(80, 80, 80);
+    protected static final Color HOOVER = new Color(80, 80, 80);
 
-    private static final Color PRESSED = new Color(184, 207, 229);
+    protected static final Color PRESSED = new Color(184, 207, 229);
 
-    private Color color = DEFAULT;
+    protected Color color = DEFAULT;
 
-    public QButton(String label) {
+    public QButton(final String label) {
         super(label);
 
         setDefaults();
     }
 
-    private void setDefaults() {
+    protected void setDefaults() {
         setFocusable(false);
 
         setForeground(new Color(200, 200, 200));
@@ -42,6 +42,10 @@ public class QButton extends JButton {
 
         setFont(FontFactory.getFont(14));
 
+        addMouseListener();
+    }
+
+    protected void addMouseListener() {
         addMouseListener(new MouseAdapter() {
 
             @Override

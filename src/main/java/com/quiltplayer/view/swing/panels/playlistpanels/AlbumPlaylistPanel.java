@@ -21,8 +21,7 @@ import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.impl.NullAlbum;
-import com.quiltplayer.model.jotify.JotifyAlbum;
-import com.quiltplayer.model.neo.NeoAlbum;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.effects.CrossFader;
 import com.quiltplayer.view.swing.labels.ImageControlLabel;
@@ -54,8 +53,6 @@ public class AlbumPlaylistPanel extends JPanel {
 
     private JPanel imageButtons = new JPanel();
 
-    private JPanel playlistButtonPanel;
-
     @Autowired
     private AlbumPresentationPanel albumPresentationPanel;
 
@@ -72,14 +69,14 @@ public class AlbumPlaylistPanel extends JPanel {
 
     private Album album;
 
-    private Component songs;
-
     @Autowired
     private CrossFader crossFader;
 
     public AlbumPlaylistPanel() {
         super(new MigLayout("insets 0, wrap 1, fill, h 100%"));
-        setOpaque(false);
+        setOpaque(true);
+
+        setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
     }
 
     @PostConstruct
@@ -92,24 +89,18 @@ public class AlbumPlaylistPanel extends JPanel {
         add(albumPresentationPanel, "top");
         add(crossFader, "h " + ImageSizes.LARGE.getSize() + "px!, w 100%, top, gapy 0.3cm");
         // add(imageControlPanel, "alignx center, aligny top, w 100%, gapx 0.5cm 0.5cm");
-
-        songsComponent = new SongsComponent();
-        songsComponent.setPlayerListener(playerListener);
-
-        add(songsComponent.create(album), "grow, h 100%, top, gapy 0.2cm");
     }
 
     private void setupSongsPanel() {
-        songs = songsComponent.create(album);
-        songs.repaint();
-        repaint();
+        if (songsComponent != null)
+            remove(songsComponent);
 
-        if (album instanceof NeoAlbum) {
-            // addEditAlbumButton();
-        }
-        else if (album instanceof JotifyAlbum) {
-            // addAddToCollectionButton();
-        }
+        songsComponent = new SongsComponent(album, playerListener);
+
+        add(songsComponent, "w 100%, h 100%, top, gapy 0.2cm");
+
+        songsComponent.repaint();
+        repaint();
     }
 
     /**
@@ -195,7 +186,7 @@ public class AlbumPlaylistPanel extends JPanel {
     }
 
     public Component[] getSongLabels() {
-        return songsComponent.getSongsPanel().getComponents();
+        return songsComponent.getComponents();
     }
 
     /**

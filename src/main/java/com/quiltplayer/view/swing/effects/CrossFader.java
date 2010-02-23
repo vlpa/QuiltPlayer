@@ -70,7 +70,7 @@ public class CrossFader extends JComponent implements ActionListener {
 
             if (icons.size() > 1) {
 
-                g2d.setPaint(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
+                g2d.setPaint(ColorConstantsDark.PLAYLIST_BACKGROUND);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
 
                 if (alpha < 10) {
