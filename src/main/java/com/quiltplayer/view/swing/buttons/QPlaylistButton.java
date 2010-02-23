@@ -1,8 +1,5 @@
 package com.quiltplayer.view.swing.buttons;
 
-import static com.quiltplayer.view.swing.buttons.QButton.HOOVER;
-import static com.quiltplayer.view.swing.buttons.QButton.PRESSED;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
@@ -77,7 +74,7 @@ public class QPlaylistButton extends QButton {
 
     public void activate() {
         color = Color.ORANGE;
-
+        setForeground(Color.BLACK);
         active = true;
 
         repaint();
@@ -85,6 +82,7 @@ public class QPlaylistButton extends QButton {
 
     public void inactivare() {
         color = DEFAULT;
+        setForeground(new Color(200, 200, 200));
 
         active = false;
 

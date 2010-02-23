@@ -37,8 +37,10 @@ import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
 public class PlaylistPanel extends JPanel {
 
     protected enum Mode {
-        SONG, LYRICS, EDIT, WIKI
+        SONG, LYRICS, EDIT, WIKI, NULL
     }
+
+    private Mode mode = Mode.NULL;
 
     protected static final long serialVersionUID = 1L;
 
@@ -147,31 +149,38 @@ public class PlaylistPanel extends JPanel {
     }
 
     public void viewAlbumPanel() {
+        if (mode != Mode.SONG) {
+            if (lyricsPlaylistComponent != null)
+                mainPanel.remove(lyricsPlaylistComponent);
 
-        if (lyricsPlaylistComponent != null)
-            mainPanel.remove(lyricsPlaylistComponent);
+            final QScrollPane pane = new QScrollPane(albumPlaylistPanel);
 
-        final QScrollPane pane = new QScrollPane(albumPlaylistPanel);
+            albumPlaylistComponent = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
 
-        albumPlaylistComponent = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
+            mainPanel.add(albumPlaylistComponent, "w 100%, h 100%");
 
-        mainPanel.add(albumPlaylistComponent, "w 100%, h 100%");
+            updateUI();
 
-        repaint();
+            mode = Mode.SONG;
+        }
+
     }
 
     public void viewLyricsPanel() {
+        if (mode != Mode.LYRICS) {
+            if (albumPlaylistComponent != null)
+                mainPanel.remove(albumPlaylistComponent);
 
-        if (albumPlaylistComponent != null)
-            mainPanel.remove(albumPlaylistComponent);
+            final QScrollPane pane = new QScrollPane(lyricsPlaylistPanel);
 
-        final QScrollPane pane = new QScrollPane(lyricsPlaylistPanel);
+            lyricsPlaylistComponent = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
 
-        lyricsPlaylistComponent = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
+            mainPanel.add(lyricsPlaylistComponent, "w 100%, h 100%");
 
-        mainPanel.add(lyricsPlaylistComponent, "w 100%, h 100%");
+            updateUI();
 
-        repaint();
+            mode = Mode.LYRICS;
+        }
     }
 
     public Album getPlayingAlbum() {

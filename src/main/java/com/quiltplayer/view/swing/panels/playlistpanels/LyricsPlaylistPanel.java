@@ -1,5 +1,7 @@
 package com.quiltplayer.view.swing.panels.playlistpanels;
 
+import java.awt.Point;
+
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -38,6 +40,7 @@ public class LyricsPlaylistPanel extends JPanel {
 
     private void setupTextArea() {
         lyricsArea = new JTextArea();
+        lyricsArea.setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
         lyricsArea.setText("No lyrics...");
         lyricsArea.setCaretPosition(0);
         lyricsArea.setFont(FontFactory.getFont(13f));
@@ -45,12 +48,12 @@ public class LyricsPlaylistPanel extends JPanel {
         lyricsArea.setEditable(false);
         lyricsArea.setWrapStyleWord(true);
         lyricsArea.setLineWrap(true);
+        lyricsArea.setDragEnabled(true);
         lyricsArea.setForeground(ColorConstantsDark.PLAYLIST_LYRICS_COLOR);
         lyricsArea.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
         JScrollPane lyricsScroller = new QScrollPane(lyricsArea);
         lyricsScroller.setBorder(BorderFactory.createEmptyBorder());
-        lyricsScroller.setWheelScrollingEnabled(true);
         lyricsScroller.getVerticalScrollBar().setUnitIncrement(VERTICAL_UNIT_INCRENET);
 
         add(lyricsScroller, "w 100%");
@@ -62,6 +65,7 @@ public class LyricsPlaylistPanel extends JPanel {
      */
     public final void setLyrics(String lyrics) {
         lyricsArea.setText(lyrics);
+        lyricsArea.setLocation(new Point(0, 0));
 
         repaint();
         updateUI();

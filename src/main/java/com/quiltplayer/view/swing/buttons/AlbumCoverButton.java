@@ -58,7 +58,7 @@ public class AlbumCoverButton extends ScrollableButton {
         iconLabel.setIcon(icon);
 
         add(iconLabel, "w " + ImageSizes.SMALL.getSize() + "px!, h " + ImageSizes.SMALL.getSize()
-                + "px + 0.25cm!");
+                + "px + 0.15cm!");
 
         addMouseListener(new MouseAdapter() {
             /*

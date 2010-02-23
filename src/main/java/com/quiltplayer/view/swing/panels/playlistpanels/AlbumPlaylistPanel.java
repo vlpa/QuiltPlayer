@@ -173,6 +173,8 @@ public class AlbumPlaylistPanel extends JPanel {
 
         setupSongsPanel();
 
+        setLocation(0, 0);
+
         repaint();
 
         log.debug("Album is changed...");

@@ -7,6 +7,7 @@ import java.awt.RenderingHints;
 import java.awt.event.FocusEvent;
 
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.window.KeyboardPanel;
@@ -50,9 +51,10 @@ public class QTextField extends JTextField {
     public void setDefaults() {
 
         setBackground(new Color(200, 200, 200));
-        setCaretColor(Color.black);
         setFont(FontFactory.getFont(16));
         setUI(new RoundTextUI());
+
+        UIManager.put("TextField.inactiveForeground", new Color(170, 170, 170));
     }
 
     protected void paintComponent(Graphics g) {

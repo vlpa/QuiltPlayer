@@ -58,9 +58,8 @@ public class QSongButton extends ScrollableButton {
 
         setOpaque(false);
 
-        setFont(FontFactory.getFont(12f).deriveFont(Font.PLAIN));
-
         titleLabel = new JLabel(song.getTitle());
+        titleLabel.setOpaque(false);
         titleLabel
                 .setForeground(Configuration.getInstance().getColorConstants().getPlaylistTitle());
         titleLabel.setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
@@ -69,9 +68,9 @@ public class QSongButton extends ScrollableButton {
         timeLabel.setText(formatter.format(0 / 1000));
         timeLabel.setVisible(false);
         timeLabel.setForeground(Color.WHITE);
-        timeLabel.setFont(FontFactory.getFont(17f).deriveFont(Font.PLAIN));
+        timeLabel.setFont(FontFactory.getFont(15f).deriveFont(Font.PLAIN));
 
-        final String layout = "w 0.75cm!, h 0.75cm!, gapx 0.1cm 0.1cm, gapy 0.1cm 0.1cm, aligny center";
+        final String layout = "w 0.8cm!, h 0.8cm!, gapx 0.1cm 0.1cm, gapy 0.1cm 0.1cm, aligny center";
         numberButton = new QPlaylistButton(counter + "");
         numberButton.addActionListener(new ActionListener() {
             @Override
@@ -81,9 +80,9 @@ public class QSongButton extends ScrollableButton {
 
             }
         });
-        add(numberButton, layout);
 
-        add(titleLabel, "cell 1 0, east, aligny bottom, h 0.75cm");
+        add(numberButton, layout);
+        add(titleLabel, "cell 1 0, east, aligny bottom, h 0.8cm");
     }
 
     public void setActive() {
