@@ -12,7 +12,7 @@ import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.labels.ArtistLabel;
+import com.quiltplayer.view.swing.labels.ArtistNameButton;
 import com.quiltplayer.view.swing.labels.StringOrCharLabel;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 
@@ -32,14 +32,13 @@ public class AlfabeticArtistPane extends JPanel {
     public void setup(final String character, final List<Artist> artists) {
         this.character = character;
 
-        add(new StringOrCharLabel(character), "w 4cm!, h 0.75cm");
+        add(new StringOrCharLabel(character), "w 4cm!, h 0.80cm, dock north");
 
         for (final Artist artist : artists) {
-            final ArtistLabel label = new ArtistLabel(artist);
-            label.addActionListener(artistListener);
-            label.setFont(FontFactory.getSansFont(14f));
+            final ArtistNameButton label = new ArtistNameButton(artist, artistListener);
+            label.setFont(FontFactory.getSansFont(16f));
 
-            add(label, "wmax 4cm, h 0.4cm");
+            add(label, "wmax 4cm, h 0.65cm, dock north, left");
         }
     }
 

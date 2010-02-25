@@ -82,7 +82,8 @@ public class PlaylistPanel extends JPanel {
         mainPanel.setOpaque(true);
         mainPanel.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
 
-        add(mainPanel, "h 100%, w " + ImageSizes.LARGE.getSize() + "px!");
+        add(mainPanel, "h 100%, wmax " + ImageSizes.LARGE.getSize() + "px, w "
+                + ImageSizes.LARGE.getSize() + "px!");
         add(albumControlPanel, "dock south, center, w " + ImageSizes.LARGE.getSize()
                 + "px + 0.5cm!");
 
@@ -148,7 +149,7 @@ public class PlaylistPanel extends JPanel {
         lyricsPlaylistPanel.setLyrics(lyrics);
     }
 
-    public void viewAlbumPanel() {
+    public synchronized void viewAlbumPanel() {
         if (mode != Mode.SONG) {
             if (lyricsPlaylistComponent != null)
                 mainPanel.remove(lyricsPlaylistComponent);
@@ -166,7 +167,7 @@ public class PlaylistPanel extends JPanel {
 
     }
 
-    public void viewLyricsPanel() {
+    public synchronized void viewLyricsPanel() {
         if (mode != Mode.LYRICS) {
             if (albumPlaylistComponent != null)
                 mainPanel.remove(albumPlaylistComponent);

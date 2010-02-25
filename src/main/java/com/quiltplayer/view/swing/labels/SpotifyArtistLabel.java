@@ -8,21 +8,22 @@ import java.awt.RenderingHints;
 import javax.swing.ImageIcon;
 
 import com.quiltplayer.model.Artist;
+import com.quiltplayer.view.swing.listeners.ArtistListener;
 
 /**
  * Represents a artist in lists.
  * 
  * @author Vlado Palczynski
  */
-public class SpotifyArtistLabel extends ArtistLabel {
+public class SpotifyArtistLabel extends ArtistNameButton {
     private static final long serialVersionUID = 1L;
 
-    public SpotifyArtistLabel(Artist artist) {
-        super(artist);
+    public SpotifyArtistLabel(final Artist artist, final ArtistListener artistListener) {
+        super(artist, artistListener);
     }
 
-    public SpotifyArtistLabel(Artist artist, Image portrait) {
-        super(artist);
+    public SpotifyArtistLabel(Artist artist, final ArtistListener artistListener, Image portrait) {
+        super(artist, artistListener);
 
         setIcon(new ImageIcon(portrait));
     }

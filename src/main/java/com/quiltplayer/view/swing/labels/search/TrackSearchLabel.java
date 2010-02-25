@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JLabel;
 
+import net.miginfocom.swing.MigLayout;
+
 import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.properties.Configuration;
@@ -29,6 +31,8 @@ public class TrackSearchLabel extends ScrollableAndHighlightableSearchResultButt
     public TrackSearchLabel(final Song song) {
         super();
 
+        setLayout(new MigLayout(""));
+
         this.song = song;
 
         JLabel artistLabel = new JLabel(song.getAlbum().getArtist().getArtistName().getName());
@@ -47,9 +51,9 @@ public class TrackSearchLabel extends ScrollableAndHighlightableSearchResultButt
                 .getArtistViewTextColor());
         songLabel.setOpaque(false);
 
-        add(artistLabel, "");
-        add(albumLabel, "");
-        add(songLabel, "");
+        add(artistLabel, "north, gapx 0.05cm 0.05cm");
+        add(albumLabel, "north, gapx 0.05cm 0.05cm");
+        add(songLabel, "north, gapx 0.05cm 0.05cm");
 
         addMouseListener(new HighlightableMouseListener(background, this));
     }

@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.Timer;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -28,8 +27,6 @@ public class AlbumCoverButton extends ScrollableButton {
     private Icon icon;
 
     private JLabel iconLabel;
-
-    private Timer currentTimer;
 
     private Album album;
 

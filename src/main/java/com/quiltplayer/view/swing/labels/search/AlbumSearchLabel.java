@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JLabel;
 
+import net.miginfocom.swing.MigLayout;
+
 import com.quiltplayer.controller.ChangeAlbumController;
-import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.Album;
-import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.borders.ScrollableAndHighlightableSearchResultButton;
@@ -30,6 +30,8 @@ public class AlbumSearchLabel extends ScrollableAndHighlightableSearchResultButt
     public AlbumSearchLabel(final Album album) {
         super();
 
+        setLayout(new MigLayout(""));
+
         this.album = album;
 
         JLabel artistLabel = new JLabel(album.getArtist().getArtistName().getName());
@@ -43,8 +45,8 @@ public class AlbumSearchLabel extends ScrollableAndHighlightableSearchResultButt
                 .getArtistViewTextColor());
         albumLabel.setOpaque(false);
 
-        add(artistLabel);
-        add(albumLabel);
+        add(artistLabel, "north, gapx 0.05cm 0.05cm");
+        add(albumLabel, "north, gapx 0.05cm 0.05cm");
     }
 
     public void triggerAction() {

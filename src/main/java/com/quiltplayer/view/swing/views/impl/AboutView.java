@@ -1,6 +1,7 @@
 package com.quiltplayer.view.swing.views.impl;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.io.Serializable;
 import java.util.Enumeration;
@@ -15,6 +16,7 @@ import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.external.wiki.WikipediaService;
 import com.quiltplayer.view.swing.FontFactory;
+import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.views.View;
 
 @org.springframework.stereotype.Component
@@ -39,11 +41,12 @@ public class AboutView implements Serializable, View {
 
         WikipediaService ws = new WikipediaService();
 
-        ws.exists("The_brews");
+        System.out.println(ws.exists("The_brews"));
 
         String content = "";
         try {
-            // content = ws.getWikiContentForPageName("Duran Duran");
+            content = ws.getWikiContentForPageName("Duran Duran");
+            System.out.println(content);
         }
         catch (Exception e2) {
             e2.printStackTrace();
@@ -75,44 +78,10 @@ public class AboutView implements Serializable, View {
             System.out.println(rule.toString());
         }
 
-        // htmlPane.setMinimumSize(new Dimension(600, 600));
-        // htmlPane.setMaximumSize(new Dimension(600, 600));
         htmlPane.setEditable(false);
-        htmlPane.setOpaque(false);
+        htmlPane.setOpaque(true);
 
-        //
-
-        // StyledDocument doc = textPane.getStyledDocument();
-        // addStylesToDocument(doc);
-
-        // // Load the text pane with styled text.
-        // try {
-        // for (int i = 0; i < initString.length; i++) {
-        // doc.insertString(doc.getLength(), initString[i], doc
-        // .getStyle(initStyles[i]));
-        // }
-        // } catch (BadLocationException ble) {
-        // System.err.println("Couldn't insert initial text into text pane.");
-        // }
-
-        try {
-            // MediaWikiBot b = new MediaWikiBot("http://en.wikipedia.org/w/");
-            // b.
-            // SimpleArticle sa = new SimpleArticle(b.readContent("the brews"));
-            // content = sa.getText();
-
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        try {
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        panel.add(htmlPane, "h 100%, w 100%");
+        panel.add(new QScrollPane(htmlPane), "h 100%, w 100%");
 
         return panel;
     }

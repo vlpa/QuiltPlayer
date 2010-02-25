@@ -160,8 +160,7 @@ public class SearchView implements Serializable, View {
 
         if (!result.getArtists().isEmpty()) {
             for (Artist artist : result.getArtists()) {
-                label = new SpotifyArtistLabel(new JotifyArtist(artist));
-                label.addActionListener(artistListener);
+                label = new SpotifyArtistLabel(new JotifyArtist(artist), artistListener);
 
                 artists.add(label, "left");
             }

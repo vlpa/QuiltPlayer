@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -50,7 +52,7 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableSearchResultBu
         this.album = album;
         this.changeAlbumListener = changeAlbumListener;
 
-        setLayout(new MigLayout("insets 0, filly, fillx"));
+        setLayout(new MigLayout("insets 0.3cm 0.3cm 0.3cm 0.3cm, fill"));
 
         final JLabel icon = setupImage(album);
         final JTextArea title = setupTitleLabelToPanel();
@@ -64,10 +66,31 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableSearchResultBu
         panel.add(artist, "cell 0 1");
         panel.add(trackLabel, "cell 0 2, bottom");
 
-        add(icon, "cell 0 0, gapx 0.2cm  0.05cm, gapy 0.2cm 0.2cm");
-        add(panel, "cell 1 0, aligny top, gapx 0 0.1cm, gapy 0.2cm 0.2cm");
+        add(icon, "cell 0 0, gapx 0cm  0.05cm");
+        add(panel, "cell 1 0, aligny top");
 
         addMouseListener(new HighlightableMouseListener(background, this));
+        addMouseListener(new MouseAdapter() {
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                trackLabel.setVisible(true);
+            }
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mouseExited(MouseEvent e) {
+                trackLabel.setVisible(false);
+            }
+        });
 
     }
 
@@ -119,6 +142,7 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableSearchResultBu
         tracksLabel.setFont(FontFactory.getSansFont(12f));
         tracksLabel.setText(album.getSongCollection().getSongs().size() + " tracks");
         tracksLabel.setForeground(new Color(200, 200, 200));
+        tracksLabel.setVisible(false);
 
         return tracksLabel;
     }

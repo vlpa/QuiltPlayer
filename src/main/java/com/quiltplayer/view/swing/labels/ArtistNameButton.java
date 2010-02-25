@@ -4,17 +4,21 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JLabel;
+import javax.swing.BorderFactory;
+import javax.swing.SwingConstants;
+
+import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.controller.ArtistController;
 import com.quiltplayer.model.Artist;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ColorConstantsDark;
+import com.quiltplayer.view.swing.buttons.ScrollableButton;
+import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.util.HighlightColorUtils;
 
 /**
@@ -22,22 +26,29 @@ import com.quiltplayer.view.swing.util.HighlightColorUtils;
  * 
  * @author Vlado Palczynski
  */
-public class ArtistLabel extends JLabel {
+public class ArtistNameButton extends ScrollableButton {
 
     private static final long serialVersionUID = 1L;
 
-    protected ActionListener listener;
-
     protected Artist artist;
 
-    public ArtistLabel(Artist artist) {
+    private ArtistListener artistListener;
+
+    public ArtistNameButton(final Artist artist, final ArtistListener artistListener) {
         this.artist = artist;
+        this.artistListener = artistListener;
+
+        setLayout(new MigLayout("fill, w 100%,  alignx left"));
 
         setOpaque(false);
 
+        setBorder(BorderFactory.createEmptyBorder());
+
         setText(artist.getArtistName().getName());
 
-        setHorizontalTextPosition(LEFT);
+        setHorizontalTextPosition(SwingConstants.LEFT);
+        setHorizontalAlignment(SwingConstants.LEFT);
+
         setForeground(Configuration.getInstance().getColorConstants().getArtistViewTextColor());
 
         this.addMouseListener(mouseListener);
@@ -62,16 +73,6 @@ public class ArtistLabel extends JLabel {
         public void mouseExited(MouseEvent e) {
             setInactive();
         }
-
-        /*
-         * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
-         */
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            listener.actionPerformed(new ActionEvent(artist, 0,
-                    ArtistController.ACTION_GET_ARTIST_ALBUMS));
-        }
-
     };
 
     public void setSelected() {
@@ -84,8 +85,15 @@ public class ArtistLabel extends JLabel {
         HighlightColorUtils.setInactive(this);
     }
 
-    public void addActionListener(ActionListener listener) {
-        this.listener = listener;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.quiltplayer.view.swing.buttons.ScrollableButton#triggerAction()
+     */
+    @Override
+    protected void triggerAction() {
+        artistListener.actionPerformed(new ActionEvent(artist, 0,
+                ArtistController.ACTION_GET_ARTIST_ALBUMS));
     }
 
     /*

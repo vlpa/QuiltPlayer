@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.cmc.shared.swing.FlowWrapLayout;
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +59,7 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
     @Override
     public Component getUI() {
 
-        panel = new JPanel(new FlowWrapLayout(30, 30, 30, 30));
+        panel = new JPanel(new FlowWrapLayout(0, 0, 0, 0));
         panel.setOpaque(true);
 
         if (albums != null && !albums.isEmpty()) {
@@ -73,7 +75,7 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
                 else
                     p = new SquaredAlbumButton(album, changeAlbumListener);
 
-                panel.add(p, "aligny top, gapy 25");
+                panel.add(p, "aligny top, gapy 0.3cm, gapx 0.3cm");
             }
         }
         else {

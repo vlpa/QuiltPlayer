@@ -30,7 +30,7 @@ public class WikipediaService implements Runnable {
 
     private static final String NO_ARTICLE = "Wikipedia does not have an article with this exact name";
 
-    private static String result = "";
+    private String result = "";
 
     private static String page = "";
 
@@ -60,7 +60,7 @@ public class WikipediaService implements Runnable {
 
             NodeList nodes = (NodeList) result;
             for (int i = 0; i < nodes.getLength(); i++) {
-                result = nodes.item(i).getNodeValue();
+                this.result = nodes.item(i).getNodeValue();
             }
         }
         catch (Exception e) {
@@ -74,8 +74,7 @@ public class WikipediaService implements Runnable {
 
         page = pageName.replace(" ", "_");
 
-        Thread t = new Thread(this);
-        t.run();
+        run();
 
         return result;
     }

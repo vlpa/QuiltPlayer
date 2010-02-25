@@ -70,7 +70,6 @@ public class QSongButton extends ScrollableButton {
         timeLabel.setForeground(Color.WHITE);
         timeLabel.setFont(FontFactory.getFont(15f).deriveFont(Font.PLAIN));
 
-        final String layout = "w 0.8cm!, h 0.8cm!, gapx 0.1cm 0.1cm, gapy 0.1cm 0.1cm, aligny center";
         numberButton = new QPlaylistButton(counter + "");
         numberButton.addActionListener(new ActionListener() {
             @Override
@@ -81,8 +80,8 @@ public class QSongButton extends ScrollableButton {
             }
         });
 
-        add(numberButton, layout);
-        add(titleLabel, "cell 1 0, east, aligny bottom, h 0.8cm");
+        add(numberButton, "w 0.8cm!, h 0.8cm!, gapx 0cm 0.1cm, gapy 0.1cm 0.1cm, aligny center");
+        add(titleLabel, "cell 1 0, east, aligny bottom, h 0.8cm, gapx 0cm 0.3cm");
     }
 
     public void setActive() {
