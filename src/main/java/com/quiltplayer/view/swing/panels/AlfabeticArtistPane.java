@@ -35,10 +35,10 @@ public class AlfabeticArtistPane extends JPanel {
         add(new StringOrCharLabel(character), "w 4cm!, h 0.80cm, dock north");
 
         for (final Artist artist : artists) {
-            final ArtistNameButton label = new ArtistNameButton(artist, artistListener);
-            label.setFont(FontFactory.getSansFont(16f));
+            final ArtistNameButton button = new ArtistNameButton(artist, artistListener);
+            button.setFont(FontFactory.getSansFont(16f));
 
-            add(label, "wmax 4cm, h 0.65cm, dock north, left");
+            add(button, "wmax 4cm, h 0.65cm, dock north, left");
         }
     }
 

@@ -12,6 +12,8 @@ public abstract class ScrollableButton extends JButton {
 
     protected boolean moved;
 
+    private int clickedYPosition;
+
     public ScrollableButton() {
         super();
 
@@ -19,6 +21,8 @@ public abstract class ScrollableButton extends JButton {
     }
 
     private void setDefaults() {
+        setOpaque(false);
+
         addMouseListener(new MouseAdapter() {
 
             /*
@@ -38,11 +42,13 @@ public abstract class ScrollableButton extends JButton {
             /*
              * (non-Javadoc)
              * 
-             * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+             * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
              */
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 moved = false;
+
+                clickedYPosition = e.getYOnScreen();
             }
         });
 
@@ -58,7 +64,15 @@ public abstract class ScrollableButton extends JButton {
              */
             @Override
             public void mouseDragged(MouseEvent e) {
-                moved = true;
+                int movement;
+
+                if (e.getYOnScreen() <= clickedYPosition)
+                    movement = clickedYPosition - e.getYOnScreen();
+                else
+                    movement = e.getYOnScreen() - clickedYPosition;
+
+                if (movement >= 20)
+                    moved = true;
             }
         });
     }

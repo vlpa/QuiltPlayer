@@ -156,7 +156,7 @@ public class SearchView implements Serializable, View {
         artists.setBackground(ColorConstantsDark.BACKGROUND);
         SpotifyArtistLabel label = null;
 
-        artists.add(new StringOrCharLabel(" Artists"), "w 100%, h 18");
+        artists.add(new StringOrCharLabel(" Artists"), "w 100%");
 
         if (!result.getArtists().isEmpty()) {
             for (Artist artist : result.getArtists()) {

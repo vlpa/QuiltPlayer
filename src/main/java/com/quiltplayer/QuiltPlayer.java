@@ -24,9 +24,13 @@ public class QuiltPlayer {
     public static final void main(final String[] args) throws Exception {
 
         /*
+         * Initialize OpenGl if supported.
+         */
+        // System.setProperty("sun.java2d.opengl", "false");
+
+        /*
          * Initialize look and feel.
          */
-
         UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         QUiProperties.setProperties();
 

@@ -33,7 +33,6 @@ public class AlbumCoverButton extends ScrollableButton {
     private ChangeAlbumListener changeAlbumListener;
 
     public AlbumCoverButton(final Album album, final ChangeAlbumListener changeAlbumListener) {
-
         this.album = album;
         this.changeAlbumListener = changeAlbumListener;
 
@@ -42,8 +41,6 @@ public class AlbumCoverButton extends ScrollableButton {
         setToolTipText(album.getArtist().getArtistName().getName() + " - " + album.getTitle());
 
         setOpaque(true);
-
-        // setBorder(BorderFactory.createLineBorder(ColorConstantsDark.BACKGROUND, 3));
 
         if (album.getImages().size() > 0)
             icon = new ImageIcon(album.getImages().get(0).getSmallImage().getAbsolutePath());

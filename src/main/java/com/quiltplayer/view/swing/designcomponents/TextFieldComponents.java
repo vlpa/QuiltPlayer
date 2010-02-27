@@ -58,7 +58,7 @@ public class TextFieldComponents {
         textField.setEnabled(enableTextField);
 
         panel.add(label, "left, wrap");
-        panel.add(textField, "left, grow");
+        panel.add(textField, "left, growx");
         panel.add(button, "left, w 1cm");
 
         return panel;

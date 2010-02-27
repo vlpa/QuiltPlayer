@@ -10,6 +10,8 @@ import java.awt.geom.Point2D;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
+import net.miginfocom.swing.MigLayout;
+
 import com.quiltplayer.view.swing.FontFactory;
 
 public class StringOrCharLabel extends JLabel {
@@ -33,6 +35,8 @@ public class StringOrCharLabel extends JLabel {
     }
 
     private void setDefaults() {
+        setLayout(new MigLayout("h 1cm"));
+
         setOpaque(false);
 
         setForeground(Color.WHITE);

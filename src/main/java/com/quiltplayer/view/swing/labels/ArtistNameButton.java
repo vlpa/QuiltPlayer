@@ -6,7 +6,6 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.SwingConstants;
@@ -40,7 +39,7 @@ public class ArtistNameButton extends ScrollableButton {
 
         setLayout(new MigLayout("fill, w 100%,  alignx left"));
 
-        setOpaque(false);
+        setOpaque(true);
 
         setBorder(BorderFactory.createEmptyBorder());
 
@@ -51,29 +50,27 @@ public class ArtistNameButton extends ScrollableButton {
 
         setForeground(Configuration.getInstance().getColorConstants().getArtistViewTextColor());
 
-        this.addMouseListener(mouseListener);
+        this.addMouseListener(new MouseAdapter() {
+
+            /*
+             * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setSelected();
+            }
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setInactive();
+            }
+        });
     }
-
-    protected transient MouseListener mouseListener = new MouseAdapter() {
-
-        /*
-         * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
-         */
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            setSelected();
-        }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
-         */
-        @Override
-        public void mouseExited(MouseEvent e) {
-            setInactive();
-        }
-    };
 
     public void setSelected() {
         HighlightColorUtils.setSelected(this);

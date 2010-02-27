@@ -4,12 +4,15 @@ import java.awt.Component;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.cmc.shared.swing.FlowWrapLayout;
+import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.core.repo.ArtistRepository;
 import com.quiltplayer.model.Artist;
+import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.panels.AlfabeticArtistPane;
 import com.quiltplayer.view.swing.panels.QScrollPane;
@@ -64,6 +67,9 @@ public class DefaultArtistView implements ArtistView {
             }
         }
 
-        return new QScrollPane(panel);
+        final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(new QScrollPane(panel),
+                new JScrollPaneLayerUI());
+
+        return jx;
     }
 }

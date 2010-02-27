@@ -9,6 +9,8 @@ import java.awt.event.FocusEvent;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import net.miginfocom.swing.MigLayout;
+
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.window.KeyboardPanel;
 
@@ -49,7 +51,6 @@ public class QTextField extends JTextField {
      * Also used from QPasswordField.
      */
     public void setDefaults() {
-
         setBackground(new Color(200, 200, 200));
         setFont(FontFactory.getFont(16));
         setUI(new RoundTextUI());

@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -98,6 +99,9 @@ public class KeyboardPanel extends JPanel {
 
             for (String label : s) {
                 JButton button = new JButton(label);
+                button.setBackground(new Color(70, 70, 70));
+                button.setHorizontalTextPosition(SwingConstants.RIGHT);
+                button.setVerticalAlignment(SwingConstants.BOTTOM);
 
                 if (label == CAPS_LOCK)
                     setupCapsLockButton(button);
@@ -111,7 +115,10 @@ public class KeyboardPanel extends JPanel {
                     setupButton(button);
                 }
 
-                panel.add(button, layout);
+                if (button.getText().equals(" "))
+                    panel.add(button, layout + ", w 5cm");
+                else
+                    panel.add(button, layout);
             }
 
             this.add(panel, "center, newline");
