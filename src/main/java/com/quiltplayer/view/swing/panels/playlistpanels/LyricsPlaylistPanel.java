@@ -9,10 +9,12 @@ import javax.swing.JTextArea;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
+import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.panels.QScrollPane;
 
 /**
@@ -40,7 +42,9 @@ public class LyricsPlaylistPanel extends JPanel {
 
     private void setupTextArea() {
         lyricsArea = new JTextArea();
+        lyricsArea.setOpaque(true);
         lyricsArea.setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
+        lyricsArea.setForeground(ColorConstantsDark.PLAYLIST_LYRICS_COLOR);
         lyricsArea.setText("No lyrics...");
         lyricsArea.setCaretPosition(0);
         lyricsArea.setFont(FontFactory.getFont(13f));
@@ -48,15 +52,15 @@ public class LyricsPlaylistPanel extends JPanel {
         lyricsArea.setEditable(false);
         lyricsArea.setWrapStyleWord(true);
         lyricsArea.setLineWrap(true);
-        lyricsArea.setDragEnabled(true);
-        lyricsArea.setForeground(ColorConstantsDark.PLAYLIST_LYRICS_COLOR);
-        lyricsArea.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
+        lyricsArea.setDragEnabled(false);
 
         JScrollPane lyricsScroller = new QScrollPane(lyricsArea);
         lyricsScroller.setBorder(BorderFactory.createEmptyBorder());
         lyricsScroller.getVerticalScrollBar().setUnitIncrement(VERTICAL_UNIT_INCRENET);
 
-        add(lyricsScroller, "w 100%");
+        JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(lyricsScroller, new JScrollPaneLayerUI());
+
+        add(jx, "w 100%");
     }
 
     /**
@@ -65,7 +69,7 @@ public class LyricsPlaylistPanel extends JPanel {
      */
     public final void setLyrics(String lyrics) {
         lyricsArea.setText(lyrics);
-        lyricsArea.setLocation(new Point(0, 0));
+        lyricsArea.setLocation(0, 0);
 
         repaint();
         updateUI();

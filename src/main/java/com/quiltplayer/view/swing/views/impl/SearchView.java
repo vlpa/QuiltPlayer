@@ -82,6 +82,8 @@ public class SearchView implements Serializable, View {
 
     private FocusListener focusListener = new com.quiltplayer.view.swing.listeners.FocusListener();
 
+    private boolean newResult;
+
     @PostConstruct
     public void init() {
         setupSearchField();
@@ -95,21 +97,25 @@ public class SearchView implements Serializable, View {
      */
     @Override
     public Component getUI() {
-        panel = new QPanel();
-        panel.setOpaque(true);
-        panel.addFocusListener(focusListener);
+        if (newResult || panel == null) {
+            panel = new QPanel();
+            panel.setOpaque(true);
+            panel.addFocusListener(focusListener);
 
-        MigLayout layout = new MigLayout("wrap 3, alignx center, top");
-        panel.setLayout(layout);
+            MigLayout layout = new MigLayout("wrap 3, alignx center, top");
+            panel.setLayout(layout);
 
-        setupSearchBar();
+            setupSearchBar();
 
-        panel.add(searchPanel, "top, span 4, alignx center, gapy 0.3cm 0.5cm");
+            panel.add(searchPanel, "top, span 4, alignx center, gapy 0.3cm 0.5cm");
 
-        if (result != null) {
-            setupArtists(panel);
-            setupAlbums(panel);
-            addTracks(panel);
+            if (result != null) {
+                setupArtists(panel);
+                setupAlbums(panel);
+                addTracks(panel);
+            }
+
+            newResult = false;
         }
 
         QScrollPane pane = new QScrollPane(panel);
@@ -156,7 +162,7 @@ public class SearchView implements Serializable, View {
         artists.setBackground(ColorConstantsDark.BACKGROUND);
         SpotifyArtistLabel label = null;
 
-        artists.add(new StringOrCharLabel(" Artists"), "w 100%");
+        artists.add(new StringOrCharLabel(" Artists"), "w 100%, h 0.75cm");
 
         if (!result.getArtists().isEmpty()) {
             for (Artist artist : result.getArtists()) {
@@ -173,7 +179,7 @@ public class SearchView implements Serializable, View {
         JPanel albums = new QPanel(new MigLayout("insets 0, top, wrap 1"));
         albums.setBackground(ColorConstantsDark.BACKGROUND);
 
-        albums.add(new StringOrCharLabel(" Albums"), "w 100%, h 18");
+        albums.add(new StringOrCharLabel(" Albums"), "w 100%, h 0.75cm");
 
         if (!result.getAlbums().isEmpty()) {
             for (Album album : result.getAlbums()) {
@@ -201,7 +207,7 @@ public class SearchView implements Serializable, View {
 
         TrackSearchLabel label = null;
 
-        tracks.add(new StringOrCharLabel(" Tracks"), "w 100%, h 18");
+        tracks.add(new StringOrCharLabel(" Tracks"), "w 100%, h 0.75cm");
 
         if (!result.getTracks().isEmpty()) {
             for (de.felixbruns.jotify.media.Track track : result.getTracks()) {
@@ -232,5 +238,7 @@ public class SearchView implements Serializable, View {
      */
     public final void setResult(Result result) {
         this.result = result;
+
+        newResult = true;
     }
 }

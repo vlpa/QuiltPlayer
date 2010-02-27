@@ -35,8 +35,6 @@ public class StringOrCharLabel extends JLabel {
     }
 
     private void setDefaults() {
-        setLayout(new MigLayout("h 1cm"));
-
         setOpaque(false);
 
         setForeground(Color.WHITE);
