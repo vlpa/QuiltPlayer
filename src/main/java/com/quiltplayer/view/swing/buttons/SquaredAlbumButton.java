@@ -1,9 +1,6 @@
 package com.quiltplayer.view.swing.buttons;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,7 +19,6 @@ import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.borders.ScrollableAndHighlightableSearchResultButton;
 import com.quiltplayer.view.swing.effects.ReflectionIcon;
 import com.quiltplayer.view.swing.images.QIcon;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
@@ -34,8 +30,7 @@ import com.quiltplayer.view.swing.panels.AlbumView;
  * 
  * @author Vlado Palczynski
  */
-public class SquaredAlbumButton extends ScrollableAndHighlightableSearchResultButton implements
-        AlbumView {
+public class SquaredAlbumButton extends ScrollableAndHighlightableButton implements AlbumView {
     private static final long serialVersionUID = 1L;
 
     public Icon icon;
@@ -145,24 +140,6 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableSearchResultBu
         tracksLabel.setVisible(false);
 
         return tracksLabel;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_DEFAULT);
-
-        super.paintComponent(g2d);
-
-        g2d.setColor(background);
-        g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
     }
 
     /**

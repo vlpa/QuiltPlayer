@@ -33,6 +33,7 @@ public class QUiProperties {
         UIManager.put("Panel.foreground", new Color(220, 220, 220));
 
         UIManager.put("List.background", new Color(30, 30, 30));
+
         UIManager.put("List.foreground", new Color(220, 220, 220));
 
         setupButton();

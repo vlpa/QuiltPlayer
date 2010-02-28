@@ -2,9 +2,10 @@ package com.quiltplayer.view.swing.panels.components;
 
 import javax.swing.JPanel;
 
-import org.cmc.shared.swing.FlowWrapLayout;
+import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.controller.PlayerListener;
+import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.ColorConstantsDark;
@@ -30,7 +31,7 @@ public class SongsComponent extends JPanel {
     private Album album;
 
     public SongsComponent(final Album album, final PlayerListener playerListener) {
-        super(new FlowWrapLayout());
+        super(new MigLayout("wrap 2, w " + ImageSizes.LARGE.getSize() + "px!"));
 
         this.playerListener = playerListener;
         this.album = album;
@@ -54,7 +55,7 @@ public class SongsComponent extends JPanel {
 
                 songLabel.setOpaque(false);
 
-                add(songLabel);
+                add(songLabel, "w 50%!");
 
                 i++;
             }

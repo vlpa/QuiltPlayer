@@ -79,7 +79,7 @@ public class EditAlbumController implements EditAlbumListener {
 
         if (PlaylistPanel.EVENT_UPDATE_ALBUM_ID3 == e.getActionCommand()) {
             ((AlbumView) editAlbumView).setAlbum(playlistPanel.getPlayingAlbum());
-            frame.updateUI(ActiveView.EDIT_ALBUM_VIEW);
+            frame.updateUI(ActiveView.EDIT_ALBUM);
         }
         else if (EditAlbumView.SAVE == cmd) {
             List<Object> l = (List<Object>) e.getSource();

@@ -53,7 +53,7 @@ public class SearchController implements SearchListener {
 
                 ((SearchView) searchView).setResult(result);
 
-                if (frame.getCurrentView() == ActiveView.SEARCH_VIEW)
+                if (frame.getCurrentView() == ActiveView.SEARCH)
                     frame.updateUI();
             }
 

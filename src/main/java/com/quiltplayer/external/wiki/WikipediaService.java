@@ -15,6 +15,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -24,7 +26,10 @@ import org.w3c.dom.NodeList;
  * @author Vlado Palczynski
  * 
  */
+@Component
 public class WikipediaService implements Runnable {
+
+    private Logger log = Logger.getLogger(WikipediaService.class);
 
     private static final String QUERY = "http://en.wikipedia.org/w/api.php?action=parse&page=%s&format=%s";
 
@@ -66,7 +71,6 @@ public class WikipediaService implements Runnable {
         catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("DONE!");
     }
 
     public String getWikiContentForPageName(String pageName) throws MalformedURLException,
@@ -83,8 +87,12 @@ public class WikipediaService implements Runnable {
 
         final long currentTimeStamp = System.currentTimeMillis();
 
+        page = pageName.replace(" ", "_");
+
+        System.out.println(page);
+
         try {
-            URL url = new URL(String.format(QUERY, new Object[] { pageName, "xml" }));
+            URL url = new URL(String.format(QUERY, new Object[] { page, "xml" }));
             URLConnection connection = url.openConnection();
             connection.setDoOutput(true);
 
@@ -94,8 +102,9 @@ public class WikipediaService implements Runnable {
             String s;
             while ((s = in.readLine()) != null) {
                 if (s.contains(NO_ARTICLE)) {
-                    System.out.println("Time to ping wikipedia: "
+                    log.debug("Time to ping wikipedia: "
                             + (System.currentTimeMillis() - currentTimeStamp));
+
                     return true;
                 }
             }
@@ -108,8 +117,7 @@ public class WikipediaService implements Runnable {
             e.printStackTrace();
         }
 
-        System.out.println("Time to ping wikipedia: "
-                + (System.currentTimeMillis() - currentTimeStamp));
+        log.debug("Time to ping wikipedia: " + (System.currentTimeMillis() - currentTimeStamp));
 
         return false;
     }

@@ -11,7 +11,7 @@ import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.borders.ScrollableAndHighlightableSearchResultButton;
+import com.quiltplayer.view.swing.buttons.ScrollableAndHighlightableButton;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.listeners.HighlightableMouseListener;
 
@@ -20,7 +20,7 @@ import com.quiltplayer.view.swing.listeners.HighlightableMouseListener;
  * 
  * @author Vlado Palczynski
  */
-public class TrackSearchLabel extends ScrollableAndHighlightableSearchResultButton {
+public class TrackSearchLabel extends ScrollableAndHighlightableButton {
 
     private static final long serialVersionUID = 1L;
 

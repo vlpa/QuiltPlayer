@@ -38,11 +38,7 @@ public class ControlPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String EVENT_VIEW_ARTIST = "view.artist";
-
     public static final String EVENT_ALBUM_QUILT = "album.quilt";
-
-    public static final String EVENT_VIEW_CONFIGURATION = "view.configuration";
 
     public static final String EVENT_VIEW_SEARCH = "view.search";
 
@@ -61,18 +57,20 @@ public class ControlPanel extends JPanel {
     private ControlPanelListener controlPanelListener;
 
     public enum Tab {
-        NONE, QUILT, ARTISTS, CONFIGURATION, SEARCH
+        NONE, QUILT, ARTISTS, CONFIGURATION, SEARCH, WIKI
     };
 
-    private QControlPanelButton quiltTab;
+    private QControlPanelButton wikiButton;
 
-    private QControlPanelButton artistsTab;
+    private QControlPanelButton quiltButton;
 
-    private QControlPanelButton searchTab;
+    private QControlPanelButton artistsButton;
 
-    private QControlPanelButton configTab;
+    private QControlPanelButton searchButton;
 
-    private QControlPanelButton keyboardTab;
+    private QControlPanelButton configButton;
+
+    private QControlPanelButton keyboardButton;
 
     public QControlPanelButton albumViewButton;
 
@@ -88,6 +86,8 @@ public class ControlPanel extends JPanel {
 
     public void setDefaults() {
         setLayout(new MigLayout("insets 0, fill, wrap 10"));
+
+        setupWikiButton();
 
         setupQuiltCollectionButton();
 
@@ -109,11 +109,12 @@ public class ControlPanel extends JPanel {
 
         final JPanel applicationButtons = new JPanel(new MigLayout("insets 0, alignx center"));
         applicationButtons.setOpaque(false);
-        applicationButtons.add(quiltTab, s);
-        applicationButtons.add(artistsTab, s);
-        applicationButtons.add(searchTab, s);
-        applicationButtons.add(configTab, s);
-        applicationButtons.add(keyboardTab, s);
+        applicationButtons.add(wikiButton, s);
+        applicationButtons.add(quiltButton, s);
+        applicationButtons.add(artistsButton, s);
+        applicationButtons.add(searchButton, s);
+        applicationButtons.add(configButton, s);
+        applicationButtons.add(keyboardButton, s);
         applicationButtons.add(exitButton, s);
 
         playerControlPanel.add(albumViewButton, "cell 0 0");
@@ -122,20 +123,28 @@ public class ControlPanel extends JPanel {
         add(applicationButtons, "w 100% - " + ImageSizes.LARGE.getSize() + "px, gapx 2cm 2cm");
     }
 
+    private void setupWikiButton() {
+        wikiButton = new QControlPanelButton("Wiki", ClassPathUtils
+                .getIconFromClasspath("white/Settings.png"), SwingConstants.TOP);
+
+        wikiButton.addActionListener(controlPanelListener);
+        wikiButton.setActionCommand(ControlPanelController.EVENT_VIEW_WIKI);
+    }
+
     private void setupQuiltCollectionButton() {
-        quiltTab = new QControlPanelButton("Quilt", ClassPathUtils
+        quiltButton = new QControlPanelButton("Quilt", ClassPathUtils
                 .getIconFromClasspath("white/small-tiles.png"), SwingConstants.TOP);
 
-        quiltTab.addActionListener(controlPanelListener);
-        quiltTab.setActionCommand(EVENT_ALBUM_QUILT);
+        quiltButton.addActionListener(controlPanelListener);
+        quiltButton.setActionCommand(EVENT_ALBUM_QUILT);
     }
 
     private void setupAlfabeticArtistsButton() {
-        artistsTab = new QControlPanelButton("Artists", ClassPathUtils
+        artistsButton = new QControlPanelButton("Artists", ClassPathUtils
                 .getIconFromClasspath("white/large-tiles.png"), SwingConstants.TOP);
 
-        artistsTab.addActionListener(controlPanelListener);
-        artistsTab.setActionCommand(EVENT_VIEW_ARTIST);
+        artistsButton.addActionListener(controlPanelListener);
+        artistsButton.setActionCommand(ControlPanelController.EVENT_VIEW_ARTIST);
     }
 
     private void setupAlbumViewButton() {
@@ -147,30 +156,30 @@ public class ControlPanel extends JPanel {
     }
 
     private void setupSearchButton() {
-        searchTab = new QControlPanelButton("Spotify", ClassPathUtils
+        searchButton = new QControlPanelButton("Spotify", ClassPathUtils
                 .getIconFromClasspath("white/Search.png"), SwingConstants.TOP);
 
-        searchTab.addActionListener(controlPanelListener);
-        searchTab.setActionCommand(EVENT_VIEW_SEARCH);
+        searchButton.addActionListener(controlPanelListener);
+        searchButton.setActionCommand(EVENT_VIEW_SEARCH);
 
         if (!Configuration.getInstance().isUseSpotify())
             enableSearchTab(false);
     }
 
     private void setupConfigurationButton() {
-        configTab = new QControlPanelButton("Config", ClassPathUtils
+        configButton = new QControlPanelButton("Config", ClassPathUtils
                 .getIconFromClasspath("white/Settings.png"), SwingConstants.TOP);
 
-        configTab.addActionListener(controlPanelListener);
-        configTab.setActionCommand(EVENT_VIEW_CONFIGURATION);
+        configButton.addActionListener(controlPanelListener);
+        configButton.setActionCommand(ControlPanelController.EVENT_VIEW_CONFIGURATION);
     }
 
     private void setupKeyboardTab() {
 
-        keyboardTab = new QControlPanelButton("Keys", ClassPathUtils
+        keyboardButton = new QControlPanelButton("Keys", ClassPathUtils
                 .getIconFromClasspath("white/Settings.png"), SwingConstants.TOP);
-        keyboardTab.addActionListener(controlPanelListener);
-        keyboardTab.setActionCommand(ControlPanelController.EVENT_VIEW_KEYBOARD);
+        keyboardButton.addActionListener(controlPanelListener);
+        keyboardButton.setActionCommand(ControlPanelController.EVENT_VIEW_KEYBOARD);
     }
 
     private void setupExitButton() {
@@ -180,25 +189,29 @@ public class ControlPanel extends JPanel {
     }
 
     public void updateTab(Tab tab) {
-        quiltTab.inactivate();
-        artistsTab.inactivate();
-        configTab.inactivate();
-        searchTab.inactivate();
+        wikiButton.inactivate();
+        quiltButton.inactivate();
+        artistsButton.inactivate();
+        configButton.inactivate();
+        searchButton.inactivate();
 
         if (tab == null) {
             // Nada
         }
         else if (tab == Tab.QUILT) {
-            quiltTab.activate();
+            quiltButton.activate();
+        }
+        else if (tab == Tab.WIKI) {
+            wikiButton.activate();
         }
         else if (tab == Tab.ARTISTS) {
-            artistsTab.activate();
+            artistsButton.activate();
         }
         else if (tab == Tab.CONFIGURATION) {
-            configTab.activate();
+            configButton.activate();
         }
         else if (tab == Tab.SEARCH) {
-            searchTab.activate();
+            searchButton.activate();
         }
 
         repaint();
@@ -216,9 +229,9 @@ public class ControlPanel extends JPanel {
 
     public void enableSearchTab(boolean b) {
         if (b)
-            searchTab.setEnabled(true);
+            searchButton.setEnabled(true);
         else
-            searchTab.setEnabled(false);
+            searchButton.setEnabled(false);
     }
 
     public PlayerControlPanel getPlayerControlPanel() {

@@ -23,6 +23,8 @@ public class ControlPanelController implements ControlPanelListener {
 
     public static final String EVENT_VIEW_CONFIGURATION = "view.configuration";
 
+    public static final String EVENT_VIEW_ARTIST = "view.artist";
+
     public static final String EVENT_VIEW_KEYBOARD = "view.keyboard";
 
     public static final String EVENT_VIEW_LYRICS = "view.lyrics";
@@ -30,6 +32,8 @@ public class ControlPanelController implements ControlPanelListener {
     public static final String EVENT_VIEW_ALBUM = "view.playlist";
 
     public static final String EVENT_TOGGLE_ALBUM_VIEW = "toggle.album.view";
+
+    public static final String EVENT_VIEW_WIKI = "view.wiki";
 
     @Autowired
     private QuiltPlayerFrame frame;
@@ -50,25 +54,29 @@ public class ControlPanelController implements ControlPanelListener {
     public final void actionPerformed(final ActionEvent e) {
         String actionCommand = e.getActionCommand();
 
-        if (ControlPanel.EVENT_VIEW_ARTIST == actionCommand) {
+        if (EVENT_VIEW_ARTIST == actionCommand) {
             controlPanel.updateTab(Tab.ARTISTS);
-            frame.updateUI(ActiveView.ALFABETIC_ARTISTS_VIEW);
+            frame.updateUI(ActiveView.ALFABETIC_ARTISTS);
         }
         else if (ControlPanel.EVENT_ALBUM_QUILT == actionCommand) {
             controlPanel.updateTab(Tab.QUILT);
-            frame.updateUI(ActiveView.QUILT_VIEW);
+            frame.updateUI(ActiveView.QUILT);
+        }
+        else if (EVENT_VIEW_WIKI == actionCommand) {
+            controlPanel.updateTab(Tab.WIKI);
+            frame.updateUI(ActiveView.WIKI);
         }
         else if (ControlPanel.EVENT_VIEW_SEARCH == actionCommand) {
             controlPanel.updateTab(Tab.SEARCH);
-            frame.updateUI(ActiveView.SEARCH_VIEW);
+            frame.updateUI(ActiveView.SEARCH);
         }
-        else if (ControlPanel.EVENT_VIEW_CONFIGURATION == actionCommand) {
+        else if (EVENT_VIEW_CONFIGURATION == actionCommand) {
             controlPanel.updateTab(Tab.CONFIGURATION);
-            frame.updateUI(ActiveView.CONFIGURATION_VIEW);
+            frame.updateUI(ActiveView.CONFIGURATION);
         }
         else if (ControlPanel.EVENT_VIEW_ABOUT == actionCommand) {
             controlPanel.updateTab(Tab.NONE);
-            frame.updateUI(ActiveView.ABOUT_VIEW);
+            frame.updateUI(ActiveView.ABOUT);
         }
         else if (EVENT_VIEW_LYRICS == actionCommand) {
             playlistPanel.viewLyricsPanel();

@@ -57,13 +57,13 @@ public class ArtistController implements ArtistListener {
             albumView.setList(artist.getAlbums());
             ((DefaultAlbumView) albumView).setArtist(artist);
 
-            frame.updateUI(ActiveView.ALBUM_VIEW);
+            frame.updateUI(ActiveView.ALBUMS);
 
         }
         else if (actionCommand == EVENT_DELETE_ARTIST) {
             artistStorage.delete((Artist) e.getSource());
 
-            frame.updateUI(ActiveView.ALFABETIC_ARTISTS_VIEW);
+            frame.updateUI(ActiveView.ALFABETIC_ARTISTS);
         }
     }
 }

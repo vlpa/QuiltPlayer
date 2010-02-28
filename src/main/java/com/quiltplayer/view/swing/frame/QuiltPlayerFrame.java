@@ -55,6 +55,10 @@ public class QuiltPlayerFrame extends JFrame {
     private ListView<Album> quiltView;
 
     @Autowired
+    @Qualifier("wikiView")
+    private View wikiView;
+
+    @Autowired
     @Qualifier("defaultArtistView")
     private ArtistView artistView;
 
@@ -77,7 +81,7 @@ public class QuiltPlayerFrame extends JFrame {
 
     private Component alfabeticControlPaneUi;
 
-    private ActiveView currentView = ActiveView.ABOUT_VIEW;
+    private ActiveView currentView = ActiveView.ABOUT;
 
     @Autowired
     private KeyboardPanel keyboardPanel;
@@ -213,28 +217,31 @@ public class QuiltPlayerFrame extends JFrame {
             getContentPane().remove(alfabeticControlPaneUi);
         }
 
-        if (currentView.equals(ActiveView.QUILT_VIEW)) {
+        if (currentView.equals(ActiveView.QUILT)) {
             ui = quiltView.getUI();
             addAlfabeticControlPanel();
         }
-        else if (currentView.equals(ActiveView.ALFABETIC_ARTISTS_VIEW)) {
+        else if (currentView.equals(ActiveView.WIKI)) {
+            ui = wikiView.getUI();
+        }
+        else if (currentView.equals(ActiveView.ALFABETIC_ARTISTS)) {
             ui = artistView.getUI();
         }
-        else if (currentView.equals(ActiveView.ALBUM_VIEW)) {
+        else if (currentView.equals(ActiveView.ALBUMS)) {
             ui = albumView.getUI();
             controlPanel.updateTab(null);
         }
-        else if (currentView.equals(ActiveView.SEARCH_VIEW)) {
+        else if (currentView.equals(ActiveView.SEARCH)) {
             ui = searchView.getUI();
         }
-        else if (currentView.equals(ActiveView.CONFIGURATION_VIEW)) {
+        else if (currentView.equals(ActiveView.CONFIGURATION)) {
             ui = configurationView.getUI();
         }
-        else if (currentView.equals(ActiveView.ABOUT_VIEW)) {
+        else if (currentView.equals(ActiveView.ABOUT)) {
             ui = aboutView.getUI();
             controlPanel.updateTab(null);
         }
-        else if (currentView.equals(ActiveView.EDIT_ALBUM_VIEW)) {
+        else if (currentView.equals(ActiveView.EDIT_ALBUM)) {
             ui = editAlbumView.getUI();
             controlPanel.updateTab(null);
         }
