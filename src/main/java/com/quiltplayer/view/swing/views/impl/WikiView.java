@@ -89,14 +89,7 @@ public class WikiView implements Serializable, View {
         return new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
     }
 
-    public void changeWikiContent(final String name) {
-        System.out.println(wikipediaService.exists(name));
-
-        try {
-            content = wikipediaService.getWikiContentForPageName(name);
-        }
-        catch (Exception e2) {
-            e2.printStackTrace();
-        }
+    public void setContent(final String content) {
+        this.content = content;
     }
 }
