@@ -44,13 +44,9 @@ public class WikiView implements Serializable, View {
     @Override
     public Component getUI() {
 
-        panel = new JPanel();
-        panel.setOpaque(true);
-        panel.setBackground(ColorConstantsDark.BACKGROUND);
-        panel.setLayout(new MigLayout(
+        panel = new JPanel(new MigLayout(
                 "insets 0, wrap 1, alignx center, aligny center, fillx, filly"));
-
-        System.out.println("Content: " + content);
+        panel.setOpaque(false);
 
         final JEditorPane htmlPane = new JEditorPane("text/html", content);
         htmlPane.setOpaque(true);

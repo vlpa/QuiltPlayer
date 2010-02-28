@@ -86,8 +86,8 @@ public class AlbumPlaylistPanel extends JPanel {
         // playlistButtonPanel = new JPanel(new MigLayout("insets 0, wrap 1, fill"));
         // setupImageControlPanel(false);
 
-        add(albumPresentationPanel, "top");
-        add(crossFader, "h " + ImageSizes.LARGE.getSize() + "px!, w 100%, top, gapy 0.3cm");
+        add(albumPresentationPanel, "north");
+        add(crossFader, "h " + ImageSizes.LARGE.getSize() + "px!, north, gapy 0.2cm");
         // add(imageControlPanel, "alignx center, aligny top, w 100%, gapx 0.5cm 0.5cm");
     }
 
@@ -97,7 +97,7 @@ public class AlbumPlaylistPanel extends JPanel {
 
         songsComponent = new SongsComponent(album, playerListener);
 
-        add(songsComponent, "w 100%, h 100%, top, gapy 0.2cm");
+        add(songsComponent, "h 100%, north, gapy 0.1cm");
 
         songsComponent.repaint();
         repaint();

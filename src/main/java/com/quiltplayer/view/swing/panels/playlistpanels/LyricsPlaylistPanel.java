@@ -48,16 +48,14 @@ public class LyricsPlaylistPanel extends JPanel {
         lyricsArea.setText("No lyrics...");
         lyricsArea.setCaretPosition(0);
         lyricsArea.setFont(FontFactory.getFont(13f));
-        lyricsArea.setCaretPosition(0);
-        lyricsArea.setEditable(false);
-        lyricsArea.setWrapStyleWord(true);
+        lyricsArea.setEditable(true);
         lyricsArea.setLineWrap(true);
-        lyricsArea.setDragEnabled(false);
+        lyricsArea.setFocusable(false);
+        lyricsArea.setWrapStyleWord(true);
+        lyricsArea.setDragEnabled(true);
+        lyricsArea.setDoubleBuffered(true);
 
         JScrollPane lyricsScroller = new QScrollPane(lyricsArea);
-        lyricsScroller.setBorder(BorderFactory.createEmptyBorder());
-        lyricsScroller.getVerticalScrollBar().setUnitIncrement(VERTICAL_UNIT_INCRENET);
-
         JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(lyricsScroller, new JScrollPaneLayerUI());
 
         add(jx, "w 100%");
