@@ -1,9 +1,9 @@
 package com.quiltplayer.view.swing.views.impl;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -12,12 +12,11 @@ import org.cmc.shared.swing.FlowWrapLayout;
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.quiltplayer.core.storage.ArtistStorage;
-import com.quiltplayer.core.storage.Storage;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.buttons.AlbumCoverButton;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
+import com.quiltplayer.view.swing.listeners.SelectionListener;
 import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.views.ListView;
 
@@ -34,22 +33,11 @@ public class QuiltView implements ListView<Album> {
     @Autowired
     private ChangeAlbumListener changeAlbumListener;
 
-    @Autowired
-    private ArtistStorage artistStorage;
-
-    @Autowired
-    private Storage storage;
-
     private Album selectedAlbum = null;
 
     private JPanel panel;
 
-    private List<Album> albums;
-
-    @PostConstruct
-    public void init() {
-        albums = storage.getAlbums(artistStorage.getArtists());
-    }
+    private List<Album> albums = Collections.EMPTY_LIST;
 
     /*
      * @see com.quiltplayer.view.swing.components.ListView#setCollection(java.util .Collection)
@@ -66,8 +54,6 @@ public class QuiltView implements ListView<Album> {
     public JComponent getUI() {
         panel = new JPanel(new FlowWrapLayout(0, 0, 0, 0));
         panel.setOpaque(true);
-
-        Collections.sort(albums);
 
         for (Album album : albums) {
             if (album.getFrontImage() != null) {

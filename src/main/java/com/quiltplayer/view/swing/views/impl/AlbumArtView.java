@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
@@ -25,6 +26,7 @@ import org.jdesktop.animation.timing.interpolation.SplineInterpolator;
 import org.jdesktop.jxlayer.JXLayer;
 
 import com.quiltplayer.external.covers.model.LocalImage;
+import com.quiltplayer.external.covers.util.ImageUtils;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
@@ -88,6 +90,13 @@ public class AlbumArtView implements Serializable, View {
         if (album != null && album.getImages().size() > 0) {
             for (LocalImage localImage : album.getImages()) {
                 ImageIcon icon = new ImageIcon(localImage.getLargeImage().getAbsolutePath());
+
+                Double d = Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.60;
+
+                /* Scale if too large depending on screen */
+                if (icon.getIconHeight() > d.intValue()) {
+                    icon = ImageUtils.scalePicture(icon, d.intValue());
+                }
 
                 final JLabel label = new JLabel(icon);
                 label.setBorder(BorderFactory.createLineBorder(Color.WHITE, 20));

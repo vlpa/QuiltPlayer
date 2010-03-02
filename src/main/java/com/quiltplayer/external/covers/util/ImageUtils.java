@@ -36,8 +36,16 @@ public class ImageUtils {
     }
 
     public static ImageIcon scalePicture(ImageIcon icon, int width) {
-        ImageIcon imageIcon = new ImageIcon(icon.getImage().getScaledInstance(width, -1,
-                Image.SCALE_SMOOTH));
+        ImageIcon imageIcon;
+        if (icon.getIconHeight() > icon.getIconWidth()) {
+            imageIcon = new ImageIcon(icon.getImage().getScaledInstance(-1, width,
+                    Image.SCALE_SMOOTH));
+        }
+        else {
+            imageIcon = new ImageIcon(icon.getImage().getScaledInstance(width, -1,
+                    Image.SCALE_SMOOTH));
+        }
+
         int borderWidth = 0;
         int spaceAroundIcon = 0;
         Color borderColor = new Color(40, 40, 40);

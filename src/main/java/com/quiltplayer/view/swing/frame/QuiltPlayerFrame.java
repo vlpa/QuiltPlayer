@@ -262,7 +262,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addAlfabeticControlPanel() {
-        getContentPane().add(alfabeticControlPaneUi, "dock east, align center, h 75%!, w 1.7cm!");
+        getContentPane().add(alfabeticControlPaneUi, "dock east, align center, h 75%!");
     }
 
     public ActiveView getCurrentView() {
@@ -294,9 +294,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     public void toggleAlbumView() {
-        System.out.println("!");
         if (b) {
-            System.out.println("!!");
             remove(playlistPanel);
             controlPanel.albumViewButton.inactivate();
             b = false;
@@ -312,6 +310,6 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addAlbumView() {
-        getContentPane().add(playlistPanel, "cell 1 0, dock west, growx, gapx 0.2cm");
+        getContentPane().add(playlistPanel, "cell 1 0, dock west, growx"); // gapx 0.2cm
     }
 }
