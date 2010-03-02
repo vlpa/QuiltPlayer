@@ -26,7 +26,7 @@ public class QuiltPlayer {
         /*
          * Initialize OpenGl if supported.
          */
-        // System.setProperty("sun.java2d.opengl", "True");
+        System.setProperty("sun.java2d.opengl", "True");
 
         /*
          * Initialize look and feel.

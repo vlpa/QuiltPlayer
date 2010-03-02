@@ -2,8 +2,6 @@ package com.quiltplayer.view.swing.buttons;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -91,20 +89,6 @@ public class AlbumCoverButton extends ScrollableButton {
     public void triggerAction() {
         changeAlbumListener.actionPerformed(new ActionEvent(album, 0,
                 ChangeAlbumController.EVENT_CHANGE_ALBUM));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
-    @Override
-    public void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        super.paintComponent(g);
     }
 
     /*

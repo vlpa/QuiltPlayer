@@ -68,7 +68,6 @@ public class ControlPanelController implements ControlPanelListener {
             frame.updateUI(ActiveView.WIKI);
         }
         else if (EVENT_VIEW_COVERS == actionCommand) {
-            frame.toggleAlbumView();
             frame.updateUI(ActiveView.COVERS);
         }
         else if (ControlPanel.EVENT_VIEW_SEARCH == actionCommand) {

@@ -9,8 +9,6 @@ import java.awt.event.FocusEvent;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import net.miginfocom.swing.MigLayout;
-
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.window.KeyboardPanel;
 
@@ -70,13 +68,13 @@ public class QTextField extends JTextField {
             callFocus = false;
         }
 
-        RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        renderHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        // RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+        // RenderingHints.VALUE_ANTIALIAS_ON);
+        // renderHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        // renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+        // RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        g2d.setRenderingHints(renderHints);
+        // g2d.setRenderingHints(renderHints);
         g2d.setColor(Color.white);
         g2d.fillRoundRect(0, 0, w, h, 11, 11);
 

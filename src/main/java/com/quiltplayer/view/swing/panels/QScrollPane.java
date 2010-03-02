@@ -1,14 +1,13 @@
 package com.quiltplayer.view.swing.panels;
 
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
-
-import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
@@ -170,6 +169,17 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
     @Override
     public void mouseReleased(MouseEvent e) {
         // TODO Auto-generated method stub
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
+        System.out.println(this);
+        super.paintComponent(g);
     }
 
 }

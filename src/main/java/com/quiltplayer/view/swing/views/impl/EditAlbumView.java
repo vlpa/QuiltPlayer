@@ -146,14 +146,15 @@ public class EditAlbumView implements Serializable, View, AlbumView, ActionListe
                 int w = getWidth();
                 int h = getHeight();
 
-                RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
-                renderHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-                renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
-                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                // RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+                // RenderingHints.VALUE_ANTIALIAS_ON);
+                // renderHints.put(RenderingHints.KEY_RENDERING,
+                // RenderingHints.VALUE_RENDER_QUALITY);
+                // renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+                // RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHints(renderHints);
+                // g2d.setRenderingHints(renderHints);
                 g2d.setColor(new Color(40, 40, 40));
                 g2d.fillRoundRect(0, 0, w, h, 15, 15);
 

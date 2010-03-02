@@ -36,13 +36,6 @@ public class QProgressBar extends JProgressBar {
         final int w = getWidth();
         final int h = getHeight();
 
-        RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        renderHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-        g2d.setRenderingHints(renderHints);
         g2d.fillRoundRect(0, 0, w, h, 11, 11);
 
         super.paintComponent(g2d);

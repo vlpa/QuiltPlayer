@@ -63,12 +63,12 @@ public class AlfabeticControlPane implements View, ActionListener {
 
             list.add(SelectionController.ALBUMS);
 
-            artistsButton = new QPlaylistButton("Artist");
+            artistsButton = new QPlaylistButton("Artists");
             artistsButton.addActionListener(this);
             artistsButton.setActionCommand(SelectionController.ARTIST);
 
-            panel.add(albumsButton, "alignx center");
-            panel.add(artistsButton, "alignx center");
+            panel.add(albumsButton, "alignx left");
+            panel.add(artistsButton, "alignx left");
 
             final JPanel alfabeticPanel = new JPanel(new MigLayout("insets 0, wrap 1, fill"));
 
@@ -85,7 +85,7 @@ public class AlfabeticControlPane implements View, ActionListener {
                     }
                 });
 
-                alfabeticPanel.add(button, "alignx center, w 0.75cm, h 0.75cm");
+                alfabeticPanel.add(button, "alignx center, w 0.8cm, h 0.8cm");
             }
 
             final QScrollPane pane = new QScrollPane(alfabeticPanel);

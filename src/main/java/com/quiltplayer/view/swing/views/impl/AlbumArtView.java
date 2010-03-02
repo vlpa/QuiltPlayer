@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
 import java.awt.Point;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
@@ -54,7 +53,7 @@ public class AlbumArtView implements Serializable, View {
     @Override
     public JComponent getUI() {
 
-        panel = new JPanel(new MigLayout("flowx, fill, center")) {
+        panel = new JPanel(new MigLayout("fill")) {
             private static final long serialVersionUID = 1L;
 
             /*
@@ -64,11 +63,8 @@ public class AlbumArtView implements Serializable, View {
              */
             @Override
             protected void paintComponent(Graphics g) {
-
+                /* TODO Repaints the whole background every time? Look for solution */
                 Graphics2D g2d = (Graphics2D) g;
-
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
 
                 final Color[] gradient = { ColorConstantsDark.BACKGROUND, new Color(90, 90, 90),
                         new Color(40, 40, 40), new Color(20, 20, 20) };
@@ -84,8 +80,6 @@ public class AlbumArtView implements Serializable, View {
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
         };
-        panel.setOpaque(true);
-        panel.setDoubleBuffered(true);
 
         if (album != null && album.getImages().size() > 0) {
             for (LocalImage localImage : album.getImages()) {
