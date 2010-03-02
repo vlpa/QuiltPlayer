@@ -57,10 +57,8 @@ public class ControlPanel extends JPanel {
     private ControlPanelListener controlPanelListener;
 
     public enum Tab {
-        NONE, QUILT, ARTISTS, CONFIGURATION, SEARCH, WIKI
+        NONE, QUILT, ARTISTS, CONFIGURATION, SEARCH
     };
-
-    private QControlPanelButton wikiButton;
 
     private QControlPanelButton quiltButton;
 
@@ -87,8 +85,6 @@ public class ControlPanel extends JPanel {
     public void setDefaults() {
         setLayout(new MigLayout("insets 0, fill, wrap 10"));
 
-        setupWikiButton();
-
         setupQuiltCollectionButton();
 
         setupAlfabeticArtistsButton();
@@ -109,7 +105,6 @@ public class ControlPanel extends JPanel {
 
         final JPanel applicationButtons = new JPanel(new MigLayout("insets 0, alignx center"));
         applicationButtons.setOpaque(false);
-        applicationButtons.add(wikiButton, s);
         applicationButtons.add(quiltButton, s);
         applicationButtons.add(artistsButton, s);
         applicationButtons.add(searchButton, s);
@@ -121,14 +116,6 @@ public class ControlPanel extends JPanel {
 
         add(playerControlPanel, "w " + ImageSizes.LARGE.getSize() + "px, dock west");
         add(applicationButtons, "w 100% - " + ImageSizes.LARGE.getSize() + "px, gapx 2cm 2cm");
-    }
-
-    private void setupWikiButton() {
-        wikiButton = new QControlPanelButton("Wiki", ClassPathUtils
-                .getIconFromClasspath("white/Settings.png"), SwingConstants.TOP);
-
-        wikiButton.addActionListener(controlPanelListener);
-        wikiButton.setActionCommand(ControlPanelController.EVENT_VIEW_WIKI);
     }
 
     private void setupQuiltCollectionButton() {
@@ -189,7 +176,6 @@ public class ControlPanel extends JPanel {
     }
 
     public void updateTab(Tab tab) {
-        wikiButton.inactivate();
         quiltButton.inactivate();
         artistsButton.inactivate();
         configButton.inactivate();
@@ -200,9 +186,6 @@ public class ControlPanel extends JPanel {
         }
         else if (tab == Tab.QUILT) {
             quiltButton.activate();
-        }
-        else if (tab == Tab.WIKI) {
-            wikiButton.activate();
         }
         else if (tab == Tab.ARTISTS) {
             artistsButton.activate();

@@ -2,7 +2,6 @@ package com.quiltplayer.view.swing.views.impl;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Enumeration;
 
@@ -17,7 +16,6 @@ import javax.swing.text.html.StyleSheet;
 import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.jxlayer.JXLayer;
-import org.xhtmlrenderer.swing.BasicPanel;
 
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;

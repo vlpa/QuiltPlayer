@@ -53,6 +53,7 @@ public class AlbumArtView implements Serializable, View {
     public JComponent getUI() {
 
         panel = new JPanel(new MigLayout("flowx, fill, center")) {
+            private static final long serialVersionUID = 1L;
 
             /*
              * (non-Javadoc)
@@ -68,9 +69,9 @@ public class AlbumArtView implements Serializable, View {
                         RenderingHints.VALUE_ANTIALIAS_ON);
 
                 final Color[] gradient = { ColorConstantsDark.BACKGROUND, new Color(90, 90, 90),
-                        new Color(20, 20, 20) };
+                        new Color(40, 40, 40), new Color(20, 20, 20) };
 
-                final float[] dist = { 0.0f, 0.5f, 1.0f };
+                final float[] dist = { 0.0f, 0.5f, 0.55f, 1.0f };
 
                 Point2D start = new Point2D.Float(0, 0);
                 Point2D end = new Point2D.Float(0, getHeight());

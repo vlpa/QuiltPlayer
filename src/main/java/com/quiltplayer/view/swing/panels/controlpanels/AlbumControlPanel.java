@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.LinearGradientPaint;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 
@@ -26,6 +28,7 @@ import com.quiltplayer.controller.ArtistController;
 import com.quiltplayer.controller.ControlPanelController;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.jotify.JotifyAlbum;
+import com.quiltplayer.utils.ClassPathUtils;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
 import com.quiltplayer.view.swing.listeners.AddAlbumListener;
@@ -44,7 +47,7 @@ import com.quiltplayer.view.swing.util.SizeHelper;
  * @author Vlado Palczynski
  */
 @Component
-public class AlbumControlPanel extends JPanel {
+public class AlbumControlPanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -79,6 +82,10 @@ public class AlbumControlPanel extends JPanel {
 
     private QControlPanelButton moreAlbumsButton;
 
+    private QControlPanelButton wikiButton;
+
+    private QControlPanelButton coversButton;
+
     private static final String LAYOUT = "h 2cm, w 3cm";
 
     @PostConstruct
@@ -103,10 +110,15 @@ public class AlbumControlPanel extends JPanel {
 
         setupMoreAlbumsButton();
 
-        add(albumButton, LAYOUT + ", cell 0 0");
-        // add(lyricsButton, LAYOUT + ", cell 1 0");
+        setupWikiButton();
+
+        setupCoversButton();
+
+        add(lyricsButton, LAYOUT + ", cell 0 0");
+        add(wikiButton, LAYOUT + ", cell 1 0");
         add(editButton, LAYOUT + ", cell 2 0");
-        add(moreAlbumsButton, LAYOUT + ", cell 3 0");
+        add(coversButton, LAYOUT + ", cell 3 0");
+        add(moreAlbumsButton, LAYOUT + ", cell 4 0");
     }
 
     public void update(final Album album) {
@@ -124,6 +136,22 @@ public class AlbumControlPanel extends JPanel {
         repaint();
     }
 
+    private void setupWikiButton() {
+        wikiButton = new QControlPanelButton("Wiki", ClassPathUtils
+                .getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM);
+
+        wikiButton.addActionListener(controlPanelListener);
+        wikiButton.setActionCommand(ControlPanelController.EVENT_VIEW_WIKI);
+    }
+
+    private void setupCoversButton() {
+        coversButton = new QControlPanelButton("Images", ClassPathUtils
+                .getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM);
+
+        coversButton.addActionListener(controlPanelListener);
+        coversButton.setActionCommand(ControlPanelController.EVENT_VIEW_COVERS);
+    }
+
     private void setupMoreAlbumsButton() {
         moreAlbumsButton = new QControlPanelButton("More albums",
                 getIconFromClasspath("white/MoreAlbums.png"), SwingConstants.BOTTOM);
@@ -134,6 +162,7 @@ public class AlbumControlPanel extends JPanel {
     private void setupLyricsButton() {
         lyricsButton = new QControlPanelButton("Lyrics", getIconFromClasspath("white/Lyrics.png"),
                 SwingConstants.BOTTOM);
+        lyricsButton.addActionListener(this);
         lyricsButton.addActionListener(controlPanelListener);
         lyricsButton.setActionCommand(ControlPanelController.EVENT_VIEW_LYRICS);
     }
@@ -141,6 +170,7 @@ public class AlbumControlPanel extends JPanel {
     private void setupPlaylistButton() {
         albumButton = new QControlPanelButton("Songs", getIconFromClasspath("white/SongTiles.png"),
                 SwingConstants.BOTTOM);
+        albumButton.addActionListener(this);
         albumButton.addActionListener(controlPanelListener);
         albumButton.setActionCommand(ControlPanelController.EVENT_VIEW_ALBUM);
     }
@@ -226,5 +256,22 @@ public class AlbumControlPanel extends JPanel {
         g2d.setPaint(p);
 
         g2d.fillRect(0, 0, getWidth(), getHeight());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand() == ControlPanelController.EVENT_VIEW_LYRICS) {
+            remove(lyricsButton);
+            add(albumButton, LAYOUT + ", cell 0 0");
+        }
+        else if (e.getActionCommand() == ControlPanelController.EVENT_VIEW_ALBUM) {
+            remove(albumButton);
+            add(lyricsButton, LAYOUT + ", cell 0 0");
+        }
     }
 }

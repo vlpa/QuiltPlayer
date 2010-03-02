@@ -227,6 +227,9 @@ public class QuiltPlayerFrame extends JFrame {
             addAlfabeticControlPanel();
         }
         else if (currentView.equals(ActiveView.WIKI)) {
+            ui = wikiView.getUI();
+        }
+        else if (currentView.equals(ActiveView.COVERS)) {
             ui = albumArtView.getUI();
         }
         else if (currentView.equals(ActiveView.ALFABETIC_ARTISTS)) {
@@ -251,7 +254,7 @@ public class QuiltPlayerFrame extends JFrame {
             controlPanel.updateTab(null);
         }
 
-        getContentPane().add(ui, "cell 2 0, gapx 0.4cm, grow");
+        getContentPane().add(ui, "cell 2 0, grow"); // gapx 0.4cm,
 
         repaint();
 
@@ -291,7 +294,9 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     public void toggleAlbumView() {
+        System.out.println("!");
         if (b) {
+            System.out.println("!!");
             remove(playlistPanel);
             controlPanel.albumViewButton.inactivate();
             b = false;

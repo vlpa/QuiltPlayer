@@ -35,6 +35,8 @@ public class ControlPanelController implements ControlPanelListener {
 
     public static final String EVENT_VIEW_WIKI = "view.wiki";
 
+    public static final String EVENT_VIEW_COVERS = "view.covers";
+
     @Autowired
     private QuiltPlayerFrame frame;
 
@@ -63,8 +65,11 @@ public class ControlPanelController implements ControlPanelListener {
             frame.updateUI(ActiveView.QUILT);
         }
         else if (EVENT_VIEW_WIKI == actionCommand) {
-            controlPanel.updateTab(Tab.WIKI);
             frame.updateUI(ActiveView.WIKI);
+        }
+        else if (EVENT_VIEW_COVERS == actionCommand) {
+            frame.toggleAlbumView();
+            frame.updateUI(ActiveView.COVERS);
         }
         else if (ControlPanel.EVENT_VIEW_SEARCH == actionCommand) {
             controlPanel.updateTab(Tab.SEARCH);
