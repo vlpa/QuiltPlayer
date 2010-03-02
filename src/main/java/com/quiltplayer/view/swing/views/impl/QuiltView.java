@@ -1,10 +1,10 @@
 package com.quiltplayer.view.swing.views.impl;
 
-import java.awt.Component;
 import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -63,7 +63,7 @@ public class QuiltView implements ListView<Album> {
      * @see org.coverok.gui.components.AlbumView#getUI()
      */
     @Override
-    public Component getUI() {
+    public JComponent getUI() {
         panel = new JPanel(new FlowWrapLayout(0, 0, 0, 0));
         panel.setOpaque(true);
 

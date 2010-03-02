@@ -104,7 +104,7 @@ public class AlbumControlPanel extends JPanel {
         setupMoreAlbumsButton();
 
         add(albumButton, LAYOUT + ", cell 0 0");
-        add(lyricsButton, LAYOUT + ", cell 1 0");
+        // add(lyricsButton, LAYOUT + ", cell 1 0");
         add(editButton, LAYOUT + ", cell 2 0");
         add(moreAlbumsButton, LAYOUT + ", cell 3 0");
     }

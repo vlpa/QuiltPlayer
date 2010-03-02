@@ -1,9 +1,11 @@
 package com.quiltplayer.view.swing.views.impl;
 
-import java.awt.Component;
 import java.io.Serializable;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.view.swing.views.View;
 
@@ -20,9 +22,9 @@ public class AboutView implements Serializable, View {
      * @see org.quiltplayer.view.components.View#getUI()
      */
     @Override
-    public Component getUI() {
+    public JComponent getUI() {
 
-        panel = new JPanel();
+        panel = new JPanel(new MigLayout("flowx"));
         panel.setOpaque(false);
 
         return panel;

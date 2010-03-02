@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -89,7 +90,7 @@ public class ConfigurationView implements View, ActionListener {
      * @see org.quiltplayer.view.components.View#getUI()
      */
     @Override
-    public Component getUI() {
+    public JComponent getUI() {
         panel = new JPanel(new MigLayout("insets 0, wrap 1, alignx center, aligny top"));
 
         setupTabs();

@@ -1,6 +1,5 @@
 package com.quiltplayer.view.swing.views.impl;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
@@ -12,6 +11,7 @@ import java.util.concurrent.TimeoutException;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -96,7 +96,7 @@ public class SearchView implements Serializable, View {
      * @see org.quiltplayer.view.components.View#getUI()
      */
     @Override
-    public Component getUI() {
+    public JComponent getUI() {
         if (newResult || panel == null) {
             panel = new QPanel();
             panel.setOpaque(true);

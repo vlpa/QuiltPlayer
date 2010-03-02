@@ -33,7 +33,7 @@ public class LyricsPlaylistPanel extends JPanel {
     private JTextArea lyricsArea;
 
     public LyricsPlaylistPanel() {
-        super(new MigLayout("insets 15, wrap 1, alignx center, aligny center"));
+        super(new MigLayout("insets 15, fill,  alignx center, aligny center"));
         setOpaque(true);
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
 
@@ -52,13 +52,9 @@ public class LyricsPlaylistPanel extends JPanel {
         lyricsArea.setLineWrap(true);
         lyricsArea.setFocusable(false);
         lyricsArea.setWrapStyleWord(true);
-        lyricsArea.setDragEnabled(true);
         lyricsArea.setDoubleBuffered(true);
 
-        JScrollPane lyricsScroller = new QScrollPane(lyricsArea);
-        JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(lyricsScroller, new JScrollPaneLayerUI());
-
-        add(jx, "w 100%");
+        add(lyricsArea, "w 100%");
     }
 
     /**

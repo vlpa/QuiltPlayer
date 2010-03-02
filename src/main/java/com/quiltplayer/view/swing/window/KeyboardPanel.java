@@ -39,7 +39,7 @@ public class KeyboardPanel extends JPanel {
     private static final String CLEAR = "Clear";
     private static final String CLOSE = "Exit";
 
-    private boolean toggler = false;
+    private boolean toggler = true;
 
     @Autowired
     private ControlPanel controlPanel;

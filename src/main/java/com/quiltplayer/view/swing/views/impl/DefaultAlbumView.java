@@ -1,16 +1,14 @@
 package com.quiltplayer.view.swing.views.impl;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-import net.miginfocom.swing.MigLayout;
 
 import org.cmc.shared.swing.FlowWrapLayout;
 import org.jdesktop.jxlayer.JXLayer;
@@ -57,7 +55,7 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
      * @see org.coverok.gui.components.AlbumView#getUI()
      */
     @Override
-    public Component getUI() {
+    public JComponent getUI() {
 
         panel = new JPanel(new FlowWrapLayout(0, 0, 0, 0));
         panel.setOpaque(true);

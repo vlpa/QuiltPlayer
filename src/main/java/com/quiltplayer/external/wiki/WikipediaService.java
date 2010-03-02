@@ -15,7 +15,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -29,9 +28,9 @@ import org.w3c.dom.NodeList;
 @Component
 public class WikipediaService implements Runnable {
 
-    private Logger log = Logger.getLogger(WikipediaService.class);
-
     private static final String QUERY = "http://en.wikipedia.org/w/api.php?action=parse&page=%s&format=%s";
+
+    private static final String PRINTABLE = "http://en.wikipedia.org/w/index.php?title=%s&printable=yes";
 
     private static final String NO_ARTICLE = "Wikipedia does not have an article with this exact name";
 
@@ -50,6 +49,9 @@ public class WikipediaService implements Runnable {
         URL url;
 
         try {
+
+            result = "";
+
             url = new URL(String.format(QUERY, new Object[] { page, "xml" }));
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -67,10 +69,39 @@ public class WikipediaService implements Runnable {
             for (int i = 0; i < nodes.getLength(); i++) {
                 this.result = nodes.item(i).getNodeValue();
             }
+
+            // BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(),
+            // "UTF-8"));
+            //
+            // String inputLine;
+            // boolean tableFound = false;
+            // boolean scriptFound = false;
+            // while ((inputLine = in.readLine()) != null) {
+            // if (!tableFound) {
+            // if (inputLine.startsWith("<table"))
+            // tableFound = true;
+            // }
+            //
+            // if (tableFound) {
+            // if (inputLine.startsWith("<script") && inputLine.endsWith("</script>")) {
+            // }
+            // else if (inputLine.startsWith("<script")) {
+            // scriptFound = true;
+            // }
+            // else if (scriptFound && inputLine.contains("</script>"))
+            // scriptFound = false;
+            // else
+            // result = result + inputLine;
+            // }
+            // }
+            //
+            // in.close();
+
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("DONE!");
     }
 
     public String getWikiContentForPageName(String pageName) throws MalformedURLException,
@@ -87,12 +118,8 @@ public class WikipediaService implements Runnable {
 
         final long currentTimeStamp = System.currentTimeMillis();
 
-        page = pageName.replace(" ", "_");
-
-        System.out.println(page);
-
         try {
-            URL url = new URL(String.format(QUERY, new Object[] { page, "xml" }));
+            URL url = new URL(String.format(QUERY, new Object[] { pageName, "xml" }));
             URLConnection connection = url.openConnection();
             connection.setDoOutput(true);
 
@@ -102,9 +129,8 @@ public class WikipediaService implements Runnable {
             String s;
             while ((s = in.readLine()) != null) {
                 if (s.contains(NO_ARTICLE)) {
-                    log.debug("Time to ping wikipedia: "
+                    System.out.println("Time to ping wikipedia: "
                             + (System.currentTimeMillis() - currentTimeStamp));
-
                     return true;
                 }
             }
@@ -117,7 +143,8 @@ public class WikipediaService implements Runnable {
             e.printStackTrace();
         }
 
-        log.debug("Time to ping wikipedia: " + (System.currentTimeMillis() - currentTimeStamp));
+        System.out.println("Time to ping wikipedia: "
+                + (System.currentTimeMillis() - currentTimeStamp));
 
         return false;
     }

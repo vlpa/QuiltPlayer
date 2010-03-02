@@ -1,6 +1,6 @@
 package com.quiltplayer.view.swing.views;
 
-import java.awt.Component;
+import javax.swing.JComponent;
 
 /**
  * Interface for the artist views.
@@ -14,9 +14,9 @@ public interface ArtistView {
 
     /**
      * Returns the graphical component. This component will be used as Cover viewer/browser by the
-     * Coverok framework.
+     * quiltplayer framework.
      */
-    Component getUI();
+    JComponent getUI();
 
     /**
      * Release resources used by this album view.

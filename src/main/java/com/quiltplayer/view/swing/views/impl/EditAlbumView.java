@@ -1,7 +1,6 @@
 package com.quiltplayer.view.swing.views.impl;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -89,7 +89,7 @@ public class EditAlbumView implements Serializable, View, AlbumView, ActionListe
      * @see org.quiltplayer.view.components.View#getUI()
      */
     @Override
-    public Component getUI() {
+    public JComponent getUI() {
 
         JPanel panel = new JPanel();
         panel.setLayout(new MigLayout("insets 0, wrap 3, alignx center, aligny center"));

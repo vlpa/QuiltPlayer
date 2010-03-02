@@ -1,10 +1,12 @@
 package com.quiltplayer.view.swing.views.impl;
 
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Font;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Enumeration;
 
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -15,9 +17,8 @@ import javax.swing.text.html.StyleSheet;
 import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.jxlayer.JXLayer;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.xhtmlrenderer.swing.BasicPanel;
 
-import com.quiltplayer.external.wiki.WikipediaService;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
@@ -33,29 +34,30 @@ public class WikiView implements Serializable, View {
 
     private String content = "";
 
-    @Autowired
-    private WikipediaService wikipediaService;
-
     /*
      * (non-Javadoc)
      * 
      * @see org.quiltplayer.view.components.View#getUI()
      */
     @Override
-    public Component getUI() {
+    public JComponent getUI() {
 
-        panel = new JPanel(new MigLayout(
-                "insets 0, wrap 1, alignx center, aligny center, fillx, filly"));
-        panel.setOpaque(false);
+        panel = new JPanel(new MigLayout("w 100%!"));
+        panel.setOpaque(true);
+        panel.setBackground(ColorConstantsDark.BACKGROUND);
 
-        final JEditorPane htmlPane = new JEditorPane("text/html", content);
+        JEditorPane htmlPane = null;
+        htmlPane = new JEditorPane("text/html", content);
+
         htmlPane.setOpaque(true);
         htmlPane.setBackground(ColorConstantsDark.BACKGROUND);
-        htmlPane.setAutoscrolls(true);
-        htmlPane.setDragEnabled(true);
-        htmlPane.setDoubleBuffered(true);
+        htmlPane.setAutoscrolls(false);
+        htmlPane.setDragEnabled(false);
         htmlPane.setEditable(true);
         htmlPane.setFocusable(false);
+        htmlPane.setFont(FontFactory.getFont(13));
+        htmlPane.setForeground(Color.white);
+        htmlPane.setBounds(10, 10, panel.getWidth() - 150, panel.getHeight());
 
         final Font font = FontFactory.getFont(13);
 
@@ -81,6 +83,8 @@ public class WikiView implements Serializable, View {
             Style rule = styles.getStyle(name);
             System.out.println(rule.toString());
         }
+
+        htmlPane.setCaretPosition(0);
 
         panel.add(htmlPane, "w 100%, h 100%");
 

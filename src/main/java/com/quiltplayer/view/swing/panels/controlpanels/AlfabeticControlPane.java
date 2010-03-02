@@ -1,5 +1,6 @@
 package com.quiltplayer.view.swing.panels.controlpanels;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -38,7 +39,7 @@ public class AlfabeticControlPane implements View {
      * @see com.quiltplayer.view.swing.views.View#getUI()
      */
     @Override
-    public java.awt.Component getUI() {
+    public JComponent getUI() {
         if (layer == null) {
             final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 1, fill"));
 

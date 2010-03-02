@@ -1,9 +1,11 @@
 package com.quiltplayer.controller;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import com.quiltplayer.core.player.PlayerFactory;
@@ -40,6 +42,10 @@ public class ChangeAlbumController implements ChangeAlbumListener {
     @Autowired
     private WikiListener wikiListener;
 
+    @Autowired
+    @Qualifier("albumArtController")
+    private ActionListener albumArtListener;
+
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
@@ -64,6 +70,9 @@ public class ChangeAlbumController implements ChangeAlbumListener {
 
             wikiListener
                     .actionPerformed(new ActionEvent(album, 0, WikiController.EVENT_UPDATE_WIKI));
+
+            albumArtListener.actionPerformed(new ActionEvent(album, 0,
+                    AlbumArtController.EVENT_UPDATE_ALBUM));
         }
         else if (e.getActionCommand().equals(EVENT_CHANGE_ALBUM_AND_PLAY_SONG)) {
             Album album = (Album) ((Object[]) e.getSource())[0];
@@ -84,6 +93,8 @@ public class ChangeAlbumController implements ChangeAlbumListener {
 
             wikiListener
                     .actionPerformed(new ActionEvent(album, 0, WikiController.EVENT_UPDATE_WIKI));
+            albumArtListener.actionPerformed(new ActionEvent(album, 0,
+                    AlbumArtController.EVENT_UPDATE_ALBUM));
         }
     }
 }

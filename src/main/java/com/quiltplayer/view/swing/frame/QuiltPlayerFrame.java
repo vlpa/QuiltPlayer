@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 
 import javax.annotation.PostConstruct;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -59,6 +60,10 @@ public class QuiltPlayerFrame extends JFrame {
     private View wikiView;
 
     @Autowired
+    @Qualifier("albumArtView")
+    private View albumArtView;
+
+    @Autowired
     @Qualifier("defaultArtistView")
     private ArtistView artistView;
 
@@ -77,7 +82,7 @@ public class QuiltPlayerFrame extends JFrame {
     @Autowired
     private ControlPanel controlPanel;
 
-    private Component ui;
+    private JComponent ui;
 
     private Component alfabeticControlPaneUi;
 
@@ -185,7 +190,7 @@ public class QuiltPlayerFrame extends JFrame {
         return ui;
     }
 
-    public void setUI(Component ui) {
+    public void setUI(JComponent ui) {
         this.ui = ui;
     }
 
@@ -222,7 +227,7 @@ public class QuiltPlayerFrame extends JFrame {
             addAlfabeticControlPanel();
         }
         else if (currentView.equals(ActiveView.WIKI)) {
-            ui = wikiView.getUI();
+            ui = albumArtView.getUI();
         }
         else if (currentView.equals(ActiveView.ALFABETIC_ARTISTS)) {
             ui = artistView.getUI();
@@ -297,8 +302,8 @@ public class QuiltPlayerFrame extends JFrame {
             b = true;
         }
 
-        repaint();
-        playlistPanel.repaint();
+        playlistPanel.updateUI();
+        ui.updateUI();
     }
 
     private void addAlbumView() {

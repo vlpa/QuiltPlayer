@@ -1,6 +1,6 @@
 package com.quiltplayer.view.swing.views;
 
-import java.awt.Component;
+import javax.swing.JComponent;
 
 /**
  * @author Mario Boikov
@@ -11,7 +11,7 @@ public interface View {
     /**
      * Returns the graphical component.
      */
-    Component getUI();
+    JComponent getUI();
 
     /**
      * Release resources used by this album view.

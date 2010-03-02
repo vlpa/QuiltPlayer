@@ -1,8 +1,8 @@
 package com.quiltplayer.view.swing.views.impl;
 
-import java.awt.Component;
 import java.util.List;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -45,11 +45,11 @@ public class DefaultArtistView implements ArtistView {
      * @see org.coverok.gui.components.AlbumView#getUI()
      */
     @Override
-    public Component getUI() {
+    public JComponent getUI() {
         return getAlfabeticArtistComponent();
     }
 
-    private Component getAlfabeticArtistComponent() {
+    private JComponent getAlfabeticArtistComponent() {
 
         final JPanel panel = new JPanel();
         panel.setLayout(new FlowWrapLayout(10, 10, 10, 10));
