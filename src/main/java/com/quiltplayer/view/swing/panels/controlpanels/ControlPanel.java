@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -71,6 +72,9 @@ public class ControlPanel extends JPanel {
     private QControlPanelButton keyboardButton;
 
     public QControlPanelButton albumViewButton;
+
+    @Autowired
+    private GraphDatabaseService graphDatabaseService;
 
     private JButton exitButton;
 
@@ -172,7 +176,7 @@ public class ControlPanel extends JPanel {
     private void setupExitButton() {
         exitButton = new QControlPanelButton("End", ClassPathUtils
                 .getIconFromClasspath("white/Power.png"), SwingConstants.TOP);
-        exitButton.addActionListener(new ExitHandler());
+        exitButton.addActionListener(new ExitHandler(graphDatabaseService));
     }
 
     public void updateTab(Tab tab) {

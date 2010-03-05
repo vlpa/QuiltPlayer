@@ -1,17 +1,25 @@
 package com.quiltplayer.view.swing.panels.controlpanels;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.interpolation.PropertySetter;
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,79 +29,107 @@ import com.quiltplayer.view.swing.buttons.QPlaylistButton;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.SelectionListener;
 import com.quiltplayer.view.swing.panels.QScrollPane;
-import com.quiltplayer.view.swing.views.View;
 
 @Component
-public class AlfabeticControlPane implements View, ActionListener {
+public class AlfabeticControlPane extends JPanel implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     public static final String ALL = "All";
 
     public static final String NUMERIC = "0-9";
 
-    private String[] strings = new String[] { ALL, NUMERIC, "A", "B", "C", "D", "E", "F", "G", "H",
-            "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y",
-            "Z" };
+    private String[] strings = new String[] { ALL, NUMERIC, "A", "N", "B", "O", "C", "P", "D", "R",
+            "E", "S", "F", "T", "G", "U", "H", "V", "I", "W", "J", "X", "K", "Y", "L", "Z", "M" };
 
     private QPlaylistButton albumsButton;
 
     private QPlaylistButton artistsButton;
-
-    private JPanel panel;
 
     @Autowired
     private SelectionListener selectionListener;
 
     private final List<String> list = new ArrayList<String>();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.quiltplayer.view.swing.views.View#getUI()
-     */
-    @Override
-    public JComponent getUI() {
-        if (panel == null) {
-            panel = new JPanel(new MigLayout("insets 0, wrap 1, fill"));
+    private Animator animator = new Animator(0);
 
-            albumsButton = new QPlaylistButton("Albums");
-            albumsButton.addActionListener(this);
-            albumsButton.setActionCommand(SelectionController.ALBUMS);
-            albumsButton.activate();
+    private float defaultAlpha = 0.10f;
 
-            list.add(SelectionController.ALBUMS);
+    private float currentAlpha = defaultAlpha;
 
-            artistsButton = new QPlaylistButton("Artists");
-            artistsButton.addActionListener(this);
-            artistsButton.setActionCommand(SelectionController.ARTIST);
+    private float highlightAlpha = 1.0f;
 
-            panel.add(albumsButton, "alignx left");
-            panel.add(artistsButton, "alignx left");
+    public AlfabeticControlPane() {
+        super(new MigLayout("insets 0, wrap 1, fill"));
 
-            final JPanel alfabeticPanel = new JPanel(new MigLayout("insets 0, wrap 1, fill"));
+        setOpaque(false);
+    }
 
-            alfabeticPanel.setOpaque(true);
+    @PostConstruct
+    public void init() {
+        albumsButton = new QPlaylistButton("Albums");
+        albumsButton.addActionListener(this);
+        albumsButton.setActionCommand(SelectionController.ALBUMS);
+        albumsButton.activate();
 
-            for (final String s : strings) {
-                JButton button = new QPlaylistButton(s);
-                button.addActionListener(new ActionListener() {
+        list.add(SelectionController.ALBUMS);
 
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        selectionListener.actionPerformed(new ActionEvent(list, 0, s));
+        artistsButton = new QPlaylistButton("Artists");
+        artistsButton.addActionListener(this);
+        artistsButton.setActionCommand(SelectionController.ARTIST);
 
-                    }
-                });
+        add(albumsButton, "alignx left");
+        add(artistsButton, "alignx left");
 
-                alfabeticPanel.add(button, "alignx center, w 0.8cm, h 0.8cm");
-            }
+        final JPanel alfabeticPanel = new JPanel(new MigLayout("insets 0, wrap 2, fill"));
 
-            final QScrollPane pane = new QScrollPane(alfabeticPanel);
+        alfabeticPanel.setOpaque(true);
 
-            panel.add(new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI()));
+        for (final String s : strings) {
+            JButton button = new QPlaylistButton(s);
+            button.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    selectionListener.actionPerformed(new ActionEvent(list, 0, s));
+
+                }
+            });
+
+            alfabeticPanel.add(button, "alignx center, w 0.8cm, h 0.8cm");
         }
 
-        return panel;
+        addMouseListener(new MouseAdapter() {
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (animator.isRunning())
+                    animator.stop();
+
+                animate(currentAlpha, highlightAlpha);
+            }
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mouseExited(MouseEvent e) {
+                animate(currentAlpha, defaultAlpha);
+            }
+
+        });
+
+        final QScrollPane pane = new QScrollPane(alfabeticPanel);
+
+        add(new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI()));
+
+        animate(currentAlpha, highlightAlpha);
     }
 
     /*
@@ -117,4 +153,54 @@ public class AlfabeticControlPane implements View, ActionListener {
             list.add(SelectionController.ARTIST);
         }
     }
+
+    private void animate(final float fromAlpha, final float toAlpha) {
+        PropertySetter setter = new PropertySetter(this, "alpha", fromAlpha, toAlpha);
+        animator = new Animator(500, setter);
+        animator.start();
+    }
+
+    /*
+     * Set alpha composite. For example, pass in 1.0f to have 100% opacity pass in 0.25f to have 25%
+     * opacity.
+     */
+    private AlphaComposite makeComposite() {
+        int type = AlphaComposite.SRC_OVER;
+        return (AlphaComposite.getInstance(type, currentAlpha));
+    }
+
+    /**
+     * @return the alpha
+     */
+    public final float getAlpha() {
+        return currentAlpha;
+    }
+
+    /**
+     * @param alpha
+     *            the alpha to set
+     */
+    public final void setAlpha(float alpha) {
+        this.currentAlpha = alpha;
+
+        repaint();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2d = (Graphics2D) g;
+        g2d.setComposite(makeComposite());
+
+        super.paintComponent(g);
+    }
+
 }

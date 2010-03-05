@@ -18,17 +18,20 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Stack;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
-import org.neo4j.api.core.Direction;
-import org.neo4j.api.core.NeoService;
-import org.neo4j.api.core.Node;
-import org.neo4j.api.core.Relationship;
-import org.neo4j.api.core.ReturnableEvaluator;
-import org.neo4j.api.core.StopEvaluator;
-import org.neo4j.api.core.Traverser;
-import org.neo4j.util.index.IndexService;
-import org.neo4j.util.index.LuceneIndexService;
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.ReturnableEvaluator;
+import org.neo4j.graphdb.StopEvaluator;
+import org.neo4j.graphdb.Traverser;
+import org.neo4j.index.IndexService;
+import org.neo4j.index.lucene.LuceneIndexService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,13 +90,18 @@ public class NeoStorage implements Storage {
     /**
      * Neo storage.
      */
-    private NeoService neoService = NeoSingelton.getInstance().getNeoService();
+    @Autowired
+    private GraphDatabaseService neoService;
 
     /**
      * Index service.
      */
-    private IndexService indexService = new LuceneIndexService(NeoSingelton.getInstance()
-            .getNeoService());
+    private IndexService indexService;
+
+    @PostConstruct
+    public void init() {
+        indexService = new LuceneIndexService(neoService);
+    }
 
     /*
      * (non-Javadoc)

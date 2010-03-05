@@ -1,6 +1,5 @@
 package com.quiltplayer.view.swing.frame;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -85,8 +84,6 @@ public class QuiltPlayerFrame extends JFrame {
 
     private JComponent ui;
 
-    private Component alfabeticControlPaneUi;
-
     private ActiveView currentView = ActiveView.ABOUT;
 
     @Autowired
@@ -163,8 +160,6 @@ public class QuiltPlayerFrame extends JFrame {
 
         ui = aboutView.getUI();
 
-        alfabeticControlPaneUi = alfabeticControlPane.getUI();
-
         // DebugRepaintingUI debugUI = new DebugRepaintingUI();
         // JXLayer<JComponent> layer = new JXLayer<JComponent>(controlPanel,
         // debugUI);
@@ -220,7 +215,7 @@ public class QuiltPlayerFrame extends JFrame {
     public void updateUI() {
         if (ui != null) {
             remove(ui);
-            getContentPane().remove(alfabeticControlPaneUi);
+            getContentPane().remove(alfabeticControlPane);
         }
 
         if (currentView.equals(ActiveView.QUILT)) {
@@ -263,7 +258,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addAlfabeticControlPanel() {
-        getContentPane().add(alfabeticControlPaneUi, "dock east, align center, h 75%!");
+        getContentPane().add(alfabeticControlPane, "dock east, align center, h 100%");
     }
 
     public ActiveView getCurrentView() {

@@ -10,16 +10,16 @@
  */
 package com.quiltplayer.model.neo;
 
-import org.neo4j.api.core.Direction;
-import org.neo4j.api.core.Node;
-import org.neo4j.api.core.Relationship;
-import org.neo4j.api.core.Transaction;
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 
-import com.quiltplayer.core.storage.neo.NeoSingelton;
 import com.quiltplayer.core.storage.neo.QuiltPlayerRelationshipTypes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;
+import com.quiltplayer.properties.Config;
 
 /**
  * Neo implementation for Song.
@@ -48,8 +48,7 @@ public class NeoSong implements Song {
      */
     @Override
     public StringId getId() {
-        return new StringId((String) NeoSingelton.getInstance().getNeoUtil().getProperty(node,
-                PROPERTY_ID));
+        return new StringId((String) Config.getNeoUtil().getProperty(node, PROPERTY_ID));
     }
 
     /*
@@ -59,7 +58,7 @@ public class NeoSong implements Song {
      */
     @Override
     public void setId(final StringId songId) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_ID, songId.getId());
+        Config.getNeoUtil().setProperty(node, PROPERTY_ID, songId.getId());
     }
 
     /*
@@ -69,7 +68,7 @@ public class NeoSong implements Song {
     public Album getAlbum() {
         Transaction tx = null;
         try {
-            tx = NeoSingelton.getInstance().getNeoService().beginTx();
+            tx = Config.getNeoDb().beginTx();
 
             Album album = null;
 
@@ -120,8 +119,7 @@ public class NeoSong implements Song {
      */
     @Override
     public String getFileName() {
-        return (String) NeoSingelton.getInstance().getNeoUtil().getProperty(node,
-                PROPERTY_FILE_NAME);
+        return (String) Config.getNeoUtil().getProperty(node, PROPERTY_FILE_NAME);
     }
 
     /*
@@ -131,7 +129,7 @@ public class NeoSong implements Song {
      */
     @Override
     public String getPath() {
-        return (String) NeoSingelton.getInstance().getNeoUtil().getProperty(node, PROPERTY_PATH);
+        return (String) Config.getNeoUtil().getProperty(node, PROPERTY_PATH);
     }
 
     /*
@@ -141,7 +139,7 @@ public class NeoSong implements Song {
      */
     @Override
     public String getTitle() {
-        return (String) NeoSingelton.getInstance().getNeoUtil().getProperty(node, PROPERTY_TITLE);
+        return (String) Config.getNeoUtil().getProperty(node, PROPERTY_TITLE);
     }
 
     /*
@@ -170,7 +168,7 @@ public class NeoSong implements Song {
      */
     @Override
     public void setFileName(final String fileName) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_FILE_NAME, fileName);
+        Config.getNeoUtil().setProperty(node, PROPERTY_FILE_NAME, fileName);
     }
 
     /*
@@ -180,7 +178,7 @@ public class NeoSong implements Song {
      */
     @Override
     public void setPath(final String path) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_PATH, path);
+        Config.getNeoUtil().setProperty(node, PROPERTY_PATH, path);
     }
 
     /*
@@ -190,7 +188,7 @@ public class NeoSong implements Song {
      */
     @Override
     public void setTitle(final String title) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_TITLE, title);
+        Config.getNeoUtil().setProperty(node, PROPERTY_TITLE, title);
     }
 
     /*
@@ -201,8 +199,7 @@ public class NeoSong implements Song {
     @Override
     public void setTrackNumber(final Number trackNumber) {
         if (trackNumber != null) {
-            NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_TRACK_NUMBER,
-                    trackNumber);
+            Config.getNeoUtil().setProperty(node, PROPERTY_TRACK_NUMBER, trackNumber);
         }
     }
 
@@ -220,7 +217,7 @@ public class NeoSong implements Song {
     }
 
     private Transaction beginTransaction() {
-        return NeoSingelton.getInstance().getNeoService().beginTx();
+        return Config.getNeoDb().beginTx();
     }
 
     private void finishTransaction(final Transaction tx) {
@@ -265,8 +262,7 @@ public class NeoSong implements Song {
     @Override
     public void setSpotifyId(String spotifyId) {
         if (spotifyId != null) {
-            NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_SPOTIFY_ID,
-                    spotifyId);
+            Config.getNeoUtil().setProperty(node, PROPERTY_SPOTIFY_ID, spotifyId);
         }
 
     }
@@ -298,7 +294,7 @@ public class NeoSong implements Song {
     @Override
     public void setType(String type) {
         if (type != null) {
-            NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_TYPE, type);
+            Config.getNeoUtil().setProperty(node, PROPERTY_TYPE, type);
         }
     }
 }

@@ -11,6 +11,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import com.quiltplayer.view.swing.ColorConstants;
 import com.quiltplayer.view.swing.ColorConstantsDark;
@@ -20,6 +21,7 @@ import com.quiltplayer.view.swing.ColorConstantsDark;
  * 
  * @author Vlado Palczynski
  */
+@Component
 public final class Configuration implements Serializable {
 
     private static final long serialVersionUID = 7625101231832775970L;
@@ -73,6 +75,8 @@ public final class Configuration implements Serializable {
     private float fontBalancer = 0;
 
     public static final String lineBreak = System.getProperty("line.separator");
+
+    private boolean doubleBuffer = false;
 
     static {
         root = new File(userHome, rootFolder);
@@ -235,7 +239,7 @@ public final class Configuration implements Serializable {
     /**
      * @return the root
      */
-    public static File getRoot() {
+    public File getRoot() {
         return root;
     }
 
@@ -388,5 +392,20 @@ public final class Configuration implements Serializable {
      */
     public final void setFontBalancer(float fontBalancer) {
         this.fontBalancer = fontBalancer;
+    }
+
+    /**
+     * @return the doubleBuffer
+     */
+    public final boolean isDoubleBuffer() {
+        return doubleBuffer;
+    }
+
+    /**
+     * @param doubleBuffer
+     *            the doubleBuffer to set
+     */
+    public final void setDoubleBuffer(boolean doubleBuffer) {
+        this.doubleBuffer = doubleBuffer;
     }
 }

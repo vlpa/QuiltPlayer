@@ -10,7 +10,7 @@
  */
 package com.quiltplayer.core.storage.neo;
 
-import org.neo4j.api.core.RelationshipType;
+import org.neo4j.graphdb.RelationshipType;
 
 /**
  * Neo relationship types for QuiltPlayer.

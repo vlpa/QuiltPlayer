@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.ToolTipManager;
 
 import net.miginfocom.swing.MigLayout;
 

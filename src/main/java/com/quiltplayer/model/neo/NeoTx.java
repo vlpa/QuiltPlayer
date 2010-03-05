@@ -1,8 +1,8 @@
 package com.quiltplayer.model.neo;
 
-import org.neo4j.api.core.Transaction;
+import org.neo4j.graphdb.Transaction;
 
-import com.quiltplayer.core.storage.neo.NeoSingelton;
+import com.quiltplayer.properties.Config;
 
 /**
  * Wrapper Neo transaction class.
@@ -12,7 +12,7 @@ import com.quiltplayer.core.storage.neo.NeoSingelton;
  */
 public class NeoTx {
     protected static Transaction beginTx() {
-        return NeoSingelton.getInstance().getNeoService().beginTx();
+        return Config.getNeoDb().beginTx();
     }
 
     protected static void finishTx(final Transaction tx) {

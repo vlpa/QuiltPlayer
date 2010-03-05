@@ -28,6 +28,34 @@
 
     <tx:annotation-driven
         transaction-manager="transactionManager" />
+    <alias
+        name="neoTransactionManager"
+        alias="transactionManager" />
+
+    <bean
+        id="neoTransactionManager"
+        class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property
+            name="transactionManager"
+            ref="neoTransactionManagerService" />
+        <property
+            name="userTransaction"
+            ref="neoUserTransactionService" />
+    </bean>
+
+    <bean
+        id="neoTransactionManagerService"
+        class="org.neo4j.kernel.impl.transaction.SpringTransactionManager">
+        <constructor-arg
+            ref="neoDb" />
+    </bean>
+
+    <bean
+        id="neoUserTransactionService"
+        class="org.neo4j.kernel.impl.transaction.UserTransactionImpl">
+        <constructor-arg
+            ref="neoDb" />
+    </bean>
 
     <bean
         id="taskExecutor"
@@ -42,24 +70,5 @@
             name="queueCapacity"
             value="25" />
     </bean>
-
-    <bean
-        id="transactionManager"
-        class="org.springframework.transaction.jta.JtaTransactionManager">
-        <property
-            name="transactionManager"
-            ref="neoTransactionManagerService" />
-        <property
-            name="userTransaction"
-            ref="neoUserTransactionService" />
-    </bean>
-
-    <bean
-        id="neoTransactionManagerService"
-        class="org.neo4j.impl.transaction.SpringTransactionManager" />
-
-    <bean
-        id="neoUserTransactionService"
-        class="org.neo4j.impl.transaction.UserTransactionImpl" />
 
 </beans>

@@ -185,10 +185,10 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
         JFrame frame = new JFrame();
         frame.setBackground(Color.black);
 
-        int returnVal = fc.showOpenDialog(frame);
+        // int returnVal = fc.showOpenDialog(frame);
 
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-            musicPath.setText(fc.getSelectedFile().getAbsolutePath());
+        // if (returnVal == JFileChooser.APPROVE_OPTION)
+        // musicPath.setText(fc.getSelectedFile().getAbsolutePath());
     }
 
     /*

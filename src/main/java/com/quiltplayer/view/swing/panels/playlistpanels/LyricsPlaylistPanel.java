@@ -12,6 +12,7 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
@@ -52,7 +53,7 @@ public class LyricsPlaylistPanel extends JPanel {
         lyricsArea.setLineWrap(true);
         lyricsArea.setFocusable(false);
         lyricsArea.setWrapStyleWord(true);
-        lyricsArea.setDoubleBuffered(true);
+        lyricsArea.setDoubleBuffered(Configuration.getInstance().isDoubleBuffer());
 
         add(lyricsArea, "w 100%");
     }

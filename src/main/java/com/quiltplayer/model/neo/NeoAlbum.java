@@ -14,14 +14,13 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.neo4j.api.core.Direction;
-import org.neo4j.api.core.Node;
-import org.neo4j.api.core.Relationship;
-import org.neo4j.api.core.Transaction;
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 
 import com.quiltplayer.core.QList;
 import com.quiltplayer.core.comparators.ImageCounterComparator;
-import com.quiltplayer.core.storage.neo.NeoSingelton;
 import com.quiltplayer.core.storage.neo.QuiltPlayerRelationshipTypes;
 import com.quiltplayer.external.covers.model.LocalImage;
 import com.quiltplayer.model.Album;
@@ -29,6 +28,7 @@ import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.SongCollection;
 import com.quiltplayer.model.StringId;
+import com.quiltplayer.properties.Config;
 
 /**
  * Neo implementation for Album.
@@ -161,8 +161,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public StringId getId() {
-        return new StringId((String) NeoSingelton.getInstance().getNeoUtil().getProperty(node,
-                PROPERTY_ID));
+        return new StringId((String) Config.getNeoUtil().getProperty(node, PROPERTY_ID));
     }
 
     /*
@@ -170,7 +169,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public void setId(final StringId albumId) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_ID, albumId.getId());
+        Config.getNeoUtil().setProperty(node, PROPERTY_ID, albumId.getId());
 
     }
 
@@ -181,7 +180,7 @@ public class NeoAlbum implements Album {
     public QList<LocalImage> getImages() {
         Transaction tx = null;
 
-        tx = NeoSingelton.getInstance().getNeoService().beginTx();
+        tx = Config.getNeoDb().beginTx();
 
         QList<LocalImage> frontImages = getFrontImages();
 
@@ -302,7 +301,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public String getTitle() {
-        return (String) NeoSingelton.getInstance().getNeoUtil().getProperty(node, PROPERTY_TITLE);
+        return (String) Config.getNeoUtil().getProperty(node, PROPERTY_TITLE);
     }
 
     /*
@@ -313,8 +312,7 @@ public class NeoAlbum implements Album {
     @Override
     public String getLabel() {
         if (node.hasProperty(PROPERTY_LABEL))
-            return (String) NeoSingelton.getInstance().getNeoUtil().getProperty(node,
-                    PROPERTY_LABEL);
+            return (String) Config.getNeoUtil().getProperty(node, PROPERTY_LABEL);
 
         return "";
     }
@@ -324,8 +322,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public String getTitleToPublish() {
-        return (String) NeoSingelton.getInstance().getNeoUtil().getProperty(node,
-                PROPERTY_TITLE_TO_PUBLISH);
+        return (String) Config.getNeoUtil().getProperty(node, PROPERTY_TITLE_TO_PUBLISH);
     }
 
     /*
@@ -381,7 +378,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public void setReleaseId(final String releaseId) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_RELEASE_ID, releaseId);
+        Config.getNeoUtil().setProperty(node, PROPERTY_RELEASE_ID, releaseId);
     }
 
     /*
@@ -389,7 +386,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public void setTitle(final String title) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_TITLE, title);
+        Config.getNeoUtil().setProperty(node, PROPERTY_TITLE, title);
 
         setTitleToPublish(title);
     }
@@ -402,7 +399,7 @@ public class NeoAlbum implements Album {
     @Override
     public void setLabel(final String label) {
         if (StringUtils.isNotBlank(label))
-            NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_LABEL, label);
+            Config.getNeoUtil().setProperty(node, PROPERTY_LABEL, label);
     }
 
     /*
@@ -412,8 +409,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public void setTitleToPublish(final String titleToPublish) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_TITLE_TO_PUBLISH,
-                titleToPublish);
+        Config.getNeoUtil().setProperty(node, PROPERTY_TITLE_TO_PUBLISH, titleToPublish);
     }
 
     /*
@@ -422,7 +418,7 @@ public class NeoAlbum implements Album {
     @Override
     public void setYear(final String year) {
         if (StringUtils.isNotBlank(year)) {
-            NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_YEAR, year);
+            Config.getNeoUtil().setProperty(node, PROPERTY_YEAR, year);
         }
     }
 
@@ -521,7 +517,7 @@ public class NeoAlbum implements Album {
      */
     @Override
     public void setType(String type) {
-        NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_TYPE, type);
+        Config.getNeoUtil().setProperty(node, PROPERTY_TYPE, type);
     }
 
     /*
@@ -552,8 +548,7 @@ public class NeoAlbum implements Album {
     @Override
     public void setSpotifyId(String spotifyId) {
         if (spotifyId != null) {
-            NeoSingelton.getInstance().getNeoUtil().setProperty(node, PROPERTY_SPOTIFY_ID,
-                    spotifyId);
+            Config.getNeoUtil().setProperty(node, PROPERTY_SPOTIFY_ID, spotifyId);
         }
     }
 }

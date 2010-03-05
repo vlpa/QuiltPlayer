@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -56,6 +58,16 @@ public class QUiProperties {
         UIManager.put("TextArea.background", new Color(15, 15, 15));
         UIManager.put("TextArea.foreground", new Color(220, 220, 220));
         UIManager.put("TextArea.font", FontFactory.getSansFont(13f));
+
+        setupToolTip();
+    }
+
+    private static void setupToolTip() {
+        ToolTipManager.sharedInstance().setInitialDelay(250);
+        UIManager.put("ToolTip.font", FontFactory.getSansFont(13f));
+        UIManager.put("ToolTip.background", ColorConstantsDark.BACKGROUND);
+        UIManager.put("ToolTip.foreground", new Color(220, 220, 200));
+        UIManager.put("ToolTip.border", BorderFactory.createEmptyBorder());
     }
 
     private static void setupComboBox() {

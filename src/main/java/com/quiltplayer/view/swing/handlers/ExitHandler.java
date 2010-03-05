@@ -3,7 +3,8 @@ package com.quiltplayer.view.swing.handlers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.quiltplayer.core.storage.neo.NeoSingelton;
+import org.neo4j.graphdb.GraphDatabaseService;
+
 import com.quiltplayer.properties.Configuration;
 
 /**
@@ -11,14 +12,18 @@ import com.quiltplayer.properties.Configuration;
  * 
  * @author Vlado Palczynski
  */
-public class ExitHandler implements ActionListener
-{
-	public void actionPerformed(ActionEvent e)
-	{
-		Configuration.getInstance().storeConfiguration();
+public class ExitHandler implements ActionListener {
+    GraphDatabaseService neoService;
 
-		NeoSingelton.getInstance().getNeoService().shutdown();
+    public ExitHandler(final GraphDatabaseService neoService) {
+        this.neoService = neoService;
+    }
 
-		Runtime.getRuntime().exit(0);
-	}
+    public void actionPerformed(ActionEvent e) {
+        Configuration.getInstance().storeConfiguration();
+
+        neoService.shutdown();
+
+        Runtime.getRuntime().exit(0);
+    }
 }

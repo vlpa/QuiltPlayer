@@ -90,10 +90,7 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
 
         }
 
-        final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(new QScrollPane(panel),
-                new JScrollPaneLayerUI());
-
-        return jx;
+        return new JXLayer<JScrollPane>(new QScrollPane(panel), new JScrollPaneLayerUI());
     }
 
     /*

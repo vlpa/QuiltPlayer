@@ -12,6 +12,8 @@ import javax.swing.JScrollPane;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
+import com.quiltplayer.properties.Configuration;
+
 /**
  * Scroller should be variable to time and distance. It should follow the fingers position and when
  * released it should decrease against the time and distance of the movement.
@@ -65,7 +67,7 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
         setBorder(BorderFactory.createEmptyBorder());
 
         // setAutoscrolls(true);
-        setDoubleBuffered(true);
+        setDoubleBuffered(Configuration.getInstance().isDoubleBuffer());
 
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
