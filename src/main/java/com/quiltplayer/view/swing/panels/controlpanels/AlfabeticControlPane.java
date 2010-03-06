@@ -58,6 +58,8 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
 
     private float highlightAlpha = 1.0f;
 
+    private QPlaylistButton selectedButton;
+
     public AlfabeticControlPane() {
         super(new MigLayout("insets 0, wrap 1, fill"));
 
@@ -85,20 +87,28 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
         alfabeticPanel.setOpaque(true);
 
         for (final String s : strings) {
-            JButton button = new QPlaylistButton(s);
+            final JButton button = new QPlaylistButton(s);
             button.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     selectionListener.actionPerformed(new ActionEvent(list, 0, s));
 
+                    if (selectedButton != null)
+                        selectedButton.inactivare();
+
+                    selectedButton = (QPlaylistButton) button;
+                    selectedButton.activate();
                 }
             });
 
             alfabeticPanel.add(button, "alignx center, w 0.8cm, h 0.8cm");
         }
 
-        addMouseListener(new MouseAdapter() {
+        final QScrollPane pane = new QScrollPane(alfabeticPanel);
+
+        JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
+        jx.addMouseListener(new MouseAdapter() {
 
             /*
              * (non-Javadoc)
@@ -125,9 +135,7 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
 
         });
 
-        final QScrollPane pane = new QScrollPane(alfabeticPanel);
-
-        add(new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI()));
+        add(jx);
 
         animate(currentAlpha, highlightAlpha);
     }

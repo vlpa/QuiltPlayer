@@ -118,8 +118,8 @@ public class QButton extends JButton {
      */
     @Override
     protected void paintBorder(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(DEFAULT);
-        g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 11, 11);
+        // Graphics2D g2d = (Graphics2D) g;
+        // g2d.setColor(DEFAULT);
+        // g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 11 - 1, 11 - 1);
     }
 }

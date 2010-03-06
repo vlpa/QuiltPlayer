@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import com.quiltplayer.view.swing.labels.Highlightable;
+import com.quiltplayer.view.swing.util.ColorUtils;
 
 public class HighlightableMouseListener extends MouseAdapter {
 
@@ -21,14 +22,15 @@ public class HighlightableMouseListener extends MouseAdapter {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // color = ColorUtils.brighten(color);
+        color = ColorUtils.brighten(color);
 
-        component.highlight(Color.ORANGE);
+        component.highlight(color);
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        // color = ColorUtils.darken(color);
+        color = ColorUtils.darken(color);
 
         component.highlight(color);
     }
