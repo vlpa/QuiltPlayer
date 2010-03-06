@@ -3,7 +3,6 @@ package com.quiltplayer.view.swing.buttons;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -107,7 +106,7 @@ public class QButton extends JButton {
 
         // g2d.setRenderingHints(renderHints);
         g2d.setColor(color);
-        g2d.fillRoundRect(0, 0, w, h, 15, 15);
+        g2d.fillRoundRect(0, 0, w, h, 11, 11);
 
         super.paintComponent(g);
     }
@@ -121,6 +120,6 @@ public class QButton extends JButton {
     protected void paintBorder(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(DEFAULT);
-        g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15 - 1, 15 - 1);
+        g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 11, 11);
     }
 }

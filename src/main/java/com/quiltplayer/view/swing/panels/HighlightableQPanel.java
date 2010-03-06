@@ -66,21 +66,9 @@ public class HighlightableQPanel extends QPanel {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setColor(background);
-        g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
-     */
-    @Override
-    public void paint(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        super.paint(g);
+        g2d.setColor(background);
+        g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 11, 11);
     }
 }
