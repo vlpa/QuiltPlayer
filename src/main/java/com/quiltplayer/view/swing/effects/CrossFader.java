@@ -47,19 +47,29 @@ public class CrossFader extends JComponent implements ActionListener {
         animator.restart();
     }
 
-    public void setImages(List<LocalImage> images) {
+    public void setImages(final List<LocalImage> images) {
         counter = 0;
         icon = new ImageIcon[2];
 
         icons = new ArrayList<ImageIcon>();
+        new Thread() {
 
-        for (LocalImage image : images) {
-            ImageIcon tmp = new ImageIcon(image.getLargeImage().getAbsolutePath());
-            icons.add(ImageUtils.scalePicture(tmp, ImageSizes.LARGE.getSize()));
-        }
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.lang.Thread#run()
+             */
+            @Override
+            public void run() {
+                for (LocalImage image : images) {
+                    ImageIcon tmp = new ImageIcon(image.getLargeImage().getAbsolutePath());
+                    icons.add(ImageUtils.scalePicture(tmp, ImageSizes.LARGE.getSize()));
+                }
 
-        startAnimation();
-        repaint();
+                startAnimation();
+                repaint();
+            }
+        }.start();
     }
 
     public void paintComponent(Graphics g) {
