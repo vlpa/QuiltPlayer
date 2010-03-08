@@ -38,7 +38,7 @@ public class AlfabeticArtistPane extends JPanel {
             final ArtistNameButton button = new ArtistNameButton(artist, artistListener);
             button.setFont(FontFactory.getSansFont(16f));
 
-            add(button, "wmax 4cm, h 0.65cm, dock north, left");
+            add(button, "wmax 4cm, h 0.65cm, dock north, left, gapy 1px");
         }
     }
 

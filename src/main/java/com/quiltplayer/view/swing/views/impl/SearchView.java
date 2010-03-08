@@ -168,7 +168,7 @@ public class SearchView implements Serializable, View {
             for (Artist artist : result.getArtists()) {
                 label = new SpotifyArtistLabel(new JotifyArtist(artist), artistListener);
 
-                artists.add(label, "left");
+                artists.add(label, "left, w 100%");
             }
         }
 
@@ -194,7 +194,7 @@ public class SearchView implements Serializable, View {
                 label = new AlbumSearchLabel(new JotifyAlbum(album));
 
                 label.addActionListener(changeAlbumListener);
-                albums.add(label);
+                albums.add(label, "left, w 100%");
             }
         }
 
@@ -213,7 +213,7 @@ public class SearchView implements Serializable, View {
             for (de.felixbruns.jotify.media.Track track : result.getTracks()) {
                 label = new TrackSearchLabel(new JotifySong(track));
                 label.addActionListener(changeAlbumListener);
-                tracks.add(label, "left");
+                tracks.add(label, "left, w 100%");
             }
         }
 

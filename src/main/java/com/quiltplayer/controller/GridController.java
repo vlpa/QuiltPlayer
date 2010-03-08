@@ -3,9 +3,11 @@ package com.quiltplayer.controller;
 import java.awt.event.ActionEvent;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.GridListener;
 
 /**
@@ -20,6 +22,9 @@ public class GridController implements GridListener {
     public enum GridView {
         QUILT
     };
+
+    @Autowired
+    private QuiltPlayerFrame frame;
 
     public static final String EVENT_CHANGE_GRID = "change.grid";
 
@@ -37,6 +42,8 @@ public class GridController implements GridListener {
                 Configuration.getInstance().getGridProperties().setQuiltGrid(i);
 
             Configuration.getInstance().storeConfiguration();
+
+            frame.updateUI();
         }
     }
 }

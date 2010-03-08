@@ -10,6 +10,7 @@ import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.controller.ArtistController;
 import com.quiltplayer.model.Artist;
+import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.buttons.ScrollableAndHighlightableButton;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.HighlightableMouseListener;
@@ -40,6 +41,8 @@ public class ArtistNameButton extends ScrollableAndHighlightableButton {
         final JLabel nameLabel = new JLabel(artist.getArtistName().getName());
 
         nameLabel.setForeground(new Color(220, 220, 200));
+
+        nameLabel.setFont(FontFactory.getFont(14f));
 
         addMouseListener(new HighlightableMouseListener(background, this));
 

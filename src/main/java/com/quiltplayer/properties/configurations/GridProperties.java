@@ -12,9 +12,9 @@ public class GridProperties implements Serializable {
 
     private static final long serialVersionUID = -6389079542376185333L;
 
-    private int quiltGrid = 3;
+    private int quiltGrid = 4;
 
-    private int albumsGrid = 3;
+    private int albumsGrid = 4;
 
     /**
      * @return the quiltGrid

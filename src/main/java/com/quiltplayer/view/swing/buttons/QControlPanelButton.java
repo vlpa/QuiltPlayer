@@ -57,7 +57,7 @@ public class QControlPanelButton extends JButton {
 
         setFocusable(false);
 
-        setForeground(new Color(220, 220, 220));
+        setForeground(new Color(255, 255, 255));
 
         setContentAreaFilled(false);
 

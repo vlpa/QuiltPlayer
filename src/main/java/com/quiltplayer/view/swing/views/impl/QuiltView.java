@@ -55,7 +55,7 @@ public class QuiltView implements ListView<Album>, FrameResizeAwarable {
     public JComponent getUI() {
         panel = new JPanel(new MigLayout("ins 0 0.3cm 0 0.3cm, wrap "
                 + Configuration.getInstance().getGridProperties().getQuiltGrid()
-                + ", fill, aligny center"));
+                + ", fillx, aligny center"));
         panel.setOpaque(true);
 
         int i = 1;
@@ -64,15 +64,17 @@ public class QuiltView implements ListView<Album>, FrameResizeAwarable {
             if (album.getFrontImage() != null) {
                 AlbumCoverButton p = new AlbumCoverButton(album, changeAlbumListener);
                 panel.add(p, "grow, shrink 0");
-            }
 
-            if (i == Configuration.getInstance().getGridProperties().getQuiltGrid())
-                i = 1;
-            else
-                i++;
+                if (i == Configuration.getInstance().getGridProperties().getQuiltGrid())
+                    i = 1;
+                else
+                    i++;
+            }
         }
 
         /* Fill with empty squares */
+        System.out.println(i);
+        System.out.println(Configuration.getInstance().getGridProperties().getQuiltGrid());
         while (i < Configuration.getInstance().getGridProperties().getQuiltGrid()) {
             AlbumCoverButton p = new AlbumCoverButton(null, null);
             p.setVisible(true);

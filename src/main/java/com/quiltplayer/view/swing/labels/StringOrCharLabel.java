@@ -55,7 +55,7 @@ public class StringOrCharLabel extends JLabel {
 
         g2d.setPaint(p);
 
-        g2d.fillRect(0, 0, getWidth(), getHeight());
+        g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 9, 9);
 
         super.paintComponent(g2d);
     }

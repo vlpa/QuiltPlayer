@@ -24,8 +24,6 @@ public class AlbumCoverButton extends ScrollableButton {
 
     private static final long serialVersionUID = 1L;
 
-    private Icon icon;
-
     private Album album;
 
     private ChangeAlbumListener changeAlbumListener;
@@ -99,6 +97,9 @@ public class AlbumCoverButton extends ScrollableButton {
     private Thread invoker = new Thread() {
         public void run() {
             try {
+
+                final Icon icon;
+
                 if (album.getImages().size() > 0)
                     icon = ImageUtils.scalePicture(new ImageIcon(album.getImages().get(0)
                             .getLargeImage().getAbsolutePath()), getWidth());

@@ -41,6 +41,8 @@ public class PlayerControlPanel extends JPanel {
 
     private float[] dist = { 0.0f, 0.60f, 0.64f, 1.0f };
 
+    private static final String LAYOUT = "h 100%, w 3cm";
+
     @Autowired
     private PlayerListener playerListener;
 
@@ -60,15 +62,12 @@ public class PlayerControlPanel extends JPanel {
 
         setupPreviousButton();
 
-        final String s = "h 100%, w 3cm";
-
         setOpaque(true);
 
-        add(previousButton, s + ", cell 1 0");
-        add(playButton, s + ", cell 2 0");
-        add(pauseButton, s + ", cell 3 0");
-        add(stopButton, s + ", cell 4 0");
-        add(nextButton, s + ", cell 5 0");
+        add(previousButton, LAYOUT + ", cell 1 0");
+        add(playButton, LAYOUT + ", cell 2 0");
+        add(stopButton, LAYOUT + ", cell 3 0");
+        add(nextButton, LAYOUT + ", cell 4 0");
 
         setStopped();
     }
@@ -109,18 +108,25 @@ public class PlayerControlPanel extends JPanel {
     }
 
     public void setPlaying() {
+        remove(playButton);
+        add(pauseButton, LAYOUT + ", cell 2 0");
         pauseButton.inactivate();
         stopButton.inactivate();
         playButton.activate();
     }
 
     public void setStopped() {
+        remove(pauseButton);
+        remove(playButton);
+        add(playButton, LAYOUT + ", cell 2 0");
         pauseButton.inactivate();
         stopButton.activate();
         playButton.inactivate();
     }
 
     public void setPaused() {
+        remove(pauseButton);
+        add(playButton, LAYOUT + ", cell 2 0");
         pauseButton.activate();
         stopButton.inactivate();
         playButton.inactivate();

@@ -14,7 +14,6 @@ import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.external.covers.util.ImageUtils;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.jotify.JotifyAlbum;
-import com.quiltplayer.view.swing.images.QIcon;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 
 /**
@@ -26,8 +25,6 @@ public class SpotifySquaredAlbumButton extends SquaredAlbumButton {
     private static final long serialVersionUID = 1L;
 
     public Icon icon;
-
-    public Icon icon2;
 
     public JTextArea titleLabel;
 
@@ -44,16 +41,6 @@ public class SpotifySquaredAlbumButton extends SquaredAlbumButton {
         invoker.start();
     }
 
-    @Override
-    protected JLabel setupImage(final Album album) {
-
-        iconLabel = new JLabel(QIcon.getMedium());
-
-        add(iconLabel, "cell 0 0, aligny center");
-
-        return iconLabel;
-    }
-
     private Thread invoker = new Thread() {
         public void run() {
             try {
@@ -62,10 +49,10 @@ public class SpotifySquaredAlbumButton extends SquaredAlbumButton {
                     final Image image = JotifyRepository.getInstance().image(
                             ((JotifyAlbum) album).getSpotifyAlbum().getCover());
 
-                    icon2 = new ImageIcon(ImageUtils.scalePicture(image, ImageSizes.MEDIUM
-                            .getSize()));
+                    icon = new ImageIcon(ImageUtils
+                            .scalePicture(image, ImageSizes.MEDIUM.getSize()));
 
-                    iconLabel.setIcon(icon2);
+                    iconLabel.setIcon(icon);
 
                     fetched = true;
 
