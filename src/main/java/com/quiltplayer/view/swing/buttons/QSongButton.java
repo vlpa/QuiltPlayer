@@ -80,8 +80,7 @@ public class QSongButton extends ScrollableButton {
             }
         });
 
-        add(numberButton,
-                "west, w 0.8cm!, h 0.8cm!, gapx 0cm 0.1cm, gapy 0.1cm 0.1cm, aligny center");
+        add(numberButton, "west, w 0.8cm!, h 0.8cm!, gapx 0cm 0.1cm, gapy 0.1cm, aligny center");
         add(titleLabel, "cell 1 0, west, aligny bottom, h 0.8cm, gapx 0cm 0.3cm");
     }
 

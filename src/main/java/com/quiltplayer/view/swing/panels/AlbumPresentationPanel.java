@@ -33,7 +33,7 @@ public class AlbumPresentationPanel extends QPanel {
     private JLabel yearAndLabelArea;
 
     public AlbumPresentationPanel() {
-        super(new MigLayout("insets 0, fillx"));
+        super(new MigLayout("insets 0, fill"));
 
         setOpaque(false);
 
@@ -41,7 +41,7 @@ public class AlbumPresentationPanel extends QPanel {
         albumTitleLabel = setupAlbumTitleArea(" ");
         yearAndLabelArea = setupYearAndLabelArea(" ");
 
-        add(this.artistNameLabel, "left, north, gapy 0.3cm 0.1cm, shrink");
+        add(this.artistNameLabel, "left, north, gapy 0 0.1cm, shrink");
         add(this.albumTitleLabel, "left, north, gapy 0.0cm 0.1cm, shrink");
         add(this.yearAndLabelArea, "left, north, newline");
     }

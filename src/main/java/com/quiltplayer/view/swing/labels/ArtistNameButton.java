@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 

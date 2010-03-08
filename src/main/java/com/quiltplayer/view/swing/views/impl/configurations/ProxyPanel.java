@@ -83,7 +83,7 @@ public class ProxyPanel extends JPanel {
         add(proxyCheckBox, "left");
         add(proxyCheckBox, "right");
 
-        if (Configuration.getInstance().isUseProxy()) {
+        if (Configuration.getInstance().getProxyProperties().isUseProxy()) {
             setVisible(true);
             proxyCheckBox.setSelected(true);
         }
@@ -92,19 +92,20 @@ public class ProxyPanel extends JPanel {
 
         JLabel proxyPortLabel = new JLabel("Proxy port");
         proxyPort = new QTextField(false, keyboardPanel);
-        proxyPort.setText(Configuration.getInstance().getProxyPort() + "");
+        proxyPort.setText(Configuration.getInstance().getProxyProperties().getProxyPort() + "");
         add(proxyPortLabel, "right");
         add(proxyPort, "left");
 
         JLabel proxyUrlLabel = new JLabel("Proxy URL");
         proxyUrl = new QTextField(false, keyboardPanel);
-        proxyUrl.setText(Configuration.getInstance().getProxyUrl() + "");
+        proxyUrl.setText(Configuration.getInstance().getProxyProperties().getProxyUrl() + "");
         add(proxyUrlLabel, "right");
         add(proxyUrl, "left");
 
         JLabel proxyUsernameLabel = new QLabel("Proxy username");
         proxyUsername = new QTextField(false, keyboardPanel);
-        proxyUsername.setText(Configuration.getInstance().getProxyUsername() + "");
+        proxyUsername.setText(Configuration.getInstance().getProxyProperties().getProxyUsername()
+                + "");
         add(proxyUsernameLabel, "right");
         add(proxyUsername, "left");
 

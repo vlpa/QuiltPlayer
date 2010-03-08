@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.controller.ControlPanelController;
-import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.utils.ClassPathUtils;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
@@ -109,17 +108,17 @@ public class ControlPanel extends JPanel {
 
         final JPanel applicationButtons = new JPanel(new MigLayout("insets 0, alignx center"));
         applicationButtons.setOpaque(false);
-        applicationButtons.add(quiltButton, s);
+        applicationButtons.add(quiltButton, s + ", gapx 2cm");
         applicationButtons.add(artistsButton, s);
         applicationButtons.add(searchButton, s);
         applicationButtons.add(configButton, s);
         applicationButtons.add(keyboardButton, s);
-        applicationButtons.add(exitButton, s);
+        applicationButtons.add(exitButton, s + ", gapx 0 2cm");
 
         playerControlPanel.add(albumViewButton, "cell 0 0");
 
-        add(playerControlPanel, "w " + ImageSizes.LARGE.getSize() + "px, dock west");
-        add(applicationButtons, "w 100% - " + ImageSizes.LARGE.getSize() + "px, gapx 2cm 2cm");
+        add(playerControlPanel, "w 30%, dock west");
+        add(applicationButtons, "w 70%, dock east");
     }
 
     private void setupQuiltCollectionButton() {
@@ -153,7 +152,7 @@ public class ControlPanel extends JPanel {
         searchButton.addActionListener(controlPanelListener);
         searchButton.setActionCommand(EVENT_VIEW_SEARCH);
 
-        if (!Configuration.getInstance().isUseSpotify())
+        if (!Configuration.getInstance().getSpotifyProperties().isUseSpotify())
             enableSearchTab(false);
     }
 

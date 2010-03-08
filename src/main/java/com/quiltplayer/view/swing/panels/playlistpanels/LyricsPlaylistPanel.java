@@ -1,22 +1,15 @@
 package com.quiltplayer.view.swing.panels.playlistpanels;
 
-import java.awt.Point;
-
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
-import com.quiltplayer.view.swing.panels.QScrollPane;
 
 /**
  * Display the lyrics of the playing song.
@@ -53,7 +46,7 @@ public class LyricsPlaylistPanel extends JPanel {
         lyricsArea.setLineWrap(true);
         lyricsArea.setFocusable(false);
         lyricsArea.setWrapStyleWord(true);
-        lyricsArea.setDoubleBuffered(Configuration.getInstance().isDoubleBuffer());
+        lyricsArea.setDoubleBuffered(Configuration.getInstance().getUiProperties().isDoubleBuffer());
 
         add(lyricsArea, "w 100%");
     }

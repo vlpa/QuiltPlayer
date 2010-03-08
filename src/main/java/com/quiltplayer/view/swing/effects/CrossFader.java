@@ -13,7 +13,6 @@ import javax.swing.JComponent;
 
 import org.springframework.stereotype.Component;
 
-import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.external.covers.model.LocalImage;
 import com.quiltplayer.external.covers.util.ImageUtils;
 import com.quiltplayer.view.swing.ColorConstantsDark;
@@ -33,12 +32,15 @@ public class CrossFader extends JComponent implements ActionListener {
 
     private int counter = 0;
 
+    private int width;
+
     public CrossFader() {
-        animator = new javax.swing.Timer(100, this);
-        animator.start();
     }
 
     public void startAnimation() {
+        if (animator == null)
+            animator = new javax.swing.Timer(100, this);
+
         alpha = 0;
         counter = 0;
         nextIcons();
@@ -63,7 +65,7 @@ public class CrossFader extends JComponent implements ActionListener {
             public void run() {
                 for (LocalImage image : images) {
                     ImageIcon tmp = new ImageIcon(image.getLargeImage().getAbsolutePath());
-                    icons.add(ImageUtils.scalePicture(tmp, ImageSizes.LARGE.getSize()));
+                    icons.add(ImageUtils.scalePicture(tmp, width));
                 }
 
                 startAnimation();
@@ -74,36 +76,42 @@ public class CrossFader extends JComponent implements ActionListener {
 
     public void paintComponent(Graphics g) {
 
-        if (icons != null && icons.size() > 0) {
+        if (width != getWidth())
+            width = getWidth();
 
-            Graphics2D g2d = (Graphics2D) g;
+        if (width > 0) {
+            if (icons != null && icons.size() > 0) {
 
-            if (icons.size() > 1) {
+                Graphics2D g2d = (Graphics2D) g;
 
-                g2d.setPaint(ColorConstantsDark.PLAYLIST_BACKGROUND);
-                g2d.fillRect(0, 0, getWidth(), getHeight());
+                if (icons.size() > 1) {
 
-                if (alpha < 10) {
-                    alpha = alpha + 0.5f;
+                    g2d.setPaint(ColorConstantsDark.PLAYLIST_BACKGROUND);
+                    g2d.fillRect(0, 0, getWidth(), getHeight());
+
+                    if (alpha < 10) {
+                        alpha = alpha + 0.5f;
+                    }
+                    else {
+                        animator.stop();
+                        nextIcons();
+                        alpha = 0;
+                        animator.restart();
+                    }
+
+                    g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+                            1.0f - alpha * 0.1f));
+                    g2d.drawImage(icon[0].getImage(), 0, 0, (int) icon[0].getIconWidth(), icon[0]
+                            .getIconHeight(), this);
+                    g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+                            alpha * 0.1f));
+                    g2d.drawImage(icon[1].getImage(), 0, 0, (int) icon[1].getIconWidth(),
+                            (int) icon[1].getIconHeight(), this);
                 }
                 else {
-                    animator.stop();
-                    nextIcons();
-                    alpha = 0;
-                    animator.restart();
+                    g2d.drawImage(icon[0].getImage(), 0, 0, (int) icon[0].getIconWidth(),
+                            (int) icon[0].getIconHeight(), this);
                 }
-
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-                        1.0f - alpha * 0.1f));
-                g2d.drawImage(icon[0].getImage(), 0, 0, (int) icon[0].getIconWidth(), (int) icon[0]
-                        .getIconHeight(), this);
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha * 0.1f));
-                g2d.drawImage(icon[1].getImage(), 0, 0, (int) icon[1].getIconWidth(), (int) icon[1]
-                        .getIconHeight(), this);
-            }
-            else {
-                g2d.drawImage(icon[0].getImage(), 0, 0, (int) icon[0].getIconWidth(), (int) icon[0]
-                        .getIconHeight(), this);
             }
         }
     }

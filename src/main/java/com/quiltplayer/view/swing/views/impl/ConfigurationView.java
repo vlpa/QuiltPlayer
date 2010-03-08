@@ -187,12 +187,13 @@ public class ConfigurationView implements View, ActionListener {
 
         if (e.getActionCommand() == SAVE) {
             Configuration config = Configuration.getInstance();
-            config.setUseSpotify(spotifyPanel.spotifyCheckBox.isSelected());
+            config.getSpotifyProperties().setUseSpotify(spotifyPanel.spotifyCheckBox.isSelected());
 
             if (spotifyPanel.spotifyCheckBox.isSelected()) {
-                config.setSpotifyUserName(spotifyPanel.spotifyUserName.getText());
-                config.setSpotifyPassword(new String(spotifyPanel.spotifyPassword.getPassword())
-                        .toCharArray());
+                config.getSpotifyProperties().setSpotifyUserName(
+                        spotifyPanel.spotifyUserName.getText());
+                config.getSpotifyProperties().setSpotifyPassword(
+                        new String(spotifyPanel.spotifyPassword.getPassword()).toCharArray());
 
                 controlPanel.enableSearchTab(true);
             }

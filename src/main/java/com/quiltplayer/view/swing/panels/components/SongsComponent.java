@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.controller.PlayerListener;
-import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.ColorConstantsDark;
@@ -31,7 +30,7 @@ public class SongsComponent extends JPanel {
     private Album album;
 
     public SongsComponent(final Album album, final PlayerListener playerListener) {
-        super(new MigLayout("wrap 2, w " + ImageSizes.LARGE.getSize() + "px!"));
+        super(new MigLayout("wrap 2, fill"));
 
         this.playerListener = playerListener;
         this.album = album;
@@ -55,7 +54,7 @@ public class SongsComponent extends JPanel {
 
                 songLabel.setOpaque(false);
 
-                add(songLabel, "w 50%!");
+                add(songLabel, "w 45%!");
 
                 i++;
             }

@@ -132,7 +132,7 @@ public class FileScannerTask extends SwingWorker<Integer, Void> {
 
     @SuppressWarnings("unchecked")
     private int getLengthOfTask() {
-        File root = new File(Configuration.getInstance().getMusicPath());
+        File root = new File(Configuration.getInstance().getFolderProperties().getMusicPath());
 
         Collection files = FileUtils.listFiles(root, new String[] { "mp3", "MP3" }, true);
 

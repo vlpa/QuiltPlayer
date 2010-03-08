@@ -44,8 +44,6 @@ public class WikiTask implements Runnable {
             e.printStackTrace();
         }
 
-        System.out.println(content);
-
         wikiView.setContent(content);
     }
 }

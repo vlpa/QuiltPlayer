@@ -27,8 +27,9 @@ public class JotifyRepository {
 
         if (!loggedIn) {
             try {
-                JotifyPool.getInstance().login(Configuration.getInstance().getSpotifyUserName(),
-                        Configuration.getInstance().getSpotifyPassword());
+                JotifyPool.getInstance().login(
+                        Configuration.getInstance().getSpotifyProperties().getSpotifyUserName(),
+                        Configuration.getInstance().getSpotifyProperties().getSpotifyPassword());
 
                 loggedIn = true;
             }

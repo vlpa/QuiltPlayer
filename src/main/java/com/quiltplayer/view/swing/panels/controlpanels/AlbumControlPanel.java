@@ -94,7 +94,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     }
 
     public void setDefaults() {
-        setLayout(new MigLayout("insets 0, wrap 4"));
+        setLayout(new MigLayout("insets 0, flowx, fill, w 100%"));
 
         setOpaque(true);
 

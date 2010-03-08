@@ -100,12 +100,13 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
         fileChooserButton = new QButton("Select");
         fileChooserButton.addActionListener(this);
 
-        musicPath.setText(Configuration.getInstance().getMusicPath());
+        musicPath.setText(Configuration.getInstance().getFolderProperties().getMusicPath());
 
         setupScanMusicButton();
 
         musicPathComponent = TextFieldComponents.textFieldComponentForFormsWithButton(
-                "Music directory to scan", musicPath, Configuration.ALBUM_COVERS_PATH, false,
+                "Music directory to scan", musicPath, Configuration.getInstance()
+                        .getFolderProperties().getCovers().getAbsolutePath(), false,
                 fileChooserButton);
 
         addMusicComponent(musicPathComponent);
@@ -156,7 +157,7 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == ScanningController.EVENT_UPDATE_COLLECTION) {
-            Configuration.getInstance().setMusicPath(musicPath.getText());
+            Configuration.getInstance().getFolderProperties().setMusicPath(musicPath.getText());
 
             configurationListener.actionPerformed(new ActionEvent("", 0,
                     ConfigurationController.EVENT_UPDATE_CONFIGURATION));
@@ -185,10 +186,10 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
         JFrame frame = new JFrame();
         frame.setBackground(Color.black);
 
-        // int returnVal = fc.showOpenDialog(frame);
+        int returnVal = fc.showOpenDialog(frame);
 
-        // if (returnVal == JFileChooser.APPROVE_OPTION)
-        // musicPath.setText(fc.getSelectedFile().getAbsolutePath());
+        if (returnVal == JFileChooser.APPROVE_OPTION)
+            musicPath.setText(fc.getSelectedFile().getAbsolutePath());
     }
 
     /*

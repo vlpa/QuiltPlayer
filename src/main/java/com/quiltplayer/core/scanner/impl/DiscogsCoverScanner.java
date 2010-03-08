@@ -1,6 +1,5 @@
 package com.quiltplayer.core.scanner.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -75,7 +74,8 @@ public class DiscogsCoverScanner implements CoverScanner {
                         com.quiltplayer.external.covers.discogs.Album discogsAlbum = discogsScanner
                                 .scanForAlbum(album.getArtist().getArtistName().getName(), album
                                         .getTitle(), album.getSongCollection().getSongs().size(),
-                                        new File(Configuration.ALBUM_COVERS_PATH));
+                                        Configuration.getInstance().getFolderProperties()
+                                                .getCovers());
 
                         if (discogsAlbum != null)
                             assemble(album, discogsAlbum);

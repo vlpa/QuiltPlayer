@@ -52,16 +52,17 @@ public class ConfigurationPanel extends JPanel {
         setupFontSize();
         setupToggleFullscreenButton();
 
-        add(TextFieldComponents.textFieldComponentForForms("Root folder", Configuration.ROOT_PATH,
-                false, keyboardPanel), "left, w 60%, newline, gapy 0.2cm");
+        add(TextFieldComponents.textFieldComponentForForms("Root folder", Configuration
+                .getInstance().getFolderProperties().getRoot().getAbsolutePath(), false,
+                keyboardPanel), "left, w 60%, newline, gapy 0.2cm");
 
-        add(TextFieldComponents.textFieldComponentForForms("Storage folder",
-                Configuration.STORAGE_PATH, false, keyboardPanel),
-                "left, w 60%, newline ,gapy 0.2cm");
+        add(TextFieldComponents.textFieldComponentForForms("Storage folder", Configuration
+                .getInstance().getFolderProperties().getStorage().getAbsolutePath(), false,
+                keyboardPanel), "left, w 60%, newline ,gapy 0.2cm");
 
-        add(TextFieldComponents.textFieldComponentForForms("Album covers folder",
-                Configuration.ALBUM_COVERS_PATH, false, keyboardPanel),
-                "left, w 60%, newline, gapy 0.2cm");
+        add(TextFieldComponents.textFieldComponentForForms("Album covers folder", Configuration
+                .getInstance().getFolderProperties().getCovers().getAbsolutePath(), false,
+                keyboardPanel), "left, w 60%, newline, gapy 0.2cm");
 
         add(new QLabel("Font adjust"), "left, newline, gapy 0.2cm");
         add(fontSelectBox, "left, w 2cm, newline, gapy 0.2cm");

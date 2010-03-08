@@ -89,8 +89,8 @@ public class JotifyAlbum implements Album {
                 e1.printStackTrace();
             }
 
-        File localImagePath = new File(Configuration.ALBUM_COVERS_PATH, spotifyAlbum.getCover()
-                + ".jpg");
+        File localImagePath = new File(Configuration.getInstance().getFolderProperties()
+                .getCovers(), spotifyAlbum.getCover() + ".jpg");
 
         Image image = null;
 

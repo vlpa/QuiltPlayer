@@ -13,6 +13,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.properties.configurations.FolderProperties;
+import com.quiltplayer.properties.configurations.GridProperties;
+import com.quiltplayer.properties.configurations.ProxyProperties;
+import com.quiltplayer.properties.configurations.SpotifyProperties;
+import com.quiltplayer.properties.configurations.UiProperties;
 import com.quiltplayer.view.swing.ColorConstants;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 
@@ -26,45 +31,23 @@ public final class Configuration implements Serializable {
 
     private static final long serialVersionUID = 7625101231832775970L;
 
-    private static final Logger log = Logger.getLogger(Configuration.class);
+    private final transient Logger log = Logger.getLogger(Configuration.class);
 
-    private static final String configurationName = "configuration.ser";
+    private FolderProperties folderProperties;
+
+    private UiProperties uiProperties;
+
+    private GridProperties gridProperties;
+
+    private SpotifyProperties spotifyProperties;
+
+    private ProxyProperties proxyProperties;
+
+    private static final String CONFIG_NAME = "configuration.ser";
 
     private static Configuration instance;
 
-    private static String userHome = System.getProperty("user.home");
-
-    private static String rootFolder = "/.quiltplayer";
-
-    private static String storageFolder = "/storage";
-
-    private static String coversFolder = "/covers";
-
-    private String musicPath = null;
-
     private String apiKey = null;
-
-    private boolean useSpotify;
-
-    private String spotifyUserName = "";
-
-    private char[] spotifyPassword = new char[0];
-
-    private boolean useProxy;
-
-    private int proxyPort;
-
-    private String proxyUrl;
-
-    private String proxyUsername;
-
-    private transient String proxyPassword;
-
-    private static File root = new File(userHome, rootFolder);
-
-    private static File storage = new File(root, storageFolder);
-
-    private static File covers = new File(root, coversFolder);
 
     private ColorConstants colorConstants = new ColorConstantsDark();
 
@@ -76,35 +59,74 @@ public final class Configuration implements Serializable {
 
     public static final String lineBreak = System.getProperty("line.separator");
 
-    private boolean doubleBuffer = false;
+    protected Configuration() {
+        instance = retrieveConfiguration();
 
-    static {
-        root = new File(userHome, rootFolder);
-        if (!root.exists()) {
-            boolean b = root.mkdir();
-            if (!b)
-                log.error("Couldn't create root directory.");
-        }
+        if (instance == null) {
+            folderProperties = new FolderProperties();
+            gridProperties = new GridProperties();
+            spotifyProperties = new SpotifyProperties();
+            uiProperties = new UiProperties();
+            proxyProperties = new ProxyProperties();
 
-        if (!storage.exists()) {
-            boolean b = storage.mkdir();
-            if (!b)
-                log.error("Couldn't create storage directory.");
-        }
-
-        if (!covers.exists()) {
-            boolean b = covers.mkdir();
-            if (!b)
-                log.error("Couldn't create covers directory.");
+            storeConfiguration();
+            instance = retrieveConfiguration();
         }
     }
 
     public static Configuration getInstance() {
         if (instance == null) {
-            instance = retrieveConfiguration();
+            instance = new Configuration();
         }
 
         return instance;
+    }
+
+    public Configuration retrieveConfiguration() {
+        FileInputStream fis = null;
+        ObjectInputStream in = null;
+
+        FolderProperties neededProperties = new FolderProperties();
+
+        try {
+            File f = new File(neededProperties.getStorage().getAbsolutePath()
+                    + System.getProperty("file.separator") + CONFIG_NAME);
+            fis = new FileInputStream(f);
+            in = new ObjectInputStream(fis);
+
+            Configuration config = (Configuration) in.readObject();
+            in.close();
+
+            return config;
+        }
+        catch (IOException e) {
+            return null;
+        }
+        catch (ClassNotFoundException e) {
+            return new Configuration();
+        }
+    }
+
+    /*
+     * @see org.quiltplayer.core.storage.Storage#storeConfiguration(org.quiltplayer
+     * .ConfigurationProperties)
+     */
+    public synchronized void storeConfiguration() {
+        FileOutputStream fos = null;
+        ObjectOutputStream out = null;
+        FolderProperties neededProperties = new FolderProperties();
+
+        try {
+            File f = new File(neededProperties.getStorage() + System.getProperty("file.separator")
+                    + CONFIG_NAME);
+            fos = new FileOutputStream(f);
+            out = new ObjectOutputStream(fos);
+            out.writeObject(this);
+            out.close();
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static void setInstance(Configuration config) {
@@ -112,39 +134,9 @@ public final class Configuration implements Serializable {
     }
 
     /**
-     * Location for the root covers.
-     */
-    public static final String ROOT_PATH = root.getAbsolutePath();
-
-    /**
-     * Location for the downloaded album covers.
-     */
-    public static final String ALBUM_COVERS_PATH = covers.getAbsolutePath();
-
-    /**
-     * Location for the storage repository.
-     */
-    public static final String STORAGE_PATH = storage.getAbsolutePath();
-
-    /**
      * API key for access to Discogs webservice.
      */
     public static final String DISCOGS_API_KEY = "6dfeb90be3";
-
-    /**
-     * @return the musicPath
-     */
-    public String getMusicPath() {
-        return musicPath;
-    }
-
-    /**
-     * @param musicPath
-     *            the musicPath to set
-     */
-    public void setMusicPath(String musicPath) {
-        this.musicPath = StringUtils.trimToNull(musicPath);
-    }
 
     /**
      * @return the apiKey
@@ -159,131 +151,6 @@ public final class Configuration implements Serializable {
      */
     public void setApiKey(String apiKey) {
         this.apiKey = StringUtils.trimToNull(apiKey);
-    }
-
-    /**
-     * @return the proxyPort
-     */
-    public int getProxyPort() {
-        return proxyPort;
-    }
-
-    /**
-     * @param proxyPort
-     *            the proxyPort to set
-     */
-    public void setProxyPort(int proxyPort) {
-        this.proxyPort = proxyPort;
-    }
-
-    /**
-     * @return the proxyUrl
-     */
-    public String getProxyUrl() {
-        return proxyUrl;
-    }
-
-    /**
-     * @param proxyUrl
-     *            the proxyUrl to set
-     */
-    public void setProxyUrl(String proxyUrl) {
-        this.proxyUrl = proxyUrl;
-    }
-
-    /**
-     * @return the proxyUsername
-     */
-    public String getProxyUsername() {
-        return proxyUsername;
-    }
-
-    /**
-     * @param proxyUsername
-     *            the proxyUsername to set
-     */
-    public void setProxyUsername(String proxyUsername) {
-        this.proxyUsername = proxyUsername;
-    }
-
-    /**
-     * @return the proxyPassword
-     */
-    public String getProxyPassword() {
-        return proxyPassword;
-    }
-
-    /**
-     * @param proxyPassword
-     *            the proxyPassword to set
-     */
-    public void setProxyPassword(String proxyPassword) {
-        this.proxyPassword = proxyPassword;
-    }
-
-    /**
-     * @return the useProxy
-     */
-    public boolean isUseProxy() {
-        return useProxy;
-    }
-
-    /**
-     * @param useProxy
-     *            the useProxy to set
-     */
-    public void setUseProxy(boolean useProxy) {
-        this.useProxy = useProxy;
-    }
-
-    /**
-     * @return the root
-     */
-    public File getRoot() {
-        return root;
-    }
-
-    /*
-     * @see org.quiltplayer.core.storage.Storage#storeConfiguration(org.quiltplayer
-     * .ConfigurationProperties)
-     */
-    public synchronized void storeConfiguration() {
-        FileOutputStream fos = null;
-        ObjectOutputStream out = null;
-        try {
-            File f = new File(STORAGE_PATH + System.getProperty("file.separator")
-                    + configurationName);
-            fos = new FileOutputStream(f);
-            out = new ObjectOutputStream(fos);
-            out.writeObject(this);
-            out.close();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public static Configuration retrieveConfiguration() {
-        FileInputStream fis = null;
-        ObjectInputStream in = null;
-        try {
-            File f = new File(STORAGE_PATH + System.getProperty("file.separator")
-                    + configurationName);
-            fis = new FileInputStream(f);
-            in = new ObjectInputStream(fis);
-            Configuration config = (Configuration) in.readObject();
-            in.close();
-
-            Configuration.setInstance(config);
-
-            return Configuration.getInstance();
-        }
-        catch (IOException e) {
-            return new Configuration();
-        }
-        catch (ClassNotFoundException e) {
-            return new Configuration();
-        }
     }
 
     /**
@@ -335,51 +202,6 @@ public final class Configuration implements Serializable {
     }
 
     /**
-     * @return the useSpotify
-     */
-    public final boolean isUseSpotify() {
-        return useSpotify;
-    }
-
-    /**
-     * @param useSpotify
-     *            the useSpotify to set
-     */
-    public final void setUseSpotify(boolean useSpotify) {
-        this.useSpotify = useSpotify;
-    }
-
-    /**
-     * @return the spotifyPassword
-     */
-    public final String getSpotifyPassword() {
-        return new String(spotifyPassword);
-    }
-
-    /**
-     * @param spotifyPassword
-     *            the spotifyPassword to set
-     */
-    public final void setSpotifyPassword(char[] spotifyPassword) {
-        this.spotifyPassword = spotifyPassword;
-    }
-
-    /**
-     * @return the spotifyUserName
-     */
-    public final String getSpotifyUserName() {
-        return spotifyUserName;
-    }
-
-    /**
-     * @param spotifyUserName
-     *            the spotifyUserName to set
-     */
-    public final void setSpotifyUserName(String spotifyUserName) {
-        this.spotifyUserName = spotifyUserName;
-    }
-
-    /**
      * @return the fontBalancer
      */
     public final float getFontBalancer() {
@@ -395,17 +217,37 @@ public final class Configuration implements Serializable {
     }
 
     /**
-     * @return the doubleBuffer
+     * @return the folderProperties
      */
-    public final boolean isDoubleBuffer() {
-        return doubleBuffer;
+    public final FolderProperties getFolderProperties() {
+        return folderProperties;
     }
 
     /**
-     * @param doubleBuffer
-     *            the doubleBuffer to set
+     * @return the uiProperties
      */
-    public final void setDoubleBuffer(boolean doubleBuffer) {
-        this.doubleBuffer = doubleBuffer;
+    public final UiProperties getUiProperties() {
+        return uiProperties;
+    }
+
+    /**
+     * @return the gridProperties
+     */
+    public final GridProperties getGridProperties() {
+        return gridProperties;
+    }
+
+    /**
+     * @return the spotifyProperties
+     */
+    public final SpotifyProperties getSpotifyProperties() {
+        return spotifyProperties;
+    }
+
+    /**
+     * @return the proxyProperties
+     */
+    public final ProxyProperties getProxyProperties() {
+        return proxyProperties;
     }
 }

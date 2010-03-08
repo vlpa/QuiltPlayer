@@ -1,6 +1,5 @@
 package com.quiltplayer.view.swing.views.impl;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,15 +7,17 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.cmc.shared.swing.FlowWrapLayout;
+import net.miginfocom.swing.MigLayout;
+
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.model.Album;
+import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.buttons.AlbumCoverButton;
+import com.quiltplayer.view.swing.interfaces.FrameResizeAwarable;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
-import com.quiltplayer.view.swing.listeners.SelectionListener;
 import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.views.ListView;
 
@@ -26,7 +27,7 @@ import com.quiltplayer.view.swing.views.ListView;
  * @author Vlado Palczynski
  */
 @org.springframework.stereotype.Component
-public class QuiltView implements ListView<Album> {
+public class QuiltView implements ListView<Album>, FrameResizeAwarable {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,14 +53,33 @@ public class QuiltView implements ListView<Album> {
      */
     @Override
     public JComponent getUI() {
-        panel = new JPanel(new FlowWrapLayout(0, 0, 0, 0));
+        panel = new JPanel(new MigLayout("ins 0 0.3cm 0 0.3cm, wrap "
+                + Configuration.getInstance().getGridProperties().getQuiltGrid()
+                + ", fill, aligny center"));
         panel.setOpaque(true);
+
+        int i = 1;
 
         for (Album album : albums) {
             if (album.getFrontImage() != null) {
                 AlbumCoverButton p = new AlbumCoverButton(album, changeAlbumListener);
-                panel.add(p, "");
+                panel.add(p, "grow, shrink 0");
             }
+
+            if (i == Configuration.getInstance().getGridProperties().getQuiltGrid())
+                i = 1;
+            else
+                i++;
+        }
+
+        /* Fill with empty squares */
+        while (i < Configuration.getInstance().getGridProperties().getQuiltGrid()) {
+            AlbumCoverButton p = new AlbumCoverButton(null, null);
+            p.setVisible(true);
+            panel.add(p, "grow, shrink 0");
+
+            i++;
+
         }
 
         final QScrollPane pane = new QScrollPane(panel);

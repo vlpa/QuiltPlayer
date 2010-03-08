@@ -124,7 +124,7 @@ public class QuiltPlayerFrame extends JFrame {
         System.out.println("DPI from PlatformDefaults: " + PlatformDefaults.getDefaultDPI());
         System.out.println("DPI from Tookit: " + Toolkit.getDefaultToolkit().getScreenResolution());
 
-        setLayout(new MigLayout("insets 0, fill, w 100%, h 100%"));
+        getContentPane().setLayout(new MigLayout("fill"));
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -149,6 +149,8 @@ public class QuiltPlayerFrame extends JFrame {
             public void componentResized(ComponentEvent e) {
                 if (!Configuration.getInstance().isFullScreen())
                     Configuration.getInstance().setSavedDimensionOnFrame(getSize());
+
+                repaintComponentsIfResizeAware();
             }
         });
     }
@@ -160,14 +162,9 @@ public class QuiltPlayerFrame extends JFrame {
 
         ui = aboutView.getUI();
 
-        // DebugRepaintingUI debugUI = new DebugRepaintingUI();
-        // JXLayer<JComponent> layer = new JXLayer<JComponent>(controlPanel,
-        // debugUI);
+        getContentPane().add(controlPanel, "dock north, h 1.5cm!");
 
-        getContentPane().add(controlPanel, "cell 0 0, dock north, h 1.5cm!");
-        controlPanel.getPlayerControlPanel().setStopped();
-
-        addAlbumView();
+        addPlaylistView();
 
         updateUI();
     }
@@ -250,7 +247,7 @@ public class QuiltPlayerFrame extends JFrame {
             controlPanel.updateTab(null);
         }
 
-        getContentPane().add(ui, "cell 2 0, grow"); // gapx 0.4cm,
+        getContentPane().add(ui, "w 74% - 2cm, dock east");
 
         repaint();
 
@@ -258,7 +255,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addAlfabeticControlPanel() {
-        getContentPane().add(alfabeticControlPane, "dock east, align center, h 100%");
+        getContentPane().add(alfabeticControlPane, "east, aligny center, w 2cm");
     }
 
     public ActiveView getCurrentView() {
@@ -296,7 +293,7 @@ public class QuiltPlayerFrame extends JFrame {
             b = false;
         }
         else {
-            addAlbumView();
+            addPlaylistView();
             controlPanel.albumViewButton.activate();
             b = true;
         }
@@ -305,7 +302,13 @@ public class QuiltPlayerFrame extends JFrame {
         ui.updateUI();
     }
 
-    private void addAlbumView() {
-        getContentPane().add(playlistPanel, "cell 1 0, dock west, growx"); // gapx 0.2cm
+    private void addPlaylistView() {
+        getContentPane().add(playlistPanel, "w 26%, dock west");
+    }
+
+    protected void repaintComponentsIfResizeAware() {
+        /* PlaylistPanel should be resized */
+        if (playlistPanel != null)
+            playlistPanel.updateUI();
     }
 }

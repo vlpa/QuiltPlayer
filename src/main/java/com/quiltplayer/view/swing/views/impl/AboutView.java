@@ -24,7 +24,7 @@ public class AboutView implements Serializable, View {
     @Override
     public JComponent getUI() {
 
-        panel = new JPanel(new MigLayout("flowx"));
+        panel = new JPanel(new MigLayout(""));
         panel.setOpaque(false);
 
         return panel;

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import com.quiltplayer.controller.PlayerController;
 import com.quiltplayer.controller.PlayerListener;
-import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.utils.ClassPathUtils;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
 
@@ -46,7 +45,7 @@ public class PlayerControlPanel extends JPanel {
     private PlayerListener playerListener;
 
     public PlayerControlPanel() {
-        super(new MigLayout("insets 0, wrap 6, w " + ImageSizes.LARGE.getSize() + "px!"));
+        super(new MigLayout("insets 0, wrap 6"));
     }
 
     @PostConstruct
@@ -70,6 +69,8 @@ public class PlayerControlPanel extends JPanel {
         add(pauseButton, s + ", cell 3 0");
         add(stopButton, s + ", cell 4 0");
         add(nextButton, s + ", cell 5 0");
+
+        setStopped();
     }
 
     private void setupNextButton() {
@@ -80,7 +81,7 @@ public class PlayerControlPanel extends JPanel {
     }
 
     private void setupPreviousButton() {
-        previousButton = new QControlPanelButton("Previous", ClassPathUtils
+        previousButton = new QControlPanelButton("Prev", ClassPathUtils
                 .getIconFromClasspath("white/Previous.png"), SwingConstants.TOP);
         previousButton.addActionListener(playerListener);
         previousButton.setActionCommand(PlayerController.PlayerSongEvents.PREVIOUS.toString());

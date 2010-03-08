@@ -67,7 +67,7 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
         setBorder(BorderFactory.createEmptyBorder());
 
         // setAutoscrolls(true);
-        setDoubleBuffered(Configuration.getInstance().isDoubleBuffer());
+        setDoubleBuffered(Configuration.getInstance().getUiProperties().isDoubleBuffer());
 
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

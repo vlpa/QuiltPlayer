@@ -61,7 +61,7 @@ public class SpotifyConfigurationPanel extends JPanel {
 
         spotifyCheckBox = new QCheckBox("Spotify account");
 
-        if (Configuration.getInstance().isUseSpotify()) {
+        if (Configuration.getInstance().getSpotifyProperties().isUseSpotify()) {
             spotifyUserName.setVisible(true);
             spotifyPassword.setVisible(true);
             spotifyCheckBox.setSelected(true);
@@ -90,12 +90,14 @@ public class SpotifyConfigurationPanel extends JPanel {
         add(spotifyCheckBox, "");
 
         userNameComponent = TextFieldComponents.textFieldComponentForForms("Spotify user name",
-                spotifyUserName, Configuration.getInstance().getSpotifyUserName(), true);
+                spotifyUserName, Configuration.getInstance().getSpotifyProperties()
+                        .getSpotifyUserName(), true);
 
         add(userNameComponent, "left, w 60%, newline");
 
         passwordComponent = TextFieldComponents.textFieldComponentForForms("Spotify password",
-                spotifyPassword, Configuration.getInstance().getSpotifyPassword(), true);
+                spotifyPassword, Configuration.getInstance().getSpotifyProperties()
+                        .getSpotifyPassword(), true);
 
         add(passwordComponent, "left, w 60%, newline");
     }

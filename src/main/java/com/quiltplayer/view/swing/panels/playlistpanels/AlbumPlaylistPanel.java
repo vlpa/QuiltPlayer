@@ -4,12 +4,8 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.annotation.PostConstruct;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -18,15 +14,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.controller.PlayerListener;
-import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.impl.NullAlbum;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.effects.CrossFader;
-import com.quiltplayer.view.swing.labels.ImageControlLabel;
-import com.quiltplayer.view.swing.listeners.ArtistListener;
-import com.quiltplayer.view.swing.listeners.ImageListener;
 import com.quiltplayer.view.swing.panels.AlbumPresentationPanel;
 import com.quiltplayer.view.swing.panels.components.SongsComponent;
 
@@ -45,27 +37,13 @@ public class AlbumPlaylistPanel extends JPanel {
 
     private QSongButton currentSongLabel;
 
-    private JButton albumsButton;
-
     private SongsComponent songsComponent;
-
-    private JPanel imageControlPanel = new JPanel();
-
-    private JPanel imageButtons = new JPanel();
 
     @Autowired
     private AlbumPresentationPanel albumPresentationPanel;
 
     @Autowired
-    private ArtistListener artistListener;
-
-    @Autowired
     private PlayerListener playerListener;
-
-    @Autowired
-    private ImageListener imageListener;
-
-    private ImageControlLabel imageCounterLabel;
 
     private Album album;
 
@@ -73,7 +51,7 @@ public class AlbumPlaylistPanel extends JPanel {
     private CrossFader crossFader;
 
     public AlbumPlaylistPanel() {
-        super(new MigLayout("insets 0, wrap 1, fill, h 100%"));
+        super(new MigLayout("insets 0, wrap 1, fill"));
         setOpaque(true);
 
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
@@ -83,12 +61,8 @@ public class AlbumPlaylistPanel extends JPanel {
     public void init() {
         this.album = new NullAlbum();
 
-        // playlistButtonPanel = new JPanel(new MigLayout("insets 0, wrap 1, fill"));
-        // setupImageControlPanel(false);
-
-        add(albumPresentationPanel, "north");
-        add(crossFader, "h " + ImageSizes.LARGE.getSize() + "px!, north, gapy 0.2cm");
-        // add(imageControlPanel, "alignx center, aligny top, w 100%, gapx 0.5cm 0.5cm");
+        add(albumPresentationPanel, "north, gapy 0.3cm 0.3cm");
+        add(crossFader, "north, h 40%, pushy");
     }
 
     private void setupSongsPanel() {
@@ -97,70 +71,10 @@ public class AlbumPlaylistPanel extends JPanel {
 
         songsComponent = new SongsComponent(album, playerListener);
 
-        add(songsComponent, "h 100%, north, gapy 0.1cm");
+        add(songsComponent, "north");
 
         songsComponent.repaint();
         repaint();
-    }
-
-    /**
-     * Setup the album cover image.
-     */
-    private void setupImageControlPanel(boolean update) {
-        imageControlPanel.setLayout(new MigLayout("insets 0, wrap 4, fillx"));
-        imageControlPanel.setOpaque(false);
-
-        setAlbumButtons();
-    }
-
-    /**
-     * Add +/- buttons if more than one cover exists
-     * 
-     * @param album
-     */
-    private void setAlbumButtons() {
-        imageControlPanel.remove(imageButtons);
-
-        if (album.getImages() != null && album.getImages().size() > 1) {
-            imageButtons = new JPanel();
-            imageButtons.setLayout(new MigLayout("insets 0, wrap 4, fillx"));
-            imageButtons.setOpaque(false);
-
-            // ImageControlLabel increase = new ImageControlLabel("[ + ]");
-            // increase.setToolTipText("Next album picture");
-            // increase.addMouseListener(increaseListener);
-            // imageButtons.add(increase, "dock west, gapafter 5lp"); // 15
-
-            // ImageControlLabel decrease = new ImageControlLabel("[ - ]");
-            // decrease.setToolTipText("Previous album picture");
-            // decrease.addMouseListener(decreaseListener);
-            // imageButtons.add(decrease, "dock west, gapafter 5lp");
-
-            ImageControlLabel cover = new ImageControlLabel("[ #1 ]");
-            cover.setToolTipText("Set as front cover");
-
-            MouseListener changeCoverListener = new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    // TODO Implement against CrossFader...
-                    // imageListener.actionPerformed(new ActionEvent(album, iconLabel.getCounter(),
-                    // ImageController.EVENT_CHANGE_COVER));
-                }
-            };
-
-            cover.addMouseListener(changeCoverListener);
-
-            imageButtons.add(cover, "dock east, gapbefore 10lp");
-
-            imageCounterLabel = new ImageControlLabel("");
-            imageCounterLabel.addMouseListener(null);
-            imageCounterLabel.setOpaque(false);
-            // imageCounterLabel.setText(imageCounter + 1 + "/"
-            // + album.getImages().size());
-            imageButtons.add(imageCounterLabel, "dock east");
-
-            imageControlPanel.add(imageButtons, "w 100%");
-        }
     }
 
     public void changeAlbum(final Album album) {

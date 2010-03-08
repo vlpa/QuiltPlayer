@@ -16,7 +16,8 @@ public class Config {
 
     @Bean
     public GraphDatabaseService neoDb() {
-        final String neoFolder = Configuration.getInstance().getRoot() + NEO_FOLDER;
+        final String neoFolder = Configuration.getInstance().getFolderProperties().getRoot()
+                + NEO_FOLDER;
         neoDb = new EmbeddedGraphDatabase(neoFolder);
 
         neoUtil = new GraphDatabaseUtil(neoDb);

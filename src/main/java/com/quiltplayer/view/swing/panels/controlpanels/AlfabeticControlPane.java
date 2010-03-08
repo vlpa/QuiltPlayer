@@ -24,9 +24,12 @@ import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.controller.GridController;
 import com.quiltplayer.controller.SelectionController;
+import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.buttons.QPlaylistButton;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
+import com.quiltplayer.view.swing.listeners.GridListener;
 import com.quiltplayer.view.swing.listeners.SelectionListener;
 import com.quiltplayer.view.swing.panels.QScrollPane;
 
@@ -48,6 +51,9 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
     @Autowired
     private SelectionListener selectionListener;
 
+    @Autowired
+    private GridListener gridListener;
+
     private final List<String> list = new ArrayList<String>();
 
     private Animator animator = new Animator(0);
@@ -61,13 +67,38 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
     private QPlaylistButton selectedButton;
 
     public AlfabeticControlPane() {
-        super(new MigLayout("insets 0, wrap 1, fill"));
+        super(new MigLayout("insets 0, wrap 2, fillx, aligny center"));
 
         setOpaque(false);
     }
 
     @PostConstruct
     public void init() {
+        JButton plusButton = new QPlaylistButton("+");
+        plusButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gridListener.actionPerformed(new ActionEvent(GridController.GridView.QUILT,
+                        Configuration.getInstance().getGridProperties().getQuiltGrid() + 1,
+                        GridController.EVENT_CHANGE_GRID));
+            }
+        });
+
+        JButton minusButton = new QPlaylistButton("-");
+        minusButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gridListener.actionPerformed(new ActionEvent(GridController.GridView.QUILT,
+                        Configuration.getInstance().getGridProperties().getQuiltGrid() - 1,
+                        GridController.EVENT_CHANGE_GRID));
+            }
+        });
+
+        add(plusButton, "center, w 0.8cm, h 0.8cm");
+        add(minusButton, "center, w 0.8cm, h 0.8cm");
+
         albumsButton = new QPlaylistButton("Albums");
         albumsButton.addActionListener(this);
         albumsButton.setActionCommand(SelectionController.ALBUMS);
@@ -79,8 +110,8 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
         artistsButton.addActionListener(this);
         artistsButton.setActionCommand(SelectionController.ARTIST);
 
-        add(albumsButton, "alignx left");
-        add(artistsButton, "alignx left");
+        add(albumsButton, "center, w 100%, h 0.8cm, span 2");
+        add(artistsButton, "center, w 100%, h 0.8cm, span 2");
 
         final JPanel alfabeticPanel = new JPanel(new MigLayout("insets 0, wrap 2, fill"));
 
@@ -135,7 +166,7 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
 
         });
 
-        add(jx);
+        add(jx, "span 2");
 
         animate(currentAlpha, highlightAlpha);
     }

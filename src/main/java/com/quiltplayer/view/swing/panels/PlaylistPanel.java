@@ -16,7 +16,6 @@ import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QSongButton;
@@ -50,8 +49,6 @@ public class PlaylistPanel extends JPanel {
 
     private QSongButton currentSongLabel;
 
-    protected JPanel mainPanel;
-
     protected Album album;
 
     private JComponent albumPlaylistComponent;
@@ -70,22 +67,14 @@ public class PlaylistPanel extends JPanel {
     private AlbumControlPanel albumControlPanel;
 
     public PlaylistPanel() {
-        super(new MigLayout("insets 0 0.35cm 0 0.35cm"));
+        super(new MigLayout("ins 0.0cm 0.3cm 0.0cm 0.3cm, fill, alignx center"));
 
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
     }
 
     @PostConstruct
     public void init() {
-        mainPanel = new JPanel(new MigLayout("insets 0, fill"));
-
-        mainPanel.setOpaque(true);
-        mainPanel.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
-
-        add(mainPanel, "h 100%, wmax " + ImageSizes.LARGE.getSize() + "px, w "
-                + ImageSizes.LARGE.getSize() + "px!");
-        add(albumControlPanel, "dock south, center, w " + ImageSizes.LARGE.getSize()
-                + "px + 0.5cm!");
+        add(albumControlPanel, "dock south, w 100%");
 
         viewAlbumPanel();
     }
@@ -152,31 +141,30 @@ public class PlaylistPanel extends JPanel {
     public synchronized void viewAlbumPanel() {
         if (mode != Mode.SONG) {
             if (lyricsPlaylistComponent != null)
-                mainPanel.remove(lyricsPlaylistComponent);
+                remove(lyricsPlaylistComponent);
 
             final QScrollPane pane = new QScrollPane(albumPlaylistPanel);
 
             albumPlaylistComponent = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
 
-            mainPanel.add(albumPlaylistComponent, "w 100%, h 100%");
+            add(albumPlaylistComponent, "w 100%, h 100%, center");
 
             updateUI();
 
             mode = Mode.SONG;
         }
-
     }
 
     public synchronized void viewLyricsPanel() {
         if (mode != Mode.LYRICS) {
             if (albumPlaylistComponent != null)
-                mainPanel.remove(albumPlaylistComponent);
+                remove(albumPlaylistComponent);
 
             final QScrollPane pane = new QScrollPane(lyricsPlaylistPanel);
 
             lyricsPlaylistComponent = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
 
-            mainPanel.add(lyricsPlaylistComponent, "w 100%, h 100%");
+            add(lyricsPlaylistComponent, "w 100%, h 100%, center");
 
             updateUI();
 
