@@ -20,7 +20,6 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
-import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.AlbumPlaylistPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
 
@@ -63,9 +62,6 @@ public class PlaylistPanel extends JPanel {
     @Qualifier("lyricsPlaylistPanel")
     protected LyricsPlaylistPanel lyricsPlaylistPanel;
 
-    @Autowired
-    private AlbumControlPanel albumControlPanel;
-
     public PlaylistPanel() {
         super(new MigLayout("ins 0.0cm 0.3cm 0.0cm 0.3cm, fill, alignx center"));
 
@@ -74,8 +70,6 @@ public class PlaylistPanel extends JPanel {
 
     @PostConstruct
     public void init() {
-        add(albumControlPanel, "dock south, w 100%");
-
         viewAlbumPanel();
     }
 
@@ -130,8 +124,6 @@ public class PlaylistPanel extends JPanel {
         this.album = album;
 
         albumPlaylistPanel.changeAlbum(album);
-
-        albumControlPanel.update(album);
     }
 
     public void setLyrics(final String lyrics) {

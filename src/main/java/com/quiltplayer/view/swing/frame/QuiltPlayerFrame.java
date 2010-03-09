@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 
 import javax.annotation.PostConstruct;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,11 +20,15 @@ import net.miginfocom.swing.MigLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.quiltplayer.controller.GridController;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ActiveView;
+import com.quiltplayer.view.swing.buttons.QTextButton;
+import com.quiltplayer.view.swing.listeners.GridListener;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlfabeticControlPane;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.views.ArtistView;
@@ -71,6 +76,9 @@ public class QuiltPlayerFrame extends JFrame {
     private ConfigurationView configurationView;
 
     @Autowired
+    private GridListener gridListener;
+
+    @Autowired
     private View aboutView;
 
     @Autowired
@@ -91,6 +99,9 @@ public class QuiltPlayerFrame extends JFrame {
 
     @Autowired
     private AlfabeticControlPane alfabeticControlPane;
+
+    @Autowired
+    private AlbumControlPanel albumControlPanel;
 
     private JPanel glassPane;
 
@@ -162,7 +173,8 @@ public class QuiltPlayerFrame extends JFrame {
 
         ui = aboutView.getUI();
 
-        getContentPane().add(controlPanel, "dock north, h 1.5cm!");
+        getContentPane().add(controlPanel, "dock east, w 1.6cm!");
+        getContentPane().add(albumControlPanel, "dock west, w 1.6cm!");
 
         addPlaylistView();
 
@@ -173,6 +185,25 @@ public class QuiltPlayerFrame extends JFrame {
 
         glassPane = (JPanel) this.getGlassPane();
         glassPane.setLayout(new MigLayout("insets 0, fill"));
+
+        JButton increaseGridButton = new QTextButton("[ + ]");
+        increaseGridButton.addActionListener(gridListener);
+        increaseGridButton.setActionCommand(GridController.EVENT_INCREASE_GRID);
+        increaseGridButton.setToolTipText("Add column in the grid above");
+        increaseGridButton.setBorderPainted(false);
+
+        JButton decreaseGridButton = new QTextButton("[ - ]");
+        decreaseGridButton.addActionListener(gridListener);
+        decreaseGridButton.setActionCommand(GridController.EVENT_DECREASE_GRID);
+        decreaseGridButton.setToolTipText("Remove column in the grid above");
+        decreaseGridButton.setBorderPainted(false);
+
+        JPanel panel = new JPanel(new MigLayout("insets 0"));
+        panel.add(increaseGridButton, "right, gapy 0 20lp");
+        panel.add(decreaseGridButton, "right, gapx 0 30lp, gapy 0 20lp");
+        panel.setOpaque(false);
+
+        glassPane.add(panel, "right, bottom");
 
         glassPane.add(keyboardPanel, "center");
 
@@ -240,14 +271,13 @@ public class QuiltPlayerFrame extends JFrame {
         }
         else if (currentView.equals(ActiveView.ABOUT)) {
             ui = aboutView.getUI();
-            controlPanel.updateTab(null);
         }
         else if (currentView.equals(ActiveView.EDIT_ALBUM)) {
             ui = editAlbumView.getUI();
             controlPanel.updateTab(null);
         }
 
-        getContentPane().add(ui, "w 74% - 2cm, dock east");
+        getContentPane().add(ui, "w 100%, dock east");
 
         repaint();
 
@@ -289,12 +319,12 @@ public class QuiltPlayerFrame extends JFrame {
     public void toggleAlbumView() {
         if (b) {
             remove(playlistPanel);
-            controlPanel.albumViewButton.inactivate();
+            albumControlPanel.albumViewButton.inactivate();
             b = false;
         }
         else {
             addPlaylistView();
-            controlPanel.albumViewButton.activate();
+            albumControlPanel.albumViewButton.activate();
             b = true;
         }
 
@@ -303,7 +333,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addPlaylistView() {
-        getContentPane().add(playlistPanel, "w 26%, dock west");
+        getContentPane().add(playlistPanel, "w 28%!, dock west");
     }
 
     protected void repaintComponentsIfResizeAware() {

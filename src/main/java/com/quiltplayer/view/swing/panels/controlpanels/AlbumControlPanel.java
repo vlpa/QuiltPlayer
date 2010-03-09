@@ -86,7 +86,9 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
     private QControlPanelButton coversButton;
 
-    private static final String LAYOUT = "h 2cm, w 3cm";
+    public QControlPanelButton albumViewButton;
+
+    private static final String LAYOUT = "h 100%, w 100%, center";
 
     @PostConstruct
     public void init() {
@@ -94,11 +96,13 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     }
 
     public void setDefaults() {
-        setLayout(new MigLayout("insets 0, flowx, fill, w 100%"));
+        setLayout(new MigLayout("insets 0, flowy, fill"));
 
         setOpaque(true);
 
         setBackground(ColorConstantsDark.ALBUM_PANEL);
+
+        setupAlbumViewButton();
 
         setupLyricsButton();
 
@@ -114,26 +118,36 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
         setupCoversButton();
 
-        add(lyricsButton, LAYOUT + ", cell 0 0");
-        add(wikiButton, LAYOUT + ", cell 1 0");
-        add(editButton, LAYOUT + ", cell 2 0");
-        add(coversButton, LAYOUT + ", cell 3 0");
-        add(moreAlbumsButton, LAYOUT + ", cell 4 0");
+        add(albumViewButton, LAYOUT + ", cell 0 0");
+        add(albumButton, LAYOUT + ", cell 0 1");
+        add(lyricsButton, LAYOUT + ", cell 0 2");
+        add(wikiButton, LAYOUT + ", cell 0 3");
+        add(editButton, LAYOUT + ", cell 0 4");
+        add(coversButton, LAYOUT + ", cell 0 5");
+        add(moreAlbumsButton, LAYOUT + ", cell 0 6");
     }
 
     public void update(final Album album) {
         if (album instanceof JotifyAlbum) {
             remove(editButton);
             remove(addButton);
-            add(addButton, LAYOUT + ", cell 2 0");
+            add(addButton, LAYOUT + ", cell 0 2");
         }
         else {
             remove(editButton);
             remove(addButton);
-            add(editButton, LAYOUT + ", cell 2 0");
+            add(editButton, LAYOUT + ", cell 0 2");
         }
 
         repaint();
+    }
+
+    private void setupAlbumViewButton() {
+        albumViewButton = new QControlPanelButton("Album view", ClassPathUtils
+                .getIconFromClasspath("white/AlbumView.png"), SwingConstants.TOP);
+        albumViewButton.addActionListener(controlPanelListener);
+        albumViewButton.setActionCommand(ControlPanelController.EVENT_TOGGLE_ALBUM_VIEW);
+        albumViewButton.activate();
     }
 
     private void setupWikiButton() {
@@ -153,7 +167,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     }
 
     private void setupMoreAlbumsButton() {
-        moreAlbumsButton = new QControlPanelButton("More albums",
+        moreAlbumsButton = new QControlPanelButton("All albums",
                 getIconFromClasspath("white/MoreAlbums.png"), SwingConstants.BOTTOM);
         moreAlbumsButton.addActionListener(artistListener);
         moreAlbumsButton.setActionCommand(ArtistController.ACTION_GET_ARTIST_ALBUMS);
@@ -248,8 +262,8 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Point2D start = new Point2D.Float(0, 0);
-        Point2D end = new Point2D.Float(0, getHeight());
+        Point2D start = new Point2D.Float(0, getHeight());
+        Point2D end = new Point2D.Float(getWidth(), getHeight());
 
         LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
 
@@ -265,13 +279,5 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == ControlPanelController.EVENT_VIEW_LYRICS) {
-            remove(lyricsButton);
-            add(albumButton, LAYOUT + ", cell 0 0");
-        }
-        else if (e.getActionCommand() == ControlPanelController.EVENT_VIEW_ALBUM) {
-            remove(albumButton);
-            add(lyricsButton, LAYOUT + ", cell 0 0");
-        }
     }
 }

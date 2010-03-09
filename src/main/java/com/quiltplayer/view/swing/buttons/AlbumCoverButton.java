@@ -1,6 +1,5 @@
 package com.quiltplayer.view.swing.buttons;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -17,7 +16,6 @@ import net.miginfocom.swing.MigLayout;
 import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.external.covers.util.ImageUtils;
 import com.quiltplayer.model.Album;
-import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 
 public class AlbumCoverButton extends ScrollableButton {
@@ -53,9 +51,9 @@ public class AlbumCoverButton extends ScrollableButton {
                  */
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    setBackground(Color.ORANGE);
+                    // setBackground(Color.ORANGE);
 
-                    repaint();
+                    // repaint();
                 }
 
                 /*
@@ -65,9 +63,9 @@ public class AlbumCoverButton extends ScrollableButton {
                  */
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    setBackground(ColorConstantsDark.BACKGROUND);
+                    // setBackground(ColorConstantsDark.BACKGROUND);
 
-                    repaint();
+                    // repaint();
 
                 }
             });

@@ -47,11 +47,7 @@ public class ControlPanel extends JPanel {
     private Color[] gradient = { new Color(80, 80, 80), new Color(50, 50, 50),
             new Color(20, 20, 20), new Color(00, 00, 00) };
 
-    // private Color[] gradient = { new Color(150, 00, 00), new Color(100, 0, 0), new Color(80, 0,
-    // 0),
-    // new Color(40, 0, 0) };
-
-    private float[] dist = { 0.0f, 0.60f, 0.64f, 1.0f };
+    private float[] dist = { 0.0f, 0.48f, 0.52f, 1.0f };
 
     @Autowired
     private ControlPanelListener controlPanelListener;
@@ -70,12 +66,10 @@ public class ControlPanel extends JPanel {
 
     private QControlPanelButton keyboardButton;
 
-    public QControlPanelButton albumViewButton;
+    private JButton exitButton;
 
     @Autowired
     private GraphDatabaseService graphDatabaseService;
-
-    private JButton exitButton;
 
     @Autowired
     private PlayerControlPanel playerControlPanel;
@@ -86,7 +80,7 @@ public class ControlPanel extends JPanel {
     }
 
     public void setDefaults() {
-        setLayout(new MigLayout("insets 0, fill, wrap 10"));
+        setLayout(new MigLayout("insets 0, fill, flowy"));
 
         setupQuiltCollectionButton();
 
@@ -102,23 +96,18 @@ public class ControlPanel extends JPanel {
 
         setupKeyboardTab();
 
-        setupAlbumViewButton();
+        // final String s = "h 100%, w 3cm";
 
-        final String s = "h 100%, w 3cm";
+        final String s = "h 100%, w 100%, center";
 
-        final JPanel applicationButtons = new JPanel(new MigLayout("insets 0, alignx center"));
-        applicationButtons.setOpaque(false);
-        applicationButtons.add(quiltButton, s + ", gapx 2cm");
-        applicationButtons.add(artistsButton, s);
-        applicationButtons.add(searchButton, s);
-        applicationButtons.add(configButton, s);
-        applicationButtons.add(keyboardButton, s);
-        applicationButtons.add(exitButton, s + ", gapx 0 2cm");
+        setOpaque(true);
 
-        playerControlPanel.add(albumViewButton, "cell 0 0");
-
-        add(playerControlPanel, "w 30%, dock west");
-        add(applicationButtons, "w 70%, dock east");
+        add(quiltButton, s);
+        add(artistsButton, s);
+        add(searchButton, s);
+        add(configButton, s);
+        add(keyboardButton, s);
+        add(exitButton, s);
     }
 
     private void setupQuiltCollectionButton() {
@@ -135,14 +124,6 @@ public class ControlPanel extends JPanel {
 
         artistsButton.addActionListener(controlPanelListener);
         artistsButton.setActionCommand(ControlPanelController.EVENT_VIEW_ARTIST);
-    }
-
-    private void setupAlbumViewButton() {
-        albumViewButton = new QControlPanelButton("Album view", ClassPathUtils
-                .getIconFromClasspath("white/AlbumView.png"), SwingConstants.TOP);
-        albumViewButton.addActionListener(controlPanelListener);
-        albumViewButton.setActionCommand(ControlPanelController.EVENT_TOGGLE_ALBUM_VIEW);
-        albumViewButton.activate();
     }
 
     private void setupSearchButton() {
@@ -239,8 +220,13 @@ public class ControlPanel extends JPanel {
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Point2D start = new Point2D.Float(0, 0);
-        Point2D end = new Point2D.Float(0, getHeight());
+        /* Horizontal */
+        // Point2D start = new Point2D.Float(0, 0);
+        // Point2D end = new Point2D.Float(0, getHeight());
+
+        /* Vertical */
+        Point2D start = new Point2D.Float(0, getHeight());
+        Point2D end = new Point2D.Float(getWidth(), getHeight());
 
         LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
 

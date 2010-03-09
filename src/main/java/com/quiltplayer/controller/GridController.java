@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.GridListener;
 
@@ -19,14 +20,12 @@ public class GridController implements GridListener {
 
     private Logger log = Logger.getLogger(GridController.class);
 
-    public enum GridView {
-        QUILT
-    };
-
     @Autowired
     private QuiltPlayerFrame frame;
 
-    public static final String EVENT_CHANGE_GRID = "change.grid";
+    public static final String EVENT_INCREASE_GRID = "increase.grid";
+
+    public static final String EVENT_DECREASE_GRID = "decrease.grid";
 
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -34,16 +33,28 @@ public class GridController implements GridListener {
     @Override
     public final void actionPerformed(final ActionEvent e) {
 
-        if (EVENT_CHANGE_GRID == e.getActionCommand()) {
-            int i = e.getID();
-            GridView gv = (GridView) e.getSource();
+        ActiveView view = frame.getCurrentView();
 
-            if (gv == GridView.QUILT)
-                Configuration.getInstance().getGridProperties().setQuiltGrid(i);
-
-            Configuration.getInstance().storeConfiguration();
-
-            frame.updateUI();
+        if (EVENT_INCREASE_GRID == e.getActionCommand()) {
+            if (view == ActiveView.QUILT)
+                Configuration.getInstance().getGridProperties().setQuiltGrid(
+                        Configuration.getInstance().getGridProperties().getQuiltGrid() + 1);
+            else if (view == ActiveView.ALBUMS)
+                Configuration.getInstance().getGridProperties().setAlbumsGrid(
+                        Configuration.getInstance().getGridProperties().getAlbumsGrid() + 1);
         }
+        else if (EVENT_DECREASE_GRID == e.getActionCommand()) {
+            if (view == ActiveView.QUILT)
+                Configuration.getInstance().getGridProperties().setQuiltGrid(
+                        Configuration.getInstance().getGridProperties().getQuiltGrid() - 1);
+            else if (view == ActiveView.ALBUMS) {
+                Configuration.getInstance().getGridProperties().setAlbumsGrid(
+                        Configuration.getInstance().getGridProperties().getAlbumsGrid() - 1);
+            }
+        }
+
+        Configuration.getInstance().storeConfiguration();
+
+        frame.updateUI();
     }
 }

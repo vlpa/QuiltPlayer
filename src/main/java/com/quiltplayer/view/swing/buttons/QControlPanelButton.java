@@ -49,6 +49,8 @@ public class QControlPanelButton extends JButton {
 
     private void setDefaults(int verticalTextPosition) {
 
+        setOpaque(true);
+
         setHorizontalTextPosition(AbstractButton.CENTER);
         setHorizontalAlignment(AbstractButton.CENTER);
 
@@ -120,6 +122,12 @@ public class QControlPanelButton extends JButton {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        if (active) {
+            g2d.setBackground(Color.BLACK);
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.1f));
+            g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 9, 9);
+        }
 
         g2d = (Graphics2D) g;
         g2d.setComposite(makeComposite());

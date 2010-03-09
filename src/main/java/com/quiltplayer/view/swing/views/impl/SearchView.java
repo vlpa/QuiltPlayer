@@ -62,6 +62,8 @@ public class SearchView implements Serializable, View {
 
     private JPanel searchPanel;
 
+    private JPanel scrollablePanel;
+
     private JTextField searchField;
 
     private JButton searchButton;
@@ -102,29 +104,34 @@ public class SearchView implements Serializable, View {
             panel.setOpaque(true);
             panel.addFocusListener(focusListener);
 
-            MigLayout layout = new MigLayout("wrap 3, alignx center, top");
-            panel.setLayout(layout);
+            panel.setLayout(new MigLayout("alignx center, top, wrap 1"));
 
             setupSearchBar();
 
-            panel.add(searchPanel, "top, span 4, alignx center, gapy 0.3cm 0.5cm");
+            panel.add(searchPanel, "top, alignx center, gapy 0.3cm 0.5cm");
 
             if (result != null) {
+                scrollablePanel = new QPanel(new MigLayout("wrap 3, alignx center, top"));
+                scrollablePanel.setBackground(ColorConstantsDark.BACKGROUND);
+                scrollablePanel.setOpaque(true);
+
                 setupArtists(panel);
                 setupAlbums(panel);
                 addTracks(panel);
+
+                QScrollPane pane = new QScrollPane(scrollablePanel);
+                final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(pane,
+                        new JScrollPaneLayerUI());
+
+                panel.add(jx, "w 100%");
             }
 
             newResult = false;
         }
 
-        QScrollPane pane = new QScrollPane(panel);
-
         searchField.requestFocus();
 
-        final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
-
-        return jx;
+        return panel;
     }
 
     private void setupSearchBar() {
@@ -172,7 +179,7 @@ public class SearchView implements Serializable, View {
             }
         }
 
-        panel.add(artists, "top, wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
+        scrollablePanel.add(artists, "top, wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
     }
 
     private void setupAlbums(JPanel panel) {
@@ -198,7 +205,7 @@ public class SearchView implements Serializable, View {
             }
         }
 
-        panel.add(albums, "top, wmin 10%, w 30%, wmax 30%, alignx center");
+        scrollablePanel.add(albums, "top, wmin 10%, w 30%, wmax 30%, alignx center");
     }
 
     private void addTracks(JPanel panel) {
@@ -217,7 +224,7 @@ public class SearchView implements Serializable, View {
             }
         }
 
-        panel.add(tracks, "top, wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
+        scrollablePanel.add(tracks, "top, wmin 10%, w 30%, wmax 30%, alignx center, gapx 1% 1%");
     }
 
     private void setupSearchButton() {

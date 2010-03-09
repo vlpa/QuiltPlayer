@@ -51,7 +51,7 @@ public class AlbumPlaylistPanel extends JPanel {
     private CrossFader crossFader;
 
     public AlbumPlaylistPanel() {
-        super(new MigLayout("insets 0, wrap 1, fill"));
+        super(new MigLayout("insets 0, wrap 1, fill, h 100%"));
         setOpaque(true);
 
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
@@ -62,7 +62,7 @@ public class AlbumPlaylistPanel extends JPanel {
         this.album = new NullAlbum();
 
         add(albumPresentationPanel, "north, gapy 0.3cm 0.3cm");
-        add(crossFader, "north, h 40%, pushy");
+        add(crossFader, "north, h 40%!");
     }
 
     private void setupSongsPanel() {

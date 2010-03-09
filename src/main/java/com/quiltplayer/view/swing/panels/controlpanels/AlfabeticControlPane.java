@@ -26,7 +26,6 @@ import org.springframework.stereotype.Component;
 
 import com.quiltplayer.controller.GridController;
 import com.quiltplayer.controller.SelectionController;
-import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.buttons.QPlaylistButton;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.GridListener;
@@ -75,26 +74,12 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
     @PostConstruct
     public void init() {
         JButton plusButton = new QPlaylistButton("+");
-        plusButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gridListener.actionPerformed(new ActionEvent(GridController.GridView.QUILT,
-                        Configuration.getInstance().getGridProperties().getQuiltGrid() + 1,
-                        GridController.EVENT_CHANGE_GRID));
-            }
-        });
+        plusButton.addActionListener(gridListener);
+        plusButton.setActionCommand(GridController.EVENT_INCREASE_GRID);
 
         JButton minusButton = new QPlaylistButton("-");
-        minusButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gridListener.actionPerformed(new ActionEvent(GridController.GridView.QUILT,
-                        Configuration.getInstance().getGridProperties().getQuiltGrid() - 1,
-                        GridController.EVENT_CHANGE_GRID));
-            }
-        });
+        minusButton.addActionListener(gridListener);
+        minusButton.setActionCommand(GridController.EVENT_DECREASE_GRID);
 
         add(plusButton, "center, w 0.8cm, h 0.8cm");
         add(minusButton, "center, w 0.8cm, h 0.8cm");

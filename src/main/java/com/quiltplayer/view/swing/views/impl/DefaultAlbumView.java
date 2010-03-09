@@ -23,6 +23,7 @@ import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
+import com.quiltplayer.view.swing.buttons.AlbumCoverButton;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.buttons.SpotifySquaredAlbumButton;
 import com.quiltplayer.view.swing.buttons.SquaredAlbumButton;
@@ -52,7 +53,7 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
 
     private List<Album> albums;
 
-    private JPanel albumsPanel;
+    private JPanel panel;
 
     private Artist artist;
 
@@ -64,16 +65,18 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
     @Override
     public JComponent getUI() {
 
-        albumsPanel = new JPanel(new MigLayout("debug, fillx, wrap "
+        panel = new JPanel(new MigLayout("fillx, align center, wrap "
                 + Configuration.getInstance().getGridProperties().getAlbumsGrid()));
-        albumsPanel.setOpaque(true);
+        panel.setOpaque(true);
 
         if (albums != null && !albums.isEmpty()) {
             if (artistnameLabel == null)
                 setupArtistnameLabel();
 
             // artistnameLabel.setText(albums.get(0).getArtist().getArtistName().getName());
-            // albumsPanel.add(artistnameLabel, "");
+            // panel.add(artistnameLabel, "");
+
+            int i = 1;
 
             for (final Album album : albums) {
                 SquaredAlbumButton p = null;
@@ -87,7 +90,23 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
                 else
                     p = new SquaredAlbumButton(album, changeAlbumListener);
 
-                albumsPanel.add(p, "grow, shrink 0, gap 0.2cm 0.2cm 0.2cm 0.2cm");
+                panel.add(p, "grow, shrink 0, gap 0.3cm 0.3cm 0.3cm 0.3cm");
+
+                if (i == Configuration.getInstance().getGridProperties().getAlbumsGrid())
+                    i = 1;
+                else
+                    i++;
+            }
+
+            /* Fill with empty squares to remain size */
+            while (i < Configuration.getInstance().getGridProperties().getAlbumsGrid()) {
+                System.out.println("!");
+                AlbumCoverButton p = new AlbumCoverButton(null, null);
+                p.setVisible(true);
+
+                panel.add(p, "grow, shrink 0, gap 0.3cm 0.3cm 0.3cm 0.3cm");
+
+                i++;
             }
         }
         else {
@@ -100,11 +119,11 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
                 }
             });
 
-            albumsPanel.add(deleteArtistButton);
+            panel.add(deleteArtistButton);
 
         }
 
-        return new JXLayer<JScrollPane>(new QScrollPane(albumsPanel), new JScrollPaneLayerUI());
+        return new JXLayer<JScrollPane>(new QScrollPane(panel), new JScrollPaneLayerUI());
     }
 
     private void setupArtistnameLabel() {
