@@ -6,5 +6,5 @@ package com.quiltplayer.view.swing;
  * @author Vlado Palczynski
  */
 public enum ActiveView {
-    COVERS, QUILT, ALFABETIC_ARTISTS, ALBUMS, CONFIGURATION, EDIT_ALBUM, ABOUT, SEARCH, WIKI;
+    COVERS, QUILT, ARTISTS, ALBUMS, CONFIGURATION, EDIT_ALBUM, ABOUT, SEARCH, WIKI;
 }

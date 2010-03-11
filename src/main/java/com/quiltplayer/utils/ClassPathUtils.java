@@ -29,4 +29,17 @@ public class ClassPathUtils {
 
         return icon;
     }
+
+    public static ImageIcon getIconFromClasspathWithoutScaling(final String classPathName) {
+        Resource gearImage = new ClassPathResource(classPathName);
+        ImageIcon icon = null;
+        try {
+            icon = new ImageIcon(gearImage.getURL());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return icon;
+    }
 }

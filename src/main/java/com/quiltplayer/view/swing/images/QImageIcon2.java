@@ -41,7 +41,7 @@ public class QImageIcon2 extends ImageIcon
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		Font font = FontFactory.getSansFont(6f).deriveFont(Font.BOLD)
+		Font font = FontFactory.getFont(6f).deriveFont(Font.BOLD)
 				.deriveFont(6f);
 		g.setFont(font);
 

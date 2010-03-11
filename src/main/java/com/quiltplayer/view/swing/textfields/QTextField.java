@@ -21,7 +21,7 @@ import com.quiltplayer.view.swing.window.Keyboard;
 public class QTextField extends JTextField {
     private static final long serialVersionUID = 1L;
 
-    public static final String MIG_HEIGHT = "h 0.85cm";
+    public static final String MIG_HEIGHT = "h 0.85cm!";
 
     private Color borderColor = null;
 

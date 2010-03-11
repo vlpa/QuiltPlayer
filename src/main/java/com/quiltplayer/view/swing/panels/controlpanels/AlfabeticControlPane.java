@@ -100,8 +100,8 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
         artistsButton.addActionListener(this);
         artistsButton.setActionCommand(SelectionController.ARTIST);
 
-        add(albumsButton, "center, h 0.8cm");
-        add(artistsButton, "center,h 0.8cm ");
+        add(albumsButton, "center, h 0.8cm!");
+        add(artistsButton, "center,h 0.8cm!");
 
         final JPanel alfabeticPanel = new JPanel(new MigLayout("insets 0, flowy, fill"));
 

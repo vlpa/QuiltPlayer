@@ -18,6 +18,7 @@ import org.springframework.core.task.TaskExecutor;
 import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.external.covers.util.ImageUtils;
 import com.quiltplayer.model.Album;
+import com.quiltplayer.view.swing.images.QImageIcon;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 
 public class AlbumCoverButton extends ScrollableButton {
@@ -106,7 +107,7 @@ public class AlbumCoverButton extends ScrollableButton {
                     icon = ImageUtils.scalePicture(new ImageIcon(album.getImages().get(0)
                             .getLargeImage().getAbsolutePath()), getWidth());
                 else
-                    icon = new ImageIcon("images/nocover.gif");
+                    icon = new QImageIcon("No cover", getWidth());
 
                 setIcon(icon);
 

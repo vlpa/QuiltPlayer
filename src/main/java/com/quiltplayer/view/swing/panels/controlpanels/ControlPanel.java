@@ -104,8 +104,8 @@ public class ControlPanel extends JPanel {
 
         // final String s = "h 100%, w 100%";
 
-        final JPanel applicationButtons = new JPanel(
-                new MigLayout("insets 0, alignx center, flowy"));
+        final JPanel applicationButtons = new JPanel(new MigLayout(
+                "insets 1cm 0 1cm 0, alignx center, flowy"));
 
         applicationButtons.setOpaque(false);
         applicationButtons.add(quiltButton, s);

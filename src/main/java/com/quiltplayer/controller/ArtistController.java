@@ -63,7 +63,7 @@ public class ArtistController implements ArtistListener {
         else if (actionCommand == EVENT_DELETE_ARTIST) {
             artistStorage.delete((Artist) e.getSource());
 
-            frame.updateUI(ActiveView.ALFABETIC_ARTISTS);
+            frame.updateUI(ActiveView.ARTISTS);
         }
     }
 }

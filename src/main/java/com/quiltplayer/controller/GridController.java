@@ -42,15 +42,20 @@ public class GridController implements GridListener {
             else if (view == ActiveView.ALBUMS)
                 Configuration.getInstance().getGridProperties().setAlbumsGrid(
                         Configuration.getInstance().getGridProperties().getAlbumsGrid() + 1);
+            else if (view == ActiveView.ARTISTS)
+                Configuration.getInstance().getGridProperties().setArtistGrid(
+                        Configuration.getInstance().getGridProperties().getArtistGrid() + 1);
         }
         else if (EVENT_DECREASE_GRID == e.getActionCommand()) {
             if (view == ActiveView.QUILT)
                 Configuration.getInstance().getGridProperties().setQuiltGrid(
                         Configuration.getInstance().getGridProperties().getQuiltGrid() - 1);
-            else if (view == ActiveView.ALBUMS) {
+            else if (view == ActiveView.ALBUMS)
                 Configuration.getInstance().getGridProperties().setAlbumsGrid(
                         Configuration.getInstance().getGridProperties().getAlbumsGrid() - 1);
-            }
+            else if (view == ActiveView.ARTISTS)
+                Configuration.getInstance().getGridProperties().setArtistGrid(
+                        Configuration.getInstance().getGridProperties().getArtistGrid() - 1);
         }
 
         Configuration.getInstance().storeConfiguration();

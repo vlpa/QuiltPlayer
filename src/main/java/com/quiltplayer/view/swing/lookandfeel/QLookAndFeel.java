@@ -51,7 +51,7 @@ public class QLookAndFeel extends BasicLookAndFeel {
 
         Object[] defaults = {
 
-        "Button.font", FontFactory.getSansFont(14f), "Button.background",
+        "Button.font", FontFactory.getFont(14f), "Button.background",
                 new ColorUIResource(40, 40, 40), "Button.foreground",
                 new ColorUIResource(200, 200, 200) };
 

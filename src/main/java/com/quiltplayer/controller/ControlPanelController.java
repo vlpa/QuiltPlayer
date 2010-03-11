@@ -63,7 +63,7 @@ public class ControlPanelController implements ControlPanelListener {
         if (EVENT_VIEW_ARTIST == actionCommand) {
             controlPanel.updateTab(Tab.ARTISTS);
             albumControlPanel.updateMainTab(null);
-            frame.updateUI(ActiveView.ALFABETIC_ARTISTS);
+            frame.updateUI(ActiveView.ARTISTS);
         }
         else if (ControlPanel.EVENT_QUILT == actionCommand) {
             controlPanel.updateTab(Tab.QUILT);
@@ -99,7 +99,6 @@ public class ControlPanelController implements ControlPanelListener {
         else if (EVENT_VIEW_LYRICS == actionCommand) {
             albumControlPanel.updateTab(AlbumControlPanel.Buttons.LYRICS);
             playlistPanel.viewLyricsPanel();
-            albumControlPanel.updateMainTab(null);
         }
         else if (EVENT_VIEW_ALBUM == actionCommand) {
             playlistPanel.viewAlbumPanel();

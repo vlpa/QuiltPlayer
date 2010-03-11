@@ -59,6 +59,8 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     private float[] dist = { 0.0f, 1.0f };
 
     @Autowired
+    private PlayerControlPanel playerControlPanel;
+    @Autowired
     private ControlPanelListener controlPanelListener;
 
     @Autowired
@@ -124,6 +126,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         add(editButton, LAYOUT + ", cell 0 4");
         add(moreAlbumsButton, LAYOUT + ", cell 0 5");
         add(wikiButton, LAYOUT + ", cell 0 6");
+        // add(playerControlPanel, "south");
     }
 
     public void update(final Album album) {
@@ -293,7 +296,6 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         Point2D end = new Point2D.Float(getWidth(), getHeight());
 
         LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
-
         g2d.setPaint(p);
 
         g2d.fillRect(0, 0, getWidth(), getHeight());

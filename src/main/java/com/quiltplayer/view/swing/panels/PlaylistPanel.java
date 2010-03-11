@@ -20,6 +20,7 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
+import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.AlbumPlaylistPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
 
@@ -55,6 +56,9 @@ public class PlaylistPanel extends JPanel {
     private JComponent lyricsPlaylistComponent;
 
     @Autowired
+    private PlayerControlPanel playerControlPanel;
+
+    @Autowired
     @Qualifier("albumPlaylistPanel")
     protected AlbumPlaylistPanel albumPlaylistPanel;
 
@@ -70,6 +74,8 @@ public class PlaylistPanel extends JPanel {
 
     @PostConstruct
     public void init() {
+        add(playerControlPanel, "south");
+
         viewAlbumPanel();
     }
 

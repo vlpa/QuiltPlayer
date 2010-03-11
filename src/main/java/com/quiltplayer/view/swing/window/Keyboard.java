@@ -181,7 +181,7 @@ public class Keyboard extends JPanel {
     }
 
     private void setupButton(final JButton button) {
-        button.setFont(FontFactory.getSansFont(16f).deriveFont(Font.ITALIC));
+        button.setFont(FontFactory.getFont(16f).deriveFont(Font.ITALIC));
 
         button.addActionListener(new ActionListener() {
             /*

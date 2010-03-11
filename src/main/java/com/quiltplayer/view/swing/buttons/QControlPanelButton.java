@@ -73,7 +73,7 @@ public class QControlPanelButton extends JButton {
 
         setContentAreaFilled(false);
 
-        setFont(FontFactory.getSansFont(11f));
+        setFont(FontFactory.getFont(11f));
 
         addMouseListener(listenener);
     }

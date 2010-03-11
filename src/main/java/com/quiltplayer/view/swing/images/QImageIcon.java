@@ -20,10 +20,10 @@ import com.quiltplayer.view.swing.FontFactory;
 public class QImageIcon extends ImageIcon {
     private static final long serialVersionUID = 1L;
 
-    private Color[] gradient = { new Color(40, 40, 40), new Color(35, 35, 35),
-            new Color(25, 25, 25), new Color(20, 20, 20) };
+    private Color[] gradient = { new Color(80, 80, 80), new Color(50, 50, 50),
+            new Color(20, 20, 20), new Color(00, 00, 00) };
 
-    private final float[] dist = { 0.0f, 0.5f, 0.55f, 1.0f };
+    private float[] dist = { 0.0f, 0.60f, 0.64f, 1.0f };
 
     private int width;
 
@@ -62,7 +62,7 @@ public class QImageIcon extends ImageIcon {
          */
         g2d.fillRoundRect(0, 0, width, width, 0, 0);
 
-        Font font = FontFactory.getSansFont(22f).deriveFont(Font.BOLD);
+        Font font = FontFactory.getFont(12f);
         g.setFont(font);
 
         char[] carray = label.toCharArray();

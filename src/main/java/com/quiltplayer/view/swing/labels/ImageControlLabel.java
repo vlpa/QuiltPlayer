@@ -35,7 +35,7 @@ public class ImageControlLabel extends JLabel
 
 		setBackground(backgroundColor);
 
-		setFont(FontFactory.getSansFont(16f));
+		setFont(FontFactory.getFont(16f));
 
 		setBorder(null);
 

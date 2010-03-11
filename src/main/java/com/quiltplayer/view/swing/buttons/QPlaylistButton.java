@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
+import com.quiltplayer.view.swing.FontFactory;
 
 /**
  * Default button implementation.
@@ -22,7 +22,7 @@ public class QPlaylistButton extends QButton {
 
         setDefaults();
 
-        setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
+        setFont(FontFactory.getFont(11f));
     }
 
     protected void addMouseListener() {

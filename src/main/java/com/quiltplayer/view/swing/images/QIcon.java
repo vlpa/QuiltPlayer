@@ -75,7 +75,7 @@ public class QIcon extends ImageIcon {
 
         g2d.drawString("quiltplayer", 150, 150);
 
-        Font font = FontFactory.getSansFont(12f);
+        Font font = FontFactory.getFont(12f);
         g.setFont(font);
 
         char[] carray = label.toCharArray();

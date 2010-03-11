@@ -46,9 +46,9 @@ public class QUiProperties {
 
         UIManager.put("FileChooser.listViewBackground", Color.BLACK);
         UIManager.put("FileChooser.foreground", Color.GREEN);
-        UIManager.put("FileChooser.listFont", FontFactory.getSansFont(14f));
+        UIManager.put("FileChooser.listFont", FontFactory.getFont(14f));
 
-        UIManager.put("Label.font", FontFactory.getSansFont(14f));
+        UIManager.put("Label.font", FontFactory.getFont(14f));
         UIManager.put("Label.foreground", new Color(135, 135, 135));
 
         UIManager.put("DesktopIcon.background", Color.pink);
@@ -57,14 +57,14 @@ public class QUiProperties {
 
         UIManager.put("TextArea.background", new Color(15, 15, 15));
         UIManager.put("TextArea.foreground", new Color(220, 220, 220));
-        UIManager.put("TextArea.font", FontFactory.getSansFont(13f));
+        UIManager.put("TextArea.font", FontFactory.getFont(13f));
 
         setupToolTip();
     }
 
     private static void setupToolTip() {
         ToolTipManager.sharedInstance().setInitialDelay(250);
-        UIManager.put("ToolTip.font", FontFactory.getSansFont(13f));
+        UIManager.put("ToolTip.font", FontFactory.getFont(13f));
         UIManager.put("ToolTip.background", ColorConstantsDark.BACKGROUND);
         UIManager.put("ToolTip.foreground", new Color(220, 220, 200));
         UIManager.put("ToolTip.border", BorderFactory.createEmptyBorder());
@@ -96,8 +96,8 @@ public class QUiProperties {
         UIManager.put("TextField.inactiveForeground", new Color(70, 70, 70));
         UIManager.put("PasswordField.inactiveForeground", new Color(70, 70, 70));
 
-        UIManager.put("TextField.font", FontFactory.getSansFont(14f));
-        UIManager.put("PasswordField.font", FontFactory.getSansFont(14f));
+        UIManager.put("TextField.font", FontFactory.getFont(14f));
+        UIManager.put("PasswordField.font", FontFactory.getFont(14f));
 
         UIManager.put("TextField.caretForeground", new Color(160, 160, 160));
         UIManager.put("PasswordField.caretForeground", new Color(160, 160, 160));

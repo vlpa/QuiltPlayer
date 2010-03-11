@@ -47,13 +47,6 @@ public class FontFactory {
         return font.deriveFont(fontSize);
     }
 
-    @Deprecated
-    public static Font getSansFont(float size) {
-        float fontSize = size + Configuration.getInstance().getFontBalancer();
-
-        return sansFont.deriveFont(fontSize);
-    }
-
     public static Font getLargeTextFont(float size) {
         float fontSize = size + Configuration.getInstance().getFontBalancer();
 

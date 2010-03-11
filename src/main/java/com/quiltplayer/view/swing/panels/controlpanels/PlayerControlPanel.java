@@ -41,7 +41,7 @@ public class PlayerControlPanel extends JPanel {
 
     private float[] dist = { 0.0f, 0.60f, 0.64f, 1.0f };
 
-    private static final String LAYOUT = "h 100%, w 3cm";
+    private static final String LAYOUT = "h 100%, w 1.8cm";
 
     @Autowired
     private PlayerListener playerListener;
@@ -64,11 +64,11 @@ public class PlayerControlPanel extends JPanel {
 
         setOpaque(true);
 
-        add(previousButton, LAYOUT + ", cell 0 0");
-        add(playButton, LAYOUT + ", cell 1 0");
-        add(pauseButton, LAYOUT + ", cell 2 0");
-        add(stopButton, LAYOUT + ", cell 3 0");
-        add(nextButton, LAYOUT + ", cell 4 0");
+        add(previousButton, LAYOUT);
+        add(playButton, LAYOUT);
+        add(pauseButton, LAYOUT);
+        add(stopButton, LAYOUT);
+        add(nextButton, LAYOUT);
 
         setStopped();
     }
@@ -142,7 +142,6 @@ public class PlayerControlPanel extends JPanel {
         Point2D end = new Point2D.Float(0, getHeight());
 
         LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
-
         g2d.setPaint(p);
 
         g2d.fillRect(0, 0, getWidth(), getHeight());

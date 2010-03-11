@@ -201,12 +201,8 @@ public class QuiltPlayerFrame extends JFrame {
         decreaseGridButton.setToolTipText("Remove column in the grid above");
         decreaseGridButton.setBorderPainted(false);
 
-        JPanel panel = new JPanel(new MigLayout("insets 0"));
-        panel.add(increaseGridButton, "right, gapy 0 20lp");
-        panel.add(decreaseGridButton, "right, gapx 0 30lp, gapy 0 20lp");
-        panel.setOpaque(false);
-
-        glassPane.add(panel, "right, bottom");
+        glassPane.add(increaseGridButton, "top, gapx 85%");
+        glassPane.add(decreaseGridButton, "top");
 
         glassPane.add(keyboardPanel, "center");
 
@@ -259,7 +255,7 @@ public class QuiltPlayerFrame extends JFrame {
         else if (currentView.equals(ActiveView.COVERS)) {
             ui = albumArtView.getUI();
         }
-        else if (currentView.equals(ActiveView.ALFABETIC_ARTISTS)) {
+        else if (currentView.equals(ActiveView.ARTISTS)) {
             ui = artistView.getUI();
         }
         else if (currentView.equals(ActiveView.ALBUMS)) {

@@ -51,7 +51,7 @@ public class AlbumPresentationPanel extends QPanel {
         label.setText(name);
         label.setOpaque(false);
         label.setForeground(new Color(110, 110, 110));
-        label.setFont(FontFactory.getSansFont(18f).deriveFont(Font.PLAIN));
+        label.setFont(FontFactory.getFont(18f).deriveFont(Font.PLAIN));
 
         return label;
     }
@@ -60,7 +60,7 @@ public class AlbumPresentationPanel extends QPanel {
         final JLabel label = new JLabel();
         label.setOpaque(false);
         label.setForeground(new Color(200, 200, 200));
-        label.setFont(FontFactory.getSansFont(12f));
+        label.setFont(FontFactory.getFont(12f));
 
         return label;
     }
@@ -69,7 +69,7 @@ public class AlbumPresentationPanel extends QPanel {
         final JLabel label = new JLabel();
         label.setOpaque(false);
         label.setForeground(new Color(110, 110, 110));
-        label.setFont(FontFactory.getSansFont(12f));
+        label.setFont(FontFactory.getFont(12f));
 
         return label;
     }
