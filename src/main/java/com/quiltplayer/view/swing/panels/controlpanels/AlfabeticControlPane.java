@@ -40,8 +40,13 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
 
     public static final String NUMERIC = "0-9";
 
-    private String[] strings = new String[] { ALL, NUMERIC, "A", "N", "B", "O", "C", "P", "D", "R",
-            "E", "S", "F", "T", "G", "U", "H", "V", "I", "W", "J", "X", "K", "Y", "L", "Z", "M" };
+    // private String[] strings = new String[] { ALL, NUMERIC, "A", "N", "B", "O", "C", "P", "D",
+    // "R",
+    // "E", "S", "F", "T", "G", "U", "H", "V", "I", "W", "J", "X", "K", "Y", "L", "Z", "M" };
+
+    private String[] strings = new String[] { ALL, NUMERIC, "A", "B", "C", "D", "E", "F", "G", "H",
+            "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y",
+            "Z" };
 
     private QPlaylistButton albumsButton;
 
@@ -66,7 +71,7 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
     private QPlaylistButton selectedButton;
 
     public AlfabeticControlPane() {
-        super(new MigLayout("insets 0, wrap 2, fillx, aligny center"));
+        super(new MigLayout("insets 0, wrap 1, filly, aligny center"));
 
         setOpaque(false);
     }
@@ -81,24 +86,24 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
         minusButton.addActionListener(gridListener);
         minusButton.setActionCommand(GridController.EVENT_DECREASE_GRID);
 
-        add(plusButton, "center, w 0.8cm, h 0.8cm");
-        add(minusButton, "center, w 0.8cm, h 0.8cm");
+        // add(plusButton, "center, w 0.8cm, h 0.8cm");
+        // add(minusButton, "center, w 0.8cm, h 0.8cm");
 
-        albumsButton = new QPlaylistButton("Albums");
+        albumsButton = new QPlaylistButton("Album");
         albumsButton.addActionListener(this);
         albumsButton.setActionCommand(SelectionController.ALBUMS);
         albumsButton.activate();
 
         list.add(SelectionController.ALBUMS);
 
-        artistsButton = new QPlaylistButton("Artists");
+        artistsButton = new QPlaylistButton("Artist");
         artistsButton.addActionListener(this);
         artistsButton.setActionCommand(SelectionController.ARTIST);
 
-        add(albumsButton, "center, w 100%, h 0.8cm, span 2");
-        add(artistsButton, "center, w 100%, h 0.8cm, span 2");
+        add(albumsButton, "center, h 0.8cm");
+        add(artistsButton, "center,h 0.8cm ");
 
-        final JPanel alfabeticPanel = new JPanel(new MigLayout("insets 0, wrap 2, fill"));
+        final JPanel alfabeticPanel = new JPanel(new MigLayout("insets 0, flowy, fill"));
 
         alfabeticPanel.setOpaque(true);
 

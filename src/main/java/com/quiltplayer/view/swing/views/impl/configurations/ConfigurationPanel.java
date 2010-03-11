@@ -16,7 +16,7 @@ import com.quiltplayer.view.swing.designcomponents.TextFieldComponents;
 import com.quiltplayer.view.swing.labels.QLabel;
 import com.quiltplayer.view.swing.listeners.ConfigurationListener;
 import com.quiltplayer.view.swing.views.impl.ConfigurationView;
-import com.quiltplayer.view.swing.window.KeyboardPanel;
+import com.quiltplayer.view.swing.window.Keyboard;
 
 /**
  * Panel for the configurations properties tab in configurations view.
@@ -37,7 +37,7 @@ public class ConfigurationPanel extends JPanel {
     public JComboBox fontSelectBox;
 
     @Autowired
-    private KeyboardPanel keyboardPanel;
+    private Keyboard keyboardPanel;
 
     @Autowired
     private ConfigurationListener configurationListener;

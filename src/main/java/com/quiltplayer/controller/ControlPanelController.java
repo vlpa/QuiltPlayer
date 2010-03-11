@@ -9,9 +9,10 @@ import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel.Tab;
-import com.quiltplayer.view.swing.window.KeyboardPanel;
+import com.quiltplayer.view.swing.window.Keyboard;
 
 /**
  * Controller for the control panel.
@@ -44,7 +45,10 @@ public class ControlPanelController implements ControlPanelListener {
     private ControlPanel controlPanel;
 
     @Autowired
-    private KeyboardPanel keyboardPanel;
+    private Keyboard keyboardPanel;
+
+    @Autowired
+    private AlbumControlPanel albumControlPanel;
 
     @Autowired
     private PlaylistPanel playlistPanel;
@@ -58,35 +62,48 @@ public class ControlPanelController implements ControlPanelListener {
 
         if (EVENT_VIEW_ARTIST == actionCommand) {
             controlPanel.updateTab(Tab.ARTISTS);
+            albumControlPanel.updateMainTab(null);
             frame.updateUI(ActiveView.ALFABETIC_ARTISTS);
         }
-        else if (ControlPanel.EVENT_ALBUM_QUILT == actionCommand) {
+        else if (ControlPanel.EVENT_QUILT == actionCommand) {
             controlPanel.updateTab(Tab.QUILT);
+            albumControlPanel.updateMainTab(null);
             frame.updateUI(ActiveView.QUILT);
         }
         else if (EVENT_VIEW_WIKI == actionCommand) {
+            albumControlPanel.updateMainTab(AlbumControlPanel.Buttons.WIKI);
+            controlPanel.updateTab(null);
             frame.updateUI(ActiveView.WIKI);
         }
         else if (EVENT_VIEW_COVERS == actionCommand) {
+            albumControlPanel.updateMainTab(AlbumControlPanel.Buttons.IMAGES);
+            controlPanel.updateTab(null);
             frame.updateUI(ActiveView.COVERS);
         }
         else if (ControlPanel.EVENT_VIEW_SEARCH == actionCommand) {
             controlPanel.updateTab(Tab.SEARCH);
+            albumControlPanel.updateMainTab(null);
             frame.updateUI(ActiveView.SEARCH);
         }
         else if (EVENT_VIEW_CONFIGURATION == actionCommand) {
             controlPanel.updateTab(Tab.CONFIGURATION);
+            albumControlPanel.updateMainTab(null);
             frame.updateUI(ActiveView.CONFIGURATION);
         }
         else if (ControlPanel.EVENT_VIEW_ABOUT == actionCommand) {
+            albumControlPanel.updateMainTab(null);
             controlPanel.updateTab(Tab.NONE);
             frame.updateUI(ActiveView.ABOUT);
+
         }
         else if (EVENT_VIEW_LYRICS == actionCommand) {
+            albumControlPanel.updateTab(AlbumControlPanel.Buttons.LYRICS);
             playlistPanel.viewLyricsPanel();
+            albumControlPanel.updateMainTab(null);
         }
         else if (EVENT_VIEW_ALBUM == actionCommand) {
             playlistPanel.viewAlbumPanel();
+            albumControlPanel.updateTab(AlbumControlPanel.Buttons.ALBUMS);
         }
         else if (EVENT_TOGGLE_ALBUM_VIEW == actionCommand) {
             frame.toggleAlbumView();

@@ -61,7 +61,7 @@ public class AlbumPlaylistPanel extends JPanel {
     public void init() {
         this.album = new NullAlbum();
 
-        add(albumPresentationPanel, "north, gapy 0.3cm 0.3cm");
+        add(albumPresentationPanel, "north, gapy 0.5cm 0.3cm");
         add(crossFader, "north, h 40%!");
     }
 

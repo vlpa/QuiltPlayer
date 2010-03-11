@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.window.KeyboardPanel;
+import com.quiltplayer.view.swing.window.Keyboard;
 
 /**
  * Quilt implementation of a text field.
@@ -21,13 +21,15 @@ import com.quiltplayer.view.swing.window.KeyboardPanel;
 public class QTextField extends JTextField {
     private static final long serialVersionUID = 1L;
 
+    public static final String MIG_HEIGHT = "h 0.85cm";
+
     private Color borderColor = null;
 
     private boolean callFocus = false;
 
-    private KeyboardPanel keyboardPanel;
+    private Keyboard keyboardPanel;
 
-    public QTextField(KeyboardPanel keyboardPanel) {
+    public QTextField(Keyboard keyboardPanel) {
         super();
 
         this.keyboardPanel = keyboardPanel;
@@ -35,7 +37,7 @@ public class QTextField extends JTextField {
         setDefaults();
     }
 
-    public QTextField(boolean focus, KeyboardPanel keyboardPanel) {
+    public QTextField(boolean focus, Keyboard keyboardPanel) {
         super();
 
         this.keyboardPanel = keyboardPanel;
@@ -50,7 +52,9 @@ public class QTextField extends JTextField {
      */
     public void setDefaults() {
         setBackground(new Color(200, 200, 200));
+
         setFont(FontFactory.getFont(16));
+
         setUI(new RoundTextUI());
 
         UIManager.put("TextField.inactiveForeground", new Color(170, 170, 170));

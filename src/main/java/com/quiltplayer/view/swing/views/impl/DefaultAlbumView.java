@@ -73,8 +73,9 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
             if (artistnameLabel == null)
                 setupArtistnameLabel();
 
-            // artistnameLabel.setText(albums.get(0).getArtist().getArtistName().getName());
-            // panel.add(artistnameLabel, "");
+            artistnameLabel.setText(albums.get(0).getArtist().getArtistName().getName());
+            panel.add(artistnameLabel, "span "
+                    + Configuration.getInstance().getGridProperties().getAlbumsGrid());
 
             int i = 1;
 
@@ -128,8 +129,8 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
 
     private void setupArtistnameLabel() {
         artistnameLabel = new JLabel();
-        artistnameLabel.setFont(FontFactory.getSansFont(40f));
-        artistnameLabel.setForeground(new Color(200, 200, 200));
+        artistnameLabel.setFont(FontFactory.getLargeTextFont(30f));
+        artistnameLabel.setForeground(new Color(80, 80, 80));
     }
 
     /*

@@ -65,13 +65,4 @@ public class ColorPanel extends JPanel {
 
         return colorProfileLabel;
     }
-
-    // else if (e.getActionCommand() == COLOR_PROFILE_LIGHT) {
-    // lightColorProfile.setSelected(true);
-    // darkColorProfile.setSelected(false);
-    // }
-    // else if (e.getActionCommand() == COLOR_PROFILE_DARK) {
-    // darkColorProfile.setSelected(true);
-    // lightColorProfile.setSelected(false);
-    // }
 }

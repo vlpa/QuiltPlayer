@@ -10,6 +10,7 @@ import javax.swing.JButton;
 
 import net.miginfocom.swing.MigLayout;
 
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
 
 /**
@@ -20,7 +21,7 @@ import com.quiltplayer.view.swing.FontFactory;
 public class QButton extends JButton {
     private static final long serialVersionUID = 1L;
 
-    protected static Color DEFAULT = new Color(60, 60, 60);
+    protected static Color DEFAULT = ColorConstantsDark.BACKGROUND.brighter();
 
     protected static final Color HOOVER = new Color(80, 80, 80);
 
@@ -36,7 +37,10 @@ public class QButton extends JButton {
 
     protected void setDefaults() {
         setLayout(new MigLayout("fill"));
+
         setFocusable(false);
+
+        setOpaque(false);
 
         setForeground(new Color(200, 200, 200));
 

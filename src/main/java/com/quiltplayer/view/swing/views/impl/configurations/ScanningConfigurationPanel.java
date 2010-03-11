@@ -34,7 +34,7 @@ import com.quiltplayer.view.swing.listeners.ScanningListener;
 import com.quiltplayer.view.swing.progressbars.QProgressBar;
 import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.views.impl.ConfigurationView;
-import com.quiltplayer.view.swing.window.KeyboardPanel;
+import com.quiltplayer.view.swing.window.Keyboard;
 
 /**
  * Panel for the scanning tab in configurations view.
@@ -49,7 +49,7 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
     private static final long serialVersionUID = 1L;
 
     @Autowired
-    private KeyboardPanel keyboardPanel;
+    private Keyboard keyboardPanel;
 
     @Autowired
     private Id3Extractor id3Extractor;

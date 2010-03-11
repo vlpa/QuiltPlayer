@@ -16,21 +16,25 @@ public class FontFactory {
 
     private static Font sansFont;
 
+    private static Font largeFont;
+
     static {
         try {
             log.debug("Creating fonts...");
 
-            Resource file = new ClassPathResource("ae_Electron.ttf");
+            Resource file = new ClassPathResource("DejaVuSansCondensed.ttf");
 
             URL url = file.getURL();
 
             font = Font.createFont(Font.TRUETYPE_FONT, url.openStream());
 
-            file = new ClassPathResource("FreeSans.ttf");
+            sansFont = font;
+
+            file = new ClassPathResource("DejaVuSans-ExtraLight.ttf");
 
             url = file.getURL();
 
-            sansFont = Font.createFont(Font.TRUETYPE_FONT, url.openStream());
+            largeFont = Font.createFont(Font.TRUETYPE_FONT, url.openStream());
         }
         catch (Exception e) {
             log.error(e.getMessage());
@@ -38,15 +42,20 @@ public class FontFactory {
     }
 
     public static Font getFont(float size) {
-        float fontSize = size
-                + Configuration.getInstance().getFontBalancer();
+        float fontSize = size + Configuration.getInstance().getFontBalancer() + 1;
 
         return font.deriveFont(fontSize);
     }
 
+    @Deprecated
     public static Font getSansFont(float size) {
-        float fontSize = size
-                + Configuration.getInstance().getFontBalancer();
+        float fontSize = size + Configuration.getInstance().getFontBalancer();
+
+        return sansFont.deriveFont(fontSize);
+    }
+
+    public static Font getLargeTextFont(float size) {
+        float fontSize = size + Configuration.getInstance().getFontBalancer();
 
         return sansFont.deriveFont(fontSize);
     }

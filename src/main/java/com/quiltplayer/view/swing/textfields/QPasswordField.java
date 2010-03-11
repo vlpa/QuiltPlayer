@@ -8,7 +8,7 @@ import java.awt.event.FocusEvent;
 import javax.swing.JPasswordField;
 
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.window.KeyboardPanel;
+import com.quiltplayer.view.swing.window.Keyboard;
 
 /**
  * 
@@ -18,9 +18,9 @@ import com.quiltplayer.view.swing.window.KeyboardPanel;
 public class QPasswordField extends JPasswordField {
     private static final long serialVersionUID = -7358149534963586489L;
 
-    private KeyboardPanel keyboardPanel;
+    private Keyboard keyboardPanel;
 
-    public QPasswordField(final KeyboardPanel keyboardPanel) {
+    public QPasswordField(final Keyboard keyboardPanel) {
         super();
 
         this.keyboardPanel = keyboardPanel;

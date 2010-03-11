@@ -31,7 +31,7 @@ import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
  * 
  */
 @Component
-public class KeyboardPanel extends JPanel {
+public class Keyboard extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private static final String CAPS_LOCK = "Caps Lock";
@@ -60,7 +60,7 @@ public class KeyboardPanel extends JPanel {
             { CAPS_LOCK, "a", "s", "d", "f", "g", "h", "j", "k", "l" },
             { "z", "x", "c", "v", "b", "n", "m" }, { CLEAR, " ", CLOSE } };
 
-    public KeyboardPanel() {
+    public Keyboard() {
         setLayout(new MigLayout("insets 25, center"));
 
         setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 2

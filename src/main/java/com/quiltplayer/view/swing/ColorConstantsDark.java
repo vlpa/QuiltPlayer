@@ -59,7 +59,7 @@ public class ColorConstantsDark implements ColorConstants {
      */
     @Override
     public Color getPlaylistTitle() {
-        return new Color(180, 180, 180);
+        return new Color(200, 200, 200);
     }
 
     /*

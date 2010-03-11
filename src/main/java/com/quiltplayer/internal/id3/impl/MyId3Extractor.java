@@ -99,19 +99,19 @@ public class MyId3Extractor implements Id3Extractor {
                 artistName = srcSet.id3v2Raw.values.getArtist();
                 albumTitle = srcSet.id3v2Raw.values.getAlbum();
                 songTitle = srcSet.id3v2Raw.values.getSongTitle();
-                trackNumber = srcSet.id3v2Raw.values.getTrackNumber();
+                trackNumber = srcSet.id3v2Raw.values.getTrackCount();
             }
             else if (srcSet.id3v1Raw != null) {
                 artistName = srcSet.id3v1Raw.values.getArtist();
                 albumTitle = srcSet.id3v1Raw.values.getAlbum();
                 songTitle = srcSet.id3v1Raw.values.getSongTitle();
-                trackNumber = srcSet.id3v1Raw.values.getTrackNumber();
+                trackNumber = srcSet.id3v1Raw.values.getTrackCount();
             }
             else {
                 artistName = metadata.getArtist();
                 albumTitle = metadata.getAlbum();
                 songTitle = metadata.getSongTitle();
-                trackNumber = metadata.getTrackNumber();
+                trackNumber = metadata.getTrackCount();
             }
 
             Id3DataModel model = new Id3DataModel();

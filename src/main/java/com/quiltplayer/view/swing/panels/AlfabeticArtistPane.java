@@ -24,7 +24,7 @@ public class AlfabeticArtistPane extends JPanel {
     private ArtistListener artistListener;
 
     public AlfabeticArtistPane() {
-        super(new MigLayout("insets 0, wrap 1"));
+        super(new MigLayout("insets 0, wrap 1, fill"));
 
         setOpaque(false);
     }
@@ -32,13 +32,13 @@ public class AlfabeticArtistPane extends JPanel {
     public void setup(final String character, final List<Artist> artists) {
         this.character = character;
 
-        add(new StringOrCharLabel(character), "w 4cm!, h 0.80cm, dock north");
+        add(new StringOrCharLabel(character), "h 0.80cm, dock north");
 
         for (final Artist artist : artists) {
             final ArtistNameButton button = new ArtistNameButton(artist, artistListener);
             button.setFont(FontFactory.getSansFont(16f));
 
-            add(button, "wmax 4cm, h 0.65cm, dock north, left, gapy 1px");
+            add(button, "w 100%, h 0.65cm, dock north, left, gapy 1px");
         }
     }
 

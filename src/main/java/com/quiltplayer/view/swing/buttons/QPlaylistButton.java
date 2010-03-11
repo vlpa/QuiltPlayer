@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
+
 /**
  * Default button implementation.
  * 
@@ -19,6 +21,8 @@ public class QPlaylistButton extends QButton {
         super(label);
 
         setDefaults();
+
+        setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
     }
 
     protected void addMouseListener() {
@@ -96,5 +100,6 @@ public class QPlaylistButton extends QButton {
      */
     @Override
     protected void paintBorder(Graphics g) {
+        super.paintBorder(g);
     }
 }

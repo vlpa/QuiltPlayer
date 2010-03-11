@@ -47,7 +47,7 @@ public class PlayerControlPanel extends JPanel {
     private PlayerListener playerListener;
 
     public PlayerControlPanel() {
-        super(new MigLayout("insets 0, wrap 6"));
+        super(new MigLayout("insets 0, flowx"));
     }
 
     @PostConstruct
@@ -64,8 +64,9 @@ public class PlayerControlPanel extends JPanel {
 
         setOpaque(true);
 
-        add(previousButton, LAYOUT + ", cell 1 0");
-        add(playButton, LAYOUT + ", cell 2 0");
+        add(previousButton, LAYOUT + ", cell 0 0");
+        add(playButton, LAYOUT + ", cell 1 0");
+        add(pauseButton, LAYOUT + ", cell 2 0");
         add(stopButton, LAYOUT + ", cell 3 0");
         add(nextButton, LAYOUT + ", cell 4 0");
 
@@ -74,59 +75,53 @@ public class PlayerControlPanel extends JPanel {
 
     private void setupNextButton() {
         nextButton = new QControlPanelButton("Next", ClassPathUtils
-                .getIconFromClasspath("white/Next.png"), SwingConstants.TOP);
+                .getIconFromClasspath("white/Next.png"), SwingConstants.TOP, SwingConstants.RIGHT);
         nextButton.addActionListener(playerListener);
         nextButton.setActionCommand(PlayerController.PlayerSongEvents.NEXT.toString());
     }
 
     private void setupPreviousButton() {
         previousButton = new QControlPanelButton("Prev", ClassPathUtils
-                .getIconFromClasspath("white/Previous.png"), SwingConstants.TOP);
+                .getIconFromClasspath("white/Previous.png"), SwingConstants.TOP,
+                SwingConstants.RIGHT);
         previousButton.addActionListener(playerListener);
         previousButton.setActionCommand(PlayerController.PlayerSongEvents.PREVIOUS.toString());
     }
 
     private void setupPlayButton() {
         playButton = new QControlPanelButton("Play", ClassPathUtils
-                .getIconFromClasspath("white/Play.png"), SwingConstants.TOP);
+                .getIconFromClasspath("white/Play.png"), SwingConstants.TOP, SwingConstants.RIGHT);
         playButton.addActionListener(playerListener);
         playButton.setActionCommand(PlayerController.PlayerSongEvents.PLAY.toString());
     }
 
     private void setupStopButton() {
         stopButton = new QControlPanelButton("Stop", ClassPathUtils
-                .getIconFromClasspath("white/Stop.png"), SwingConstants.TOP);
+                .getIconFromClasspath("white/Stop.png"), SwingConstants.TOP, SwingConstants.RIGHT);
         stopButton.addActionListener(playerListener);
         stopButton.setActionCommand(PlayerController.PlayerSongEvents.STOP.toString());
     }
 
     private void setupPauseButton() {
         pauseButton = new QControlPanelButton("Pause", ClassPathUtils
-                .getIconFromClasspath("white/Pause.png"), SwingConstants.TOP);
+                .getIconFromClasspath("white/Pause.png"), SwingConstants.TOP, SwingConstants.RIGHT);
         pauseButton.addActionListener(playerListener);
         pauseButton.setActionCommand(PlayerController.PlayerSongEvents.PAUSE.toString());
     }
 
     public void setPlaying() {
-        remove(playButton);
-        add(pauseButton, LAYOUT + ", cell 2 0");
         pauseButton.inactivate();
         stopButton.inactivate();
         playButton.activate();
     }
 
     public void setStopped() {
-        remove(pauseButton);
-        remove(playButton);
-        add(playButton, LAYOUT + ", cell 2 0");
         pauseButton.inactivate();
         stopButton.activate();
         playButton.inactivate();
     }
 
     public void setPaused() {
-        remove(pauseButton);
-        add(playButton, LAYOUT + ", cell 2 0");
         pauseButton.activate();
         stopButton.inactivate();
         playButton.inactivate();

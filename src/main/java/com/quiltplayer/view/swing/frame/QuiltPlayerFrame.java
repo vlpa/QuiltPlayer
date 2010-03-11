@@ -24,6 +24,7 @@ import com.quiltplayer.controller.GridController;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.utils.ClassPathUtils;
 import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.buttons.QTextButton;
 import com.quiltplayer.view.swing.listeners.GridListener;
@@ -35,7 +36,7 @@ import com.quiltplayer.view.swing.views.ArtistView;
 import com.quiltplayer.view.swing.views.ListView;
 import com.quiltplayer.view.swing.views.View;
 import com.quiltplayer.view.swing.views.impl.ConfigurationView;
-import com.quiltplayer.view.swing.window.KeyboardPanel;
+import com.quiltplayer.view.swing.window.Keyboard;
 
 /**
  * Main Frame for QuiltPlayer.
@@ -95,7 +96,7 @@ public class QuiltPlayerFrame extends JFrame {
     private ActiveView currentView = ActiveView.ABOUT;
 
     @Autowired
-    private KeyboardPanel keyboardPanel;
+    private Keyboard keyboardPanel;
 
     @Autowired
     private AlfabeticControlPane alfabeticControlPane;
@@ -109,6 +110,7 @@ public class QuiltPlayerFrame extends JFrame {
 
     public QuiltPlayerFrame() {
         setTitle("QuiltPlayer");
+        setIconImage(ClassPathUtils.getIconFromClasspath("icon/quilticon.gif").getImage());
 
         float swingDPI = Toolkit.getDefaultToolkit().getScreenResolution();
         float migDPI = PlatformDefaults.getDefaultDPI();
@@ -173,8 +175,9 @@ public class QuiltPlayerFrame extends JFrame {
 
         ui = aboutView.getUI();
 
-        getContentPane().add(controlPanel, "dock east, w 1.6cm!");
-        getContentPane().add(albumControlPanel, "dock west, w 1.6cm!");
+        // getContentPane().add(controlPanel, "north, h 1.6cm!");
+        getContentPane().add(controlPanel, "east, w 1.6cm!");
+        getContentPane().add(albumControlPanel, "west, w 1.6cm!");
 
         addPlaylistView();
 
@@ -285,7 +288,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addAlfabeticControlPanel() {
-        getContentPane().add(alfabeticControlPane, "east, aligny center, w 2cm");
+        getContentPane().add(alfabeticControlPane, "east, right, w 1cm!");
     }
 
     public ActiveView getCurrentView() {
@@ -319,12 +322,10 @@ public class QuiltPlayerFrame extends JFrame {
     public void toggleAlbumView() {
         if (b) {
             remove(playlistPanel);
-            albumControlPanel.albumViewButton.inactivate();
             b = false;
         }
         else {
             addPlaylistView();
-            albumControlPanel.albumViewButton.activate();
             b = true;
         }
 

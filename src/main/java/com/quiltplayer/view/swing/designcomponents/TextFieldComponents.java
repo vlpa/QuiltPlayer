@@ -10,7 +10,7 @@ import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.view.swing.labels.QLabel;
 import com.quiltplayer.view.swing.textfields.QTextField;
-import com.quiltplayer.view.swing.window.KeyboardPanel;
+import com.quiltplayer.view.swing.window.Keyboard;
 
 /**
  * 
@@ -20,7 +20,7 @@ import com.quiltplayer.view.swing.window.KeyboardPanel;
 public class TextFieldComponents {
 
     public static JComponent textFieldComponentForForms(final String name, final String value,
-            final boolean enableTextField, final KeyboardPanel keyboardPanel) {
+            final boolean enableTextField, final Keyboard keyboardPanel) {
         final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 1"));
 
         final JLabel label = new QLabel(name);
@@ -29,7 +29,7 @@ public class TextFieldComponents {
         textField.setEnabled(enableTextField);
 
         panel.add(label, "left, w 100%");
-        panel.add(textField, "left, w 100%");
+        panel.add(textField, "left, w 100%, " + QTextField.MIG_HEIGHT);
 
         return panel;
     }
@@ -43,7 +43,7 @@ public class TextFieldComponents {
         textField.setEnabled(enableTextField);
 
         panel.add(label, "left, w 100%");
-        panel.add(textField, "left, w 100%");
+        panel.add(textField, "left, w 100%, " + QTextField.MIG_HEIGHT);
 
         return panel;
     }
@@ -58,7 +58,7 @@ public class TextFieldComponents {
         textField.setEnabled(enableTextField);
 
         panel.add(label, "left, wrap");
-        panel.add(textField, "left, growx");
+        panel.add(textField, "left, growx, " + QTextField.MIG_HEIGHT);
         panel.add(button, "left, w 1cm");
 
         return panel;
@@ -66,7 +66,7 @@ public class TextFieldComponents {
 
     public static JComponent textFieldComponentForFormsWithButton(final String name,
             final String value, final boolean enableTextField, final JButton button,
-            final KeyboardPanel keyboardPanel) {
+            final Keyboard keyboardPanel) {
 
         final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 2"));
 
@@ -76,7 +76,7 @@ public class TextFieldComponents {
         textField.setEnabled(enableTextField);
 
         panel.add(label, "left, wrap");
-        panel.add(textField, "left, grow");
+        panel.add(textField, "left, grow, " + QTextField.MIG_HEIGHT);
         panel.add(button, "left, w 1cm");
 
         return panel;

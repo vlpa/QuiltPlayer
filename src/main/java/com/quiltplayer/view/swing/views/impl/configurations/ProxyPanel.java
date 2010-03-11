@@ -19,7 +19,7 @@ import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.labels.QLabel;
 import com.quiltplayer.view.swing.textfields.QPasswordField;
 import com.quiltplayer.view.swing.textfields.QTextField;
-import com.quiltplayer.view.swing.window.KeyboardPanel;
+import com.quiltplayer.view.swing.window.Keyboard;
 
 @Component
 public class ProxyPanel extends JPanel {
@@ -27,7 +27,7 @@ public class ProxyPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     @Autowired
-    private KeyboardPanel keyboardPanel;
+    private Keyboard keyboardPanel;
 
     /**
      * The proxy checkbox.

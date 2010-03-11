@@ -6,12 +6,14 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.cmc.shared.swing.FlowWrapLayout;
+import net.miginfocom.swing.MigLayout;
+
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.core.repo.ArtistRepository;
 import com.quiltplayer.model.Artist;
+import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.panels.AlfabeticArtistPane;
@@ -52,7 +54,8 @@ public class DefaultArtistView implements ArtistView {
     private JComponent getAlfabeticArtistComponent() {
 
         final JPanel panel = new JPanel();
-        panel.setLayout(new FlowWrapLayout(10, 10, 10, 10));
+        panel.setLayout(new MigLayout("ins 1cm 1% 0 1%, fill, wrap "
+                + Configuration.getInstance().getGridProperties().getArtistGrid()));
         panel.setOpaque(true);
 
         if (artistRepository.getArtistsByChars() != null) {
@@ -63,7 +66,9 @@ public class DefaultArtistView implements ArtistView {
                 p.addActionListener(artistListener);
                 p.setup(character, albumSet);
 
-                panel.add(p);
+                int width = 100 / Configuration.getInstance().getGridProperties().getArtistGrid() - 2;
+
+                panel.add(p, "top, w " + width + "%!");
             }
         }
 

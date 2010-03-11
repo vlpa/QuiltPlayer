@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
 
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
@@ -29,7 +30,7 @@ public class QControlPanelButton extends JButton {
 
     private String label;
 
-    private float defaultAlpha = 0.65f;
+    private float defaultAlpha = 0.85f;
 
     private float currentAlpha = defaultAlpha;
 
@@ -37,10 +38,19 @@ public class QControlPanelButton extends JButton {
 
     private boolean active;
 
+    private Icon icon;
+
     private Animator animator = new Animator(0);
 
-    public QControlPanelButton(String label, Icon icon, int verticalTextPosition) {
+    private int horizontalAlignment;
+
+    public QControlPanelButton(String label, Icon icon, int verticalTextPosition,
+            int horizontalAlignment) {
         super(" ", icon);
+
+        this.horizontalAlignment = horizontalAlignment;
+
+        this.icon = icon;
 
         this.label = label;
 
@@ -124,9 +134,15 @@ public class QControlPanelButton extends JButton {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         if (active) {
+            // RescaleOp op = new RescaleOp(-1.0f, 255f, null);
+            // BufferedImage negative = op.filter(icon, null);
             g2d.setBackground(Color.BLACK);
-            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.1f));
-            g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 9, 9);
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+
+            if (horizontalAlignment == SwingConstants.LEFT)
+                g2d.fillRoundRect(7, 0, getWidth(), getHeight(), 5, 5);
+            else if (horizontalAlignment == SwingConstants.RIGHT)
+                g2d.fillRoundRect(0, 0, getWidth() - 7, getHeight(), 5, 5);
         }
 
         g2d = (Graphics2D) g;

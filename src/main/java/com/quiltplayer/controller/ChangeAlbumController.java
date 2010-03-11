@@ -15,6 +15,7 @@ import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.listeners.WikiListener;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 
 /**
  * Controller for changing albums.
@@ -38,6 +39,9 @@ public class ChangeAlbumController implements ChangeAlbumListener {
 
     @Autowired
     private PlaylistPanel playlistPanel;
+
+    @Autowired
+    private AlbumControlPanel albumControlPanel;
 
     @Autowired
     private WikiListener wikiListener;
@@ -73,6 +77,8 @@ public class ChangeAlbumController implements ChangeAlbumListener {
 
             albumArtListener.actionPerformed(new ActionEvent(album, 0,
                     AlbumArtController.EVENT_UPDATE_ALBUM));
+
+            albumControlPanel.update(album);
         }
         else if (e.getActionCommand().equals(EVENT_CHANGE_ALBUM_AND_PLAY_SONG)) {
             Album album = (Album) ((Object[]) e.getSource())[0];
@@ -95,6 +101,8 @@ public class ChangeAlbumController implements ChangeAlbumListener {
                     .actionPerformed(new ActionEvent(album, 0, WikiController.EVENT_UPDATE_WIKI));
             albumArtListener.actionPerformed(new ActionEvent(album, 0,
                     AlbumArtController.EVENT_UPDATE_ALBUM));
+
+            albumControlPanel.update(album);
         }
     }
 }

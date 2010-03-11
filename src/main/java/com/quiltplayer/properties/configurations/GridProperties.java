@@ -16,6 +16,8 @@ public class GridProperties implements Serializable {
 
     private int albumsGrid = 4;
 
+    private int artistGrid = 4;
+
     /**
      * @return the quiltGrid
      */
@@ -46,5 +48,20 @@ public class GridProperties implements Serializable {
     public final void setAlbumsGrid(int albumsGrid) {
         if (albumsGrid > 0)
             this.albumsGrid = albumsGrid;
+    }
+
+    /**
+     * @return the artistGrid
+     */
+    public final int getArtistGrid() {
+        return artistGrid;
+    }
+
+    /**
+     * @param artistGrid
+     *            the artistGrid to set
+     */
+    public final void setArtistGrid(int artistGrid) {
+        this.artistGrid = artistGrid;
     }
 }

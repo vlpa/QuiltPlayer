@@ -35,7 +35,7 @@ import com.quiltplayer.view.swing.listeners.ScanningListener;
 import com.quiltplayer.view.swing.panels.AlbumView;
 import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.views.View;
-import com.quiltplayer.view.swing.window.KeyboardPanel;
+import com.quiltplayer.view.swing.window.Keyboard;
 
 @org.springframework.stereotype.Component
 public class EditAlbumView implements Serializable, View, AlbumView, ActionListener {
@@ -72,7 +72,7 @@ public class EditAlbumView implements Serializable, View, AlbumView, ActionListe
     private ActionListener editAlbumListener;
 
     @Autowired
-    private KeyboardPanel keyboardPanel;
+    private Keyboard keyboardPanel;
 
     private final JTextField artistName = new QTextField(keyboardPanel);
 

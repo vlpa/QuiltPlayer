@@ -21,7 +21,7 @@ import com.quiltplayer.view.swing.checkbox.QCheckBox;
 import com.quiltplayer.view.swing.designcomponents.TextFieldComponents;
 import com.quiltplayer.view.swing.textfields.QPasswordField;
 import com.quiltplayer.view.swing.textfields.QTextField;
-import com.quiltplayer.view.swing.window.KeyboardPanel;
+import com.quiltplayer.view.swing.window.Keyboard;
 
 @Component
 public class SpotifyConfigurationPanel extends JPanel {
@@ -34,15 +34,16 @@ public class SpotifyConfigurationPanel extends JPanel {
     public JCheckBox spotifyCheckBox;
 
     @Autowired
-    private KeyboardPanel keyboardPanel;
-    /**
-     * The spotify user name.
-     */
-    public JTextField spotifyUserName;
+    private Keyboard keyboardPanel;
 
     private JComponent userNameComponent;
 
     private JComponent passwordComponent;
+
+    /**
+     * The spotify user name.
+     */
+    public JTextField spotifyUserName;
 
     /**
      * The spotify password.
@@ -60,16 +61,6 @@ public class SpotifyConfigurationPanel extends JPanel {
         spotifyPassword = new QPasswordField(keyboardPanel);
 
         spotifyCheckBox = new QCheckBox("Spotify account");
-
-        if (Configuration.getInstance().getSpotifyProperties().isUseSpotify()) {
-            spotifyUserName.setVisible(true);
-            spotifyPassword.setVisible(true);
-            spotifyCheckBox.setSelected(true);
-        }
-        else {
-            spotifyUserName.setVisible(false);
-            spotifyPassword.setVisible(false);
-        }
 
         MouseListener l = new MouseAdapter() {
             @Override
@@ -100,5 +91,15 @@ public class SpotifyConfigurationPanel extends JPanel {
                         .getSpotifyPassword(), true);
 
         add(passwordComponent, "left, w 60%, newline");
+
+        if (Configuration.getInstance().getSpotifyProperties().isUseSpotify()) {
+            userNameComponent.setVisible(true);
+            passwordComponent.setVisible(true);
+            spotifyCheckBox.setSelected(true);
+        }
+        else {
+            userNameComponent.setVisible(false);
+            passwordComponent.setVisible(false);
+        }
     }
 }

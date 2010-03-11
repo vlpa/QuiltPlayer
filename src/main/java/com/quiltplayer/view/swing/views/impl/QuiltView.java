@@ -53,7 +53,7 @@ public class QuiltView implements ListView<Album>, FrameResizeAwarable {
      */
     @Override
     public JComponent getUI() {
-        panel = new JPanel(new MigLayout("ins 0 0.3cm 0 0.3cm, wrap "
+        panel = new JPanel(new MigLayout("ins 0, wrap "
                 + Configuration.getInstance().getGridProperties().getQuiltGrid()
                 + ", fillx, align center"));
         panel.setOpaque(true);

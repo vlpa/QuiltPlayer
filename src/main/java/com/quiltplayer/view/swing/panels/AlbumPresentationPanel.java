@@ -47,31 +47,31 @@ public class AlbumPresentationPanel extends QPanel {
     }
 
     private JLabel setupArtistNameArea(final String name) {
-        final JLabel textArea = new JLabel();
-        textArea.setText(name);
-        textArea.setOpaque(false);
-        textArea.setForeground(new Color(110, 110, 110));
-        textArea.setFont(FontFactory.getSansFont(18f).deriveFont(Font.PLAIN));
+        final JLabel label = new JLabel();
+        label.setText(name);
+        label.setOpaque(false);
+        label.setForeground(new Color(110, 110, 110));
+        label.setFont(FontFactory.getSansFont(18f).deriveFont(Font.PLAIN));
 
-        return textArea;
+        return label;
     }
 
     private JLabel setupAlbumTitleArea(final String title) {
-        final JLabel textArea = new JLabel();
-        textArea.setOpaque(false);
-        textArea.setForeground(new Color(200, 200, 200));
-        textArea.setFont(FontFactory.getSansFont(12f));
+        final JLabel label = new JLabel();
+        label.setOpaque(false);
+        label.setForeground(new Color(200, 200, 200));
+        label.setFont(FontFactory.getSansFont(12f));
 
-        return textArea;
+        return label;
     }
 
     private JLabel setupYearAndLabelArea(final String yearAndLabel) {
-        final JLabel textArea = new JLabel();
-        textArea.setOpaque(false);
-        textArea.setForeground(new Color(110, 110, 110));
-        textArea.setFont(FontFactory.getSansFont(12f));
+        final JLabel label = new JLabel();
+        label.setOpaque(false);
+        label.setForeground(new Color(110, 110, 110));
+        label.setFont(FontFactory.getSansFont(12f));
 
-        return textArea;
+        return label;
     }
 
     /**
