@@ -22,6 +22,7 @@ import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.AlbumPlaylistPanel;
+import com.quiltplayer.view.swing.panels.playlistpanels.EditPlaylistPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
 
 /**
@@ -36,7 +37,7 @@ import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
 public class PlaylistPanel extends JPanel {
 
     protected enum Mode {
-        SONG, LYRICS, EDIT, WIKI, NULL
+        SONG, LYRICS, EDIT, NULL
     }
 
     private Mode mode = Mode.NULL;
@@ -65,6 +66,10 @@ public class PlaylistPanel extends JPanel {
     @Autowired
     @Qualifier("lyricsPlaylistPanel")
     protected LyricsPlaylistPanel lyricsPlaylistPanel;
+
+    @Autowired
+    @Qualifier("editPlaylistPanel")
+    protected EditPlaylistPanel editPlaylistPanel;
 
     public PlaylistPanel() {
         super(new MigLayout("ins 0.0cm 0.3cm 0.0cm 0.3cm, fill, alignx center"));
@@ -130,6 +135,7 @@ public class PlaylistPanel extends JPanel {
         this.album = album;
 
         albumPlaylistPanel.changeAlbum(album);
+        editPlaylistPanel.changeAlbum(album);
     }
 
     public void setLyrics(final String lyrics) {
@@ -138,8 +144,7 @@ public class PlaylistPanel extends JPanel {
 
     public synchronized void viewAlbumPanel() {
         if (mode != Mode.SONG) {
-            if (lyricsPlaylistComponent != null)
-                remove(lyricsPlaylistComponent);
+            removeComponentsIfNull();
 
             final QScrollPane pane = new QScrollPane(albumPlaylistPanel);
 
@@ -155,8 +160,7 @@ public class PlaylistPanel extends JPanel {
 
     public synchronized void viewLyricsPanel() {
         if (mode != Mode.LYRICS) {
-            if (albumPlaylistComponent != null)
-                remove(albumPlaylistComponent);
+            removeComponentsIfNull();
 
             final QScrollPane pane = new QScrollPane(lyricsPlaylistPanel);
 
@@ -167,6 +171,30 @@ public class PlaylistPanel extends JPanel {
             updateUI();
 
             mode = Mode.LYRICS;
+        }
+    }
+
+    private void removeComponentsIfNull() {
+        if (mode != Mode.NULL) {
+            if (albumPlaylistComponent != null)
+                remove(albumPlaylistComponent);
+            if (lyricsPlaylistComponent != null)
+                remove(lyricsPlaylistComponent);
+
+            remove(editPlaylistPanel);
+        }
+
+    }
+
+    public synchronized void viewEditPanel() {
+        if (mode != Mode.EDIT) {
+            removeComponentsIfNull();
+
+            add(editPlaylistPanel, "w 100%, h 100%, center");
+
+            updateUI();
+
+            mode = Mode.EDIT;
         }
     }
 

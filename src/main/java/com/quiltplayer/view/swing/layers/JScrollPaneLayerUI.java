@@ -11,6 +11,12 @@ import com.quiltplayer.view.swing.panels.QScrollPane;
 
 public class JScrollPaneLayerUI extends AbstractLayerUI<JScrollPane> {
 
+    private static final long serialVersionUID = 1L;
+
+    public JScrollPaneLayerUI() {
+        super();
+    }
+
     /*
      * (non-Javadoc)
      * 

@@ -122,8 +122,8 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         add(albumViewButton, LAYOUT + ", cell 0 0");
         add(albumButton, LAYOUT + ", cell 0 1");
         add(lyricsButton, LAYOUT + ", cell 0 2");
-        add(coversButton, LAYOUT + ", cell 0 3");
-        add(editButton, LAYOUT + ", cell 0 4");
+        add(editButton, LAYOUT + ", cell 0 3");
+        add(coversButton, LAYOUT + ", cell 0 4");
         add(moreAlbumsButton, LAYOUT + ", cell 0 5");
         add(wikiButton, LAYOUT + ", cell 0 6");
         // add(playerControlPanel, "south");
@@ -133,12 +133,12 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         if (album instanceof JotifyAlbum) {
             remove(editButton);
             remove(addButton);
-            add(addButton, LAYOUT + ", cell 0 4");
+            add(addButton, LAYOUT + ", cell 0 3");
         }
         else {
             remove(editButton);
             remove(addButton);
-            add(editButton, LAYOUT + ", cell 0 4");
+            add(editButton, LAYOUT + ", cell 0 3");
         }
 
         repaint();

@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -35,7 +36,7 @@ public class QSongButton extends ScrollableButton {
 
     private JLabel timeLabel;
 
-    private JLabel titleLabel;
+    private JTextArea titleLabel;
 
     private Song song;
 
@@ -58,7 +59,7 @@ public class QSongButton extends ScrollableButton {
 
         setOpaque(false);
 
-        titleLabel = new JLabel(song.getTitle());
+        titleLabel = new JTextArea(song.getTitle());
         titleLabel.setOpaque(false);
         titleLabel
                 .setForeground(Configuration.getInstance().getColorConstants().getPlaylistTitle());
@@ -69,6 +70,8 @@ public class QSongButton extends ScrollableButton {
         timeLabel.setVisible(false);
         timeLabel.setForeground(Color.WHITE);
         timeLabel.setFont(FontFactory.getFont(15f).deriveFont(Font.PLAIN));
+        titleLabel.setWrapStyleWord(true);
+        titleLabel.setLineWrap(true);
 
         numberButton = new QPlaylistButton(counter + "");
         numberButton.addActionListener(new ActionListener() {
@@ -81,7 +84,7 @@ public class QSongButton extends ScrollableButton {
         });
 
         add(numberButton, "west, w 0.8cm!, h 0.8cm!, gapx 0cm 0.1cm, gapy 0.1cm, aligny center");
-        add(titleLabel, "cell 1 0, west, aligny bottom, h 0.8cm, gapx 0cm 0.3cm");
+        add(titleLabel, "cell 1 0, w 100%, aligny center, left, gapx 0cm 0.3cm");
     }
 
     public void setActive() {

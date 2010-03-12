@@ -23,7 +23,7 @@ public class QPlaylistButton extends QButton {
         setDefaults();
 
         setFont(FontFactory.getFont(11f));
-    }
+    } 
 
     protected void addMouseListener() {
         addMouseListener(new MouseAdapter() {

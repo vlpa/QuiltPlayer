@@ -14,8 +14,8 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.ScanningListener;
 import com.quiltplayer.view.swing.panels.playlistpanels.AlbumPlaylistPanel;
+import com.quiltplayer.view.swing.panels.playlistpanels.EditPlaylistPanel;
 import com.quiltplayer.view.swing.views.impl.ConfigurationView;
-import com.quiltplayer.view.swing.views.impl.EditAlbumView;
 
 /**
  * Controller for all scanning.
@@ -54,10 +54,10 @@ public class ScanningController implements ScanningListener {
     private AlbumPlaylistPanel playlistPanel;
 
     @Autowired
-    private EditAlbumView editAlbumView;
+    private ConfigurationView configurationView;
 
     @Autowired
-    private ConfigurationView configurationView;
+    private EditPlaylistPanel editPlaylistPanel;
 
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -119,10 +119,10 @@ public class ScanningController implements ScanningListener {
         }
         else if (Scanner.COVER == e.getScanner()) {
             if (Status.STARTED == e.getStatus()) {
-                editAlbumView.disableRescanButton();
+                editPlaylistPanel.disableRescanButton();
             }
             else if (Status.DONE == e.getStatus()) {
-                editAlbumView.enableRescanButton();
+                editPlaylistPanel.enableRescanButton();
                 frame.updateUI();
                 playlistPanel.updateAlbumUI();
             }

@@ -83,9 +83,6 @@ public class QuiltPlayerFrame extends JFrame {
     private View aboutView;
 
     @Autowired
-    private View editAlbumView;
-
-    @Autowired
     private PlaylistPanel playlistPanel;
 
     @Autowired
@@ -270,10 +267,6 @@ public class QuiltPlayerFrame extends JFrame {
         }
         else if (currentView.equals(ActiveView.ABOUT)) {
             ui = aboutView.getUI();
-        }
-        else if (currentView.equals(ActiveView.EDIT_ALBUM)) {
-            ui = editAlbumView.getUI();
-            controlPanel.updateTab(null);
         }
 
         getContentPane().add(ui, "w 100%, dock east");

@@ -1,4 +1,4 @@
-package com.quiltplayer.view.swing.views.impl;
+package com.quiltplayer.view.swing.panels.playlistpanels;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,12 +6,10 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -19,6 +17,7 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.quiltplayer.controller.EditAlbumController;
 import com.quiltplayer.controller.ScanningController;
@@ -31,31 +30,31 @@ import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.designcomponents.TextFieldComponents;
 import com.quiltplayer.view.swing.labels.QLabel;
+import com.quiltplayer.view.swing.listeners.EditAlbumListener;
 import com.quiltplayer.view.swing.listeners.ScanningListener;
-import com.quiltplayer.view.swing.panels.AlbumView;
 import com.quiltplayer.view.swing.textfields.QTextField;
-import com.quiltplayer.view.swing.views.View;
 import com.quiltplayer.view.swing.window.Keyboard;
 
-@org.springframework.stereotype.Component
-public class EditAlbumView implements Serializable, View, AlbumView, ActionListener {
+/**
+ * Display the lyrics of the playing song.
+ * 
+ * @author Vlado Palczynski
+ * 
+ */
+@Component
+public class EditPlaylistPanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * Save property.
      */
-    public static final String SAVE = "save	";
+    public static final String SAVE = "save ";
 
     /**
      * Event update configuration.
      */
     public static final String EVENT_UPDATE_CONFIGURATION = "update.configuration";
-
-    /**
-     * The album to edit.
-     */
-    private Album album;
 
     private JButton rescanButton;
 
@@ -63,13 +62,13 @@ public class EditAlbumView implements Serializable, View, AlbumView, ActionListe
 
     private JButton saveButton;
 
+    private Album album;
+
+    @Autowired
+    private EditAlbumListener editAlbumListener;
+
     @Autowired
     private ScanningListener scanningListener;
-
-    /**
-	 * 
-	 */
-    private ActionListener editAlbumListener;
 
     @Autowired
     private Keyboard keyboardPanel;
@@ -78,21 +77,15 @@ public class EditAlbumView implements Serializable, View, AlbumView, ActionListe
 
     private final JTextField albumTitle = new QTextField(keyboardPanel);
 
-    public void setActionListener(ActionListener listener) {
-        editAlbumListener = listener;
+    public EditPlaylistPanel() {
+        super();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.quiltplayer.view.components.View#getUI()
-     */
-    @Override
-    public JComponent getUI() {
+    private void init() {
+        removeAll();
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new MigLayout("insets 0, wrap 3, alignx center, aligny center"));
-        panel.setOpaque(false);
+        setLayout(new MigLayout("insets 0, wrap 3, alignx center, aligny center"));
+        setOpaque(false);
 
         final JTextArea infoArea = setupInfoArea();
 
@@ -101,11 +94,11 @@ public class EditAlbumView implements Serializable, View, AlbumView, ActionListe
         if (album instanceof NeoAlbum)
             bool = true;
 
-        panel.add(new QLabel("Update album"), "left, w 8cm, newline");
-        panel.add(infoArea, "left, w 8cm, newline");
-        panel.add(TextFieldComponents.textFieldComponentForForms("Artist", artistName, album
-                .getArtist().getArtistName().getNameForSearches(), bool), "left, w 8cm, newline");
-        panel.add(TextFieldComponents.textFieldComponentForForms("Album title", albumTitle, album
+        add(new QLabel("Update album"), "left, w 8cm, newline");
+        add(infoArea, "left, w 8cm, newline");
+        add(TextFieldComponents.textFieldComponentForForms("Artist", artistName, album.getArtist()
+                .getArtistName().getNameForSearches(), bool), "left, w 8cm, newline");
+        add(TextFieldComponents.textFieldComponentForForms("Album title", albumTitle, album
                 .getTitle(), bool), "left, w 8cm, newline");
 
         setupDeleteButton();
@@ -120,9 +113,7 @@ public class EditAlbumView implements Serializable, View, AlbumView, ActionListe
         buttonPanel.add(rescanButton, "w 2.5cm");
         buttonPanel.add(deleteButton, "w 2.5cm");
 
-        panel.add(buttonPanel, "newline, gapy 20");
-
-        return panel;
+        add(buttonPanel, "newline, gapy 20");
     }
 
     private JTextArea setupInfoArea() {
@@ -214,26 +205,6 @@ public class EditAlbumView implements Serializable, View, AlbumView, ActionListe
     /*
      * (non-Javadoc)
      * 
-     * @see com.quiltplayer.view.swing.panels.AlbumView#getAlbum()
-     */
-    @Override
-    public Album getAlbum() {
-        return album;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.quiltplayer.view.swing.panels.AlbumView#setAlbum(com.quiltplayer. model.Album)
-     */
-    @Override
-    public void setAlbum(Album album) {
-        this.album = album;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
@@ -260,4 +231,11 @@ public class EditAlbumView implements Serializable, View, AlbumView, ActionListe
     public void enableRescanButton() {
         rescanButton.setEnabled(true);
     }
+
+    public void changeAlbum(final Album album) {
+        this.album = album;
+
+        init();
+    }
+
 }

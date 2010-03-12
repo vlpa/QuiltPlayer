@@ -23,13 +23,9 @@ import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.ArtistName;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;
-import com.quiltplayer.view.swing.ActiveView;
-import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
-import com.quiltplayer.view.swing.panels.AlbumView;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
-import com.quiltplayer.view.swing.views.View;
-import com.quiltplayer.view.swing.views.impl.EditAlbumView;
+import com.quiltplayer.view.swing.panels.playlistpanels.EditPlaylistPanel;
 
 /**
  * Controller for editing ID3s.
@@ -48,12 +44,6 @@ public class EditAlbumController implements EditAlbumListener {
 
     @Autowired
     private Id3Modifier id3Modifier;
-
-    @Autowired
-    private QuiltPlayerFrame frame;
-
-    @Autowired
-    private View editAlbumView;
 
     @Autowired
     private Storage storage;
@@ -78,10 +68,9 @@ public class EditAlbumController implements EditAlbumListener {
         String cmd = e.getActionCommand();
 
         if (PlaylistPanel.EVENT_UPDATE_ALBUM_ID3 == e.getActionCommand()) {
-            ((AlbumView) editAlbumView).setAlbum(playlistPanel.getPlayingAlbum());
-            frame.updateUI(ActiveView.EDIT_ALBUM);
+            playlistPanel.viewEditPanel();
         }
-        else if (EditAlbumView.SAVE == cmd) {
+        else if (EditPlaylistPanel.SAVE == cmd) {
             List<Object> l = (List<Object>) e.getSource();
 
             Album album = (Album) l.get(0);
