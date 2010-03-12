@@ -72,6 +72,7 @@ public class QSongButton extends ScrollableButton {
         timeLabel.setFont(FontFactory.getFont(15f).deriveFont(Font.PLAIN));
         titleLabel.setWrapStyleWord(true);
         titleLabel.setLineWrap(true);
+        titleLabel.setFocusable(false);
 
         numberButton = new QPlaylistButton(counter + "");
         numberButton.addActionListener(new ActionListener() {

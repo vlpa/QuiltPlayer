@@ -108,7 +108,7 @@ public class SearchView implements Serializable, View {
 
             setupSearchBar();
 
-            panel.add(searchPanel, "top, alignx center, gapy 0.5cm");
+            panel.add(searchPanel, "top, alignx center, gapy 0.5cm 0.5cm");
 
             if (result != null) {
                 scrollablePanel = new QPanel(new MigLayout("wrap 3, alignx center, top"));
