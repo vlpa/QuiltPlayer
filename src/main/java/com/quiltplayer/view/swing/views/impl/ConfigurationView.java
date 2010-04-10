@@ -107,7 +107,7 @@ public class ConfigurationView implements View, ActionListener {
         changeTab(TAB.CONFIGURATION);
 
         final JButton saveButton = setupSaveButton();
-        tabPanel.add(saveButton, "cell 0 2, span 4, right, gapy 0.5cm");
+        tabPanel.add(saveButton, "cell 0 2, span 4, right, gapy 0.5cm, " + QButton.MIG_HEIGHT);
 
         panel.add(tabPanel, "top,cell 0 0, w 100%, center, gapy 0.5cm");
 

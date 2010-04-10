@@ -3,6 +3,7 @@ package com.quiltplayer.view.swing.buttons;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -20,6 +21,8 @@ import com.quiltplayer.view.swing.FontFactory;
  */
 public class QButton extends JButton {
     private static final long serialVersionUID = 1L;
+
+    public static final String MIG_HEIGHT = "h 0.65cm!";
 
     protected static Color DEFAULT = ColorConstantsDark.BACKGROUND.brighter();
 
@@ -101,6 +104,7 @@ public class QButton extends JButton {
         int h = getHeight();
 
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
         // RenderingHints.VALUE_ANTIALIAS_ON);

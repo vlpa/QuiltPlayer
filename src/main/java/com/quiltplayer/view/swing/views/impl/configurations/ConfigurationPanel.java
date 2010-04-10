@@ -67,7 +67,7 @@ public class ConfigurationPanel extends JPanel {
         add(new QLabel("Font adjust"), "left, newline, gapy 0.2cm");
         add(fontSelectBox, "left, w 2cm, newline, gapy 0.2cm");
 
-        add(fullscreenButton, "gapy 10, w 2.7cm, newline, gapy 1.0cm");
+        add(fullscreenButton, "gapy 10, w 2.7cm, newline, gapy 1.0cm, " + QButton.MIG_HEIGHT);
     }
 
     private void setupToggleFullscreenButton() {

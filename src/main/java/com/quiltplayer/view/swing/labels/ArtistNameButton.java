@@ -1,6 +1,8 @@
 package com.quiltplayer.view.swing.labels;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
@@ -59,4 +61,20 @@ public class ArtistNameButton extends ScrollableAndHighlightableButton {
         artistListener.actionPerformed(new ActionEvent(artist, 0,
                 ArtistController.ACTION_GET_ARTIST_ALBUMS));
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.quiltplayer.view.swing.buttons.ScrollableAndHighlightableButton#paintComponent(java.awt
+     * .Graphics)
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
+
+        setMaximumSize(new Dimension(getWidth(), getHeight()));
+
+        super.paintComponent(g);
+    }
+
 }

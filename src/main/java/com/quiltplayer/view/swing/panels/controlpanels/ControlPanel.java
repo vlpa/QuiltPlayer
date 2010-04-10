@@ -51,7 +51,11 @@ public class ControlPanel extends JPanel {
     // 0),
     // new Color(40, 0, 0) };
 
+    // private Color[] gradient = { new Color(0, 0, 0), new Color(30, 30, 30) };
+
     private float[] dist = { 0.0f, 0.48f, 0.52f, 1.0f };
+
+    // private float[] dist = { 0.0f, 1.0f };
 
     @Autowired
     private ControlPanelListener controlPanelListener;
@@ -84,7 +88,7 @@ public class ControlPanel extends JPanel {
     }
 
     public void setDefaults() {
-        setLayout(new MigLayout("insets 0, fill, flowy, w 1.60cm!"));
+        setLayout(new MigLayout("insets 0, fill, flowy"));
 
         setupQuiltCollectionButton();
 

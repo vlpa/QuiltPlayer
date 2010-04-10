@@ -1,6 +1,7 @@
 package com.quiltplayer.view.swing.panels.controlpanels;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -109,6 +110,7 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
 
         for (final String s : strings) {
             final JButton button = new QPlaylistButton(s);
+            button.setBackground(new Color(10, 10, 10));
             button.addActionListener(new ActionListener() {
 
                 @Override

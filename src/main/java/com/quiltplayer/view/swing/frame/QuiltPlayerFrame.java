@@ -173,7 +173,8 @@ public class QuiltPlayerFrame extends JFrame {
         ui = aboutView.getUI();
 
         // getContentPane().add(controlPanel, "north, h 1.6cm!");
-        getContentPane().add(controlPanel, "east, w 1.6cm!");
+        getContentPane().add(controlPanel, "east, w 1.6cm!"); // w 1.4cm!, gapx 0 0.2cm, gapy 5%
+                                                              // 5%");
         getContentPane().add(albumControlPanel, "west, w 1.6cm!");
 
         addPlaylistView();
@@ -327,8 +328,9 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     protected void repaintComponentsIfResizeAware() {
-        /* PlaylistPanel should be resized */
         if (playlistPanel != null)
             playlistPanel.updateUI();
+
+        updateUI();
     }
 }

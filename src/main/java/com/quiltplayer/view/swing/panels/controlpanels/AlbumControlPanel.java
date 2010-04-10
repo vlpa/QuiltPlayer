@@ -39,7 +39,7 @@ import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.util.SizeHelper;
 
 /**
- * GUI for the control panel.
+ * Control panel for album.
  * 
  * @author Vlado Palczynski
  */
@@ -49,17 +49,19 @@ import com.quiltplayer.view.swing.util.SizeHelper;
 @Component
 public class AlbumControlPanel extends JPanel implements ActionListener {
 
+    public enum Buttons {
+        LYRICS, EDIT, PLAYLIST, ADD, IMAGES, WIKI, ALBUMS
+    };
+
     private static final long serialVersionUID = 1L;
 
-    @Autowired
-    private EditAlbumListener editAlbumListener;
-
-    private Color[] gradient = { new Color(20, 20, 20), new Color(0, 0, 0) };
+    private Color[] gradient = { new Color(30, 30, 30), new Color(0, 0, 0) };
 
     private float[] dist = { 0.0f, 1.0f };
 
     @Autowired
-    private PlayerControlPanel playerControlPanel;
+    private EditAlbumListener editAlbumListener;
+
     @Autowired
     private ControlPanelListener controlPanelListener;
 
@@ -68,10 +70,6 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
     @Autowired
     private AddAlbumListener addAlbumListener;
-
-    public enum Buttons {
-        LYRICS, EDIT, PLAYLIST, ADD, IMAGES, WIKI, ALBUMS
-    };
 
     private QControlPanelButton lyricsButton;
 
@@ -121,12 +119,11 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
         add(albumViewButton, LAYOUT + ", cell 0 0");
         add(albumButton, LAYOUT + ", cell 0 1");
-        add(lyricsButton, LAYOUT + ", cell 0 2");
+        // add(lyricsButton, LAYOUT + ", cell 0 2");
         add(editButton, LAYOUT + ", cell 0 3");
         add(coversButton, LAYOUT + ", cell 0 4");
         add(moreAlbumsButton, LAYOUT + ", cell 0 5");
         add(wikiButton, LAYOUT + ", cell 0 6");
-        // add(playerControlPanel, "south");
     }
 
     public void update(final Album album) {

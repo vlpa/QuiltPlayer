@@ -1,6 +1,7 @@
 package com.quiltplayer.view.swing.labels;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
@@ -45,6 +46,8 @@ public class StringOrCharLabel extends JLabel {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+
+        setMaximumSize(new Dimension(getWidth(), getHeight()));
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 

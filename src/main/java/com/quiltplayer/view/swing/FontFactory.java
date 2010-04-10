@@ -22,7 +22,7 @@ public class FontFactory {
         try {
             log.debug("Creating fonts...");
 
-            Resource file = new ClassPathResource("DejaVuSansCondensed.ttf");
+            Resource file = new ClassPathResource("FreeSans.ttf");
 
             URL url = file.getURL();
 

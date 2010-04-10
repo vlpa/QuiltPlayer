@@ -8,6 +8,8 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
+import com.quiltplayer.view.swing.borders.QBorder;
+import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.labels.QLabel;
 import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.window.Keyboard;
@@ -59,7 +61,7 @@ public class TextFieldComponents {
 
         panel.add(label, "left, wrap");
         panel.add(textField, "left, growx, " + QTextField.MIG_HEIGHT);
-        panel.add(button, "left, w 1cm");
+        panel.add(button, "left, w 1cm, " + QButton.MIG_HEIGHT);
 
         return panel;
     }
@@ -77,7 +79,7 @@ public class TextFieldComponents {
 
         panel.add(label, "left, wrap");
         panel.add(textField, "left, grow, " + QTextField.MIG_HEIGHT);
-        panel.add(button, "left, w 1cm");
+        panel.add(button, "left, w 1cm, " + QButton.MIG_HEIGHT);
 
         return panel;
     }

@@ -110,14 +110,15 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
                 fileChooserButton);
 
         addMusicComponent(musicPathComponent);
-        add(scanPathButton, "cell 1 1, w 2.7cm, right, aligny bottom, gapy 0.5cm");
+        add(scanPathButton, "cell 1 1, w 2.7cm, right, aligny bottom, gapy 0.5cm, "
+                + QButton.MIG_HEIGHT);
 
         // add(musicScrollBar, "w 80%, h 1.0cm");
         // add(cancelScanPathButton, "gapy 0 0, w 0.8cm, newline");
 
         setupScanCoversButton();
 
-        add(scanCoversButton, "cell 0 2, w 2.7cm, gapy 0.3cm, span 2, right");
+        add(scanCoversButton, "cell 0 2, w 2.7cm, gapy 0.3cm, span 2, right, " + QButton.MIG_HEIGHT);
         // add(cancelScanCoversButton, "span 2, gapy 0.1cm 0, w 0.8cm, newline");
     }
 
