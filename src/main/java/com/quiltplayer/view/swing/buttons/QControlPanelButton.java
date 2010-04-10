@@ -38,8 +38,6 @@ public class QControlPanelButton extends JButton {
 
     private boolean active;
 
-    private Icon icon;
-
     private Animator animator = new Animator(0);
 
     private int horizontalAlignment;
@@ -49,8 +47,6 @@ public class QControlPanelButton extends JButton {
         super(" ", icon);
 
         this.horizontalAlignment = horizontalAlignment;
-
-        this.icon = icon;
 
         this.label = label;
 
@@ -140,9 +136,9 @@ public class QControlPanelButton extends JButton {
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
 
             if (horizontalAlignment == SwingConstants.LEFT)
-                g2d.fillRoundRect(7, 0, getWidth(), getHeight(), 5, 5);
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
             else if (horizontalAlignment == SwingConstants.RIGHT)
-                g2d.fillRoundRect(0, 0, getWidth() - 7, getHeight(), 5, 5);
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
         }
 
         g2d = (Graphics2D) g;

@@ -36,11 +36,11 @@ import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
 @org.springframework.stereotype.Component
 public class PlaylistPanel extends JPanel {
 
-    protected enum Mode {
+    public enum Mode {
         SONG, LYRICS, EDIT, NULL
     }
 
-    private Mode mode = Mode.NULL;
+    public Mode mode = Mode.NULL;
 
     protected static final long serialVersionUID = 1L;
 

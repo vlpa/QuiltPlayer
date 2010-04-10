@@ -174,10 +174,12 @@ public class QuiltPlayerFrame extends JFrame {
 
         // getContentPane().add(controlPanel, "north, h 1.6cm!");
         getContentPane().add(controlPanel, "east, w 1.6cm!"); // w 1.4cm!, gapx 0 0.2cm, gapy 5%
-                                                              // 5%");
+        // 5%");
         getContentPane().add(albumControlPanel, "west, w 1.6cm!");
 
         addPlaylistView();
+
+        toggleAlbumView();
 
         updateUI();
     }
@@ -199,10 +201,10 @@ public class QuiltPlayerFrame extends JFrame {
         decreaseGridButton.setToolTipText("Remove column in the grid above");
         decreaseGridButton.setBorderPainted(false);
 
+        glassPane.add(keyboardPanel, "center");
+
         glassPane.add(increaseGridButton, "top, gapx 85%");
         glassPane.add(decreaseGridButton, "top");
-
-        glassPane.add(keyboardPanel, "center");
 
         glassPane.setVisible(true);
     }
@@ -307,6 +309,13 @@ public class QuiltPlayerFrame extends JFrame {
      */
     public final void setSearchView(View searchView) {
         this.searchView = searchView;
+    }
+
+    public void removeAlbumView() {
+        if (b) {
+            remove(playlistPanel);
+            b = false;
+        }
     }
 
     public void toggleAlbumView() {

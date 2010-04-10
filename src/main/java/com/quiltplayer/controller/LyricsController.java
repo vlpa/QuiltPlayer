@@ -15,7 +15,7 @@ import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
 
 /**
- * Controller handeling lyrics.
+ * Controller handling lyrics.
  * 
  * @author Vlado Palczynski
  * 

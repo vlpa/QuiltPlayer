@@ -8,10 +8,10 @@ import org.springframework.stereotype.Controller;
 import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
+import com.quiltplayer.view.swing.panels.MainTabs;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
-import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel.Tab;
 import com.quiltplayer.view.swing.window.Keyboard;
 
 /**
@@ -30,9 +30,7 @@ public class ControlPanelController implements ControlPanelListener {
 
     public static final String EVENT_VIEW_LYRICS = "view.lyrics";
 
-    public static final String EVENT_VIEW_ALBUM = "view.playlist";
-
-    public static final String EVENT_TOGGLE_ALBUM_VIEW = "toggle.album.view";
+    public static final String EVENT_VIEW_SONGS = "view.playlist";
 
     public static final String EVENT_VIEW_WIKI = "view.wiki";
 
@@ -61,51 +59,61 @@ public class ControlPanelController implements ControlPanelListener {
         String actionCommand = e.getActionCommand();
 
         if (EVENT_VIEW_ARTIST == actionCommand) {
-            controlPanel.updateTab(Tab.ARTISTS);
-            albumControlPanel.updateMainTab(null);
+            controlPanel.updateTab(MainTabs.ARTISTS);
+            albumControlPanel.updateTab(null);
             frame.updateUI(ActiveView.ARTISTS);
         }
         else if (ControlPanel.EVENT_QUILT == actionCommand) {
-            controlPanel.updateTab(Tab.QUILT);
-            albumControlPanel.updateMainTab(null);
+            controlPanel.updateTab(MainTabs.QUILT);
+            albumControlPanel.updateTab(null);
             frame.updateUI(ActiveView.QUILT);
         }
         else if (EVENT_VIEW_WIKI == actionCommand) {
-            albumControlPanel.updateMainTab(AlbumControlPanel.Buttons.WIKI);
+            albumControlPanel.updateTab(MainTabs.WIKI);
             controlPanel.updateTab(null);
             frame.updateUI(ActiveView.WIKI);
         }
         else if (EVENT_VIEW_COVERS == actionCommand) {
-            albumControlPanel.updateMainTab(AlbumControlPanel.Buttons.IMAGES);
+            albumControlPanel.updateTab(MainTabs.IMAGES);
             controlPanel.updateTab(null);
+            frame.removeAlbumView();
             frame.updateUI(ActiveView.COVERS);
         }
         else if (ControlPanel.EVENT_VIEW_SEARCH == actionCommand) {
-            controlPanel.updateTab(Tab.SEARCH);
-            albumControlPanel.updateMainTab(null);
+            controlPanel.updateTab(MainTabs.SEARCH);
+            albumControlPanel.updateTab(null);
             frame.updateUI(ActiveView.SEARCH);
         }
         else if (EVENT_VIEW_CONFIGURATION == actionCommand) {
-            controlPanel.updateTab(Tab.CONFIGURATION);
-            albumControlPanel.updateMainTab(null);
+            controlPanel.updateTab(MainTabs.CONFIGURATION);
+            albumControlPanel.updateTab(null);
             frame.updateUI(ActiveView.CONFIGURATION);
         }
         else if (ControlPanel.EVENT_VIEW_ABOUT == actionCommand) {
-            albumControlPanel.updateMainTab(null);
-            controlPanel.updateTab(Tab.NONE);
+            albumControlPanel.updateTab(null);
+            controlPanel.updateTab(MainTabs.ABOUT);
             frame.updateUI(ActiveView.ABOUT);
-
         }
         else if (EVENT_VIEW_LYRICS == actionCommand) {
-            albumControlPanel.updateTab(AlbumControlPanel.Buttons.LYRICS);
+            albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.LYRICS);
             playlistPanel.viewLyricsPanel();
         }
-        else if (EVENT_VIEW_ALBUM == actionCommand) {
-            playlistPanel.viewAlbumPanel();
-            albumControlPanel.updateTab(AlbumControlPanel.Buttons.ALBUMS);
-        }
-        else if (EVENT_TOGGLE_ALBUM_VIEW == actionCommand) {
-            frame.toggleAlbumView();
+        else if (EVENT_VIEW_SONGS == actionCommand) {
+
+            if (playlistPanel.mode == PlaylistPanel.Mode.SONG) {
+                frame.toggleAlbumView();
+                playlistPanel.mode = PlaylistPanel.Mode.NULL;
+                albumControlPanel.updateSingleTab(null);
+            }
+            else if (playlistPanel.mode == PlaylistPanel.Mode.NULL) {
+                playlistPanel.mode = PlaylistPanel.Mode.SONG;
+                frame.toggleAlbumView();
+                albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.PLAYLIST);
+            }
+            else {
+                playlistPanel.viewAlbumPanel();
+                albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.PLAYLIST);
+            }
         }
         else if (EVENT_VIEW_KEYBOARD == actionCommand) {
             if (keyboardPanel.isVisible())

@@ -12,7 +12,10 @@ import com.quiltplayer.model.Artist;
 import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
+import com.quiltplayer.view.swing.panels.MainTabs;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.views.ListView;
 import com.quiltplayer.view.swing.views.impl.DefaultAlbumView;
 
@@ -40,6 +43,12 @@ public class ArtistController implements ArtistListener {
     @Autowired
     private PlaylistPanel playlistPanel;
 
+    @Autowired
+    private ControlPanel controlPanel;
+
+    @Autowired
+    private AlbumControlPanel albumControlPanel;
+
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
@@ -58,6 +67,9 @@ public class ArtistController implements ArtistListener {
             ((DefaultAlbumView) albumView).setArtist(artist);
 
             frame.updateUI(ActiveView.ALBUMS);
+
+            controlPanel.updateTab(MainTabs.ALL_ALBUMS);
+            albumControlPanel.updateTab(MainTabs.ALL_ALBUMS);
 
         }
         else if (actionCommand == EVENT_DELETE_ARTIST) {

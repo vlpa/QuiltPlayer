@@ -25,6 +25,7 @@ import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.EditPlaylistPanel;
 
 /**
@@ -60,6 +61,9 @@ public class EditAlbumController implements EditAlbumListener {
     @Autowired
     private PlaylistPanel playlistPanel;
 
+    @Autowired
+    private AlbumControlPanel albumControlPanel;
+
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
@@ -69,6 +73,7 @@ public class EditAlbumController implements EditAlbumListener {
 
         if (PlaylistPanel.EVENT_UPDATE_ALBUM_ID3 == e.getActionCommand()) {
             playlistPanel.viewEditPanel();
+            albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.EDIT);
         }
         else if (EditPlaylistPanel.SAVE == cmd) {
             List<Object> l = (List<Object>) e.getSource();

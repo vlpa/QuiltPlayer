@@ -35,6 +35,7 @@ import com.quiltplayer.view.swing.listeners.AddAlbumListener;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
+import com.quiltplayer.view.swing.panels.MainTabs;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.util.SizeHelper;
 
@@ -50,7 +51,7 @@ import com.quiltplayer.view.swing.util.SizeHelper;
 public class AlbumControlPanel extends JPanel implements ActionListener {
 
     public enum Buttons {
-        LYRICS, EDIT, PLAYLIST, ADD, IMAGES, WIKI, ALBUMS
+        LYRICS, EDIT, PLAYLIST, ADD
     };
 
     private static final long serialVersionUID = 1L;
@@ -85,8 +86,6 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
     private QControlPanelButton coversButton;
 
-    public QControlPanelButton albumViewButton;
-
     private static final String LAYOUT = "h 100%, w 100%, center";
 
     @PostConstruct
@@ -100,8 +99,6 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         setOpaque(true);
 
         setBackground(ColorConstantsDark.ALBUM_PANEL);
-
-        setupAlbumViewButton();
 
         setupPlaylistButton();
 
@@ -117,7 +114,6 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
         setupCoversButton();
 
-        add(albumViewButton, LAYOUT + ", cell 0 0");
         add(albumButton, LAYOUT + ", cell 0 1");
         // add(lyricsButton, LAYOUT + ", cell 0 2");
         add(editButton, LAYOUT + ", cell 0 3");
@@ -139,14 +135,6 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         }
 
         repaint();
-    }
-
-    private void setupAlbumViewButton() {
-        albumViewButton = new QControlPanelButton("Show/hide", ClassPathUtils
-                .getIconFromClasspath("white/AlbumView.png"), SwingConstants.BOTTOM,
-                SwingConstants.LEFT);
-        albumViewButton.addActionListener(controlPanelListener);
-        albumViewButton.setActionCommand(ControlPanelController.EVENT_TOGGLE_ALBUM_VIEW);
     }
 
     private void setupWikiButton() {
@@ -188,8 +176,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
                 SwingConstants.BOTTOM, SwingConstants.LEFT);
         albumButton.addActionListener(this);
         albumButton.addActionListener(controlPanelListener);
-        albumButton.setActionCommand(ControlPanelController.EVENT_VIEW_ALBUM);
-        albumButton.activate();
+        albumButton.setActionCommand(ControlPanelController.EVENT_VIEW_SONGS);
     }
 
     private void setupEditButton() {
@@ -202,7 +189,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
     private void setupAddButton() {
         addButton = new QControlPanelButton("Add album",
-                getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM,
+                getIconFromClasspath("white/Add.png"), SwingConstants.BOTTOM,
                 SwingConstants.LEFT);
         addButton.addActionListener(addAlbumListener);
         addButton.setActionCommand(AddAlbumController.EVENT_ADD_ALBUM);
@@ -225,7 +212,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         return icon;
     }
 
-    public void updateTab(Buttons tab) {
+    public void updateSingleTab(Buttons tab) {
         lyricsButton.inactivate();
         albumButton.inactivate();
 
@@ -235,7 +222,10 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         else if (tab == Buttons.LYRICS) {
             lyricsButton.activate();
         }
-        else if (tab == Buttons.ALBUMS) {
+        else if (tab == Buttons.EDIT) {
+            editButton.activate();
+        }
+        else if (tab == Buttons.PLAYLIST) {
             albumButton.activate();
         }
 
@@ -243,25 +233,22 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         updateUI();
     }
 
-    public void updateMainTab(Buttons tab) {
+    public void updateTab(MainTabs tab) {
         coversButton.inactivate();
         editButton.inactivate();
         moreAlbumsButton.inactivate();
         wikiButton.inactivate();
 
         if (tab == null) {
-            // NadaF
+            // Nada
         }
-        else if (tab == Buttons.IMAGES) {
+        else if (tab == MainTabs.IMAGES) {
             coversButton.activate();
         }
-        else if (tab == Buttons.EDIT) {
-            editButton.activate();
+        else if (tab == MainTabs.ALL_ALBUMS) {
+            moreAlbumsButton.activate();
         }
-        else if (tab == Buttons.PLAYLIST) {
-            albumButton.activate();
-        }
-        else if (tab == Buttons.WIKI) {
+        else if (tab == MainTabs.WIKI) {
             wikiButton.activate();
         }
 

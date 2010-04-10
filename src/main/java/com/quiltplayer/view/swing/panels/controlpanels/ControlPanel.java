@@ -24,6 +24,7 @@ import com.quiltplayer.utils.ClassPathUtils;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
 import com.quiltplayer.view.swing.handlers.ExitHandler;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
+import com.quiltplayer.view.swing.panels.MainTabs;
 
 /**
  * GUI for the control panel.
@@ -59,10 +60,6 @@ public class ControlPanel extends JPanel {
 
     @Autowired
     private ControlPanelListener controlPanelListener;
-
-    public enum Tab {
-        NONE, QUILT, ARTISTS, CONFIGURATION, SEARCH
-    };
 
     private QControlPanelButton quiltButton;
 
@@ -180,7 +177,7 @@ public class ControlPanel extends JPanel {
         exitButton.addActionListener(new ExitHandler(graphDatabaseService));
     }
 
-    public void updateTab(Tab tab) {
+    public void updateTab(MainTabs tab) {
         quiltButton.inactivate();
         artistsButton.inactivate();
         configButton.inactivate();
@@ -189,16 +186,16 @@ public class ControlPanel extends JPanel {
         if (tab == null) {
             // Nada
         }
-        else if (tab == Tab.QUILT) {
+        else if (tab == MainTabs.QUILT) {
             quiltButton.activate();
         }
-        else if (tab == Tab.ARTISTS) {
+        else if (tab == MainTabs.ARTISTS) {
             artistsButton.activate();
         }
-        else if (tab == Tab.CONFIGURATION) {
+        else if (tab == MainTabs.CONFIGURATION) {
             configButton.activate();
         }
-        else if (tab == Tab.SEARCH) {
+        else if (tab == MainTabs.SEARCH) {
             searchButton.activate();
         }
 

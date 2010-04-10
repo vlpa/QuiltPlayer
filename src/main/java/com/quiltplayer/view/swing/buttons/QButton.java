@@ -22,7 +22,7 @@ import com.quiltplayer.view.swing.FontFactory;
 public class QButton extends JButton {
     private static final long serialVersionUID = 1L;
 
-    public static final String MIG_HEIGHT = "h 0.65cm!";
+    public static final String MIG_HEIGHT = "h 0.70cm!";
 
     protected static Color DEFAULT = ColorConstantsDark.BACKGROUND.brighter();
 
