@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 
@@ -41,13 +42,15 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
         this.album = album;
         this.changeAlbumListener = changeAlbumListener;
 
-        setLayout(new MigLayout("fill"));
+        setLayout(new MigLayout("fill, wrap 1, center"));
 
         albumCoverButton = new AlbumCoverButton(album, changeAlbumListener);
         final JTextArea title = setupTitleLabelToPanel();
+        final JTextArea year = setupYearLabel();
 
         add(albumCoverButton, "north");
-        add(title, "w 100%, north, alignx center");
+        add(title, "w 100%, north");
+        add(year, "w 100%, north");
 
         // addMouseListener(new HighlightableMouseListener(background, this));
         addMouseListener(new MouseAdapter() {
@@ -89,7 +92,6 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
              */
             @Override
             protected void paintComponent(Graphics g) {
-
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                         RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -97,6 +99,7 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
                 super.paintComponent(g);
             }
         };
+
         titleLabel.setOpaque(false);
         titleLabel.setEditable(false);
         titleLabel.setLineWrap(true);
@@ -107,6 +110,41 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
         titleLabel.setFont(FontFactory.getFont(14f));
 
         return titleLabel;
+    }
+
+    private JTextArea setupYearLabel() {
+        JTextArea yearLabel = new JTextArea() {
+
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+             */
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+                super.paintComponent(g);
+            }
+        };
+
+        yearLabel.setOpaque(false);
+        yearLabel.setEditable(false);
+        yearLabel.setLineWrap(true);
+        yearLabel.setWrapStyleWord(true);
+        yearLabel.setForeground(Configuration.getInstance().getColorConstants()
+                .getAlbumViewYearColor());
+        yearLabel.setText(album.getYear());
+        yearLabel.setFont(FontFactory.getFont(12f));
+
+        return yearLabel;
     }
 
     /**

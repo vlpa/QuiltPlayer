@@ -11,6 +11,7 @@ import com.quiltplayer.external.covers.model.LocalImage;
  * @author Vlado Palczynski
  */
 public interface Album extends Serializable, Comparable<Album> {
+
     String TYPE_FILE = "file";
 
     String TYPE_SPOTIFY = "spotify";

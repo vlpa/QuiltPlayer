@@ -339,6 +339,11 @@ public class NeoAlbum implements Album {
             year = (String) node.getProperty(PROPERTY_YEAR);
         }
 
+        if (year != null) {
+            if (year.length() > 4)
+                year = year.substring(0, 4);
+        }
+
         NeoTx.finishTx(tx);
 
         return year;

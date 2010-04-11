@@ -130,7 +130,7 @@ public class ColorConstantsDark implements ColorConstants {
      */
     @Override
     public Color getAlbumViewTitleColor() {
-        return new Color(170, 170, 170);
+        return new Color(200, 200, 200);
     }
 
     /*
@@ -138,7 +138,7 @@ public class ColorConstantsDark implements ColorConstants {
      */
     @Override
     public Color getAlbumViewYearColor() {
-        return new Color(150, 150, 150);
+        return new Color(100, 100, 100);
     }
 
     /*

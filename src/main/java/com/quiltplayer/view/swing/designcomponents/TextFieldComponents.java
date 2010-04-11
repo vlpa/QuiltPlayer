@@ -4,14 +4,12 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.labels.QLabel;
-import com.quiltplayer.view.swing.textfields.QPasswordField;
 import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.window.Keyboard;
 
@@ -56,7 +54,7 @@ public class TextFieldComponents {
             final JButton button) {
 
         final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 2, fill"));
-
+        
         final JLabel label = new QLabel(name);
         textField.setEnabled(enableTextField);
 

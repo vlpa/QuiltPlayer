@@ -148,7 +148,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
     private void setupCoversButton() {
         coversButton = new QControlPanelButton("Images", ClassPathUtils
-                .getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM,
+                .getIconFromClasspath("white/Images.png"), SwingConstants.BOTTOM,
                 SwingConstants.LEFT);
 
         coversButton.addActionListener(controlPanelListener);
@@ -181,7 +181,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
     private void setupEditButton() {
         editButton = new QControlPanelButton("Edit album",
-                getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM,
+                getIconFromClasspath("white/EditAlbum.png"), SwingConstants.BOTTOM,
                 SwingConstants.LEFT);
         editButton.addActionListener(editAlbumListener);
         editButton.setActionCommand(PlaylistPanel.EVENT_UPDATE_ALBUM_ID3);
