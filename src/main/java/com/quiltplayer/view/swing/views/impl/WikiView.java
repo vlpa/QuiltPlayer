@@ -2,6 +2,9 @@ package com.quiltplayer.view.swing.views.impl;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.Serializable;
 import java.util.Enumeration;
 
@@ -40,7 +43,23 @@ public class WikiView implements Serializable, View {
     @Override
     public JComponent getUI() {
 
-        panel = new JPanel(new MigLayout("w 100%!"));
+        panel = new JPanel(new MigLayout("w 100%!")) {
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+             */
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+
+                super.paintComponent(g);
+            }
+
+        };
         panel.setOpaque(true);
         panel.setBackground(ColorConstantsDark.BACKGROUND);
 
