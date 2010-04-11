@@ -109,7 +109,6 @@ public class JotifyAlbum implements Album {
             }
 
             catch (TimeoutException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
@@ -166,19 +165,16 @@ public class JotifyAlbum implements Album {
 
     @Override
     public String getLabel() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public long getLastModified() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public String getReleaseId() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -220,12 +216,10 @@ public class JotifyAlbum implements Album {
 
     @Override
     public void setId(StringId albumId) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void setImages(List<LocalImage> images) {
-        // TODO Auto-generated method stub
     }
 
     @Override
@@ -265,7 +259,6 @@ public class JotifyAlbum implements Album {
 
     @Override
     public int compareTo(Album o) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -339,7 +332,5 @@ public class JotifyAlbum implements Album {
      */
     @Override
     public void deleteImages() {
-        // TODO Auto-generated method stub
-
     }
 }

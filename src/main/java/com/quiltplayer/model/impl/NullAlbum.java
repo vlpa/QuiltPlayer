@@ -1,7 +1,6 @@
 package com.quiltplayer.model.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.quiltplayer.external.covers.model.LocalImage;
@@ -140,10 +139,6 @@ public class NullAlbum implements Album, Serializable {
      */
     @Override
     public List<LocalImage> getImages() {
-        final List<LocalImage> images = new ArrayList<LocalImage>();
-
-        // LocalImage image = new LocalImageImpl()
-
         return null;
     }
 
@@ -282,7 +277,6 @@ public class NullAlbum implements Album, Serializable {
      */
     @Override
     public String getSpotifyId() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -293,8 +287,6 @@ public class NullAlbum implements Album, Serializable {
      */
     @Override
     public void setSpotifyId(String spotifyId) {
-        // TODO Auto-generated method stub
-
     }
 
     /*
@@ -304,8 +296,6 @@ public class NullAlbum implements Album, Serializable {
      */
     @Override
     public void deleteImages() {
-        // TODO Auto-generated method stub
-
     }
 
 }

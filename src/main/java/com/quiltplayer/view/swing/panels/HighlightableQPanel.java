@@ -38,7 +38,7 @@ public class HighlightableQPanel extends QPanel {
         addMouseListener(mouseListener);
     }
 
-    protected MouseListener mouseListener = new MouseAdapter() {
+    protected transient MouseListener mouseListener = new MouseAdapter() {
 
         @Override
         public void mouseEntered(MouseEvent e) {

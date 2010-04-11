@@ -30,13 +30,14 @@ public class WikipediaService implements Runnable {
 
     private static final String QUERY = "http://en.wikipedia.org/w/api.php?action=parse&page=%s&format=%s";
 
-    private static final String PRINTABLE = "http://en.wikipedia.org/w/index.php?title=%s&printable=yes";
+    // private static final String PRINTABLE =
+    // "http://en.wikipedia.org/w/index.php?title=%s&printable=yes";
 
     private static final String NO_ARTICLE = "Wikipedia does not have an article with this exact name";
 
     private String result = "";
 
-    private static String page = "";
+    private String page = "";
 
     /*
      * (non-Javadoc)
@@ -118,13 +119,14 @@ public class WikipediaService implements Runnable {
 
         final long currentTimeStamp = System.currentTimeMillis();
 
+        BufferedReader in = null;
+
         try {
             URL url = new URL(String.format(QUERY, new Object[] { pageName, "xml" }));
             URLConnection connection = url.openConnection();
             connection.setDoOutput(true);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection
-                    .getInputStream()));
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
             String s;
             while ((s = in.readLine()) != null) {
@@ -134,6 +136,7 @@ public class WikipediaService implements Runnable {
                     return true;
                 }
             }
+
             in.close();
         }
         catch (MalformedURLException e) {
@@ -141,6 +144,16 @@ public class WikipediaService implements Runnable {
         }
         catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            if (in != null) {
+                try {
+                    in.close();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         System.out.println("Time to ping wikipedia: "

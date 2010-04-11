@@ -101,7 +101,6 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
 
             /* Fill with empty squares to remain size */
             while (i < Configuration.getInstance().getGridProperties().getAlbumsGrid()) {
-                System.out.println("!");
                 AlbumCoverButton p = new AlbumCoverButton(null, null);
                 p.setVisible(true);
 

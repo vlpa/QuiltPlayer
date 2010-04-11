@@ -38,10 +38,12 @@ public class SpotifySquaredAlbumButton extends SquaredAlbumButton {
             final ChangeAlbumListener changeAlbumListener) {
         super(album, changeAlbumListener);
 
+        iconLabel = new JLabel();
+
         invoker.start();
     }
 
-    private Thread invoker = new Thread() {
+    private transient Thread invoker = new Thread() {
         public void run() {
             try {
                 if (((JotifyAlbum) album).getSpotifyAlbum().getCover() != null) {

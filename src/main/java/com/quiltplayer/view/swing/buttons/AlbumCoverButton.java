@@ -97,7 +97,7 @@ public class AlbumCoverButton extends ScrollableButton {
     protected void paintBorder(Graphics g) {
     }
 
-    private Thread invoker = new Thread() {
+    private transient Thread invoker = new Thread() {
         public void run() {
             try {
 

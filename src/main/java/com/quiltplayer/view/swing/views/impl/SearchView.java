@@ -6,7 +6,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.Serializable;
 import java.util.concurrent.TimeoutException;
 
 import javax.annotation.PostConstruct;
@@ -52,7 +51,7 @@ import de.felixbruns.jotify.media.Result;
  * 
  */
 @org.springframework.stereotype.Component
-public class SearchView implements Serializable, View {
+public class SearchView implements View {
 
     private static final long serialVersionUID = 1L;
 
@@ -82,7 +81,7 @@ public class SearchView implements Serializable, View {
 
     private Result result;
 
-    private FocusListener focusListener = new com.quiltplayer.view.swing.listeners.FocusListener();
+    private FocusListener focusListener = new com.quiltplayer.view.swing.listeners.QFocusListener();
 
     private boolean newResult;
 

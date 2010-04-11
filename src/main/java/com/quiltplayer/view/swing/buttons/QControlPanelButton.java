@@ -74,7 +74,7 @@ public class QControlPanelButton extends JButton {
         addMouseListener(listenener);
     }
 
-    private MouseListener listenener = new MouseAdapter() {
+    private transient MouseListener listenener = new MouseAdapter() {
 
         /*
          * (non-Javadoc)

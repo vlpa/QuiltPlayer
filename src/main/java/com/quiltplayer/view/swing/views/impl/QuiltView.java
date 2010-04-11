@@ -34,11 +34,9 @@ public class QuiltView implements ListView<Album>, FrameResizeAwarable {
     @Autowired
     private ChangeAlbumListener changeAlbumListener;
 
-    private Album selectedAlbum = null;
-
     private JPanel panel;
 
-    private List<Album> albums = Collections.EMPTY_LIST;
+    private List<Album> albums = Collections.emptyList();
 
     /*
      * @see com.quiltplayer.view.swing.components.ListView#setCollection(java.util .Collection)
@@ -84,9 +82,5 @@ public class QuiltView implements ListView<Album>, FrameResizeAwarable {
         final QScrollPane pane = new QScrollPane(panel);
 
         return new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
-    }
-
-    public Album getSelectedAlbum() {
-        return selectedAlbum;
     }
 }

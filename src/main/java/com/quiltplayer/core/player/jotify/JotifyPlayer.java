@@ -106,7 +106,7 @@ public class JotifyPlayer implements Player, PlaybackListener {
      * .jotify.media.Track, int)
      */
     @Override
-    public void playbackPosition(Track track, int position) {
+    public synchronized void playbackPosition(Track track, int position) {
         playerListener.actionPerformed(new ActionEvent(currentSong, 0, EVENT_PROGRESS));
     }
 
