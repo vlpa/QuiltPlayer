@@ -65,7 +65,7 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
     /**
      * The path to music.
      */
-    private JTextField musicPath = new QTextField(keyboardPanel);
+    private JTextField musicPath;
 
     /**
      * The scan button.
@@ -97,6 +97,8 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
 
     @PostConstruct
     public void init() {
+        musicPath = new QTextField(keyboardPanel);
+
         fileChooserButton = new QButton("Select");
         fileChooserButton.addActionListener(this);
 

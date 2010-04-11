@@ -13,8 +13,6 @@ import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.springframework.core.task.TaskExecutor;
-
 import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.external.covers.util.ImageUtils;
 import com.quiltplayer.model.Album;
@@ -32,8 +30,6 @@ public class AlbumCoverButton extends ScrollableButton {
     private boolean fetched;
 
     private boolean started;
-
-    private TaskExecutor taskExecutor;
 
     public AlbumCoverButton(final Album album, final ChangeAlbumListener changeAlbumListener) {
 

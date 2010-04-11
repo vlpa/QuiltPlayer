@@ -22,8 +22,6 @@ public class LyricsPlaylistPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private static final int VERTICAL_UNIT_INCRENET = 20;
-
     private JTextArea lyricsArea;
 
     public LyricsPlaylistPanel() {
@@ -46,7 +44,8 @@ public class LyricsPlaylistPanel extends JPanel {
         lyricsArea.setLineWrap(true);
         lyricsArea.setFocusable(false);
         lyricsArea.setWrapStyleWord(true);
-        lyricsArea.setDoubleBuffered(Configuration.getInstance().getUiProperties().isDoubleBuffer());
+        lyricsArea
+                .setDoubleBuffered(Configuration.getInstance().getUiProperties().isDoubleBuffer());
 
         add(lyricsArea, "w 100%");
     }

@@ -28,9 +28,6 @@ public class JotifyPlayer implements Player, PlaybackListener {
     private Logger log = Logger.getLogger(JotifyPlayer.class);
 
     @Autowired
-    private JotifyRepository jotifyRepository;
-
-    @Autowired
     private PlayerListener playerListener;
 
     private Song currentSong;
@@ -60,7 +57,7 @@ public class JotifyPlayer implements Player, PlaybackListener {
 
         if (s instanceof JotifySong) {
             try {
-                jotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), this);
+                JotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), this);
             }
             catch (TimeoutException e) {
                 // TODO Auto-generated catch block
@@ -71,8 +68,8 @@ public class JotifyPlayer implements Player, PlaybackListener {
             Track track = new Track(s.getSpotifyId());
             try {
                 /* We need the files of the track... */
-                track = jotifyRepository.getInstance().browse(track);
-                jotifyRepository.getInstance().play(track, this);
+                track = JotifyRepository.getInstance().browse(track);
+                JotifyRepository.getInstance().play(track, this);
             }
             catch (TimeoutException e) {
                 e.printStackTrace();

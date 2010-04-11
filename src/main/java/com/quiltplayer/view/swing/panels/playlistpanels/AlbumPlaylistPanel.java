@@ -45,13 +45,13 @@ public class AlbumPlaylistPanel extends JPanel {
     @Autowired
     private PlayerListener playerListener;
 
-    private Album album;
+    private transient Album album;
 
     @Autowired
     private CrossFader crossFader;
 
     public AlbumPlaylistPanel() {
-        super(new MigLayout("insets 0, wrap 1, fill, h 100%"));
+        super(new MigLayout("debug, insets 0, wrap 1, fill"));
         setOpaque(true);
 
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
@@ -62,19 +62,7 @@ public class AlbumPlaylistPanel extends JPanel {
         this.album = new NullAlbum();
 
         add(albumPresentationPanel, "north, gapy 0.5cm 0.3cm");
-        add(crossFader, "north, h 40%!");
-    }
-
-    private void setupSongsPanel() {
-        if (songsComponent != null)
-            remove(songsComponent);
-
-        songsComponent = new SongsComponent(album, playerListener);
-
-        add(songsComponent, "north");
-
-        songsComponent.repaint();
-        repaint();
+        add(crossFader, "north, h 45%");
     }
 
     public void changeAlbum(final Album album) {
@@ -87,11 +75,20 @@ public class AlbumPlaylistPanel extends JPanel {
 
         setupSongsPanel();
 
-        setLocation(0, 0);
-
         repaint();
 
         log.debug("Album is changed...");
+    }
+
+    private void setupSongsPanel() {
+        if (songsComponent != null)
+            remove(songsComponent);
+
+        songsComponent = new SongsComponent(album, playerListener);
+
+        add(songsComponent, "west");
+
+        songsComponent.repaint();
     }
 
     /*

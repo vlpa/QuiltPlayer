@@ -30,7 +30,7 @@ public class QControlPanelButton extends JButton {
 
     private String label;
 
-    private float defaultAlpha = 0.85f;
+    private float defaultAlpha = 0.60f;
 
     private float currentAlpha = defaultAlpha;
 
@@ -38,7 +38,7 @@ public class QControlPanelButton extends JButton {
 
     private boolean active;
 
-    private Animator animator = new Animator(0);
+    private transient Animator animator = new Animator(0);
 
     private int horizontalAlignment;
 

@@ -7,7 +7,6 @@ import java.awt.LinearGradientPaint;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D;
-import java.io.Serializable;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -33,9 +32,7 @@ import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.views.View;
 
 @org.springframework.stereotype.Component
-public class AlbumArtView implements Serializable, View {
-
-    private static final long serialVersionUID = 1L;
+public class AlbumArtView implements View {
 
     private JPanel panel;
 

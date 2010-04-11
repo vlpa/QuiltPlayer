@@ -1,6 +1,5 @@
 package com.quiltplayer.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.quiltplayer.external.covers.model.LocalImage;
@@ -10,7 +9,7 @@ import com.quiltplayer.external.covers.model.LocalImage;
  * 
  * @author Vlado Palczynski
  */
-public interface Album extends Serializable, Comparable<Album> {
+public interface Album extends Comparable<Album> {
 
     String TYPE_FILE = "file";
 

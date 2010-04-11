@@ -9,9 +9,6 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 
-import org.jdesktop.animation.timing.Animator;
-import org.jdesktop.animation.timing.interpolation.PropertySetter;
-
 import com.quiltplayer.properties.Configuration;
 
 /**
@@ -29,19 +26,19 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
 
     private Integer pressedHorizontalBar;
 
-    private Integer releasedXPosition;
+    // private Integer releasedXPosition;
 
     private Integer pressedYPosition;
 
     private Integer pressedVerticalBar;
 
-    private Integer releasedYPosition;
+    // private Integer releasedYPosition;
 
-    private Animator animator;
+    // private transient Animator animator;
 
-    private Integer mouseX;
+    // private Integer mouseX;
 
-    private int steps;
+    // private int steps;
 
     public QScrollPane() {
         super();
@@ -73,18 +70,18 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
-    private void animate(int distance) {
-
-        if (animator != null && animator.isRunning())
-            animator.stop();
-
-        PropertySetter setter = new PropertySetter(this.getHorizontalScrollBar(), "value",
-                getHorizontalScrollBar().getValue(), getHorizontalScrollBar().getValue() + distance);
-        animator = new Animator(600, setter);
-        animator.setDeceleration(0.7f);
-        animator.start();
-
-    }
+    // private void animate(int distance) {
+    //
+    // if (animator != null && animator.isRunning())
+    // animator.stop();
+    //
+    // PropertySetter setter = new PropertySetter(this.getHorizontalScrollBar(), "value",
+    // getHorizontalScrollBar().getValue(), getHorizontalScrollBar().getValue() + distance);
+    // animator = new Animator(600, setter);
+    // animator.setDeceleration(0.7f);
+    // animator.start();
+    //
+    // }
 
     /*
      * (non-Javadoc)

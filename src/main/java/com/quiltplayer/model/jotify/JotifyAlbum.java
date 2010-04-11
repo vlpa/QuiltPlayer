@@ -39,8 +39,6 @@ public class JotifyAlbum implements Album {
 
     private de.felixbruns.jotify.media.Album spotifyAlbum;
 
-    private Artist artist;
-
     private SongCollection songCollection;
 
     public JotifyAlbum(de.felixbruns.jotify.media.Album album) {
@@ -149,7 +147,9 @@ public class JotifyAlbum implements Album {
 
             File newFile = new File(file.getParent(), size.name() + "-" + file.getName());
 
-            newFile.createNewFile();
+            boolean b = newFile.createNewFile();
+
+            log.debug("Creating new file returned: " + b);
 
             ImageIO.write(image, "jpg", newFile);
 
@@ -211,7 +211,6 @@ public class JotifyAlbum implements Album {
 
     @Override
     public void setArtist(Artist artist) {
-        this.artist = artist;
     }
 
     @Override
@@ -255,11 +254,6 @@ public class JotifyAlbum implements Album {
     @Override
     public void setYear(String year) {
         throw new NotImplementedException();
-    }
-
-    @Override
-    public int compareTo(Album o) {
-        return 0;
     }
 
     /**
@@ -332,5 +326,23 @@ public class JotifyAlbum implements Album {
      */
     @Override
     public void deleteImages() {
+    }
+
+    /*
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    @Override
+    public int compareTo(final Album o) {
+        return getTitle().compareTo(o.getTitle());
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

@@ -11,6 +11,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.external.covers.model.LocalImage;
@@ -37,6 +39,7 @@ public class CrossFader extends JComponent implements ActionListener {
     private boolean fetchedImages;
 
     public CrossFader() {
+        setLayout(new MigLayout());
     }
 
     public void startAnimation() {

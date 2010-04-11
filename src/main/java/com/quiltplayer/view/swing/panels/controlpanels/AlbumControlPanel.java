@@ -3,24 +3,19 @@ package com.quiltplayer.view.swing.panels.controlpanels;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.LinearGradientPaint;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.io.IOException;
 
 import javax.annotation.PostConstruct;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import com.quiltplayer.controller.AddAlbumController;
@@ -37,7 +32,6 @@ import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
 import com.quiltplayer.view.swing.panels.MainTabs;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
-import com.quiltplayer.view.swing.util.SizeHelper;
 
 /**
  * Control panel for album.
@@ -156,59 +150,44 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     }
 
     private void setupMoreAlbumsButton() {
-        moreAlbumsButton = new QControlPanelButton("All albums",
-                getIconFromClasspath("white/MoreAlbums.png"), SwingConstants.BOTTOM,
+        moreAlbumsButton = new QControlPanelButton("All albums", ClassPathUtils
+                .getIconFromClasspath("white/MoreAlbums.png"), SwingConstants.BOTTOM,
                 SwingConstants.LEFT);
         moreAlbumsButton.addActionListener(artistListener);
         moreAlbumsButton.setActionCommand(ArtistController.ACTION_GET_ARTIST_ALBUMS);
     }
 
     private void setupLyricsButton() {
-        lyricsButton = new QControlPanelButton("Lyrics", getIconFromClasspath("white/Lyrics.png"),
-                SwingConstants.BOTTOM, SwingConstants.LEFT);
+        lyricsButton = new QControlPanelButton("Lyrics", ClassPathUtils
+                .getIconFromClasspath("white/Lyrics.png"), SwingConstants.BOTTOM,
+                SwingConstants.LEFT);
         lyricsButton.addActionListener(this);
         lyricsButton.addActionListener(controlPanelListener);
         lyricsButton.setActionCommand(ControlPanelController.EVENT_VIEW_LYRICS);
     }
 
     private void setupPlaylistButton() {
-        albumButton = new QControlPanelButton("Songs", getIconFromClasspath("white/SongTiles.png"),
-                SwingConstants.BOTTOM, SwingConstants.LEFT);
+        albumButton = new QControlPanelButton("Songs", ClassPathUtils
+                .getIconFromClasspath("white/SongTiles.png"), SwingConstants.BOTTOM,
+                SwingConstants.LEFT);
         albumButton.addActionListener(this);
         albumButton.addActionListener(controlPanelListener);
         albumButton.setActionCommand(ControlPanelController.EVENT_VIEW_SONGS);
     }
 
     private void setupEditButton() {
-        editButton = new QControlPanelButton("Edit album",
-                getIconFromClasspath("white/EditAlbum.png"), SwingConstants.BOTTOM,
+        editButton = new QControlPanelButton("Edit album", ClassPathUtils
+                .getIconFromClasspath("white/EditAlbum.png"), SwingConstants.BOTTOM,
                 SwingConstants.LEFT);
         editButton.addActionListener(editAlbumListener);
         editButton.setActionCommand(PlaylistPanel.EVENT_UPDATE_ALBUM_ID3);
     }
 
     private void setupAddButton() {
-        addButton = new QControlPanelButton("Add album", getIconFromClasspath("white/Add.png"),
-                SwingConstants.BOTTOM, SwingConstants.LEFT);
+        addButton = new QControlPanelButton("Add album", ClassPathUtils
+                .getIconFromClasspath("white/Add.png"), SwingConstants.BOTTOM, SwingConstants.LEFT);
         addButton.addActionListener(addAlbumListener);
         addButton.setActionCommand(AddAlbumController.EVENT_ADD_ALBUM);
-    }
-
-    private ImageIcon getIconFromClasspath(final String classPathName) {
-        Resource gearImage = new ClassPathResource(classPathName);
-        ImageIcon icon = null;
-        try {
-            icon = new ImageIcon(gearImage.getURL());
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Image img = icon.getImage();
-        img = img.getScaledInstance(SizeHelper.getControlPanelIconSize(), SizeHelper
-                .getControlPanelIconSize(), java.awt.Image.SCALE_SMOOTH);
-        icon = new ImageIcon(img);
-        return icon;
     }
 
     public void updateSingleTab(Buttons tab) {

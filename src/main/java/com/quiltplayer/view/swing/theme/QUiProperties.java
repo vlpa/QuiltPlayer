@@ -12,10 +12,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.borders.QBorder;
 
 /**
  * 
@@ -25,7 +23,7 @@ import com.quiltplayer.view.swing.borders.QBorder;
  * 
  */
 public class QUiProperties {
-    private static final Color BACKGROUND = ColorConstantsDark.BACKGROUND;
+    // private static final Color BACKGROUND = ColorConstantsDark.BACKGROUND;
 
     public static void setProperties() {
         System.setProperty("swing.aatext", "true");
@@ -84,32 +82,32 @@ public class QUiProperties {
         UIManager.put("ComboBox.showPopupOnNavigation", Boolean.FALSE);
     }
 
-    private static void setupTextField() {
-        UIManager.put("TextField.background", Color.WHITE);
-        UIManager.put("PasswordField.background", BACKGROUND);
-
-        UIManager.put("TextField.foreground", Configuration.getInstance().getColorConstants()
-                .getArtistViewTextColor());
-        UIManager.put("PasswordField.foreground", Configuration.getInstance().getColorConstants()
-                .getArtistViewTextColor());
-
-        UIManager.put("TextField.inactiveForeground", new Color(70, 70, 70));
-        UIManager.put("PasswordField.inactiveForeground", new Color(70, 70, 70));
-
-        UIManager.put("TextField.font", FontFactory.getFont(14f));
-        UIManager.put("PasswordField.font", FontFactory.getFont(14f));
-
-        UIManager.put("TextField.caretForeground", new Color(160, 160, 160));
-        UIManager.put("PasswordField.caretForeground", new Color(160, 160, 160));
-
-        Border bdButton = new QBorder(true);
-        Insets insets = new Insets(7, 3, 7, 0);
-        Border bdMargin = new EmptyBorder(insets.top + 1, insets.left + 1, insets.bottom + 1,
-                insets.right + 1);
-
-        UIManager.put("TextField.border", new CompoundBorder(bdButton, bdMargin));
-        UIManager.put("PasswordField.border", new CompoundBorder(bdButton, bdMargin));
-    }
+    // private static void setupTextField() {
+    // UIManager.put("TextField.background", Color.WHITE);
+    // UIManager.put("PasswordField.background", BACKGROUND);
+    //
+    // UIManager.put("TextField.foreground", Configuration.getInstance().getColorConstants()
+    // .getArtistViewTextColor());
+    // UIManager.put("PasswordField.foreground", Configuration.getInstance().getColorConstants()
+    // .getArtistViewTextColor());
+    //
+    // UIManager.put("TextField.inactiveForeground", new Color(70, 70, 70));
+    // UIManager.put("PasswordField.inactiveForeground", new Color(70, 70, 70));
+    //
+    // UIManager.put("TextField.font", FontFactory.getFont(14f));
+    // UIManager.put("PasswordField.font", FontFactory.getFont(14f));
+    //
+    // UIManager.put("TextField.caretForeground", new Color(160, 160, 160));
+    // UIManager.put("PasswordField.caretForeground", new Color(160, 160, 160));
+    //
+    // Border bdButton = new QBorder(true);
+    // Insets insets = new Insets(7, 3, 7, 0);
+    // Border bdMargin = new EmptyBorder(insets.top + 1, insets.left + 1, insets.bottom + 1,
+    // insets.right + 1);
+    //
+    // UIManager.put("TextField.border", new CompoundBorder(bdButton, bdMargin));
+    // UIManager.put("PasswordField.border", new CompoundBorder(bdButton, bdMargin));
+    // }
 
     private static void setupButton() {
         UIManager.put("Button.font", FontFactory.getFont(14f));

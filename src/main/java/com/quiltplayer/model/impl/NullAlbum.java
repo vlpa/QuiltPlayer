@@ -1,6 +1,5 @@
 package com.quiltplayer.model.impl;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.quiltplayer.external.covers.model.LocalImage;
@@ -15,9 +14,7 @@ import com.quiltplayer.model.StringId;
  * 
  * @author Vlado Palczynski
  */
-public class NullAlbum implements Album, Serializable {
-    private static final long serialVersionUID = 5548348854173325894L;
-
+public class NullAlbum implements Album {
     /*
      * (non-Javadoc)
      * 
@@ -171,14 +168,6 @@ public class NullAlbum implements Album, Serializable {
     }
 
     /*
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    @Override
-    public int compareTo(final Album o) {
-        return 0;
-    }
-
-    /*
      * (non-Javadoc)
      * 
      * @see org.coverok.model.Album#getYear()
@@ -298,4 +287,31 @@ public class NullAlbum implements Album, Serializable {
     public void deleteImages() {
     }
 
+    /*
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    @Override
+    public int compareTo(final Album o) {
+        return 0;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

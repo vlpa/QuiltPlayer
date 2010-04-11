@@ -3,7 +3,6 @@ package com.quiltplayer.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -20,8 +19,6 @@ import com.quiltplayer.view.swing.views.impl.AlbumArtView;
 public class AlbumArtController implements ActionListener {
 
     public static final String EVENT_UPDATE_ALBUM = "update.album";
-
-    private Logger log = Logger.getLogger(AlbumArtController.class);
 
     @Autowired
     private AlbumArtView albumArtView;

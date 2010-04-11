@@ -295,10 +295,6 @@ public class QuiltPlayerFrame extends JFrame {
         return searchView;
     }
 
-    public ListView getAlbumView() {
-        return albumView;
-    }
-
     /**
      * @param searchView
      *            the searchView to set

@@ -73,15 +73,18 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
     @Autowired
     private Keyboard keyboardPanel;
 
-    private final JTextField artistName = new QTextField(keyboardPanel);
+    private JTextField artistName;
 
-    private final JTextField albumTitle = new QTextField(keyboardPanel);
+    private JTextField albumTitle;
 
     public EditPlaylistPanel() {
         super();
     }
 
     private void init() {
+        artistName = new QTextField(keyboardPanel);
+        albumTitle = new QTextField(keyboardPanel);
+
         removeAll();
 
         setLayout(new MigLayout("insets 0, wrap 3, alignx center, aligny center"));

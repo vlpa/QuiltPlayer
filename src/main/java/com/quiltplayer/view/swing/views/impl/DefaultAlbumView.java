@@ -3,7 +3,6 @@ package com.quiltplayer.view.swing.views.impl;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Serializable;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -39,9 +38,7 @@ import com.quiltplayer.view.swing.views.ListView;
  * @author Vlado Palczynski
  */
 @org.springframework.stereotype.Component
-public class DefaultAlbumView implements Serializable, ListView<Album> {
-
-    private static final long serialVersionUID = 1L;
+public class DefaultAlbumView implements ListView<Album> {
 
     @Autowired
     private ChangeAlbumListener changeAlbumListener;
@@ -49,11 +46,7 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
     @Autowired
     private ArtistListener artistListener;
 
-    private Album selectedAlbum = null;
-
     private List<Album> albums;
-
-    private JPanel panel;
 
     private Artist artist;
 
@@ -65,7 +58,7 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
     @Override
     public JComponent getUI() {
 
-        panel = new JPanel(new MigLayout("fillx, align center, wrap "
+        JPanel panel = new JPanel(new MigLayout("fillx, align center, wrap "
                 + Configuration.getInstance().getGridProperties().getAlbumsGrid()));
         panel.setOpaque(true);
 
@@ -140,8 +133,9 @@ public class DefaultAlbumView implements Serializable, ListView<Album> {
         albums = list;
     }
 
+    @Deprecated
     public Album getSelectedAlbum() {
-        return selectedAlbum;
+        return null;
     }
 
     /**

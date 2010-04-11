@@ -42,6 +42,8 @@ public class WikiController implements WikiListener {
         if (e.getActionCommand().equals(EVENT_UPDATE_WIKI)) {
             Album album = (Album) e.getSource();
 
+            log.debug("Looking for wiki information...");
+
             taskExecutor.execute(new WikiTask(album, wikipediaService, wikiView));
         }
     }

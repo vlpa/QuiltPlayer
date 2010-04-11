@@ -36,7 +36,7 @@ public class DiscogsCoverScanner implements CoverScanner {
 
     private static final int THREADS = 10;
 
-    private static List<Thread> threadPool;
+    private List<Thread> threadPool;
 
     @Autowired
     private DiscogsScanner discogsScanner;
@@ -50,7 +50,7 @@ public class DiscogsCoverScanner implements CoverScanner {
     @Autowired
     private ScanningListener scanningListener;
 
-    protected static Stack<Album> albumsToScan;
+    protected Stack<Album> albumsToScan;
 
     /*
      * @see java.lang.Runnable#run()
@@ -226,6 +226,6 @@ public class DiscogsCoverScanner implements CoverScanner {
      *            the albumsToScan to set
      */
     public final void setAlbumsToScan(Stack<Album> albumsToScan) {
-        DiscogsCoverScanner.albumsToScan = albumsToScan;
+        this.albumsToScan = albumsToScan;
     }
 }

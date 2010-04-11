@@ -239,7 +239,9 @@ public class WebServiceAlbum extends CommonWebserviceMethods {
 
             File newFile = new File(file.getParent(), size.name() + "-" + file.getName());
 
-            newFile.createNewFile();
+            boolean b = newFile.createNewFile();
+
+            log.debug("Creating new file returned: " + b);
 
             ImageIO.write(image, "jpg", newFile);
 

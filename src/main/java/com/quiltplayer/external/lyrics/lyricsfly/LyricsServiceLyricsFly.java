@@ -77,7 +77,7 @@ public class LyricsServiceLyricsFly implements LyricsService {
 
     private void parseLyrics(String hid, Lyrics l) throws MalformedURLException,
             ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-        URL url = new URL(String.format(QUERY, new Object[] { hid }));
+        URL url = new URL(String.format(QUERY, new Object[] { hid, hid, hid }));
 
         Document doc = getDocument(url);
 

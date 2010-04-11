@@ -61,7 +61,7 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
 
     private final List<String> list = new ArrayList<String>();
 
-    private Animator animator = new Animator(0);
+    private transient Animator animator = new Animator(0);
 
     private float defaultAlpha = 0.10f;
 

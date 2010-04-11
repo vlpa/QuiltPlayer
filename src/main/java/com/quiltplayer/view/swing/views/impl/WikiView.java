@@ -45,6 +45,8 @@ public class WikiView implements Serializable, View {
 
         panel = new JPanel(new MigLayout("w 100%!")) {
 
+            private static final long serialVersionUID = 1L;
+
             /*
              * (non-Javadoc)
              * 

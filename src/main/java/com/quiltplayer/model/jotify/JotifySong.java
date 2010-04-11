@@ -146,15 +146,6 @@ public class JotifySong implements Song {
         return spotifyTrack;
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (o instanceof JotifySong) {
-            return this.spotifyTrack.getId().equals(((JotifySong) o).getSpotifyTrack().getId());
-        }
-
-        return false;
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -203,5 +194,24 @@ public class JotifySong implements Song {
     @Override
     public void setType(String type) {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o instanceof JotifySong) {
+            return this.spotifyTrack.getId().equals(((JotifySong) o).getSpotifyTrack().getId());
+        }
+
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

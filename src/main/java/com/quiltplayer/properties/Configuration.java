@@ -60,6 +60,9 @@ public final class Configuration implements Serializable {
     public static final String lineBreak = System.getProperty("line.separator");
 
     protected Configuration() {
+
+        log.debug("Retrieve configuration...");
+
         instance = retrieveConfiguration();
 
         if (instance == null) {
@@ -115,6 +118,8 @@ public final class Configuration implements Serializable {
         FileOutputStream fos = null;
         ObjectOutputStream out = null;
         FolderProperties neededProperties = new FolderProperties();
+
+        log.debug("Store configuration...");
 
         try {
             File f = new File(neededProperties.getStorage() + System.getProperty("file.separator")

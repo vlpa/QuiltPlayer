@@ -19,7 +19,7 @@ public class ClassPathUtils {
             icon = new ImageIcon(gearImage.getURL());
         }
         catch (IOException e) {
-            e.printStackTrace();
+            return null;
         }
 
         Image img = icon.getImage();

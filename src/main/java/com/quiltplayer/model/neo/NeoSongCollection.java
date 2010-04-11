@@ -17,6 +17,7 @@ import java.util.List;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 
 import com.quiltplayer.core.comparators.TrackNumberComparator;
 import com.quiltplayer.core.storage.neo.QuiltPlayerRelationshipTypes;
@@ -46,12 +47,16 @@ public class NeoSongCollection implements SongCollection {
     public List<Song> getSongs() {
         final List<Song> songs = new ArrayList<Song>();
 
-        for (Relationship rel : node.getRelationships(
-                QuiltPlayerRelationshipTypes.HAS_SONG, Direction.OUTGOING)) {
+        Transaction tx = NeoTx.beginTx();
+
+        for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_SONG,
+                Direction.OUTGOING)) {
             songs.add(new NeoSong(rel.getEndNode()));
         }
 
         Collections.sort(songs, comparator);
+
+        NeoTx.finishTx(tx);
 
         return songs;
     }

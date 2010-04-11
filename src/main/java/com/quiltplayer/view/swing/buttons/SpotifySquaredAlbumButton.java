@@ -40,6 +40,10 @@ public class SpotifySquaredAlbumButton extends SquaredAlbumButton {
 
         iconLabel = new JLabel();
 
+        init();
+    }
+
+    private void init() {
         invoker.start();
     }
 
