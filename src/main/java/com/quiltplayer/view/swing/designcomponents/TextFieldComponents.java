@@ -4,13 +4,14 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
-import com.quiltplayer.view.swing.borders.QBorder;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.labels.QLabel;
+import com.quiltplayer.view.swing.textfields.QPasswordField;
 import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.window.Keyboard;
 

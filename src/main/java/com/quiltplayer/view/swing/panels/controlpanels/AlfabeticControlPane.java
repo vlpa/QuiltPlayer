@@ -87,9 +87,6 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
         minusButton.addActionListener(gridListener);
         minusButton.setActionCommand(GridController.EVENT_DECREASE_GRID);
 
-        // add(plusButton, "center, w 0.8cm, h 0.8cm");
-        // add(minusButton, "center, w 0.8cm, h 0.8cm");
-
         albumsButton = new QPlaylistButton("Album");
         albumsButton.addActionListener(this);
         albumsButton.setActionCommand(SelectionController.ALBUMS);

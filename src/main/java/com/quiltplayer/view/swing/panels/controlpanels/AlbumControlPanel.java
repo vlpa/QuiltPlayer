@@ -188,9 +188,8 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     }
 
     private void setupAddButton() {
-        addButton = new QControlPanelButton("Add album",
-                getIconFromClasspath("white/Add.png"), SwingConstants.BOTTOM,
-                SwingConstants.LEFT);
+        addButton = new QControlPanelButton("Add album", getIconFromClasspath("white/Add.png"),
+                SwingConstants.BOTTOM, SwingConstants.LEFT);
         addButton.addActionListener(addAlbumListener);
         addButton.setActionCommand(AddAlbumController.EVENT_ADD_ALBUM);
     }
@@ -215,6 +214,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     public void updateSingleTab(Buttons tab) {
         lyricsButton.inactivate();
         albumButton.inactivate();
+        editButton.inactivate();
 
         if (tab == null) {
             // Nada

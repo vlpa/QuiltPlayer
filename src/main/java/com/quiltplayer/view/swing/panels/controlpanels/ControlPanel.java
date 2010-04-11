@@ -95,8 +95,6 @@ public class ControlPanel extends JPanel {
 
         setupConfigurationButton();
 
-        // addAboutButton();
-
         setupExitButton();
 
         setupKeyboardTab();
@@ -164,7 +162,7 @@ public class ControlPanel extends JPanel {
     private void setupKeyboardTab() {
 
         keyboardButton = new QControlPanelButton("Keys", ClassPathUtils
-                .getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM,
+                .getIconFromClasspath("white/Keyboard.png"), SwingConstants.BOTTOM,
                 SwingConstants.RIGHT);
         keyboardButton.addActionListener(controlPanelListener);
         keyboardButton.setActionCommand(ControlPanelController.EVENT_VIEW_KEYBOARD);

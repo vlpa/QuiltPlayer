@@ -10,6 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -89,6 +90,9 @@ public class SpotifyConfigurationPanel extends JPanel {
         passwordComponent = TextFieldComponents.textFieldComponentForForms("Spotify password",
                 spotifyPassword, Configuration.getInstance().getSpotifyProperties()
                         .getSpotifyPassword(), true);
+
+        /* Needed as it shows the password in clear text otherwise */
+        SwingUtilities.updateComponentTreeUI(passwordComponent);
 
         add(passwordComponent, "left, w 60%, newline");
 

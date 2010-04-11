@@ -23,6 +23,7 @@ import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.ArtistName;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;
+import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
@@ -64,6 +65,9 @@ public class EditAlbumController implements EditAlbumListener {
     @Autowired
     private AlbumControlPanel albumControlPanel;
 
+    @Autowired
+    private QuiltPlayerFrame frame;
+
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
@@ -72,8 +76,20 @@ public class EditAlbumController implements EditAlbumListener {
         String cmd = e.getActionCommand();
 
         if (PlaylistPanel.EVENT_UPDATE_ALBUM_ID3 == e.getActionCommand()) {
-            playlistPanel.viewEditPanel();
-            albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.EDIT);
+            if (frame.playlistPanelVisible && playlistPanel.mode == PlaylistPanel.Mode.EDIT) {
+                frame.toggleAlbumView();
+                playlistPanel.mode = PlaylistPanel.Mode.HIDDEN;
+                albumControlPanel.updateSingleTab(null);
+            }
+            else if (frame.playlistPanelVisible == false) {
+                playlistPanel.viewEditPanel();
+                frame.toggleAlbumView();
+                albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.EDIT);
+            }
+            else {
+                playlistPanel.viewEditPanel();
+                albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.EDIT);
+            }
         }
         else if (EditPlaylistPanel.SAVE == cmd) {
             List<Object> l = (List<Object>) e.getSource();

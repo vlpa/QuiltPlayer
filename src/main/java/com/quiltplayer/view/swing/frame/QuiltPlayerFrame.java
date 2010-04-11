@@ -103,7 +103,7 @@ public class QuiltPlayerFrame extends JFrame {
 
     private JPanel glassPane;
 
-    private boolean b = true;
+    public boolean playlistPanelVisible = false;
 
     public QuiltPlayerFrame() {
         setTitle("QuiltPlayer");
@@ -177,34 +177,30 @@ public class QuiltPlayerFrame extends JFrame {
         // 5%");
         getContentPane().add(albumControlPanel, "west, w 1.6cm!");
 
-        addPlaylistView();
-
-        toggleAlbumView();
-
         updateUI();
     }
 
     private void setupGridGlassPane() {
 
         glassPane = (JPanel) this.getGlassPane();
-        glassPane.setLayout(new MigLayout("insets 0, fill"));
+        glassPane.setLayout(new MigLayout("insets 0, fill, w 100%, h 100%"));
 
         JButton increaseGridButton = new QTextButton("[ + ]");
         increaseGridButton.addActionListener(gridListener);
-        increaseGridButton.setActionCommand(GridController.EVENT_INCREASE_GRID);
-        increaseGridButton.setToolTipText("Add column in the grid above");
+        increaseGridButton.setActionCommand(GridController.EVENT_DECREASE_GRID);
+        increaseGridButton.setToolTipText("Bigger");
         increaseGridButton.setBorderPainted(false);
 
         JButton decreaseGridButton = new QTextButton("[ - ]");
         decreaseGridButton.addActionListener(gridListener);
-        decreaseGridButton.setActionCommand(GridController.EVENT_DECREASE_GRID);
-        decreaseGridButton.setToolTipText("Remove column in the grid above");
+        decreaseGridButton.setActionCommand(GridController.EVENT_INCREASE_GRID);
+        decreaseGridButton.setToolTipText("Smaller");
         decreaseGridButton.setBorderPainted(false);
 
-        glassPane.add(keyboardPanel, "center");
+        glassPane.add(increaseGridButton, "top, gapx 55% 1%, gapy 5%");
+        glassPane.add(decreaseGridButton, "top, gapx 0% 7%, gapy 5%");
 
-        glassPane.add(increaseGridButton, "top, gapx 85%");
-        glassPane.add(decreaseGridButton, "top");
+        glassPane.add(keyboardPanel, "west");
 
         glassPane.setVisible(true);
     }
@@ -312,20 +308,20 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     public void removeAlbumView() {
-        if (b) {
+        if (playlistPanelVisible) {
             remove(playlistPanel);
-            b = false;
+            playlistPanelVisible = false;
         }
     }
 
     public void toggleAlbumView() {
-        if (b) {
+        if (playlistPanelVisible) {
             remove(playlistPanel);
-            b = false;
+            playlistPanelVisible = false;
         }
         else {
             addPlaylistView();
-            b = true;
+            playlistPanelVisible = true;
         }
 
         playlistPanel.updateUI();

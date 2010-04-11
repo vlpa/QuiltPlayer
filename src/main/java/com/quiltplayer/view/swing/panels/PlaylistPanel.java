@@ -37,10 +37,10 @@ import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
 public class PlaylistPanel extends JPanel {
 
     public enum Mode {
-        SONG, LYRICS, EDIT, NULL
+        SONG, LYRICS, EDIT, HIDDEN
     }
 
-    public Mode mode = Mode.NULL;
+    public Mode mode = Mode.HIDDEN;
 
     protected static final long serialVersionUID = 1L;
 
@@ -175,15 +175,12 @@ public class PlaylistPanel extends JPanel {
     }
 
     private void removeComponentsIfNull() {
-        if (mode != Mode.NULL) {
-            if (albumPlaylistComponent != null)
-                remove(albumPlaylistComponent);
-            if (lyricsPlaylistComponent != null)
-                remove(lyricsPlaylistComponent);
+        if (albumPlaylistComponent != null)
+            remove(albumPlaylistComponent);
+        if (lyricsPlaylistComponent != null)
+            remove(lyricsPlaylistComponent);
 
-            remove(editPlaylistPanel);
-        }
-
+        remove(editPlaylistPanel);
     }
 
     public synchronized void viewEditPanel() {

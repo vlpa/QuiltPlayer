@@ -75,6 +75,7 @@ public class ControlPanelController implements ControlPanelListener {
         }
         else if (EVENT_VIEW_COVERS == actionCommand) {
             albumControlPanel.updateTab(MainTabs.IMAGES);
+            albumControlPanel.updateSingleTab(null);
             controlPanel.updateTab(null);
             frame.removeAlbumView();
             frame.updateUI(ActiveView.COVERS);
@@ -100,13 +101,13 @@ public class ControlPanelController implements ControlPanelListener {
         }
         else if (EVENT_VIEW_SONGS == actionCommand) {
 
-            if (playlistPanel.mode == PlaylistPanel.Mode.SONG) {
+            if (frame.playlistPanelVisible && playlistPanel.mode == PlaylistPanel.Mode.SONG) {
                 frame.toggleAlbumView();
-                playlistPanel.mode = PlaylistPanel.Mode.NULL;
+                playlistPanel.mode = PlaylistPanel.Mode.HIDDEN;
                 albumControlPanel.updateSingleTab(null);
             }
-            else if (playlistPanel.mode == PlaylistPanel.Mode.NULL) {
-                playlistPanel.mode = PlaylistPanel.Mode.SONG;
+            else if (frame.playlistPanelVisible == false) {
+                playlistPanel.viewAlbumPanel();
                 frame.toggleAlbumView();
                 albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.PLAYLIST);
             }
