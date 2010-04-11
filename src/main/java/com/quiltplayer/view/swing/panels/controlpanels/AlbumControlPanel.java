@@ -139,7 +139,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
     private void setupWikiButton() {
         wikiButton = new QControlPanelButton("Wiki", ClassPathUtils
-                .getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM,
+                .getIconFromClasspath("white/Wikipedia.png"), SwingConstants.BOTTOM,
                 SwingConstants.LEFT);
 
         wikiButton.addActionListener(controlPanelListener);
