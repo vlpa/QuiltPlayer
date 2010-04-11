@@ -86,7 +86,7 @@ public class AlbumPlaylistPanel extends JPanel {
 
         songsComponent = new SongsComponent(album, playerListener);
 
-        add(songsComponent, "west");
+        add(songsComponent, "north");
 
         songsComponent.repaint();
     }
