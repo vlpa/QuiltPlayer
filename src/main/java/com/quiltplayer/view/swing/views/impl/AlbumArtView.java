@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.geom.Point2D;
 
 import javax.swing.BorderFactory;
@@ -22,11 +21,13 @@ import org.jdesktop.animation.timing.Animator.RepeatBehavior;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
 import org.jdesktop.animation.timing.interpolation.SplineInterpolator;
 import org.jdesktop.jxlayer.JXLayer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.external.covers.model.LocalImage;
 import com.quiltplayer.external.covers.util.ImageUtils;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.ColorConstantsDark;
+import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.views.View;
@@ -41,6 +42,9 @@ public class AlbumArtView implements View {
     private QScrollPane pane;
 
     private JXLayer<JScrollPane> jx;
+
+    @Autowired
+    private QuiltPlayerFrame frame;
 
     /*
      * (non-Javadoc)
@@ -82,7 +86,7 @@ public class AlbumArtView implements View {
             for (LocalImage localImage : album.getImages()) {
                 ImageIcon icon = new ImageIcon(localImage.getLargeImage().getAbsolutePath());
 
-                Double d = Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.60;
+                Double d = frame.getHeight() * 0.60;
 
                 /* Scale if too large depending on screen */
                 if (icon.getIconHeight() > d.intValue()) {

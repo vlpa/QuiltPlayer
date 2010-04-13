@@ -201,7 +201,7 @@ public class QuiltPlayerFrame extends JFrame {
         // glassPane.add(increaseGridButton, "top, gapx 55% 1%, gapy 5%");
         // glassPane.add(decreaseGridButton, "top, gapx 0% 7%, gapy 5%");
 
-        glassPane.add(keyboardPanel, "west");
+        // glassPane.add(keyboardPanel, "west");
 
         glassPane.setVisible(true);
     }
@@ -269,7 +269,7 @@ public class QuiltPlayerFrame extends JFrame {
             ui = aboutView.getUI();
         }
 
-        getContentPane().add(ui, "w 100%, dock east, gapx 0 1.6cm!");
+        getContentPane().add(ui, "h 100%, w 100%");
 
         repaint();
 
@@ -277,7 +277,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addAlfabeticControlPanel() {
-        getContentPane().add(alfabeticControlPane, "east, right, w 1cm!");
+        getContentPane().add(alfabeticControlPane, "east, right, w 1cm!, gapx 0 1.6cm!");
     }
 
     public ActiveView getCurrentView() {
@@ -313,7 +313,7 @@ public class QuiltPlayerFrame extends JFrame {
 
     public void toggleAlbumView() {
         if (playlistPanelVisible) {
-            remove(playlistPanel);
+            glassPane.remove(playlistPanel);
             playlistPanelVisible = false;
         }
         else {
@@ -322,11 +322,11 @@ public class QuiltPlayerFrame extends JFrame {
         }
 
         playlistPanel.updateUI();
-        ui.updateUI();
+        ui.repaint();
     }
 
     private void addPlaylistView() {
-        getContentPane().add(playlistPanel, "w 28%!, dock west, gapx 1.6cm!");
+        glassPane.add(playlistPanel, "dock west, w 28%!, ");
     }
 
     protected void repaintComponentsIfResizeAware() {

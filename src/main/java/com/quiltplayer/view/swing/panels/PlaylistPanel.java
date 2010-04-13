@@ -1,5 +1,6 @@
 package com.quiltplayer.view.swing.panels;
 
+import java.awt.AlphaComposite;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -74,7 +75,7 @@ public class PlaylistPanel extends JPanel {
     protected EditPlaylistPanel editPlaylistPanel;
 
     public PlaylistPanel() {
-        super(new MigLayout("ins 0.0cm 0.3cm 0.0cm 0.3cm, fill, alignx center"));
+        super(new MigLayout("ins 0.0cm 0.0cm 0.0cm 0.0cm, fill, alignx center"));
 
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
     }
@@ -117,20 +118,6 @@ public class PlaylistPanel extends JPanel {
 
     public Component[] getSongLabels() {
         return albumPlaylistPanel.getSongLabels();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
-     */
-    @Override
-    public void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        super.paintComponent(g);
     }
 
     public void changeAlbum(final Album album) {
@@ -176,15 +163,6 @@ public class PlaylistPanel extends JPanel {
         }
     }
 
-    private void removeComponentsIfNull() {
-        if (albumPlaylistComponent != null)
-            remove(albumPlaylistComponent);
-        if (lyricsPlaylistComponent != null)
-            remove(lyricsPlaylistComponent);
-
-        remove(editPlaylistPanel);
-    }
-
     public synchronized void viewEditPanel() {
         if (mode != Mode.EDIT) {
             removeComponentsIfNull();
@@ -197,7 +175,47 @@ public class PlaylistPanel extends JPanel {
         }
     }
 
+    private void removeComponentsIfNull() {
+        if (albumPlaylistComponent != null)
+            remove(albumPlaylistComponent);
+        if (lyricsPlaylistComponent != null)
+            remove(lyricsPlaylistComponent);
+
+        remove(editPlaylistPanel);
+    }
+
     public Album getPlayingAlbum() {
         return album;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     */
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
+
+        super.paintComponent(g);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.JPanel#updateUI()
+     */
+    @Override
+    public void updateUI() {
+
+        if (mode == Mode.EDIT)
+            editPlaylistPanel.updateUI();
+        else if (mode == Mode.SONG)
+            albumPlaylistPanel.updateUI();
+
+        super.updateUI();
     }
 }

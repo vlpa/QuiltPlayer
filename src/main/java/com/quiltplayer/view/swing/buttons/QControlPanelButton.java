@@ -71,10 +71,10 @@ public class QControlPanelButton extends JButton {
 
         setFont(FontFactory.getFont(11f));
 
-        addMouseListener(listenener);
+        addMouseListener(listener);
     }
 
-    private transient MouseListener listenener = new MouseAdapter() {
+    private transient MouseListener listener = new MouseAdapter() {
 
         /*
          * (non-Javadoc)
@@ -141,7 +141,6 @@ public class QControlPanelButton extends JButton {
                 g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
         }
 
-        g2d = (Graphics2D) g;
         g2d.setComposite(makeComposite());
 
         super.paintComponent(g);

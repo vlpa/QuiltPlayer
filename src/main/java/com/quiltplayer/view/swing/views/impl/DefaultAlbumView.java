@@ -58,7 +58,7 @@ public class DefaultAlbumView implements ListView<Album> {
     @Override
     public JComponent getUI() {
 
-        JPanel panel = new JPanel(new MigLayout("fillx, align center, wrap "
+        JPanel panel = new JPanel(new MigLayout("ins 1cm 2cm 0cm 2cm, fillx, align center, wrap "
                 + Configuration.getInstance().getGridProperties().getAlbumsGrid()));
         panel.setOpaque(true);
 

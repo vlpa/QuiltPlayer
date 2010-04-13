@@ -103,7 +103,7 @@ public class SearchView implements View {
             panel.setOpaque(true);
             panel.addFocusListener(focusListener);
 
-            panel.setLayout(new MigLayout("alignx center, top, wrap 1"));
+            panel.setLayout(new MigLayout("ins 0.5cm 2cm 0cm 2cm, alignx center, top, wrap 1"));
 
             setupSearchBar();
 

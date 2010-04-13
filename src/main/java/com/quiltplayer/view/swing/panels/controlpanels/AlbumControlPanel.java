@@ -1,5 +1,6 @@
 package com.quiltplayer.view.swing.panels.controlpanels;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -90,7 +91,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     public void setDefaults() {
         setLayout(new MigLayout("ins 0.5cm 0 0.5cm 0, flowy, fill"));
 
-        setOpaque(true);
+        setOpaque(false);
 
         setBackground(ColorConstantsDark.ALBUM_PANEL);
 
@@ -248,12 +249,8 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        if (!isOpaque()) {
-            super.paintComponent(g);
-            return;
-        }
-
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 
         Point2D start = new Point2D.Float(0, getHeight());
         Point2D end = new Point2D.Float(getWidth(), getHeight());

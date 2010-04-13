@@ -1,5 +1,6 @@
 package com.quiltplayer.view.swing.panels.playlistpanels;
 
+import java.awt.AlphaComposite;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -51,10 +52,10 @@ public class AlbumPlaylistPanel extends JPanel {
     private CrossFader crossFader;
 
     public AlbumPlaylistPanel() {
-        super(new MigLayout("insets 0, wrap 1, fill"));
-        setOpaque(true);
+        super(new MigLayout("insets 0 0.2cm 0 0.2cm, wrap 1, fill"));
 
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
+        setOpaque(true);
     }
 
     @PostConstruct
@@ -88,9 +89,12 @@ public class AlbumPlaylistPanel extends JPanel {
 
         songsComponent = new SongsComponent(album, playerListener);
 
-        add(crossFader, "north, h " + getWidth() + "px!");
+        if (album.getImages().size() > 0)
+            add(crossFader, "north, h " + getWidth() + "px!");
+
         add(songsComponent, "north");
 
+        songsComponent.setOpaque(false);
         songsComponent.repaint();
     }
 
@@ -140,6 +144,7 @@ public class AlbumPlaylistPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
 
         super.paintComponent(g);
     }

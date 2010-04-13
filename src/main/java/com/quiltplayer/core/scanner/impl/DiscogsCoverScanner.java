@@ -199,7 +199,7 @@ public class DiscogsCoverScanner implements CoverScanner {
     }
 
     private synchronized Album getAlbum() {
-        if (!albumsToScan.isEmpty())
+        if (!albumsToScan.isEmpty())    
             return albumsToScan.pop();
 
         return null;

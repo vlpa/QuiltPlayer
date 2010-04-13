@@ -35,8 +35,7 @@ public class SongsComponent extends JPanel {
         this.playerListener = playerListener;
         this.album = album;
 
-        setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
-        setOpaque(true);
+        setOpaque(false);
 
         setup();
     }
