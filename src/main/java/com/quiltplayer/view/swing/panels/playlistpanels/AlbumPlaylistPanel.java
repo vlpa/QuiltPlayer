@@ -51,7 +51,7 @@ public class AlbumPlaylistPanel extends JPanel {
     private CrossFader crossFader;
 
     public AlbumPlaylistPanel() {
-        super(new MigLayout("debug, insets 0, wrap 1, fill"));
+        super(new MigLayout("insets 0, wrap 1, fill"));
         setOpaque(true);
 
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
@@ -62,7 +62,7 @@ public class AlbumPlaylistPanel extends JPanel {
         this.album = new NullAlbum();
 
         add(albumPresentationPanel, "north, gapy 0.5cm 0.3cm");
-        add(crossFader, "north, h 45%");
+        add(crossFader, "north");
     }
 
     public void changeAlbum(final Album album) {
@@ -81,11 +81,14 @@ public class AlbumPlaylistPanel extends JPanel {
     }
 
     private void setupSongsPanel() {
-        if (songsComponent != null)
+        if (songsComponent != null) {
             remove(songsComponent);
+            remove(crossFader);
+        }
 
         songsComponent = new SongsComponent(album, playerListener);
 
+        add(crossFader, "north, h " + getWidth() + "px!");
         add(songsComponent, "north");
 
         songsComponent.repaint();
@@ -133,11 +136,11 @@ public class AlbumPlaylistPanel extends JPanel {
      * @see javax.swing.JComponent#paint(java.awt.Graphics)
      */
     @Override
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        super.paint(g);
+        super.paintComponent(g);
     }
 }

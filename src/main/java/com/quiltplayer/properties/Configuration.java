@@ -119,8 +119,6 @@ public final class Configuration implements Serializable {
         ObjectOutputStream out = null;
         FolderProperties neededProperties = new FolderProperties();
 
-        log.debug("Store configuration...");
-
         try {
             File f = new File(neededProperties.getStorage() + System.getProperty("file.separator")
                     + CONFIG_NAME);

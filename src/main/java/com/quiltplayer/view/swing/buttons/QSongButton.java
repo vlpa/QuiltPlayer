@@ -135,6 +135,7 @@ public class QSongButton extends ScrollableButton {
      */
     @Override
     public void paintComponent(Graphics g) {
+
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,

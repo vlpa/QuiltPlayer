@@ -56,6 +56,8 @@ public class PlaylistPanel extends JPanel {
 
     private JComponent lyricsPlaylistComponent;
 
+    private QScrollPane scrollPane;
+
     @Autowired
     private PlayerControlPanel playerControlPanel;
 
@@ -146,9 +148,9 @@ public class PlaylistPanel extends JPanel {
         if (mode != Mode.SONG) {
             removeComponentsIfNull();
 
-            final QScrollPane pane = new QScrollPane(albumPlaylistPanel);
+            scrollPane = new QScrollPane(albumPlaylistPanel);
 
-            albumPlaylistComponent = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
+            albumPlaylistComponent = new JXLayer<JScrollPane>(scrollPane, new JScrollPaneLayerUI());
 
             add(albumPlaylistComponent, "w 100%, h 100%, center");
 

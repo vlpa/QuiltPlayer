@@ -172,10 +172,8 @@ public class QuiltPlayerFrame extends JFrame {
 
         ui = aboutView.getUI();
 
-        // getContentPane().add(controlPanel, "north, h 1.6cm!");
-        getContentPane().add(controlPanel, "east, w 1.6cm!"); // w 1.4cm!, gapx 0 0.2cm, gapy 5%
-        // 5%");
-        getContentPane().add(albumControlPanel, "west, w 1.6cm!");
+        // getContentPane().add(controlPanel, "east, w 1.6cm!");
+        // getContentPane().add(albumControlPanel, "west, w 1.6cm!");
 
         updateUI();
     }
@@ -183,7 +181,10 @@ public class QuiltPlayerFrame extends JFrame {
     private void setupGridGlassPane() {
 
         glassPane = (JPanel) this.getGlassPane();
-        glassPane.setLayout(new MigLayout("insets 0, fill, w 100%, h 100%"));
+        glassPane.setLayout(new MigLayout("insets 0, fill"));
+
+        glassPane.add(controlPanel, "east, w 1.6cm!");
+        glassPane.add(albumControlPanel, "west, w 1.6cm!");
 
         JButton increaseGridButton = new QTextButton("[ + ]");
         increaseGridButton.addActionListener(gridListener);
@@ -197,8 +198,8 @@ public class QuiltPlayerFrame extends JFrame {
         decreaseGridButton.setToolTipText("Smaller");
         decreaseGridButton.setBorderPainted(false);
 
-        glassPane.add(increaseGridButton, "top, gapx 55% 1%, gapy 5%");
-        glassPane.add(decreaseGridButton, "top, gapx 0% 7%, gapy 5%");
+        // glassPane.add(increaseGridButton, "top, gapx 55% 1%, gapy 5%");
+        // glassPane.add(decreaseGridButton, "top, gapx 0% 7%, gapy 5%");
 
         glassPane.add(keyboardPanel, "west");
 
@@ -268,7 +269,7 @@ public class QuiltPlayerFrame extends JFrame {
             ui = aboutView.getUI();
         }
 
-        getContentPane().add(ui, "w 100%, dock east");
+        getContentPane().add(ui, "w 100%, dock east, gapx 0 1.6cm!");
 
         repaint();
 
@@ -325,7 +326,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addPlaylistView() {
-        getContentPane().add(playlistPanel, "w 28%!, dock west");
+        getContentPane().add(playlistPanel, "w 28%!, dock west, gapx 1.6cm!");
     }
 
     protected void repaintComponentsIfResizeAware() {

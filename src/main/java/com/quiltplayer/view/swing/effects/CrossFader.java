@@ -39,7 +39,7 @@ public class CrossFader extends JComponent implements ActionListener {
     private boolean fetchedImages;
 
     public CrossFader() {
-        setLayout(new MigLayout());
+        setLayout(new MigLayout("fill"));
     }
 
     public void startAnimation() {
