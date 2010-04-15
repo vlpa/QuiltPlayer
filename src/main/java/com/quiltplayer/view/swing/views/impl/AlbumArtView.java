@@ -54,7 +54,7 @@ public class AlbumArtView implements View {
     @Override
     public JComponent getUI() {
 
-        panel = new JPanel(new MigLayout("fill")) {
+        panel = new JPanel(new MigLayout("ins 0 2cm 0 0, fill")) {
             private static final long serialVersionUID = 1L;
 
             /*

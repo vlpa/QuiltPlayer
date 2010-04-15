@@ -177,7 +177,6 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
      */
     @Override
     protected void paintComponent(Graphics g) {
-        System.out.println(this);
         super.paintComponent(g);
     }
 

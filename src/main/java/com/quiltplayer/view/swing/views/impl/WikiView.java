@@ -43,7 +43,7 @@ public class WikiView implements Serializable, View {
     @Override
     public JComponent getUI() {
 
-        panel = new JPanel(new MigLayout("w 100%!")) {
+        panel = new JPanel(new MigLayout("ins 1cm 2cm 0 2cm, w 100%!")) {
 
             private static final long serialVersionUID = 1L;
 

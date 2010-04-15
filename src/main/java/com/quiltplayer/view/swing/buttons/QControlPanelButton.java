@@ -38,6 +38,8 @@ public class QControlPanelButton extends JButton {
 
     private boolean active;
 
+    private boolean fade;
+
     private transient Animator animator = new Animator(0);
 
     private int horizontalAlignment;
@@ -55,7 +57,7 @@ public class QControlPanelButton extends JButton {
 
     private void setDefaults(int verticalTextPosition) {
 
-        setOpaque(true);
+        setOpaque(false);
 
         setHorizontalTextPosition(AbstractButton.CENTER);
         setHorizontalAlignment(AbstractButton.CENTER);
@@ -129,7 +131,9 @@ public class QControlPanelButton extends JButton {
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (active) {
+        if (fade) {
+        }
+        else if (active) {
             // RescaleOp op = new RescaleOp(-1.0f, 255f, null);
             // BufferedImage negative = op.filter(icon, null);
             g2d.setBackground(Color.BLACK);
@@ -140,8 +144,9 @@ public class QControlPanelButton extends JButton {
             else if (horizontalAlignment == SwingConstants.RIGHT)
                 g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
         }
-
-        g2d.setComposite(makeComposite());
+        else {
+            g2d.setComposite(makeComposite());
+        }
 
         super.paintComponent(g);
     }
@@ -155,6 +160,10 @@ public class QControlPanelButton extends JButton {
         active = false;
 
         animate(currentAlpha, defaultAlpha);
+    }
+
+    public void fade() {
+        fade = !fade;
     }
 
     public void activate() {

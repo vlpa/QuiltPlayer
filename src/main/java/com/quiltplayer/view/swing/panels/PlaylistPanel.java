@@ -82,7 +82,7 @@ public class PlaylistPanel extends JPanel {
 
     @PostConstruct
     public void init() {
-        add(playerControlPanel, "south");
+        // add(playerControlPanel, "south");
 
         viewAlbumPanel();
     }

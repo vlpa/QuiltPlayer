@@ -103,11 +103,11 @@ public class SearchView implements View {
             panel.setOpaque(true);
             panel.addFocusListener(focusListener);
 
-            panel.setLayout(new MigLayout("ins 0.5cm 2cm 0cm 2cm, alignx center, top, wrap 1"));
+            panel.setLayout(new MigLayout("ins 1.3cm 2cm 0cm 2cm, alignx center, top, wrap 1"));
 
             setupSearchBar();
 
-            panel.add(searchPanel, "top, alignx center, gapy 0.5cm 0.5cm");
+            panel.add(searchPanel, "top, alignx center, gapy 0 0.5cm");
 
             if (result != null) {
                 scrollablePanel = new QPanel(new MigLayout("wrap 3, alignx center, top"));

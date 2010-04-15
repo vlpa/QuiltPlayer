@@ -6,7 +6,6 @@ import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 
 import javax.annotation.PostConstruct;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,21 +16,21 @@ import net.miginfocom.layout.PlatformDefaults;
 import net.miginfocom.layout.UnitValue;
 import net.miginfocom.swing.MigLayout;
 
+import org.jdesktop.jxlayer.JXGlassPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.quiltplayer.controller.GridController;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.utils.ClassPathUtils;
 import com.quiltplayer.view.swing.ActiveView;
-import com.quiltplayer.view.swing.buttons.QTextButton;
 import com.quiltplayer.view.swing.listeners.GridListener;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlfabeticControlPane;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
 import com.quiltplayer.view.swing.views.ArtistView;
 import com.quiltplayer.view.swing.views.ListView;
 import com.quiltplayer.view.swing.views.View;
@@ -88,6 +87,9 @@ public class QuiltPlayerFrame extends JFrame {
     @Autowired
     private ControlPanel controlPanel;
 
+    @Autowired
+    private PlayerControlPanel playerControlPanel;
+
     private JComponent ui;
 
     private ActiveView currentView = ActiveView.ABOUT;
@@ -115,10 +117,6 @@ public class QuiltPlayerFrame extends JFrame {
         float scaleFactor = migDPI / swingDPI;
 
         System.out.println("Screen size: " + Toolkit.getDefaultToolkit().getScreenSize());
-
-        System.out.println("ImageSize small: " + ImageSizes.SMALL.getSize());
-
-        System.out.println("ImageSize medium: " + ImageSizes.MEDIUM.getSize());
 
         System.out.println("ImageSize large: " + ImageSizes.LARGE.getSize());
 
@@ -172,36 +170,39 @@ public class QuiltPlayerFrame extends JFrame {
 
         ui = aboutView.getUI();
 
-        // getContentPane().add(controlPanel, "east, w 1.6cm!");
-        // getContentPane().add(albumControlPanel, "west, w 1.6cm!");
-
         updateUI();
     }
 
     private void setupGridGlassPane() {
 
-        glassPane = (JPanel) this.getGlassPane();
+        setGlassPane(new JXGlassPane() {
+            /*
+             * (non-Javadoc)
+             * 
+             * @see org.jdesktop.jxlayer.JXGlassPane#contains(int, int)
+             */
+            @Override
+            public boolean contains(int x, int y) {
+                if (y < 150)
+                    playerControlPanel.show();
+                else
+                    playerControlPanel.hide();
+
+                return super.contains(x, y);
+            }
+
+        });
+
+        glassPane = (JXGlassPane) this.getGlassPane();
+
         glassPane.setLayout(new MigLayout("insets 0, fill"));
 
         glassPane.add(controlPanel, "east, w 1.6cm!");
         glassPane.add(albumControlPanel, "west, w 1.6cm!");
 
-        JButton increaseGridButton = new QTextButton("[ + ]");
-        increaseGridButton.addActionListener(gridListener);
-        increaseGridButton.setActionCommand(GridController.EVENT_DECREASE_GRID);
-        increaseGridButton.setToolTipText("Bigger");
-        increaseGridButton.setBorderPainted(false);
+        glassPane.add(playerControlPanel, "north, center, gapx 20% 20%");
 
-        JButton decreaseGridButton = new QTextButton("[ - ]");
-        decreaseGridButton.addActionListener(gridListener);
-        decreaseGridButton.setActionCommand(GridController.EVENT_INCREASE_GRID);
-        decreaseGridButton.setToolTipText("Smaller");
-        decreaseGridButton.setBorderPainted(false);
-
-        // glassPane.add(increaseGridButton, "top, gapx 55% 1%, gapy 5%");
-        // glassPane.add(decreaseGridButton, "top, gapx 0% 7%, gapy 5%");
-
-        // glassPane.add(keyboardPanel, "west");
+        glassPane.add(keyboardPanel, "south, center");
 
         glassPane.setVisible(true);
     }

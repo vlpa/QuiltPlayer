@@ -163,6 +163,7 @@ public class DiscogsCoverScanner implements CoverScanner {
             das.artistStorage = artistStorage;
             das.discogsScanner = discogsScanner;
             das.storage = storage;
+            das.setAlbumsToScan(albumsToScan);
 
             Thread thread = new Thread(das);
             threadPool.add(thread);
@@ -178,6 +179,8 @@ public class DiscogsCoverScanner implements CoverScanner {
     @Override
     public void scanCovers(Album album) {
 
+        log.debug("Settng album to scan; " + album);
+
         albumsToScan = new Stack<Album>();
         albumsToScan.push(album);
 
@@ -189,6 +192,7 @@ public class DiscogsCoverScanner implements CoverScanner {
             dcs.artistStorage = artistStorage;
             dcs.discogsScanner = discogsScanner;
             dcs.storage = storage;
+            dcs.setAlbumsToScan(albumsToScan);
 
             Thread thread = new Thread(dcs);
             threadPool.add(thread);
@@ -199,7 +203,7 @@ public class DiscogsCoverScanner implements CoverScanner {
     }
 
     private synchronized Album getAlbum() {
-        if (!albumsToScan.isEmpty())    
+        if (!albumsToScan.isEmpty())
             return albumsToScan.pop();
 
         return null;
