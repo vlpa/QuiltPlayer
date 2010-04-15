@@ -143,6 +143,8 @@ public class QControlPanelButton extends JButton {
                 g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
             else if (horizontalAlignment == SwingConstants.RIGHT)
                 g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
+
+            g2d.setComposite(makeComposite());
         }
         else {
             g2d.setComposite(makeComposite());
