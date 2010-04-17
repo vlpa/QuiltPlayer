@@ -92,8 +92,7 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
                 super.paintComponent(g);
             }
@@ -103,8 +102,7 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
         titleLabel.setEditable(false);
         titleLabel.setLineWrap(true);
         titleLabel.setWrapStyleWord(true);
-        titleLabel.setForeground(Configuration.getInstance().getColorConstants()
-                .getAlbumViewTitleColor());
+        titleLabel.setForeground(Configuration.getInstance().getColorConstants().getAlbumViewTitleColor());
         titleLabel.setText(album.getTitle());
         titleLabel.setFont(FontFactory.getFont(14f));
 
@@ -127,8 +125,7 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
                 super.paintComponent(g);
             }
@@ -138,8 +135,7 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
         yearLabel.setEditable(false);
         yearLabel.setLineWrap(true);
         yearLabel.setWrapStyleWord(true);
-        yearLabel.setForeground(Configuration.getInstance().getColorConstants()
-                .getAlbumViewYearColor());
+        yearLabel.setForeground(Configuration.getInstance().getColorConstants().getAlbumViewYearColor());
         yearLabel.setText(album.getYear());
         yearLabel.setFont(FontFactory.getFont(12f));
 
@@ -168,7 +164,6 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
      */
     @Override
     protected void triggerAction() {
-        changeAlbumListener.actionPerformed(new ActionEvent(album, 0,
-                ChangeAlbumController.EVENT_CHANGE_ALBUM));
+        changeAlbumListener.actionPerformed(new ActionEvent(album, 0, ChangeAlbumController.EVENT_CHANGE_ALBUM));
     }
 }

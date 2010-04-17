@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.quiltplayer.core.scanner.CoverScanner;
 import com.quiltplayer.core.storage.ArtistStorage;
 import com.quiltplayer.core.storage.Storage;
 import com.quiltplayer.external.covers.model.LocalImage;
@@ -17,6 +18,7 @@ import com.quiltplayer.model.StringId;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.view.swing.listeners.AddAlbumListener;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 
 /**
  * Controller for adding non-ID3 albums.
@@ -40,8 +42,15 @@ public class AddAlbumController implements AddAlbumListener {
     @Autowired
     private PlaylistPanel playlistPanel;
 
+    @Autowired
+    private CoverScanner coverScanner;
+
+    @Autowired
+    private AlbumControlPanel albumControlPanel;
+
     /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     * @see
+     * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
     public final void actionPerformed(final ActionEvent e) {
@@ -62,8 +71,8 @@ public class AddAlbumController implements AddAlbumListener {
                     @Override
                     public void run() {
                         // TODO double code, same as in DefaultID3Scanner.
-                        StringId artistId = new StringId(album.getArtist().getArtistName()
-                                .getName());
+                        StringId artistId = new StringId(album.getArtist().getArtistName().getName());
+
                         Artist artist = artistStorage.getArtist(artistId);
 
                         if (artist == null) {
@@ -71,11 +80,15 @@ public class AddAlbumController implements AddAlbumListener {
                             artist = artistStorage.createArtist(artistId);
                         }
 
-                        artist.setArtistName(new ArtistName(album.getArtist().getArtistName()
-                                .getName()));
+                        artist.setArtistName(new ArtistName(album.getArtist().getArtistName().getName()));
                         artist.setSpotifyId(album.getArtist().getSpotifyId());
 
-                        StringId albumId = new StringId(album.getTitle());
+                        StringId albumId;
+                        if (album instanceof JotifyAlbum)
+                            albumId = album.getId();
+                        else
+                            albumId = new StringId(album.getTitle());
+
                         Album quiltAlbum = storage.getAlbum(albumId);
 
                         if (quiltAlbum == null) {
@@ -116,15 +129,17 @@ public class AddAlbumController implements AddAlbumListener {
                             LocalImage image = album.getImages().get(0);
                             image.setType(LocalImage.TYPE_PRIMARY);
 
-                            LocalImage localImage = storage.createLocalImage(quiltAlbum, image
-                                    .getLargeImage().getName(), image);
+                            LocalImage localImage = storage.createLocalImage(quiltAlbum, image.getLargeImage()
+                                    .getName(), image);
 
                             album.getImages().add(localImage);
                         }
+
+                        coverScanner.scanCovers(quiltAlbum);
+                        albumControlPanel.update(album);
                     }
 
                 }.start();
-
             }
         }
     }

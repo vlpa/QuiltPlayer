@@ -80,8 +80,7 @@ public class AlbumCoverButton extends ScrollableButton {
      */
     @Override
     public void triggerAction() {
-        changeAlbumListener.actionPerformed(new ActionEvent(album, 0,
-                ChangeAlbumController.EVENT_CHANGE_ALBUM));
+        changeAlbumListener.actionPerformed(new ActionEvent(album, 0, ChangeAlbumController.EVENT_CHANGE_ALBUM));
     }
 
     /*
@@ -100,8 +99,8 @@ public class AlbumCoverButton extends ScrollableButton {
                 final Icon icon;
 
                 if (album.getImages().size() > 0)
-                    icon = ImageUtils.scalePicture(new ImageIcon(album.getImages().get(0)
-                            .getLargeImage().getAbsolutePath()), getWidth());
+                    icon = ImageUtils.scalePicture(new ImageIcon(album.getImages().get(0).getLargeImage()
+                            .getAbsolutePath()), getWidth());
                 else
                     icon = new QImageIcon("No cover", getWidth());
 

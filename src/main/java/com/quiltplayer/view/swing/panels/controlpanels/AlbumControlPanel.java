@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import com.quiltplayer.controller.AddAlbumController;
 import com.quiltplayer.controller.ArtistController;
 import com.quiltplayer.controller.ControlPanelController;
+import com.quiltplayer.core.storage.Storage;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.utils.ClassPathUtils;
@@ -83,6 +84,9 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
     private static final String LAYOUT = "h 100%, w 100%, center";
 
+    @Autowired
+    private Storage storage;
+
     @PostConstruct
     public void init() {
         setDefaults();
@@ -118,7 +122,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     }
 
     public void update(final Album album) {
-        if (album instanceof JotifyAlbum) {
+        if (album instanceof JotifyAlbum && storage.getAlbum(album.getId()) == null) {
             remove(editButton);
             remove(addButton);
             add(addButton, LAYOUT + ", cell 0 3");
@@ -133,18 +137,16 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     }
 
     private void setupWikiButton() {
-        wikiButton = new QControlPanelButton("Wiki", ClassPathUtils
-                .getIconFromClasspath("white/Wikipedia.png"), SwingConstants.BOTTOM,
-                SwingConstants.LEFT);
+        wikiButton = new QControlPanelButton("Wiki", ClassPathUtils.getIconFromClasspath("white/Wikipedia.png"),
+                SwingConstants.BOTTOM, SwingConstants.LEFT);
 
         wikiButton.addActionListener(controlPanelListener);
         wikiButton.setActionCommand(ControlPanelController.EVENT_VIEW_WIKI);
     }
 
     private void setupCoversButton() {
-        coversButton = new QControlPanelButton("Images", ClassPathUtils
-                .getIconFromClasspath("white/Images.png"), SwingConstants.BOTTOM,
-                SwingConstants.LEFT);
+        coversButton = new QControlPanelButton("Images", ClassPathUtils.getIconFromClasspath("white/Images.png"),
+                SwingConstants.BOTTOM, SwingConstants.LEFT);
 
         coversButton.addActionListener(controlPanelListener);
         coversButton.setActionCommand(ControlPanelController.EVENT_VIEW_COVERS);
@@ -152,41 +154,37 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
     private void setupMoreAlbumsButton() {
         moreAlbumsButton = new QControlPanelButton("All albums", ClassPathUtils
-                .getIconFromClasspath("white/MoreAlbums.png"), SwingConstants.BOTTOM,
-                SwingConstants.LEFT);
+                .getIconFromClasspath("white/MoreAlbums.png"), SwingConstants.BOTTOM, SwingConstants.LEFT);
         moreAlbumsButton.addActionListener(artistListener);
         moreAlbumsButton.setActionCommand(ArtistController.ACTION_GET_ARTIST_ALBUMS);
     }
 
     private void setupLyricsButton() {
-        lyricsButton = new QControlPanelButton("Lyrics", ClassPathUtils
-                .getIconFromClasspath("white/Lyrics.png"), SwingConstants.BOTTOM,
-                SwingConstants.LEFT);
+        lyricsButton = new QControlPanelButton("Lyrics", ClassPathUtils.getIconFromClasspath("white/Lyrics.png"),
+                SwingConstants.BOTTOM, SwingConstants.LEFT);
         lyricsButton.addActionListener(this);
         lyricsButton.addActionListener(controlPanelListener);
         lyricsButton.setActionCommand(ControlPanelController.EVENT_VIEW_LYRICS);
     }
 
     private void setupPlaylistButton() {
-        albumButton = new QControlPanelButton("Songs", ClassPathUtils
-                .getIconFromClasspath("white/SongTiles.png"), SwingConstants.BOTTOM,
-                SwingConstants.LEFT);
+        albumButton = new QControlPanelButton("Songs", ClassPathUtils.getIconFromClasspath("white/SongTiles.png"),
+                SwingConstants.BOTTOM, SwingConstants.LEFT);
         albumButton.addActionListener(this);
         albumButton.addActionListener(controlPanelListener);
         albumButton.setActionCommand(ControlPanelController.EVENT_VIEW_SONGS);
     }
 
     private void setupEditButton() {
-        editButton = new QControlPanelButton("Edit album", ClassPathUtils
-                .getIconFromClasspath("white/EditAlbum.png"), SwingConstants.BOTTOM,
-                SwingConstants.LEFT);
+        editButton = new QControlPanelButton("Edit album", ClassPathUtils.getIconFromClasspath("white/EditAlbum.png"),
+                SwingConstants.BOTTOM, SwingConstants.LEFT);
         editButton.addActionListener(editAlbumListener);
         editButton.setActionCommand(PlaylistPanel.EVENT_UPDATE_ALBUM_ID3);
     }
 
     private void setupAddButton() {
-        addButton = new QControlPanelButton("Add album", ClassPathUtils
-                .getIconFromClasspath("white/Add.png"), SwingConstants.BOTTOM, SwingConstants.LEFT);
+        addButton = new QControlPanelButton("Add album", ClassPathUtils.getIconFromClasspath("white/Add.png"),
+                SwingConstants.BOTTOM, SwingConstants.LEFT);
         addButton.addActionListener(addAlbumListener);
         addButton.setActionCommand(AddAlbumController.EVENT_ADD_ALBUM);
     }

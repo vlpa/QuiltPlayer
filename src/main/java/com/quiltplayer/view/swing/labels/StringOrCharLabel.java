@@ -1,7 +1,6 @@
 package com.quiltplayer.view.swing.labels;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
@@ -10,6 +9,8 @@ import java.awt.geom.Point2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+
+import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.view.swing.FontFactory;
 
@@ -34,6 +35,9 @@ public class StringOrCharLabel extends JLabel {
     }
 
     private void setDefaults() {
+
+        setLayout(new MigLayout("fill"));
+
         setOpaque(false);
 
         setForeground(Color.WHITE);
@@ -46,8 +50,6 @@ public class StringOrCharLabel extends JLabel {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-
-        setMaximumSize(new Dimension(getWidth(), getHeight()));
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 

@@ -97,18 +97,16 @@ public class EditAlbumController implements EditAlbumListener {
             Album album = (Album) l.get(0);
             Id3DataModel model = (Id3DataModel) l.get(1);
 
-            if (!model.getArtistName().equals(
-                    album.getArtist().getArtistName().getNameForSearches())
+            if (!model.getArtistName().equals(album.getArtist().getArtistName().getNameForSearches())
                     || !model.getAlbumTitle().equals(album.getTitle())) {
 
                 log.debug("Updating ID3 information.");
 
-                modifyId3Tags(album, model);
+                modifyID3Tags(album, model);
             }
 
             // Check changed artist name
-            if (!model.getArtistName().equals(
-                    album.getArtist().getArtistName().getNameForSearches())) {
+            if (!model.getArtistName().equals(album.getArtist().getArtistName().getNameForSearches())) {
                 changedArtistName(album, model);
             }
 
@@ -179,24 +177,33 @@ public class EditAlbumController implements EditAlbumListener {
      * @param album
      * @param model
      */
-    private void modifyId3Tags(Album album, Id3DataModel model) {
+    private void modifyID3Tags(Album album, Id3DataModel model) {
         List<File> songFiles = new ArrayList<File>();
-        for (Song song : album.getSongCollection().getSongs()) {
-            songFiles.add(new File(song.getPath()));
-        }
 
-        Collection<Id3DataModel> list = id3Extractor.extractId3Tags(songFiles);
+        if (album.getType() == Album.TYPE_FILE) {
 
-        for (Id3DataModel tmp : list) {
-            tmp.setArtistName(model.getArtistName());
-            tmp.setAlbumTitle(model.getAlbumTitle());
-        }
+            for (Song song : album.getSongCollection().getSongs()) {
+                songFiles.add(new File(song.getPath()));
+            }
 
-        try {
-            id3Modifier.modifyId3Tags(list);
+            Collection<Id3DataModel> list = id3Extractor.extractId3Tags(songFiles);
+
+            for (Id3DataModel tmp : list) {
+                tmp.setArtistName(model.getArtistName());
+                tmp.setAlbumTitle(model.getAlbumTitle());
+            }
+
+            try {
+                id3Modifier.modifyId3Tags(list);
+            }
+            catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
-        catch (IOException e1) {
-            e1.printStackTrace();
+        else if (album.getType() == Album.TYPE_SPOTIFY) {
+            for (Song song : album.getSongCollection().getSongs()) {
+                song.getAlbum().setTitle(model.getAlbumTitle());
+            }
         }
     }
 }

@@ -146,8 +146,7 @@ public class NeoAlbum implements Album {
 
         Transaction tx = NeoTx.beginTx();
 
-        for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_ALBUM,
-                Direction.INCOMING)) {
+        for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_ALBUM, Direction.INCOMING)) {
             artist = new NeoArtist(rel.getStartNode());
         }
 
@@ -197,8 +196,7 @@ public class NeoAlbum implements Album {
     private QList<LocalImage> getFrontImages() {
         final QList<LocalImage> frontImages = new QList<LocalImage>();
 
-        for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_FRONT_IMAGE,
-                Direction.OUTGOING)) {
+        for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_FRONT_IMAGE, Direction.OUTGOING)) {
             frontImages.add(new NeoLocalImage(rel.getEndNode()));
         }
 
@@ -210,8 +208,7 @@ public class NeoAlbum implements Album {
     private QList<LocalImage> getOtherImages() {
         final QList<LocalImage> otherImages = new QList<LocalImage>();
 
-        for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_IMAGE,
-                Direction.OUTGOING)) {
+        for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_IMAGE, Direction.OUTGOING)) {
             otherImages.add(new NeoLocalImage(rel.getEndNode()));
         }
 
@@ -288,9 +285,7 @@ public class NeoAlbum implements Album {
     public void addSong(Song song) {
         Transaction tx = NeoTx.beginTx();
 
-        node
-                .createRelationshipTo(((NeoSong) song).getNode(),
-                        QuiltPlayerRelationshipTypes.HAS_SONG);
+        node.createRelationshipTo(((NeoSong) song).getNode(), QuiltPlayerRelationshipTypes.HAS_SONG);
 
         NeoTx.finishTx(tx);
 
@@ -440,8 +435,8 @@ public class NeoAlbum implements Album {
          */
         for (LocalImage image : album.getImages()) {
             NeoLocalImage neoImage = (NeoLocalImage) image;
-            for (Relationship rel : neoImage.getNode().getRelationships(
-                    QuiltPlayerRelationshipTypes.HAS_FRONT_IMAGE, Direction.INCOMING)) {
+            for (Relationship rel : neoImage.getNode().getRelationships(QuiltPlayerRelationshipTypes.HAS_FRONT_IMAGE,
+                    Direction.INCOMING)) {
                 rel.delete();
             }
 

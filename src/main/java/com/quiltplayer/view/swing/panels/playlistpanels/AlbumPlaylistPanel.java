@@ -52,7 +52,7 @@ public class AlbumPlaylistPanel extends JPanel {
     private CrossFader crossFader;
 
     public AlbumPlaylistPanel() {
-        super(new MigLayout("insets 0 0.2cm 0 0.2cm, wrap 1, fill"));
+        super(new MigLayout("ins 0.0cm 0.0cm 0.0cm 0.2cm, wrap 1, fill"));
 
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
         setOpaque(true);
@@ -62,7 +62,7 @@ public class AlbumPlaylistPanel extends JPanel {
     public void init() {
         this.album = new NullAlbum();
 
-        add(albumPresentationPanel, "north, gapy 0.5cm 0.3cm");
+        add(albumPresentationPanel, "north, gapy 0.5cm 0.3cm, gapx 0.2cm 0.2cm");
         add(crossFader, "north");
     }
 
@@ -92,7 +92,7 @@ public class AlbumPlaylistPanel extends JPanel {
         if (album.getImages().size() > 0)
             add(crossFader, "north, h " + getWidth() + "px!");
 
-        add(songsComponent, "north");
+        add(songsComponent, "north, gapx 0.2cm 0.2cm    ");
 
         songsComponent.setOpaque(false);
         songsComponent.repaint();

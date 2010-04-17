@@ -53,6 +53,7 @@ public class DefaultArtistView implements ArtistView {
 
     private JComponent getAlfabeticArtistComponent() {
         final JPanel panel = new JPanel();
+
         panel.setLayout(new MigLayout("ins 1cm 2cm 0 2cm, wrap "
                 + Configuration.getInstance().getGridProperties().getArtistGrid()));
         panel.setOpaque(true);
@@ -65,14 +66,11 @@ public class DefaultArtistView implements ArtistView {
                 p.addActionListener(artistListener);
                 p.setup(character, albumSet);
 
-                int width = 100 / Configuration.getInstance().getGridProperties().getArtistGrid() - 3;
-
-                panel.add(p, "top, w " + width + "%!");
+                panel.add(p, "top, push, growx");
             }
         }
 
-        final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(new QScrollPane(panel),
-                new JScrollPaneLayerUI());
+        final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(new QScrollPane(panel), new JScrollPaneLayerUI());
 
         return jx;
     }

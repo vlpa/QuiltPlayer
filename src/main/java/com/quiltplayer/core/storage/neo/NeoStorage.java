@@ -144,8 +144,7 @@ public class NeoStorage implements Storage {
     @Transactional
     public Album getAlbum(final StringId albumId) {
 
-        Node albumNode = searchSingle(albumId.getId(), ALBUM_ID_INDEX,
-                QuiltPlayerRelationshipTypes.ALBUM_ID);
+        Node albumNode = searchSingle(albumId.getId(), ALBUM_ID_INDEX, QuiltPlayerRelationshipTypes.ALBUM_ID);
 
         Album album = null;
 
@@ -161,8 +160,7 @@ public class NeoStorage implements Storage {
     public Song getSong(final String albumTitle, final StringId songId) {
         Song song = null;
 
-        Node songNode = searchSingle(songId.getId(), SONG_ID_INDEX,
-                QuiltPlayerRelationshipTypes.SONG_ID);
+        Node songNode = searchSingle(songId.getId(), SONG_ID_INDEX, QuiltPlayerRelationshipTypes.SONG_ID);
 
         if (songNode != null) {
             song = new NeoSong(songNode);
@@ -179,8 +177,7 @@ public class NeoStorage implements Storage {
     public LocalImage getLocalImage(final String path) {
         LocalImage image = null;
 
-        Node imageNode = searchSingle(path, FILE_NAME_INDEX,
-                QuiltPlayerRelationshipTypes.PART_OF_FILE_NAME);
+        Node imageNode = searchSingle(path, FILE_NAME_INDEX, QuiltPlayerRelationshipTypes.PART_OF_FILE_NAME);
 
         if (imageNode != null) {
             image = new NeoLocalImage(imageNode);
@@ -217,8 +214,7 @@ public class NeoStorage implements Storage {
      */
     @Override
     @Transactional
-    public LocalImage createLocalImage(final Album album, final String fileName,
-            final LocalImage image) {
+    public LocalImage createLocalImage(final Album album, final String fileName, final LocalImage image) {
         Validate.notNull(album);
 
         final Node imageNode = neoService.createNode();
@@ -344,8 +340,7 @@ public class NeoStorage implements Storage {
                 wordNode.setProperty(WORD_PROPERTY, part);
             }
             wordNode.createRelationshipTo(node, relType);
-            wordNode.setProperty(COUNT_PROPERTY,
-                    ((Integer) wordNode.getProperty(COUNT_PROPERTY, 0)) + 1);
+            wordNode.setProperty(COUNT_PROPERTY, ((Integer) wordNode.getProperty(COUNT_PROPERTY, 0)) + 1);
         }
     }
 
@@ -378,8 +373,7 @@ public class NeoStorage implements Storage {
         return wordList;
     }
 
-    private Node searchSingle(final String value, final String indexName,
-            final QuiltPlayerRelationshipTypes wordRelType) {
+    private Node searchSingle(final String value, final String indexName, final QuiltPlayerRelationshipTypes wordRelType) {
         Node match = indexService.getSingleNode(indexName, value);
 
         if (match != null) {

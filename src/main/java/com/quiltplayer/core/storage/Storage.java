@@ -15,88 +15,87 @@ import com.quiltplayer.model.StringId;
  * 
  * @author Vlado Palczynski
  */
-public interface Storage
-{
-	/**
-	 * Create album.
-	 * 
-	 * @param albumId
-	 *            the albumId to set.
-	 * @return Album
-	 */
-	Album createAlbum(StringId albumId);
+public interface Storage {
+    /**
+     * Create album.
+     * 
+     * @param albumId
+     *            the albumId to set.
+     * @return Album
+     */
+    Album createAlbum(StringId albumId);
 
-	/**
-	 * Create Song.
-	 * 
-	 * @param songId
-	 *            the songId to set.
-	 * @return Song
-	 */
-	Song createSong(StringId songId);
+    /**
+     * Create Song.
+     * 
+     * @param songId
+     *            the songId to set.
+     * @return Song
+     */
+    Song createSong(StringId songId);
 
-	/**
-	 * Return album by albumId.
-	 * 
-	 * @param albumId
-	 *            the albumId to search with.
-	 * @return found Album or null.
-	 */
-	Album getAlbum(StringId albumId);
+    /**
+     * Return album by albumId.
+     * 
+     * @param albumId
+     *            the albumId to search with.
+     * @return found Album or null.
+     */
+    Album getAlbum(StringId albumId);
 
-	/**
-	 * Return song by songId.
-	 * 
-	 * @param albumTitle
-	 *            the albumTitle the song exists in.
-	 * @param songId
-	 *            the songId to search with.
-	 * @return found Song or null.
-	 */
-	Song getSong(String albumTitle, StringId songId);
+    /**
+     * Return song by songId.
+     * 
+     * @param albumTitle
+     *            the albumTitle the song exists in.
+     * @param songId
+     *            the songId to search with.
+     * @return found Song or null.
+     */
+    Song getSong(String albumTitle, StringId songId);
 
-	/**
-	 * Get all albums.
-	 * 
-	 * @return All albums or empty collection if none found.
-	 */
-	List<Album> getAlbums(Collection<Artist> artists);
+    /**
+     * Get all albums.
+     * 
+     * @return All albums or empty collection if none found.
+     */
+    List<Album> getAlbums(Collection<Artist> artists);
 
-	/**
-	 * Get all albums.
-	 * 
-	 * @return All albums or empty stack if none found.
-	 */
-	Stack<Album> getAlbumsAsStack(Collection<Artist> artists);
+    /**
+     * Get all albums.
+     * 
+     * @return All albums or empty stack if none found.
+     */
+    Stack<Album> getAlbumsAsStack(Collection<Artist> artists);
 
-	/**
-	 * Delete album.
-	 * 
-	 * @param album
-	 *            the album to delete.
-	 */
-	void delete(Album album);
+    /**
+     * Delete album.
+     * 
+     * @param album
+     *            the album to delete.
+     */
+    void delete(Album album);
 
-	/**
-	 * Create local image.
-	 * 
-	 * @param album
-	 *            the album to add the image to.
-	 * @param path
-	 *            the path of the image.
-	 * @param type
-	 *            the type of image.
-	 * @return Created image or null.
-	 */
-	LocalImage createLocalImage(Album album, String fileName, LocalImage image);
+    /**
+     * Create local image.
+     * 
+     * @param album
+     *            the album to add the image to.
+     * @param path
+     *            the path of the image.
+     * @param type
+     *            the type of image.
+     * @return Created image or null.
+     */
+    LocalImage createLocalImage(Album album, String fileName, LocalImage image);
 
-	/**
-	 * Retrieves local image by path.
-	 * 
-	 * @param path
-	 *            the path to search with.
-	 * @return LocalImage or null.
-	 */
-	LocalImage getLocalImage(String path);
+    /**
+     * Retrieves local image by path.
+     * 
+     * @param path
+     *            the path to search with.
+     * @return LocalImage or null.
+     */
+    LocalImage getLocalImage(String path);
 
 }

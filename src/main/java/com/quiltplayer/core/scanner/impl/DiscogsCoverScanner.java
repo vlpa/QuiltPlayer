@@ -71,11 +71,9 @@ public class DiscogsCoverScanner implements CoverScanner {
 
                         log.debug("Searching for images....");
 
-                        com.quiltplayer.external.covers.discogs.Album discogsAlbum = discogsScanner
-                                .scanForAlbum(album.getArtist().getArtistName().getName(), album
-                                        .getTitle(), album.getSongCollection().getSongs().size(),
-                                        Configuration.getInstance().getFolderProperties()
-                                                .getCovers());
+                        com.quiltplayer.external.covers.discogs.Album discogsAlbum = discogsScanner.scanForAlbum(album
+                                .getArtist().getArtistName().getName(), album.getTitle(), album.getSongCollection()
+                                .getSongs().size(), Configuration.getInstance().getFolderProperties().getCovers());
 
                         if (discogsAlbum != null)
                             assemble(album, discogsAlbum);
@@ -124,23 +122,28 @@ public class DiscogsCoverScanner implements CoverScanner {
      * @throws MalformedURLException
      * @throws IOException
      */
-    private void bindImagesToAlbum(final Album album,
-            final com.quiltplayer.external.covers.discogs.Album discogsAlbum)
+    private void bindImagesToAlbum(final Album album, final com.quiltplayer.external.covers.discogs.Album discogsAlbum)
             throws MalformedURLException, IOException {
 
-        if (discogsAlbum.getImages() != null || discogsAlbum.getImages().size() > 0) {
-            album.deleteImages();
+        if (discogsAlbum.getImages() != null) {
 
-            for (LocalImage localImage : discogsAlbum.getImages()) {
+            if (discogsAlbum.getImages().size() == 1 && album.getImages() != null && album.getImages().size() == 1) {
+                // Don't replace 1 already set album cover...
+            }
+            else if (discogsAlbum.getImages().size() > 0) {
 
-                // Indexing in neo split on some chars.
-                String fileName = localImage.getLargeImage().getName().replace("-", "").replace(
-                        ".", "");
+                album.deleteImages();
 
-                LocalImage storageImage = storage.getLocalImage(fileName);
+                for (LocalImage localImage : discogsAlbum.getImages()) {
 
-                if (storageImage == null) {
-                    storageImage = storage.createLocalImage(album, fileName, localImage);
+                    // Indexing in neo split on some chars.
+                    String fileName = localImage.getLargeImage().getName().replace("-", "").replace(".", "");
+
+                    LocalImage storageImage = storage.getLocalImage(fileName);
+
+                    if (storageImage == null) {
+                        storageImage = storage.createLocalImage(album, fileName, localImage);
+                    }
                 }
             }
         }

@@ -32,13 +32,13 @@ public class AlfabeticArtistPane extends JPanel {
     public void setup(final String character, final List<Artist> artists) {
         this.character = character;
 
-        add(new StringOrCharLabel(character), "h 0.80cm, dock north");
+        add(new StringOrCharLabel(character), "h 0.80cm, push, grow, north");
 
         for (final Artist artist : artists) {
             final ArtistNameButton button = new ArtistNameButton(artist, artistListener);
             button.setFont(FontFactory.getFont(16f));
 
-            add(button, "w 100%, h 0.65cm, dock north, left, gapy 1px");
+            add(button, "h 0.65cm, dock north, left, gapy 1px");
         }
     }
 

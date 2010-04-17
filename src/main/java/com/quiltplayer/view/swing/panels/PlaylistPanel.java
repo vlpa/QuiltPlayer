@@ -21,16 +21,17 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
-import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.AlbumPlaylistPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.EditPlaylistPanel;
 import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
 
 /**
- * Represents the playlist panel. One Panel will give you information about the album, tracks and so
- * forth. The other will give you information regarding the artist.
+ * Represents the playlist panel. One Panel will give you information about the
+ * album, tracks and so forth. The other will give you information regarding the
+ * artist.
  * 
- * This class will outline the panel and delegate the UI for the different implementation.
+ * This class will outline the panel and delegate the UI for the different
+ * implementation.
  * 
  * @author Vlado Palczynski
  */
@@ -60,9 +61,6 @@ public class PlaylistPanel extends JPanel {
     private QScrollPane scrollPane;
 
     @Autowired
-    private PlayerControlPanel playerControlPanel;
-
-    @Autowired
     @Qualifier("albumPlaylistPanel")
     protected AlbumPlaylistPanel albumPlaylistPanel;
 
@@ -75,15 +73,14 @@ public class PlaylistPanel extends JPanel {
     protected EditPlaylistPanel editPlaylistPanel;
 
     public PlaylistPanel() {
-        super(new MigLayout("ins 0.0cm 0.0cm 0.0cm 0.0cm, fill, alignx center"));
+        super(new MigLayout("ins 0, fill, alignx center"));
 
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
+        setOpaque(false);
     }
 
     @PostConstruct
     public void init() {
-        // add(playerControlPanel, "south");
-
         viewAlbumPanel();
     }
 

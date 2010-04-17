@@ -146,8 +146,8 @@ public class QuiltPlayerFrame extends JFrame {
         else {
             screenSize = Configuration.getInstance().getSavedDimensionOnFrame();
             Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
-            setLocation(fullScreen.width / 2 - ((int) screenSize.getWidth() / 2), fullScreen.height
-                    / 2 - ((int) screenSize.getHeight() / 2));
+            setLocation(fullScreen.width / 2 - ((int) screenSize.getWidth() / 2), fullScreen.height / 2
+                    - ((int) screenSize.getHeight() / 2));
         }
 
         setSize(screenSize);
@@ -307,14 +307,14 @@ public class QuiltPlayerFrame extends JFrame {
 
     public void removeAlbumView() {
         if (playlistPanelVisible) {
-            remove(playlistPanel);
+            getContentPane().remove(playlistPanel);
             playlistPanelVisible = false;
         }
     }
 
     public void toggleAlbumView() {
         if (playlistPanelVisible) {
-            glassPane.remove(playlistPanel);
+            getContentPane().remove(playlistPanel);
             playlistPanelVisible = false;
         }
         else {
@@ -323,11 +323,11 @@ public class QuiltPlayerFrame extends JFrame {
         }
 
         playlistPanel.updateUI();
-        ui.repaint();
+        updateUI();
     }
 
     private void addPlaylistView() {
-        glassPane.add(playlistPanel, "dock west, w 28%!, ");
+        getContentPane().add(playlistPanel, "dock west, w 28%!, gapx 1.6cm");
     }
 
     protected void repaintComponentsIfResizeAware() {

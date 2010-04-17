@@ -79,6 +79,9 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
 
     public EditPlaylistPanel() {
         super();
+
+        setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
+        setOpaque(true);
     }
 
     private void init() {
@@ -87,8 +90,7 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
 
         removeAll();
 
-        setLayout(new MigLayout("insets 0, wrap 3, alignx center, aligny center"));
-        setOpaque(false);
+        setLayout(new MigLayout("ins 0.0cm 0.2cm 0.0cm 0.2cm, wrap 3, alignx center, aligny center"));
 
         final JTextArea infoArea = setupInfoArea();
 
@@ -99,10 +101,10 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
 
         add(new QLabel("Update album"), "left, w 8cm, newline");
         add(infoArea, "left, w 8cm, newline");
-        add(TextFieldComponents.textFieldComponentForForms("Artist", artistName, album.getArtist()
-                .getArtistName().getNameForSearches(), bool), "left, w 8cm, newline");
-        add(TextFieldComponents.textFieldComponentForForms("Album title", albumTitle, album
-                .getTitle(), bool), "left, w 8cm, newline");
+        add(TextFieldComponents.textFieldComponentForForms("Artist", artistName, album.getArtist().getArtistName()
+                .getNameForSearches(), bool), "left, w 8cm, newline");
+        add(TextFieldComponents.textFieldComponentForForms("Album title", albumTitle, album.getTitle(), bool),
+                "left, w 8cm, newline");
 
         setupDeleteButton();
         setupRescanButton();
@@ -112,9 +114,9 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
 
         JPanel buttonPanel = new JPanel(new MigLayout("insets 0, wrap 3"));
         buttonPanel.setBackground(ColorConstantsDark.BACKGROUND);
-        buttonPanel.add(saveButton, "w 2.5cm");
-        buttonPanel.add(rescanButton, "w 2.5cm");
-        buttonPanel.add(deleteButton, "w 2.5cm");
+        buttonPanel.add(saveButton, "w 2.5cm, " + QButton.MIG_HEIGHT);
+        buttonPanel.add(rescanButton, "w 2.5cm, " + QButton.MIG_HEIGHT);
+        buttonPanel.add(deleteButton, "w 2.5cm, " + QButton.MIG_HEIGHT);
 
         add(buttonPanel, "newline, gapy 20");
     }
@@ -177,13 +179,11 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
 
     private void setupRescanButton() {
         rescanButton = new QButton("Rescan album");
-        rescanButton
-                .setToolTipText("Rescans the id3 tags and tries to get the covers for this album.");
+        rescanButton.setToolTipText("Rescans the id3 tags and tries to get the covers for this album.");
 
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                scanningListener.actionPerformed(new ActionEvent(album, 0,
-                        ScanningController.EVENT_RESCAN_ALBUM));
+                scanningListener.actionPerformed(new ActionEvent(album, 0, ScanningController.EVENT_RESCAN_ALBUM));
             }
         };
 
@@ -192,13 +192,11 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
 
     private void setupDeleteButton() {
         deleteButton = new QButton("Delete album");
-        deleteButton
-                .setToolTipText("Removes this album from the QuiltPlayer storage, not on disc.");
+        deleteButton.setToolTipText("Removes this album from the QuiltPlayer storage, not on disc.");
 
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                editAlbumListener.actionPerformed(new ActionEvent(album, 0,
-                        EditAlbumController.EVENT_DELETE_ALBUM));
+                editAlbumListener.actionPerformed(new ActionEvent(album, 0, EditAlbumController.EVENT_DELETE_ALBUM));
             }
         };
 
