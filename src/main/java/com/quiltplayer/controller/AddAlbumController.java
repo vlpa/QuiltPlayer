@@ -120,6 +120,7 @@ public class AddAlbumController implements AddAlbumListener {
                             song.setTrackNumber(s.getTrackNumber());
                             song.setSpotifyId(s.getSpotifyId());
                             song.setType(Song.TYPE_SPOTIFY);
+                            song.setLength(s.getLength());
                         }
 
                         /* Add cover */

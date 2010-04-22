@@ -11,8 +11,8 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.metal.MetalTextFieldUI;
 
 /*
- A custom TextField UI based on Metal that paints
- text fields with a round border.
+ * A custom TextField UI based on Metal that paints
+ * text fields with a round border.
  */
 public class RoundTextUI extends MetalTextFieldUI {
 
@@ -39,8 +39,7 @@ public class RoundTextUI extends MetalTextFieldUI {
 
         private static final long serialVersionUID = 1L;
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
-                int width, int height) {
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             Color oldColor = g.getColor();
 
             g.setColor(Color.GRAY);

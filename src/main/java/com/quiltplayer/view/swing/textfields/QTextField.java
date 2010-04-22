@@ -105,7 +105,7 @@ public class QTextField extends JTextField {
      * @see java.awt.Component#processFocusEvent(java.awt.event.FocusEvent)
      */
     @Override
-    protected void processFocusEvent    (FocusEvent e) {
+    protected void processFocusEvent(FocusEvent e) {
         if (e.getID() == FocusEvent.FOCUS_GAINED)
             keyboardPanel.setTextField(this);
 

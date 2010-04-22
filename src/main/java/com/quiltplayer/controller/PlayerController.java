@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.quiltplayer.core.player.Player;
 import com.quiltplayer.core.player.PlayerFactory;
 import com.quiltplayer.core.playlist.PlayList;
 import com.quiltplayer.model.Album;
@@ -17,6 +17,7 @@ import com.quiltplayer.view.swing.SongStatus;
 import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
 
 /**
  * Controller regarding the player.
@@ -26,42 +27,39 @@ import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 @Controller
 public class PlayerController implements PlayerListener {
 
-    public enum PlayerSongEvents {
-        CHANGE, STOP, PAUSE, PLAY, FINISHED, PREVIOUS, NEXT
+    private Logger log = Logger.getLogger(PlayerController.class);
+
+    public enum PlayEvents {
+        CHANGE, STOP, PAUSE, PLAY, FINISH, PREVIOUS, NEXT, SEEK
     }
 
-    /**
-     * Swing invoker.
-     */
+    public enum PlayerEvents {
+        CHANGED, STOPPED, PAUSEED, PLAYING, FINISHED, PREVIOUS, NEXT, SEEKED, PROGRESSED, RESUMED
+    };
+
     private Runnable invoker;
 
-    /**
-     * The player.
-     */
     @Autowired
     private PlayerFactory playerFactory;
 
-    /**
-     * The PlayList.
-     */
     @Autowired
     private PlayList playList;
 
-    /**
-     * The play list.
-     */
     @Autowired
     private PlaylistPanel playlistPanel;
 
     @Autowired
     private ControlPanel controlPanel;
 
+    @Autowired
+    private PlayerControlPanel playerControlPanel;
+
     // private SongStatus songStatus = new SongStatus();
 
     public PlayerController() {
         invoker = new Runnable() {
             public void run() {
-                playlistPanel.progress(playerFactory.getElapsedTime());
+                playerControlPanel.setProgress(playerFactory.getElapsedTime());
             }
         };
     }
@@ -73,30 +71,38 @@ public class PlayerController implements PlayerListener {
     public final void actionPerformed(final ActionEvent e) {
         final String cmd = e.getActionCommand();
 
-        if (Player.EVENT_PROGRESS == cmd) {
+        if (PlayerEvents.PROGRESSED.toString() == cmd) {
             SwingUtilities.invokeLater(invoker);
         }
-        else if (Player.EVENT_STOPPED_SONG == cmd) {
+        else if (PlayerEvents.STOPPED.toString() == cmd) {
+            log.debug("Player stopped.");
+
             if (playlistPanel.getCurrentSongLabel() != null)
                 playlistPanel.getCurrentSongLabel().setInactive();
 
             controlPanel.getPlayerControlPanel().setStopped();
         }
-        else if (Player.EVENT_PAUSED_SONG == cmd) {
+        else if (PlayerEvents.PAUSEED.toString() == cmd) {
+            log.debug("Player paused.");
+
             controlPanel.getPlayerControlPanel().setPaused();
         }
-        else if (Player.EVENT_RESUMED_SONG == cmd) {
+        else if (PlayerEvents.RESUMED.toString() == cmd) {
+            log.debug("Player resumed.");
+
             controlPanel.getPlayerControlPanel().setPlaying();
         }
-        else if (Player.EVENT_PLAYING_NEW_SONG == cmd) {
-            Song s = (Song) e.getSource();
+        else if (PlayerEvents.PLAYING.toString() == cmd) {
+            log.debug("Player playing.");
+
+            Song song = (Song) e.getSource();
 
             Component[] components = playlistPanel.getSongLabels();
 
             for (int i = 0; i < components.length; i++) {
                 QSongButton songLabel = (QSongButton) components[i];
 
-                if (songLabel.getSong().equals(s)) {
+                if (songLabel.getSong().equals(song)) {
                     songLabel.setActive();
                     playlistPanel.setCurrentSongLabel(songLabel);
 
@@ -104,33 +110,53 @@ public class PlayerController implements PlayerListener {
                 }
             }
             controlPanel.getPlayerControlPanel().setPlaying();
+            playerControlPanel.changeSong(song);
+
         }
-        else if (PlayerSongEvents.STOP.toString() == cmd) {
+
+        /* Play events, from UI */
+
+        else if (PlayEvents.STOP.toString() == cmd) {
+            log.debug("Stop requested...");
+
             playerFactory.stop();
         }
-        else if (PlayerSongEvents.PAUSE.toString().equals(cmd)) {
+        else if (PlayEvents.PAUSE.toString().equals(cmd)) {
+            log.debug("Pause requested...");
+
             playerFactory.pause();
         }
-        else if (PlayerSongEvents.PLAY.toString() == cmd) {
+        else if (PlayEvents.PLAY.toString() == cmd) {
+            log.debug("Play requested...");
+
             playerFactory.play(playList.getCurrentSong());
         }
-        else if (PlayerSongEvents.CHANGE.toString() == cmd) {
+        else if (PlayEvents.SEEK.toString() == cmd) {
+            log.debug("Seek requested...");
+
+            final int i = (Integer) e.getSource();
+            playerFactory.seek(i);
+        }
+        else if (PlayEvents.CHANGE.toString() == cmd) {
             playlistPanel.inactivateCurrentSongLabel();
-            playerFactory.stop();
             playList.jumpToSong((Song) e.getSource());
             playerFactory.play(playList.getCurrentSong());
         }
-        else if (PlayerSongEvents.NEXT.toString() == cmd) {
+        else if (PlayEvents.NEXT.toString() == cmd) {
+            log.debug("Next requested...");
+
             playlistPanel.inactivateCurrentSongLabel();
             playList.nextSong();
             playerFactory.play(playList.getCurrentSong());
         }
-        else if (PlayerSongEvents.PREVIOUS.toString() == cmd) {
+        else if (PlayEvents.PREVIOUS.toString() == cmd) {
+            log.debug("Previous requested...");
+
             playlistPanel.inactivateCurrentSongLabel();
             playList.prevSong();
             playerFactory.play(playList.getCurrentSong());
         }
-        else if (PlayerSongEvents.FINISHED.toString() == cmd) {
+        else if (PlayEvents.FINISH.toString() == cmd) {
             playlistPanel.inactivateCurrentSongLabel();
             playList.nextSong();
             playerFactory.play(playList.getCurrentSong());

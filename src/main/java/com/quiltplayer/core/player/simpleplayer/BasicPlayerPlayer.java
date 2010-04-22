@@ -63,14 +63,13 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
         this.setController(controller);
     }
 
-    public synchronized void play(final Song song) {
+    public void play(final Song song) {
         log.debug("Playing...");
 
         currentSong = song;
 
         try {
-            if (player.getStatus() == BasicPlayer.STOPPED
-                    || player.getStatus() == BasicPlayer.UNKNOWN) {
+            if (player.getStatus() == BasicPlayer.STOPPED || player.getStatus() == BasicPlayer.UNKNOWN) {
                 {
                     File f = new File(song.getPath());
 
@@ -96,7 +95,7 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
         }
     }
 
-    public synchronized void stop() {
+    public void stop() {
         log.debug("Stopping the player...");
 
         if (player.getStatus() == BasicPlayer.PAUSED || player.getStatus() == BasicPlayer.PLAYING) {
@@ -113,7 +112,7 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
      * @see org.quiltplayer.core.player.Player#pause()
      */
     @Override
-    public synchronized void pause() {
+    public void pause() {
         log.debug("Pausing the player...");
 
         try {
@@ -157,7 +156,8 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
     public void progress(final int arg0, final long milliseconds, final byte[] arg2, Map arg3) {
         time = milliseconds;
 
-        playerListener.actionPerformed(new ActionEvent(currentSong, 0, EVENT_PROGRESS));
+        playerListener.actionPerformed(new ActionEvent(currentSong, 0, PlayerController.PlayerEvents.PROGRESSED
+                .toString()));
     }
 
     /*
@@ -178,8 +178,8 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
         if (arg0.getCode() == BasicPlayerEvent.EOM) {
             log.debug("Event: OEM, jumping to next song...");
 
-            playerListener.actionPerformed(new ActionEvent(currentSong, 0,
-                    PlayerController.PlayerSongEvents.FINISHED.toString()));
+            playerListener.actionPerformed(new ActionEvent(currentSong, 0, PlayerController.PlayEvents.FINISH
+                    .toString()));
         }
     }
 
@@ -191,6 +191,15 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
     @Override
     public void removeCurrentSong() {
         // TODO Auto-generated method stub
+    }
 
+    @Override
+    public void seek(int i) {
+        try {
+            player.seek(((Integer) i).longValue());
+        }
+        catch (BasicPlayerException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -205,6 +205,16 @@ public class JotifySong implements Song {
         return false;
     }
 
+    @Override
+    public int getLength() {
+        return spotifyTrack.getLength();
+    }
+
+    @Override
+    public void setLength(int length) {
+        // Not needed
+    }
+
     /*
      * (non-Javadoc)
      * 

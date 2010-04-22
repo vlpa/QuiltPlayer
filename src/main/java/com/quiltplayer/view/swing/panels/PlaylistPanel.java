@@ -84,10 +84,6 @@ public class PlaylistPanel extends JPanel {
         viewAlbumPanel();
     }
 
-    public void progress(long time) {
-        currentSongLabel.setProgress(time);
-    }
-
     /**
      * @param currentSongLabel
      *            the currentSongLabel to set

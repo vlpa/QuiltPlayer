@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.controller.PlayerController;
 import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.core.player.tasks.PlayTask;
-import com.quiltplayer.external.lyrics.LyricsListener;
 import com.quiltplayer.model.Song;
 
 /**
@@ -22,9 +22,6 @@ public class PlayerFactory {
 
     @Autowired
     private PlayerListener playerListener;
-
-    @Autowired
-    private LyricsListener lyricsListener;
 
     @Autowired
     private TaskExecutor taskExecutor;
@@ -55,10 +52,10 @@ public class PlayerFactory {
      * 
      * @see com.quiltplayer.core.player.Player#pause()
      */
-    public synchronized void pause() {
+    public void pause() {
         playerSelector.pause();
 
-        playerListener.actionPerformed(new ActionEvent("", 0, Player.EVENT_PAUSED_SONG));
+        playerListener.actionPerformed(new ActionEvent("", 0, PlayerController.PlayerEvents.PAUSEED.toString()));
     }
 
     /*
@@ -66,10 +63,10 @@ public class PlayerFactory {
      * 
      * @see com.quiltplayer.core.player.Player#stop()
      */
-    public synchronized void stop() {
+    public void stop() {
         playerSelector.stop();
 
-        playerListener.actionPerformed(new ActionEvent("", 0, Player.EVENT_STOPPED_SONG));
+        playerListener.actionPerformed(new ActionEvent("", 0, PlayerController.PlayerEvents.STOPPED.toString()));
     }
 
     /*
@@ -77,10 +74,11 @@ public class PlayerFactory {
      * 
      * @see com.quiltplayer.core.player.Player#play(com.quiltplayer.model.Song)
      */
-    public synchronized void play(Song song) {
+    public void play(Song song) {
         taskExecutor.execute(new PlayTask(song, playerSelector));
+    }
 
-        playerListener.actionPerformed(new ActionEvent(song, 0, Player.EVENT_PLAYING_NEW_SONG));
-        lyricsListener.actionPerformed(new ActionEvent(song, 0, Player.EVENT_PLAYING_NEW_SONG));
+    public void seek(int i) {
+        playerSelector.seek(i);
     }
 }

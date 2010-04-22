@@ -14,6 +14,7 @@ package com.quiltplayer.model;
  * @author Vlado Palczynski
  */
 public interface Song {
+
     String TYPE_FILE = "file";
 
     String TYPE_SPOTIFY = "spotify";
@@ -99,4 +100,16 @@ public interface Song {
 
     String getType();
 
+    /**
+     * @return the length of the song.
+     */
+    int getLength();
+
+    /**
+     * Set the length of the song.
+     * 
+     * @param length
+     *            the length to set.
+     */
+    void setLength(int length);
 }

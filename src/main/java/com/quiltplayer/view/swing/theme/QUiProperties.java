@@ -3,6 +3,7 @@ package com.quiltplayer.view.swing.theme;
 import java.awt.Color;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ToolTipManager;
@@ -23,7 +24,6 @@ import com.quiltplayer.view.swing.FontFactory;
  * 
  */
 public class QUiProperties {
-    // private static final Color BACKGROUND = ColorConstantsDark.BACKGROUND;
 
     public static void setProperties() {
         System.setProperty("swing.aatext", "true");
@@ -39,6 +39,8 @@ public class QUiProperties {
         setupButton();
 
         setupComboBox();
+
+        setupSlider();
 
         UIManager.put("CheckBox.opaque", false);
 
@@ -58,6 +60,24 @@ public class QUiProperties {
         UIManager.put("TextArea.font", FontFactory.getFont(13f));
 
         setupToolTip();
+    }
+
+    private static void setupSlider() {
+        UIManager.put("Slider.background", ColorConstantsDark.BACKGROUND);
+        UIManager.put("Slider.altTrackColor", Color.yellow);
+        UIManager.put("Slider.border", Color.CYAN);
+        UIManager.put("Slider.trackColor", Color.GREEN);
+        UIManager.put("Slider.trackBorder", Color.GREEN);
+        UIManager.put("Slider.shadow", Color.PINK);
+        UIManager.put("Slider.paintThumbArrowShape", Boolean.TRUE.toString());
+
+        final List<Color> l = new ArrayList<Color>();
+        l.add(Color.black);
+        l.add(Color.white);
+
+        UIManager.put("Slider.gradient", l);
+        UIManager.put("Slider.focusGradient", l);   
+
     }
 
     private static void setupToolTip() {
@@ -115,8 +135,7 @@ public class QUiProperties {
 
         Border bdButton = new LineBorder(new Color(70, 70, 70), 1);
         Insets insets = new Insets(2, 10, 2, 10);
-        Border bdMargin = new EmptyBorder(insets.top + 1, insets.left + 1, insets.bottom + 1,
-                insets.right + 1);
+        Border bdMargin = new EmptyBorder(insets.top + 1, insets.left + 1, insets.bottom + 1, insets.right + 1);
 
         UIManager.put("Button.border", new CompoundBorder(bdButton, bdMargin));
 

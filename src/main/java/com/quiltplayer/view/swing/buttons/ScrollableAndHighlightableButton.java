@@ -16,8 +16,7 @@ import com.quiltplayer.view.swing.listeners.HighlightableMouseListener;
 /**
  * @author Vlado Palczynski
  */
-public abstract class ScrollableAndHighlightableButton extends ScrollableButton implements
-        Highlightable {
+public abstract class ScrollableAndHighlightableButton extends ScrollableButton implements Highlightable {
 
     private static final long serialVersionUID = 1L;
 

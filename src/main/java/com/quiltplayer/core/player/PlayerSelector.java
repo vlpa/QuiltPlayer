@@ -1,10 +1,15 @@
 package com.quiltplayer.core.player;
 
+import java.awt.event.ActionEvent;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.quiltplayer.controller.PlayerController;
+import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.core.player.jotify.JotifyPlayer;
 import com.quiltplayer.core.player.simpleplayer.BasicPlayerPlayer;
+import com.quiltplayer.external.lyrics.LyricsListener;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.impl.NullAlbum;
 import com.quiltplayer.model.neo.NeoSong;
@@ -17,6 +22,12 @@ public class PlayerSelector implements Player {
 
     @Autowired
     private JotifyPlayer jotifyPlayer;
+
+    @Autowired
+    private PlayerListener playerListener;
+
+    @Autowired
+    private LyricsListener lyricsListener;
 
     private Song currentSong;
 
@@ -53,6 +64,9 @@ public class PlayerSelector implements Player {
         currentSong = song;
 
         getPlayer(song).play(song);
+
+        playerListener.actionPerformed(new ActionEvent(song, 0, PlayerController.PlayerEvents.PLAYING.toString()));
+        lyricsListener.actionPerformed(new ActionEvent(song, 0, PlayerController.PlayerEvents.PLAYING.toString()));
     }
 
     /*
@@ -81,6 +95,11 @@ public class PlayerSelector implements Player {
     @Override
     public void removeCurrentSong() {
         currentSong = null;
+    }
+
+    @Override
+    public void seek(int i) {
+        getPlayer(currentSong).seek(i);
     }
 
 }

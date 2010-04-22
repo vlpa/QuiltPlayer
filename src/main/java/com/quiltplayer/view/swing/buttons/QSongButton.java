@@ -1,16 +1,13 @@
 package com.quiltplayer.view.swing.buttons;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import net.miginfocom.swing.MigLayout;
@@ -18,7 +15,7 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 
 import com.quiltplayer.controller.PlayerListener;
-import com.quiltplayer.controller.PlayerController.PlayerSongEvents;
+import com.quiltplayer.controller.PlayerController.PlayEvents;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
@@ -34,13 +31,9 @@ public class QSongButton extends ScrollableButton {
 
     private Logger log = Logger.getLogger(QSongButton.class);
 
-    private JLabel timeLabel;
-
     private JTextArea titleLabel;
 
     private Song song;
-
-    private SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
 
     private PlayerListener playerListener;
 
@@ -61,15 +54,8 @@ public class QSongButton extends ScrollableButton {
 
         titleLabel = new JTextArea(song.getTitle());
         titleLabel.setOpaque(false);
-        titleLabel
-                .setForeground(Configuration.getInstance().getColorConstants().getPlaylistTitle());
+        titleLabel.setForeground(Configuration.getInstance().getColorConstants().getPlaylistTitle());
         titleLabel.setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
-
-        timeLabel = new JLabel();
-        timeLabel.setText(formatter.format(0 / 1000));
-        timeLabel.setVisible(false);
-        timeLabel.setForeground(Color.WHITE);
-        timeLabel.setFont(FontFactory.getFont(15f).deriveFont(Font.PLAIN));
         titleLabel.setWrapStyleWord(true);
         titleLabel.setLineWrap(true);
         titleLabel.setFocusable(false);
@@ -78,8 +64,7 @@ public class QSongButton extends ScrollableButton {
         numberButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                playerListener.actionPerformed(new ActionEvent(song, 0, PlayerSongEvents.CHANGE
-                        .toString()));
+                playerListener.actionPerformed(new ActionEvent(song, 0, PlayEvents.CHANGE.toString()));
 
             }
         });
@@ -101,8 +86,6 @@ public class QSongButton extends ScrollableButton {
 
         setBackground(Configuration.getInstance().getColorConstants().getPlaylistPanelBackground());
 
-        timeLabel.setVisible(false);
-
         numberButton.inactivare();
 
         repaint();
@@ -116,18 +99,6 @@ public class QSongButton extends ScrollableButton {
         return song;
     }
 
-    public void setProgress(long progress) {
-        if (!timeLabel.isVisible())
-            timeLabel.setVisible(true);
-
-        if (progress < 0)
-            progress = 0;
-
-        timeLabel.setText(formatter.format(progress / 1000));
-
-        updateUI();
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -138,8 +109,7 @@ public class QSongButton extends ScrollableButton {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 
         super.paintComponent(g2d);
@@ -152,8 +122,7 @@ public class QSongButton extends ScrollableButton {
      */
     @Override
     public void triggerAction() {
-        playerListener
-                .actionPerformed(new ActionEvent(song, 0, PlayerSongEvents.CHANGE.toString()));
+        playerListener.actionPerformed(new ActionEvent(song, 0, PlayEvents.CHANGE.toString()));
     }
 
     /*

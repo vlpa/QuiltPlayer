@@ -30,7 +30,7 @@ public class QControlPanelButton extends JButton {
 
     private String label;
 
-    private float defaultAlpha = 0.60f;
+    private float defaultAlpha = 0.40f;
 
     private float currentAlpha = defaultAlpha;
 
@@ -44,8 +44,7 @@ public class QControlPanelButton extends JButton {
 
     private int horizontalAlignment;
 
-    public QControlPanelButton(String label, Icon icon, int verticalTextPosition,
-            int horizontalAlignment) {
+    public QControlPanelButton(String label, Icon icon, int verticalTextPosition, int horizontalAlignment) {
         super(" ", icon);
 
         this.horizontalAlignment = horizontalAlignment;
@@ -137,7 +136,7 @@ public class QControlPanelButton extends JButton {
             // RescaleOp op = new RescaleOp(-1.0f, 255f, null);
             // BufferedImage negative = op.filter(icon, null);
             g2d.setBackground(Color.BLACK);
-            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.05f));
 
             if (horizontalAlignment == SwingConstants.LEFT)
                 g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);

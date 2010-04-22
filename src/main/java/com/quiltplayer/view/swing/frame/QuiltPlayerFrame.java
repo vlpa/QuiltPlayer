@@ -152,6 +152,14 @@ public class QuiltPlayerFrame extends JFrame {
 
         setSize(screenSize);
         setVisible(true);
+    }
+
+    @PostConstruct
+    public void init() {
+
+        setupGridGlassPane();
+
+        ui = aboutView.getUI();
 
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
@@ -161,14 +169,6 @@ public class QuiltPlayerFrame extends JFrame {
                 repaintComponentsIfResizeAware();
             }
         });
-    }
-
-    @PostConstruct
-    public void init() {
-
-        setupGridGlassPane();
-
-        ui = aboutView.getUI();
 
         updateUI();
     }
@@ -200,7 +200,7 @@ public class QuiltPlayerFrame extends JFrame {
         glassPane.add(controlPanel, "east, w 1.6cm!");
         glassPane.add(albumControlPanel, "west, w 1.6cm!");
 
-        glassPane.add(playerControlPanel, "north, center, gapx 20% 20%");
+        glassPane.add(playerControlPanel, "north, center, gapx 15% 15%");
 
         glassPane.add(keyboardPanel, "south, center");
 

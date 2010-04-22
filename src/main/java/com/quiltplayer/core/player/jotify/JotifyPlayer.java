@@ -1,7 +1,7 @@
 package com.quiltplayer.core.player.jotify;
 
 import java.awt.event.ActionEvent;
-import java.util.concurrent.TimeoutException;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.jotify.JotifySong;
 
+import de.felixbruns.jotify.media.File;
 import de.felixbruns.jotify.media.Track;
 import de.felixbruns.jotify.player.PlaybackListener;
 
@@ -33,12 +34,12 @@ public class JotifyPlayer implements Player, PlaybackListener {
     private Song currentSong;
 
     @Override
-    public synchronized long getElapsedTime() {
-        return (long) JotifyRepository.getInstance().position() * 1000000;
+    public long getElapsedTime() {
+        return (long) JotifyRepository.getInstance().position() * 1000;
     }
 
     @Override
-    public synchronized void pause() {
+    public void pause() {
         JotifyRepository.getInstance().pause();
     }
 
@@ -48,19 +49,16 @@ public class JotifyPlayer implements Player, PlaybackListener {
      * @see com.quiltplayer.core.player.Player#play(com.quiltplayer.model.Song)
      */
     @Override
-    public synchronized void play(final Song s) {
+    public void play(final Song s) {
         log.debug("Initializing play for spotify song:" + s.getTitle());
 
         currentSong = s;
 
-        stop();
-
         if (s instanceof JotifySong) {
             try {
-                JotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), this);
+                JotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), File.BITRATE_96, this);
             }
-            catch (TimeoutException e) {
-                // TODO Auto-generated catch block
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -69,16 +67,16 @@ public class JotifyPlayer implements Player, PlaybackListener {
             try {
                 /* We need the files of the track... */
                 track = JotifyRepository.getInstance().browse(track);
-                JotifyRepository.getInstance().play(track, this);
+                JotifyRepository.getInstance().play(track, File.BITRATE_96, this);
             }
-            catch (TimeoutException e) {
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
     @Override
-    public synchronized void stop() {
+    public void stop() {
         log.debug("Stopping play...");
 
         JotifyRepository.getInstance().stop();
@@ -91,9 +89,8 @@ public class JotifyPlayer implements Player, PlaybackListener {
      * .jotify.media.Track)
      */
     @Override
-    public synchronized void playbackFinished(Track track) {
-        playerListener.actionPerformed(new ActionEvent(currentSong, 0,
-                PlayerController.PlayerSongEvents.FINISHED.toString()));
+    public void playbackFinished(Track track) {
+        playerListener.actionPerformed(new ActionEvent(currentSong, 0, PlayerController.PlayEvents.FINISH.toString()));
     }
 
     /*
@@ -103,8 +100,9 @@ public class JotifyPlayer implements Player, PlaybackListener {
      * .jotify.media.Track, int)
      */
     @Override
-    public synchronized void playbackPosition(Track track, int position) {
-        playerListener.actionPerformed(new ActionEvent(currentSong, 0, EVENT_PROGRESS));
+    public void playbackPosition(Track track, int position) {
+        playerListener.actionPerformed(new ActionEvent(currentSong, 0, PlayerController.PlayerEvents.PROGRESSED
+                .toString()));
     }
 
     /*
@@ -149,6 +147,15 @@ public class JotifyPlayer implements Player, PlaybackListener {
     @Override
     public void removeCurrentSong() {
         // TODO Auto-generated method stub
+    }
 
+    @Override
+    public void seek(int i) {
+        try {
+            JotifyRepository.getInstance().seek(i);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

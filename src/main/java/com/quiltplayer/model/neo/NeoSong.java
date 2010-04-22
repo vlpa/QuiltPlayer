@@ -41,6 +41,8 @@ public class NeoSong implements Song {
 
     private static final String PROPERTY_TRACK_NUMBER = "trackNumber";
 
+    private static final String PROPERTY_LENGTH = "length";
+
     /*
      * (non-Javadoc)
      * 
@@ -72,8 +74,7 @@ public class NeoSong implements Song {
 
             Album album = null;
 
-            for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_SONG,
-                    Direction.INCOMING)) {
+            for (Relationship rel : node.getRelationships(QuiltPlayerRelationshipTypes.HAS_SONG, Direction.INCOMING)) {
                 album = new NeoAlbum(rel.getStartNode());
             }
             tx.success();
@@ -264,7 +265,6 @@ public class NeoSong implements Song {
         if (spotifyId != null) {
             Config.getNeoUtil().setProperty(node, PROPERTY_SPOTIFY_ID, spotifyId);
         }
-
     }
 
     /*
@@ -295,6 +295,18 @@ public class NeoSong implements Song {
     public void setType(String type) {
         if (type != null) {
             Config.getNeoUtil().setProperty(node, PROPERTY_TYPE, type);
+        }
+    }
+
+    @Override
+    public int getLength() {
+        return ((Integer) Config.getNeoUtil().getProperty(node, PROPERTY_LENGTH));
+    }
+
+    @Override
+    public void setLength(int length) {
+        if (length > 0) {
+            Config.getNeoUtil().setProperty(node, PROPERTY_LENGTH, length);
         }
     }
 }

@@ -45,9 +45,8 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
     // "R",
     // "E", "S", "F", "T", "G", "U", "H", "V", "I", "W", "J", "X", "K", "Y", "L", "Z", "M" };
 
-    private String[] strings = new String[] { ALL, NUMERIC, "A", "B", "C", "D", "E", "F", "G", "H",
-            "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y",
-            "Z" };
+    private String[] strings = new String[] { ALL, NUMERIC, "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
+            "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
     private QPlaylistButton albumsButton;
 

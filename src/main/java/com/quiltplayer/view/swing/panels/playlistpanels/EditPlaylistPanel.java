@@ -90,7 +90,7 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
 
         removeAll();
 
-        setLayout(new MigLayout("ins 0.0cm 0.2cm 0.0cm 0.2cm, wrap 3, alignx center, aligny center"));
+        setLayout(new MigLayout("wrap 1, ins 0.0cm 0.2cm 0.0cm 0.2cm, fillx, aligny center"));
 
         final JTextArea infoArea = setupInfoArea();
 
@@ -99,26 +99,26 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
         if (album instanceof NeoAlbum)
             bool = true;
 
-        add(new QLabel("Update album"), "left, w 8cm, newline");
-        add(infoArea, "left, w 8cm, newline");
-        add(TextFieldComponents.textFieldComponentForForms("Artist", artistName, album.getArtist().getArtistName()
-                .getNameForSearches(), bool), "left, w 8cm, newline");
-        add(TextFieldComponents.textFieldComponentForForms("Album title", albumTitle, album.getTitle(), bool),
-                "left, w 8cm, newline");
-
         setupDeleteButton();
         setupRescanButton();
         setupSaveButton();
 
         saveButton.setEnabled(bool);
 
+        add(new QLabel("Update album"), "left, growx");
+        add(infoArea, "left, pushx, growx");
+        add(TextFieldComponents.textFieldComponentForForms("Artist", artistName, album.getArtist().getArtistName()
+                .getNameForSearches(), bool), "left, growx");
+        add(TextFieldComponents.textFieldComponentForForms("Album title", albumTitle, album.getTitle(), bool),
+                "left, growx");
+
         JPanel buttonPanel = new JPanel(new MigLayout("insets 0, wrap 3"));
         buttonPanel.setBackground(ColorConstantsDark.BACKGROUND);
-        buttonPanel.add(saveButton, "w 2.5cm, " + QButton.MIG_HEIGHT);
-        buttonPanel.add(rescanButton, "w 2.5cm, " + QButton.MIG_HEIGHT);
-        buttonPanel.add(deleteButton, "w 2.5cm, " + QButton.MIG_HEIGHT);
+        buttonPanel.add(saveButton, "growx, " + QButton.MIG_HEIGHT);
+        buttonPanel.add(rescanButton, "growx, " + QButton.MIG_HEIGHT);
+        buttonPanel.add(deleteButton, "growx, " + QButton.MIG_HEIGHT);
 
-        add(buttonPanel, "newline, gapy 20");
+        add(buttonPanel, "gapy 20");
     }
 
     private JTextArea setupInfoArea() {

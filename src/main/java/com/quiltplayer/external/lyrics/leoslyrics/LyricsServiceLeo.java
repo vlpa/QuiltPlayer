@@ -93,13 +93,13 @@ public class LyricsServiceLeo implements LyricsService {
 
         this.title = title;
 
-        Thread t = new Thread(this);
-        t.start();
+        //Thread t = new Thread(this);
+        //t.start();
 
     }
 
-    private void parseLyrics(String hid, Lyrics l) throws MalformedURLException,
-            ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    private void parseLyrics(String hid, Lyrics l) throws MalformedURLException, ParserConfigurationException,
+            SAXException, IOException, XPathExpressionException {
         URL url = new URL(String.format(QUERY, new Object[] { hid }));
 
         Document doc = getDocument(url);
@@ -128,9 +128,8 @@ public class LyricsServiceLeo implements LyricsService {
 
     }
 
-    private String parseHidValue(final String artistName, final String title)
-            throws ParserConfigurationException, SAXException, IOException,
-            XPathExpressionException, MalformedURLException {
+    private String parseHidValue(final String artistName, final String title) throws ParserConfigurationException,
+            SAXException, IOException, XPathExpressionException, MalformedURLException {
 
         URL url = new URL(String.format(EXISTS, new Object[] { artistName, title }));
 
@@ -154,8 +153,7 @@ public class LyricsServiceLeo implements LyricsService {
         return null;
     }
 
-    private Document getDocument(URL url) throws ParserConfigurationException, SAXException,
-            IOException {
+    private Document getDocument(URL url) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
 

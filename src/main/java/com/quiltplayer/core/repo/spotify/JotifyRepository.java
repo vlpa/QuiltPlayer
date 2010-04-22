@@ -22,13 +22,12 @@ public class JotifyRepository {
 
     private static boolean loggedIn;
 
-    public static synchronized Jotify getInstance() {
+    public static Jotify getInstance() {
         jotifyPool = JotifyPool.getInstance();
 
         if (!loggedIn) {
             try {
-                JotifyPool.getInstance().login(
-                        Configuration.getInstance().getSpotifyProperties().getSpotifyUserName(),
+                JotifyPool.getInstance().login(Configuration.getInstance().getSpotifyProperties().getSpotifyUserName(),
                         Configuration.getInstance().getSpotifyProperties().getSpotifyPassword());
 
                 loggedIn = true;

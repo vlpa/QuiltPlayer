@@ -36,11 +36,10 @@ public class LyricsController implements ActionListener, LyricsListener {
     public final void actionPerformed(final ActionEvent e) {
         final String cmd = e.getActionCommand();
 
-        if (Player.EVENT_PLAYING_NEW_SONG == cmd) {
+        if (PlayerController.PlayerEvents.PLAYING.toString() == cmd) {
             Song song = (Song) e.getSource();
 
-            lyricsService.getLyrics(song.getAlbum().getArtist().getArtistName()
-                    .getNameForSearches(), song.getTitle());
+            lyricsService.getLyrics(song.getAlbum().getArtist().getArtistName().getNameForSearches(), song.getTitle());
         }
     }
 

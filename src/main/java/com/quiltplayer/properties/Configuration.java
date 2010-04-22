@@ -61,11 +61,12 @@ public final class Configuration implements Serializable {
 
     protected Configuration() {
 
-        log.debug("Retrieve configuration...");
-
         instance = retrieveConfiguration();
 
         if (instance == null) {
+
+            log.debug("Retrieve configuration...");
+            
             folderProperties = new FolderProperties();
             gridProperties = new GridProperties();
             spotifyProperties = new SpotifyProperties();

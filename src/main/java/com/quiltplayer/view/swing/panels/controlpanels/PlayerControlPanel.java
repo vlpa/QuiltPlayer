@@ -2,15 +2,22 @@ package com.quiltplayer.view.swing.panels.controlpanels;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
+import java.text.SimpleDateFormat;
 
 import javax.annotation.PostConstruct;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -22,7 +29,9 @@ import org.springframework.stereotype.Component;
 import com.quiltplayer.controller.GridController;
 import com.quiltplayer.controller.PlayerController;
 import com.quiltplayer.controller.PlayerListener;
+import com.quiltplayer.model.Song;
 import com.quiltplayer.utils.ClassPathUtils;
+import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.buttons.QControlPanelButton;
 import com.quiltplayer.view.swing.buttons.QTextButton;
 import com.quiltplayer.view.swing.listeners.GridListener;
@@ -30,254 +39,312 @@ import com.quiltplayer.view.swing.listeners.GridListener;
 @Component
 public class PlayerControlPanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private enum FadeState {
-		UP, DOWN
-	}
+    private enum FadeState {
+        UP, DOWN
+    }
 
-	private FadeState fadeState = FadeState.DOWN;
+    private FadeState fadeState = FadeState.DOWN;
 
-	private QControlPanelButton playButton;
+    private QControlPanelButton playButton;
 
-	private QControlPanelButton stopButton;
+    private QControlPanelButton stopButton;
 
-	private QControlPanelButton pauseButton;
+    private QControlPanelButton pauseButton;
 
-	private QControlPanelButton nextButton;
+    private QControlPanelButton nextButton;
 
-	private QControlPanelButton previousButton;
+    private QControlPanelButton previousButton;
 
-	private QTextButton biggerButton;
+    private QTextButton biggerButton;
 
-	private QTextButton smallerButton;
+    private QTextButton smallerButton;
 
-	private Color[] gradient = { new Color(30, 30, 30), new Color(0, 0, 0) };
+    private Color[] gradient = { new Color(30, 30, 30), new Color(0, 0, 0) };
 
-	private float[] dist = { 0.0f, 1.0f };
+    private float[] dist = { 0.0f, 1.0f };
 
-	private static final String LAYOUT = "h 100%, w 1.8cm";
+    private static final String LAYOUT = "h 100%, w 1.8cm";
 
-	private float currentAlpha = 0.0f;
+    private float currentAlpha = 0.0f;
 
-	private transient Animator animator = new Animator(200);
+    private transient Animator animator = new Animator(200);
 
-	@Autowired
-	private PlayerListener playerListener;
+    private JLabel titleLabel;
 
-	@Autowired
-	private GridListener gridListener;
+    private JSlider slider;
 
-	public PlayerControlPanel() {
-		super(new MigLayout("insets 0, flowx, fill"));
-	}
+    private JPanel titleAndSliderPanel;
 
-	@PostConstruct
-	public void init() {
-		setOpaque(false);
+    private JLabel timeLabel;
 
-		setupPlayButton();
+    private int previousSliderValue;
 
-		setupStopButton();
+    private SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
 
-		setupPauseButton();
+    @Autowired
+    private PlayerListener playerListener;
 
-		setupNextButton();
+    @Autowired
+    private GridListener gridListener;
 
-		setupPreviousButton();
+    public PlayerControlPanel() {
+        super(new MigLayout("insets 0, flowx, fill"));
+    }
 
-		setupBiggerButton();
+    @PostConstruct
+    public void init() {
+        setOpaque(false);
 
-		setupSmallerButton();
+        setupPlayButton();
 
-		add(previousButton, LAYOUT);
-		add(playButton, LAYOUT);
-		add(pauseButton, LAYOUT);
-		add(stopButton, LAYOUT);
-		add(nextButton, LAYOUT);
+        setupStopButton();
 
-		add(smallerButton, "east");
-		add(biggerButton, "east");
+        setupPauseButton();
 
-		setStopped();
+        setupNextButton();
 
-		fadeAllButtons();
-	}
+        setupPreviousButton();
 
-	private void setupSmallerButton() {
-		smallerButton = new QTextButton("[ - ]");
-		smallerButton.addActionListener(gridListener);
-		smallerButton.setActionCommand(GridController.EVENT_INCREASE_GRID);
-		smallerButton.setToolTipText("Smaller");
-		smallerButton.setBorderPainted(false);
+        setupBiggerButton();
 
-	}
+        setupSmallerButton();
 
-	private void setupBiggerButton() {
-		biggerButton = new QTextButton("[ + ]");
-		biggerButton.addActionListener(gridListener);
-		biggerButton.setActionCommand(GridController.EVENT_DECREASE_GRID);
-		biggerButton.setToolTipText("Bigger");
-		biggerButton.setBorderPainted(false);
+        setupTitleAndSlider();
 
-	}
+        add(previousButton, LAYOUT);
+        add(playButton, LAYOUT);
+        add(pauseButton, LAYOUT);
+        add(stopButton, LAYOUT);
+        add(nextButton, LAYOUT);
 
-	private void setupNextButton() {
-		nextButton = new QControlPanelButton("Next", ClassPathUtils
-				.getIconFromClasspath("white/Next.png"), SwingConstants.TOP,
-				SwingConstants.RIGHT);
-		nextButton.addActionListener(playerListener);
-		nextButton.setActionCommand(PlayerController.PlayerSongEvents.NEXT
-				.toString());
-	}
+        add(titleAndSliderPanel);
 
-	private void setupPreviousButton() {
-		previousButton = new QControlPanelButton("Prev", ClassPathUtils
-				.getIconFromClasspath("white/Previous.png"),
-				SwingConstants.TOP, SwingConstants.RIGHT);
-		previousButton.addActionListener(playerListener);
-		previousButton
-				.setActionCommand(PlayerController.PlayerSongEvents.PREVIOUS
-						.toString());
-	}
+        add(smallerButton, "east");
+        add(biggerButton, "east");
 
-	private void setupPlayButton() {
-		playButton = new QControlPanelButton("Play", ClassPathUtils
-				.getIconFromClasspath("white/Play.png"), SwingConstants.TOP,
-				SwingConstants.RIGHT);
-		playButton.addActionListener(playerListener);
-		playButton.setActionCommand(PlayerController.PlayerSongEvents.PLAY
-				.toString());
-	}
+        setStopped();
 
-	private void setupStopButton() {
-		stopButton = new QControlPanelButton("Stop", ClassPathUtils
-				.getIconFromClasspath("white/Stop.png"), SwingConstants.TOP,
-				SwingConstants.RIGHT);
-		stopButton.addActionListener(playerListener);
-		stopButton.setActionCommand(PlayerController.PlayerSongEvents.STOP
-				.toString());
-	}
+        fadeAllButtons();
+    }
 
-	private void setupPauseButton() {
-		pauseButton = new QControlPanelButton("Pause", ClassPathUtils
-				.getIconFromClasspath("white/Pause.png"), SwingConstants.TOP,
-				SwingConstants.RIGHT);
-		pauseButton.addActionListener(playerListener);
-		pauseButton.setActionCommand(PlayerController.PlayerSongEvents.PAUSE
-				.toString());
-	}
+    private void setupTitleAndSlider() {
+        titleLabel = new JLabel("No song loaded...");
+        titleLabel.setFont(FontFactory.getFont(11f));
 
-	public void setPlaying() {
-		pauseButton.inactivate();
-		stopButton.inactivate();
-		playButton.activate();
-	}
+        slider = new JSlider(0, 10000);
+        slider.setMinimum(0);
+        slider.addChangeListener(new ChangeListener() {
 
-	public void setStopped() {
-		pauseButton.inactivate();
-		stopButton.activate();
-		playButton.inactivate();
-	}
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                JSlider source = (JSlider) e.getSource();
+                if (!source.getValueIsAdjusting()) {
+                    final int value = (int) source.getValue();
 
-	public void setPaused() {
-		pauseButton.activate();
-		stopButton.inactivate();
-		playButton.inactivate();
-	}
+                    if (value - previousSliderValue > 1000) {
+                        playerListener.actionPerformed(new ActionEvent(value, 0, PlayerController.PlayEvents.SEEK
+                                .toString()));
+                    }
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
+                    previousSliderValue = value;
+                }
+            }
+        });
 
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		g2d.setComposite(makeComposite());
+        timeLabel = new JLabel();
+        timeLabel.setText(formatter.format(0 / 1000));
+        timeLabel.setVisible(false);
+        timeLabel.setForeground(Color.WHITE);
+        timeLabel.setFont(FontFactory.getFont(15f).deriveFont(Font.PLAIN));
 
-		Point2D start = new Point2D.Float(0, 0);
-		Point2D end = new Point2D.Float(0, getHeight());
+        titleAndSliderPanel = new JPanel(new MigLayout("ins 0, wrap 2"));
+        titleAndSliderPanel.setOpaque(false);
+        titleAndSliderPanel.add(timeLabel);
+        titleAndSliderPanel.add(titleLabel);
+        titleAndSliderPanel.add(slider);
+    }
 
-		LinearGradientPaint p = new LinearGradientPaint(start, end, dist,
-				gradient);
-		g2d.setPaint(p);
+    private void setupSmallerButton() {
+        smallerButton = new QTextButton("[ - ]");
+        smallerButton.addActionListener(gridListener);
+        smallerButton.setActionCommand(GridController.EVENT_INCREASE_GRID);
+        smallerButton.setToolTipText("Smaller");
+        smallerButton.setBorderPainted(false);
 
-		g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 9, 9);
+    }
 
-		super.paintComponent(g2d);
-	}
+    private void setupBiggerButton() {
+        biggerButton = new QTextButton("[ + ]");
+        biggerButton.addActionListener(gridListener);
+        biggerButton.setActionCommand(GridController.EVENT_DECREASE_GRID);
+        biggerButton.setToolTipText("Bigger");
+        biggerButton.setBorderPainted(false);
 
-	/**
-	 * Show the component.
-	 **/
-	public void show() {
-		if (currentAlpha != 1 && !animator.isRunning()
-				&& fadeState != FadeState.UP) {
-			fadeAllButtons();
+    }
 
-			animate(currentAlpha, 0.8f);
+    private void setupNextButton() {
+        nextButton = new QControlPanelButton("Next", ClassPathUtils.getIconFromClasspath("white/Next.png"),
+                SwingConstants.TOP, SwingConstants.RIGHT);
+        nextButton.addActionListener(playerListener);
+        nextButton.setActionCommand(PlayerController.PlayEvents.NEXT.toString());
+    }
 
-			fadeState = FadeState.UP;
-		}
-	}
+    private void setupPreviousButton() {
+        previousButton = new QControlPanelButton("Prev", ClassPathUtils.getIconFromClasspath("white/Previous.png"),
+                SwingConstants.TOP, SwingConstants.RIGHT);
+        previousButton.addActionListener(playerListener);
+        previousButton.setActionCommand(PlayerController.PlayEvents.PREVIOUS.toString());
+    }
 
-	private void fadeAllButtons() {
-		playButton.fade();
-		pauseButton.fade();
-		nextButton.fade();
-		previousButton.fade();
-		stopButton.fade();
-	}
+    private void setupPlayButton() {
+        playButton = new QControlPanelButton("Play", ClassPathUtils.getIconFromClasspath("white/Play.png"),
+                SwingConstants.TOP, SwingConstants.RIGHT);
+        playButton.addActionListener(playerListener);
+        playButton.setActionCommand(PlayerController.PlayEvents.PLAY.toString());
+    }
 
-	// TODO Make to a utility method, opacity animator.
-	private void animate(final float fromAlpha, final float toAlpha) {
-		if (animator.isRunning())
-			animator.stop();
+    private void setupStopButton() {
+        stopButton = new QControlPanelButton("Stop", ClassPathUtils.getIconFromClasspath("white/Stop.png"),
+                SwingConstants.TOP, SwingConstants.RIGHT);
+        stopButton.addActionListener(playerListener);
+        stopButton.setActionCommand(PlayerController.PlayEvents.STOP.toString());
+    }
 
-		PropertySetter setter = new PropertySetter(this, "alpha", fromAlpha,
-				toAlpha);
-		animator = new Animator(300, setter);
-		animator.start();
-	}
+    private void setupPauseButton() {
+        pauseButton = new QControlPanelButton("Pause", ClassPathUtils.getIconFromClasspath("white/Pause.png"),
+                SwingConstants.TOP, SwingConstants.RIGHT);
+        pauseButton.addActionListener(playerListener);
+        pauseButton.setActionCommand(PlayerController.PlayEvents.PAUSE.toString());
+    }
 
-	/*
-	 * Set alpha composite. For example, pass in 1.0f to have 100% opacity pass
-	 * in 0.25f to have 25% opacity.
-	 */
-	private AlphaComposite makeComposite() {
-		int type = AlphaComposite.SRC_OVER;
-		return (AlphaComposite.getInstance(type, currentAlpha));
-	}
+    public void setPlaying() {
+        pauseButton.inactivate();
+        stopButton.inactivate();
+        playButton.activate();
+    }
 
-	/**
-	 * @return the alpha
-	 */
-	public final float getAlpha() {
-		return currentAlpha;
-	}
+    public void setStopped() {
+        pauseButton.inactivate();
+        stopButton.activate();
+        playButton.inactivate();
+    }
 
-	/**
-	 * @param alpha
-	 *            the alpha to set
-	 */
-	public final void setAlpha(float alpha) {
-		this.currentAlpha = alpha;
+    public void setPaused() {
+        pauseButton.activate();
+        stopButton.inactivate();
+        playButton.inactivate();
+    }
 
-		repaint();
-	}
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.Component#hide()
-	 */
-	public void hide() {
-		if (currentAlpha != 0f && fadeState != FadeState.DOWN) {
-			fadeAllButtons();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setComposite(makeComposite());
 
-			animate(currentAlpha, 0f);
+        Point2D start = new Point2D.Float(0, 0);
+        Point2D end = new Point2D.Float(0, getHeight());
 
-			fadeState = FadeState.DOWN;
-		}
+        LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
+        g2d.setPaint(p);
 
-	}
+        g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 9, 9);
+
+        super.paintComponent(g2d);
+    }
+
+    /**
+     * Show the component.
+     **/
+    public void show() {
+        if (currentAlpha != 1 && !animator.isRunning() && fadeState != FadeState.UP) {
+            fadeAllButtons();
+
+            animate(currentAlpha, 0.8f);
+
+            fadeState = FadeState.UP;
+        }
+    }
+
+    private void fadeAllButtons() {
+        playButton.fade();
+        pauseButton.fade();
+        nextButton.fade();
+        previousButton.fade();
+        stopButton.fade();
+    }
+
+    // TODO Make to a utility method, opacity animator.
+    private void animate(final float fromAlpha, final float toAlpha) {
+        if (animator.isRunning())
+            animator.stop();
+
+        PropertySetter setter = new PropertySetter(this, "alpha", fromAlpha, toAlpha);
+        animator = new Animator(300, setter);
+        animator.start();
+    }
+
+    /*
+     * Set alpha composite. For example, pass in 1.0f to have 100% opacity pass
+     * in 0.25f to have 25% opacity.
+     */
+    private AlphaComposite makeComposite() {
+        int type = AlphaComposite.SRC_OVER;
+        return (AlphaComposite.getInstance(type, currentAlpha));
+    }
+
+    /**
+     * @return the alpha
+     */
+    public final float getAlpha() {
+        return currentAlpha;
+    }
+
+    /**
+     * @param alpha
+     *            the alpha to set
+     */
+    public final void setAlpha(float alpha) {
+        this.currentAlpha = alpha;
+
+        repaint();
+    }
+
+    public void setProgress(long progress) {
+        if (!timeLabel.isVisible())
+            timeLabel.setVisible(true);
+
+        if (progress < 0)
+            progress = 0;
+
+        timeLabel.setText(formatter.format(progress / 1000));
+
+        slider.setValue((int) progress / 1000);
+
+        updateUI();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.awt.Component#hide()
+     */
+    public void hide() {
+        if (currentAlpha != 0f && fadeState != FadeState.DOWN) {
+            fadeAllButtons();
+
+            animate(currentAlpha, 0f);
+
+            fadeState = FadeState.DOWN;
+        }
+    }
+
+    public void changeSong(final Song song) {
+        System.out.println(song.getLength());
+
+        slider.setMinimum(0);
+        slider.setMaximum(song.getLength());
+    }
 }
