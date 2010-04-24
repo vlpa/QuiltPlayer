@@ -343,8 +343,6 @@ public class PlayerControlPanel extends JPanel {
     }
 
     public void changeSong(final Song song) {
-        System.out.println(song.getDuration());
-
         slider.setMinimum(0);
         slider.setMaximum(song.getDuration());
     }

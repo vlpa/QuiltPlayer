@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.annotation.PostConstruct;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -55,38 +54,33 @@ public class Keyboard extends JPanel {
 
     String[][] noCaps = new String[][] { { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" },
             { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", },
-            { CAPS_LOCK, "A", "S", "D", "F", "G", "H", "J", "K", "L" },
-            { "Z", "X", "C", "V", "B", "N", "M" }, { CLEAR, " ", CLOSE } };
+            { CAPS_LOCK, "A", "S", "D", "F", "G", "H", "J", "K", "L" }, { "Z", "X", "C", "V", "B", "N", "M" },
+            { CLEAR, " ", CLOSE } };
 
-    String[][] caps = new String[][] {
-            { "!", "\"", "#", "¤", "%", "&", "/", "(", ")", "=", ERASE },
+    String[][] caps = new String[][] { { "!", "\"", "#", "¤", "%", "&", "/", "(", ")", "=", ERASE },
             { "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", },
-            { CAPS_LOCK, "a", "s", "d", "f", "g", "h", "j", "k", "l" },
-            { "z", "x", "c", "v", "b", "n", "m" }, { CLEAR, " ", CLOSE } };
+            { CAPS_LOCK, "a", "s", "d", "f", "g", "h", "j", "k", "l" }, { "z", "x", "c", "v", "b", "n", "m" },
+            { CLEAR, " ", CLOSE } };
 
     public Keyboard() {
         setLayout(new MigLayout("insets 25, center"));
 
-        setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 2
-                - ((int) this.getWidth() / 2), Toolkit.getDefaultToolkit().getScreenSize().height
+        setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 2 - ((int) this.getWidth() / 2), Toolkit
+                .getDefaultToolkit().getScreenSize().height
                 / 2 - ((int) this.getHeight() / 2));
 
+        setOpaque(false);
     }
 
     @PostConstruct
     public void init() {
         setup(toggler);
 
-        // setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
-
         setVisible(false);
     }
 
     private void setup(final boolean capsLock) {
         removeAll();
-
-        JPanel panel = new JPanel(new MigLayout("insets 0"));
-        panel.setBackground(Color.DARK_GRAY);
 
         final String layout = "w 1.2cm, h 1.2cm";
 
@@ -98,14 +92,33 @@ public class Keyboard extends JPanel {
             sds = noCaps;
 
         for (String[] s : sds) {
-
-            panel = new JPanel(new MigLayout("insets 0"));
+            final JPanel panel = new JPanel(new MigLayout("insets 0"));
+            panel.setOpaque(false);
 
             for (String label : s) {
-                JButton button = new JButton(label);
-                button.setBackground(new Color(70, 70, 70));
+                final JButton button = new JButton(label) {
+
+                    private static final long serialVersionUID = 1L;
+
+                    /*
+                     * (non-Javadoc)
+                     * 
+                     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+                     */
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        Graphics2D g2d = (Graphics2D) g;
+
+                        g2d.setPaint(new Color(25, 25, 25));
+                        g2d.fillRect(0, 0, getWidth(), getHeight());
+
+                        super.paintComponent(g2d);
+                    }
+                };
+                button.setOpaque(false);
                 button.setHorizontalTextPosition(SwingConstants.RIGHT);
                 button.setVerticalAlignment(SwingConstants.BOTTOM);
+                button.setForeground(Color.WHITE);
 
                 if (label == CAPS_LOCK)
                     setupCapsLockButton(button);
@@ -125,7 +138,7 @@ public class Keyboard extends JPanel {
                     panel.add(button, layout);
             }
 
-            this.add(panel, "center, newline");
+            add(panel, "center, newline");
         }
 
         updateUI();
@@ -141,8 +154,7 @@ public class Keyboard extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (textField.getText().length() > 0)
-                    textField.setText(textField.getText().substring(0,
-                            textField.getText().length() - 1));
+                    textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
             }
         });
     }
@@ -196,8 +208,8 @@ public class Keyboard extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (textField != null)
-                    textField.setText(new StringBuilder(textField.getText()).insert(
-                            textField.getCaretPosition(), button.getText()).toString());
+                    textField.setText(new StringBuilder(textField.getText()).insert(textField.getCaretPosition(),
+                            button.getText()).toString());
 
                 // TODO Focus is probably lost as this does not work.
                 // textField.setCaretPosition(textField.getCaretPosition() + 1);
@@ -218,12 +230,13 @@ public class Keyboard extends JPanel {
      */
     @Override
     protected void paintComponent(Graphics g) {
-
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
 
-        super.paintComponent(g);
+        g2d.setPaint(new Color(50, 50, 50));
+
+        g2d.fillRect(0, 0, getWidth(), getHeight());
     }
 }

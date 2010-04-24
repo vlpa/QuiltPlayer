@@ -28,6 +28,8 @@ public class JotifyPlayer implements Player, PlaybackListener {
 
     private Logger log = Logger.getLogger(JotifyPlayer.class);
 
+    private boolean isPaused = false;
+
     @Autowired
     private PlayerListener playerListener;
 
@@ -41,6 +43,8 @@ public class JotifyPlayer implements Player, PlaybackListener {
     @Override
     public void pause() {
         JotifyRepository.getInstance().pause();
+
+        isPaused = true;
     }
 
     /*
@@ -54,6 +58,11 @@ public class JotifyPlayer implements Player, PlaybackListener {
 
         currentSong = s;
 
+        if (isPaused) {
+            JotifyRepository.getInstance().play();
+
+            isPaused = false;
+        }
         if (s instanceof JotifySong) {
             try {
                 JotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), File.BITRATE_96, this);
