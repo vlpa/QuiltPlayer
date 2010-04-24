@@ -18,6 +18,7 @@ import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.panels.AlbumView;
+import com.quiltplayer.view.swing.textarea.ScrollableTextArea;
 
 /**
  * Implementation with squared albums.
@@ -77,7 +78,18 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
     }
 
     private JTextArea setupTitleLabelToPanel() {
-        JTextArea titleLabel = new JTextArea() {
+        JTextArea titleLabel = new ScrollableTextArea() {
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see com.quiltplayer.view.swing.textarea.ScrollableTextArea#triggerAction()
+             */
+            @Override
+            protected void triggerAction() {
+                changeAlbumListener
+                        .actionPerformed(new ActionEvent(album, 0, ChangeAlbumController.EVENT_CHANGE_ALBUM));
+            }
 
             /**
              * 
@@ -99,7 +111,8 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
         };
 
         titleLabel.setOpaque(false);
-        titleLabel.setEditable(false);
+        titleLabel.setEditable(true);
+        titleLabel.setFocusable(false);
         titleLabel.setLineWrap(true);
         titleLabel.setWrapStyleWord(true);
         titleLabel.setForeground(Configuration.getInstance().getColorConstants().getAlbumViewTitleColor());
@@ -110,12 +123,15 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
     }
 
     private JTextArea setupYearLabel() {
-        JTextArea yearLabel = new JTextArea() {
+        JTextArea yearLabel = new ScrollableTextArea() {
 
-            /**
-             * 
-             */
             private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void triggerAction() {
+                changeAlbumListener
+                        .actionPerformed(new ActionEvent(album, 0, ChangeAlbumController.EVENT_CHANGE_ALBUM));
+            }
 
             /*
              * (non-Javadoc)
@@ -132,8 +148,8 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
         };
 
         yearLabel.setOpaque(false);
-        yearLabel.setEditable(false);
-        yearLabel.setLineWrap(true);
+        yearLabel.setEditable(true);
+        yearLabel.setFocusable(false);
         yearLabel.setWrapStyleWord(true);
         yearLabel.setForeground(Configuration.getInstance().getColorConstants().getAlbumViewYearColor());
         yearLabel.setText(album.getYear());

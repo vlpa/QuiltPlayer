@@ -4,27 +4,31 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioSystem;
 
 import org.apache.log4j.Logger;
-import org.cmc.music.metadata.IMusicMetadata;
-import org.cmc.music.metadata.MusicMetadataSet;
-import org.cmc.music.myid3.MyID3;
+import org.springframework.stereotype.Component;
+import org.tritonus.share.sampled.file.TAudioFileFormat;
 
 import com.quiltplayer.internal.id3.Id3Extractor;
 import com.quiltplayer.internal.id3.model.DataStorage;
 import com.quiltplayer.internal.id3.model.Id3DataModel;
 
 /**
- * General ID3 extractor using myId3. Error handling is limited but the general idea is that the
+ * General ID3 extractor using mp3spi.jar. Error handling is limited but the general idea is that the
  * failed files should be published in the application.
  * 
  * @author Vlado Palczynski
- * 
- * @deprecated If Mp3SpiExtractor handles ID3-tags good this should be removed. Will also remove the dependency to
- *             MyId3-library.
  */
-@Deprecated
-public class MyId3Extractor implements Id3Extractor {
+@Component
+public class Mp3SpiId3Extractor implements Id3Extractor {
+
+    private Pattern p = Pattern.compile("^[0-9]+");
 
     private DataStorage storage;
 
@@ -68,12 +72,7 @@ public class MyId3Extractor implements Id3Extractor {
     /**
      * Logger.
      */
-    private static Logger log = Logger.getLogger(MyId3Extractor.class);
-
-    /**
-     * The id3 implementation to use.
-     */
-    private MyID3 myID3 = new MyID3();
+    private static Logger log = Logger.getLogger(Mp3SpiId3Extractor.class);
 
     /**
      * @param file
@@ -84,47 +83,52 @@ public class MyId3Extractor implements Id3Extractor {
         String albumTitle = null;
         String artistName = null;
         String songTitle = null;
-        Number trackNumber = null;
-        Number duration = null;
+        String trackNumber = null;
+        Long duration = null;
 
         // Extract information from ID3-tag
         try {
-            MusicMetadataSet srcSet = myID3.read(file); // read metadata
+            AudioFileFormat baseFileFormat = AudioSystem.getAudioFileFormat(file);
+            if (baseFileFormat instanceof TAudioFileFormat) {
+                Map<String, ?> properties = ((TAudioFileFormat) baseFileFormat).properties();
 
-            // perhaps no metadata
-            if (srcSet == null) {
-                return;
-            }
-
-            IMusicMetadata metadata = srcSet.getSimplified();
-
-            if (srcSet.id3v2Raw != null) {
-                artistName = srcSet.id3v2Raw.values.getArtist();
-                albumTitle = srcSet.id3v2Raw.values.getAlbum();
-                songTitle = srcSet.id3v2Raw.values.getSongTitle();
-                trackNumber = srcSet.id3v2Raw.values.getTrackCount();
-                duration = srcSet.id3v2Raw.values.getDurationSeconds();
-            }
-            else if (srcSet.id3v1Raw != null) {
-                artistName = srcSet.id3v1Raw.values.getArtist();
-                albumTitle = srcSet.id3v1Raw.values.getAlbum();
-                songTitle = srcSet.id3v1Raw.values.getSongTitle();
-                trackNumber = srcSet.id3v1Raw.values.getTrackCount();
-                duration = srcSet.id3v1Raw.values.getDurationSeconds();
-            }
-            else {
-                artistName = metadata.getArtist();
-                albumTitle = metadata.getAlbum();
-                songTitle = metadata.getSongTitle();
-                trackNumber = metadata.getTrackCount();
-                duration = metadata.getDurationSeconds();
+                albumTitle = (String) properties.get("album");
+                songTitle = (String) properties.get("title");
+                artistName = (String) properties.get("author");
+                trackNumber = (String) properties.get("mp3.id3tag.track");
+                duration = (Long) properties.get("duration");
             }
 
             Id3DataModel model = new Id3DataModel();
             model.setAlbumTitle(albumTitle);
             model.setArtistName(artistName);
             model.setSongTitle(songTitle);
-            model.setTrackNumber(trackNumber);
+            if (trackNumber != null) {
+                String fileName = file.getName();
+
+                Matcher m = p.matcher(fileName);
+                boolean b = false;
+                while (m.find()) {
+                    model.setTrackNumber(Integer.parseInt(m.group()));
+                    b = true;
+                    log.debug("Setting song number to " + m.group());
+                }
+
+                if (!b)
+                    model.setTrackNumber(Integer.parseInt(trackNumber));
+            }
+            else {
+                /* No good, check the file name if it starts with a number */
+                String fileName = file.getName();
+                Matcher m = p.matcher(fileName);
+
+                while (m.find()) {
+                    model.setTrackNumber(Integer.parseInt(m.group()));
+
+                    log.debug("Setting song number to " + m.group());
+                }
+            }
+
             model.setPath(file.getAbsoluteFile());
             model.setDuration(duration.intValue());
 

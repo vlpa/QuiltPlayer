@@ -206,12 +206,12 @@ public class JotifySong implements Song {
     }
 
     @Override
-    public int getLength() {
+    public int getDuration() {
         return spotifyTrack.getLength();
     }
 
     @Override
-    public void setLength(int length) {
+    public void setDuration(int length) {
         // Not needed
     }
 

@@ -77,8 +77,7 @@ public class FileScannerTask extends SwingWorker<Integer, Void> {
         @Override
         public void store(Id3DataModel model) {
             if (model != null && StringUtils.isNotEmpty(model.getAlbumTitle())
-                    && StringUtils.isNotEmpty(model.getArtistName())
-                    && StringUtils.isNotBlank(model.getSongTitle())) {
+                    && StringUtils.isNotEmpty(model.getArtistName()) && StringUtils.isNotBlank(model.getSongTitle())) {
                 StringId artistId = new StringId(model.getArtistName());
                 Artist artist = artistStorage.getArtist(artistId);
 
@@ -95,6 +94,7 @@ public class FileScannerTask extends SwingWorker<Integer, Void> {
 
                 if (album == null) {
                     log.debug("Album not found, creating...");
+
                     album = storage.createAlbum(albumId);
                     artist.addAlbum(album);
                 }
@@ -126,6 +126,7 @@ public class FileScannerTask extends SwingWorker<Integer, Void> {
                 song.setTrackNumber(model.getTrackNumber());
                 song.setSpotifyId(null);
                 song.setType(Song.TYPE_FILE);
+                song.setDuration(model.getDuration());
             }
         }
     };

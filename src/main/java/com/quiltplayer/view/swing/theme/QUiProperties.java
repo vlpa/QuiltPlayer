@@ -64,20 +64,8 @@ public class QUiProperties {
 
     private static void setupSlider() {
         UIManager.put("Slider.background", ColorConstantsDark.BACKGROUND);
-        UIManager.put("Slider.altTrackColor", Color.yellow);
-        UIManager.put("Slider.border", Color.CYAN);
-        UIManager.put("Slider.trackColor", Color.GREEN);
-        UIManager.put("Slider.trackBorder", Color.GREEN);
-        UIManager.put("Slider.shadow", Color.PINK);
+        UIManager.put("Slider.altTrackColor", Color.WHITE);
         UIManager.put("Slider.paintThumbArrowShape", Boolean.TRUE.toString());
-
-        final List<Color> l = new ArrayList<Color>();
-        l.add(Color.black);
-        l.add(Color.white);
-
-        UIManager.put("Slider.gradient", l);
-        UIManager.put("Slider.focusGradient", l);   
-
     }
 
     private static void setupToolTip() {

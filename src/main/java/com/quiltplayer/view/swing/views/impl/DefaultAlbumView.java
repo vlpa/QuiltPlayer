@@ -67,8 +67,7 @@ public class DefaultAlbumView implements ListView<Album> {
                 setupArtistnameLabel();
 
             artistnameLabel.setText(albums.get(0).getArtist().getArtistName().getName());
-            panel.add(artistnameLabel, "span "
-                    + Configuration.getInstance().getGridProperties().getAlbumsGrid());
+            panel.add(artistnameLabel, "span " + Configuration.getInstance().getGridProperties().getAlbumsGrid());
 
             int i = 1;
 
@@ -107,8 +106,7 @@ public class DefaultAlbumView implements ListView<Album> {
             deleteArtistButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    artistListener.actionPerformed(new ActionEvent(artist, 0,
-                            ArtistController.EVENT_DELETE_ARTIST));
+                    artistListener.actionPerformed(new ActionEvent(artist, 0, ArtistController.EVENT_DELETE_ARTIST));
                 }
             });
 

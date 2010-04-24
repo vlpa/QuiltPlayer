@@ -41,7 +41,7 @@ public class NeoSong implements Song {
 
     private static final String PROPERTY_TRACK_NUMBER = "trackNumber";
 
-    private static final String PROPERTY_LENGTH = "length";
+    private static final String PROPERTY_DURATION = "duration";
 
     /*
      * (non-Javadoc)
@@ -299,14 +299,14 @@ public class NeoSong implements Song {
     }
 
     @Override
-    public int getLength() {
-        return ((Integer) Config.getNeoUtil().getProperty(node, PROPERTY_LENGTH));
+    public int getDuration() {
+        return ((Integer) Config.getNeoUtil().getProperty(node, PROPERTY_DURATION));
     }
 
     @Override
-    public void setLength(int length) {
+    public void setDuration(int length) {
         if (length > 0) {
-            Config.getNeoUtil().setProperty(node, PROPERTY_LENGTH, length);
+            Config.getNeoUtil().setProperty(node, PROPERTY_DURATION, length);
         }
     }
 }

@@ -44,6 +44,11 @@ public class Id3DataModel {
     private File path;
 
     /**
+     * The duration.
+     */
+    private int duration;
+
+    /**
      * @return the artistName
      */
     public String getArtistName() {
@@ -116,5 +121,20 @@ public class Id3DataModel {
      */
     public void setPath(File path) {
         this.path = path;
+    }
+
+    /**
+     * @return the duration
+     */
+    public int getDuration() {
+        return duration;
+    }
+
+    /**
+     * @param duration
+     *            the duration to set
+     */
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }

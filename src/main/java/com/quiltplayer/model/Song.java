@@ -101,15 +101,15 @@ public interface Song {
     String getType();
 
     /**
-     * @return the length of the song.
+     * @return the duration of the song in seconds.
      */
-    int getLength();
+    int getDuration();
 
     /**
-     * Set the length of the song.
+     * Set the length of the song in seconds.
      * 
-     * @param length
+     * @param duration
      *            the length to set.
      */
-    void setLength(int length);
+    void setDuration(int duration);
 }

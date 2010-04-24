@@ -135,6 +135,7 @@ public class PlayerControlPanel extends JPanel {
 
         slider = new JSlider(0, 10000);
         slider.setMinimum(0);
+        slider.setOpaque(false);
         slider.addChangeListener(new ChangeListener() {
 
             @Override
@@ -342,9 +343,9 @@ public class PlayerControlPanel extends JPanel {
     }
 
     public void changeSong(final Song song) {
-        System.out.println(song.getLength());
+        System.out.println(song.getDuration());
 
         slider.setMinimum(0);
-        slider.setMaximum(song.getLength());
+        slider.setMaximum(song.getDuration());
     }
 }
