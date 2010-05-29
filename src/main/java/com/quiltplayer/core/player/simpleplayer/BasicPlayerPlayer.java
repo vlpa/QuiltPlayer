@@ -156,6 +156,11 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
     public void progress(final int arg0, final long milliseconds, final byte[] arg2, Map arg3) {
         time = milliseconds;
 
+        System.out.println("Milli: " + milliseconds);
+        System.out.println("Arg:" + arg0);
+
+        playerListener.actionPerformed(new ActionEvent(currentSong, 0, PlayerController.PlayerEvents.PROGRESSED
+                .toString()));
         playerListener.actionPerformed(new ActionEvent(currentSong, 0, PlayerController.PlayerEvents.PROGRESSED
                 .toString()));
     }
@@ -181,6 +186,11 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
             playerListener.actionPerformed(new ActionEvent(currentSong, 0, PlayerController.PlayEvents.FINISH
                     .toString()));
         }
+        else if (arg0.getCode() == BasicPlayerEvent.SEEKING) {
+            System.out.println("!");
+        }
+        else if (arg0.getCode() == BasicPlayerEvent.SEEKED)
+            System.out.println("!!  ");
     }
 
     /*
@@ -195,8 +205,11 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
 
     @Override
     public void seek(int i) {
+        System.out.println(i);
+
         try {
-            player.seek(((Integer) i).longValue());
+            // player.seek(((Integer) i).longValue());
+            controller.seek(((Integer) i).longValue());
         }
         catch (BasicPlayerException e) {
             e.printStackTrace();

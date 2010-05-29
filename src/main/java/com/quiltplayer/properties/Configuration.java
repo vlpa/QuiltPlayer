@@ -66,7 +66,7 @@ public final class Configuration implements Serializable {
         if (instance == null) {
 
             log.debug("Retrieve configuration...");
-            
+
             folderProperties = new FolderProperties();
             gridProperties = new GridProperties();
             spotifyProperties = new SpotifyProperties();
@@ -93,8 +93,8 @@ public final class Configuration implements Serializable {
         FolderProperties neededProperties = new FolderProperties();
 
         try {
-            File f = new File(neededProperties.getStorage().getAbsolutePath()
-                    + System.getProperty("file.separator") + CONFIG_NAME);
+            File f = new File(neededProperties.getStorage().getAbsolutePath() + System.getProperty("file.separator")
+                    + CONFIG_NAME);
             fis = new FileInputStream(f);
             in = new ObjectInputStream(fis);
 
@@ -121,8 +121,7 @@ public final class Configuration implements Serializable {
         FolderProperties neededProperties = new FolderProperties();
 
         try {
-            File f = new File(neededProperties.getStorage() + System.getProperty("file.separator")
-                    + CONFIG_NAME);
+            File f = new File(neededProperties.getStorage() + System.getProperty("file.separator") + CONFIG_NAME);
             fos = new FileOutputStream(f);
             out = new ObjectOutputStream(fos);
             out.writeObject(this);
@@ -192,7 +191,7 @@ public final class Configuration implements Serializable {
      */
     public final Dimension getSavedDimensionOnFrame() {
         if (savedDimensionOnFrame == null)
-            return new Dimension(1100, 800);
+            return new Dimension(800, 600);
 
         return savedDimensionOnFrame;
     }

@@ -34,7 +34,7 @@ public class PlayerController implements PlayerListener {
     }
 
     public enum PlayerEvents {
-        CHANGED, STOPPED, PAUSEED, PLAYING, FINISHED, PREVIOUS, NEXT, SEEKED, PROGRESSED, RESUMED
+        CHANGED, STOPPED, PAUSEED, PLAYING, FINISHED, PREVIOUS, NEXT, SEEKED, PROGRESSED, PROGRESSES_BYTES, RESUMED
     };
 
     private Runnable invoker;

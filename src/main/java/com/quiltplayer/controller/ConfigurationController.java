@@ -1,7 +1,5 @@
 package com.quiltplayer.controller;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 
 import javax.swing.SwingUtilities;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.ConfigurationListener;
+import com.quiltplayer.view.swing.util.ScreenUtils;
 import com.quiltplayer.view.swing.views.impl.ConfigurationView;
 
 /**
@@ -38,40 +37,7 @@ public class ConfigurationController implements ConfigurationListener {
             Configuration.getInstance().storeConfiguration();
             SwingUtilities.updateComponentTreeUI(frame);
         }
-        else if (e.getActionCommand() == ConfigurationView.EVENT_TOGGLE_FULLSCREEN) {
-            if (Configuration.getInstance().isFullScreen()) {
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-                frame.dispose();
-                frame.setResizable(true);
-                frame.setUndecorated(false);
-                frame.updateUI();
-                Dimension frameDimension = Configuration.getInstance().getSavedDimensionOnFrame();
-                frame.setSize(frameDimension);
-                frame.setLocation(screenSize.width / 2 - ((int) frameDimension.getWidth() / 2),
-                        screenSize.height / 2 - ((int) frameDimension.getHeight() / 2));
-                frame.setVisible(true);
-
-                Configuration.getInstance().setFullScreen(false);
-                Configuration.getInstance().storeConfiguration();
-
-            }
-            else {
-                Configuration.getInstance().setSavedDimensionOnFrame(frame.getSize());
-
-                frame.setLocation(0, 0); // Otherwise wrong position
-                frame.dispose();
-                frame.setResizable(false);
-                frame.setUndecorated(true);
-                frame.updateUI();
-                frame.setSize(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
-                frame.setVisible(true);
-
-                Configuration.getInstance().setFullScreen(true);
-                Configuration.getInstance().storeConfiguration();
-            }
-
-            SwingUtilities.updateComponentTreeUI(frame);
-        }
+        else if (e.getActionCommand() == ConfigurationView.EVENT_TOGGLE_FULLSCREEN)
+            ScreenUtils.toggleFullscreen(frame);
     }
 }

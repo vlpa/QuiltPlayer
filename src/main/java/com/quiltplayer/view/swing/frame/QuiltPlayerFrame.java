@@ -1,7 +1,6 @@
 package com.quiltplayer.view.swing.frame;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 
@@ -31,6 +30,7 @@ import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlfabeticControlPane;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
+import com.quiltplayer.view.swing.util.ScreenUtils;
 import com.quiltplayer.view.swing.views.ArtistView;
 import com.quiltplayer.view.swing.views.ListView;
 import com.quiltplayer.view.swing.views.View;
@@ -136,22 +136,7 @@ public class QuiltPlayerFrame extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        Dimension screenSize = null;
-        if (Configuration.getInstance().isFullScreen()) {
-            screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            setUndecorated(true);
-            setResizable(false);
-            setLocation(0, 0);
-        }
-        else {
-            screenSize = Configuration.getInstance().getSavedDimensionOnFrame();
-            Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
-            setLocation(fullScreen.width / 2 - ((int) screenSize.getWidth() / 2), fullScreen.height / 2
-                    - ((int) screenSize.getHeight() / 2));
-        }
-
-        setSize(screenSize);
-        setVisible(true);
+        ScreenUtils.setScreensize(this);
     }
 
     @PostConstruct
@@ -183,7 +168,7 @@ public class QuiltPlayerFrame extends JFrame {
              */
             @Override
             public boolean contains(int x, int y) {
-                if (y < 150)
+                if (y > Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 150)
                     playerControlPanel.show();
                 else
                     playerControlPanel.hide();
@@ -200,7 +185,7 @@ public class QuiltPlayerFrame extends JFrame {
         glassPane.add(controlPanel, "east, w 1.6cm!");
         glassPane.add(albumControlPanel, "west, w 1.6cm!");
 
-        glassPane.add(playerControlPanel, "north, center, gapx 15% 15%");
+        glassPane.add(playerControlPanel, "south, center, gapx 15% 15%");
 
         glassPane.add(keyboardPanel, "south, center");
 

@@ -79,7 +79,7 @@ public class PlayerControlPanel extends JPanel {
 
     private JLabel timeLabel;
 
-    private int previousSliderValue;
+    private long progress;
 
     private SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
 
@@ -144,12 +144,10 @@ public class PlayerControlPanel extends JPanel {
                 if (!source.getValueIsAdjusting()) {
                     final int value = (int) source.getValue();
 
-                    if (value - previousSliderValue > 1000) {
-                        playerListener.actionPerformed(new ActionEvent(value, 0, PlayerController.PlayEvents.SEEK
-                                .toString()));
+                    if (value != progress) {
+                        // playerListener.actionPerformed(new ActionEvent(value, 0, PlayerController.PlayEvents.SEEK
+                        // .toString()));
                     }
-
-                    previousSliderValue = value;
                 }
             }
         });
@@ -283,7 +281,7 @@ public class PlayerControlPanel extends JPanel {
             animator.stop();
 
         PropertySetter setter = new PropertySetter(this, "alpha", fromAlpha, toAlpha);
-        animator = new Animator(300, setter);
+        animator = new Animator(200, setter);
         animator.start();
     }
 
@@ -322,7 +320,8 @@ public class PlayerControlPanel extends JPanel {
 
         timeLabel.setText(formatter.format(progress / 1000));
 
-        slider.setValue((int) progress / 1000);
+        this.progress = progress;
+        slider.setValue((int) progress);
 
         updateUI();
     }
@@ -343,7 +342,7 @@ public class PlayerControlPanel extends JPanel {
     }
 
     public void changeSong(final Song song) {
-        slider.setMinimum(0);
+        slider.setValue(0);
         slider.setMaximum(song.getDuration());
     }
 }
