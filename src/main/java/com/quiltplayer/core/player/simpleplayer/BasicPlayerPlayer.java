@@ -156,11 +156,9 @@ public class BasicPlayerPlayer implements BasicPlayerListener, Player {
     public void progress(final int arg0, final long milliseconds, final byte[] arg2, Map arg3) {
         time = milliseconds;
 
-        System.out.println("Milli: " + milliseconds);
-        System.out.println("Arg:" + arg0);
+        //System.out.println("Milli: " + milliseconds);
+        //System.out.println("Arg:" + arg0);
 
-        playerListener.actionPerformed(new ActionEvent(currentSong, 0, PlayerController.PlayerEvents.PROGRESSED
-                .toString()));
         playerListener.actionPerformed(new ActionEvent(currentSong, 0, PlayerController.PlayerEvents.PROGRESSED
                 .toString()));
     }

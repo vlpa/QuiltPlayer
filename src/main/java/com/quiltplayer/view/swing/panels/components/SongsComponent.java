@@ -1,5 +1,9 @@
 package com.quiltplayer.view.swing.panels.components;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -30,12 +34,14 @@ public class SongsComponent extends JPanel {
     private Album album;
 
     public SongsComponent(final Album album, final PlayerListener playerListener) {
-        super(new MigLayout("wrap 2, fill"));
+        setLayout(new MigLayout("ins 0, flowy, fill"));
 
         this.playerListener = playerListener;
         this.album = album;
 
-        setOpaque(false);
+        setOpaque(true);
+
+        setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
 
         setup();
     }
@@ -46,17 +52,28 @@ public class SongsComponent extends JPanel {
             int i = 1;
 
             for (Song song : album.getSongCollection().getSongs()) {
-
                 QSongButton songLabel = null;
                 songLabel = new QSongButton(song, playerListener, i);
                 songLabel.addActionListener(playerListener);
 
-                songLabel.setOpaque(false);
-
-                add(songLabel, "w 45%!");
+                add(songLabel, "grow, hmin 1.cm, center, growy, gapy 0.1cm");
 
                 i++;
             }
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     */
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.50f));
+
+        super.paintComponent(g);
     }
 }

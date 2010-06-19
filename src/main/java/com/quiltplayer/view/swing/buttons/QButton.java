@@ -112,9 +112,9 @@ public class QButton extends JButton {
         // renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
         // RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        // g2d.setRenderingHints(renderHints);
-        g2d.setColor(color);
-        g2d.fillRoundRect(0, 0, w, h, 11, 11);
+        // // g2d.setRenderingHints(renderHints);
+        // g2d.setColor(color);
+        // g2d.fillRoundRect(0, 0, w, h, 11, 11);
 
         super.paintComponent(g);
     }

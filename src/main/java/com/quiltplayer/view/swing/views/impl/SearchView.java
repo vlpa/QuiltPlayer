@@ -24,7 +24,6 @@ import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.model.jotify.JotifyArtist;
 import com.quiltplayer.model.jotify.JotifySong;
-import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.labels.SpotifyArtistLabel;
 import com.quiltplayer.view.swing.labels.StringOrCharLabel;
@@ -34,7 +33,6 @@ import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.listeners.SearchListener;
-import com.quiltplayer.view.swing.panels.QPanel;
 import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.views.View;
@@ -99,19 +97,18 @@ public class SearchView implements View {
     @Override
     public JComponent getUI() {
         if (newResult || panel == null) {
-            panel = new QPanel();
-            panel.setOpaque(true);
+            panel = new JPanel();
+            panel.setOpaque(false);
             panel.addFocusListener(focusListener);
 
-            panel.setLayout(new MigLayout("ins 1.3cm 2cm 0cm 2cm, alignx center, top, wrap 1"));
+            panel.setLayout(new MigLayout("ins 1.0cm 2cm 0cm 2cm, alignx center, top, wrap 1"));
 
             setupSearchBar();
 
             panel.add(searchPanel, "top, alignx center, gapy 0 0.5cm");
 
             if (result != null) {
-                scrollablePanel = new QPanel(new MigLayout("wrap 3, alignx center, top"));
-                scrollablePanel.setBackground(ColorConstantsDark.BACKGROUND);
+                scrollablePanel = new JPanel(new MigLayout("wrap 3, alignx center, top"));
                 scrollablePanel.setOpaque(true);
 
                 setupArtists(panel);
@@ -119,8 +116,7 @@ public class SearchView implements View {
                 addTracks(panel);
 
                 QScrollPane pane = new QScrollPane(scrollablePanel);
-                final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(pane,
-                        new JScrollPaneLayerUI());
+                final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
 
                 panel.add(jx, "w 100%");
             }
@@ -153,8 +149,7 @@ public class SearchView implements View {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    searchListener.actionPerformed(new ActionEvent(searchField.getText(), 0,
-                            EVENT_SEARCH));
+                    searchListener.actionPerformed(new ActionEvent(searchField.getText(), 0, EVENT_SEARCH));
                 }
             }
 
@@ -164,8 +159,9 @@ public class SearchView implements View {
     }
 
     private void setupArtists(JPanel panel) {
-        JPanel artists = new QPanel(new MigLayout("insets 0, wrap 1, top, fill"));
-        artists.setBackground(ColorConstantsDark.BACKGROUND);
+        JPanel artists = new JPanel(new MigLayout("insets 0, wrap 1, top, fill"));
+        artists.setOpaque(false);
+        // artists.setBackground(ColorConstantsDark.BACKGROUND);
         SpotifyArtistLabel label = null;
 
         artists.add(new StringOrCharLabel(" Artists"), "w 100%, h 0.75cm");
@@ -182,8 +178,8 @@ public class SearchView implements View {
     }
 
     private void setupAlbums(JPanel panel) {
-        JPanel albums = new QPanel(new MigLayout("insets 0, top, wrap 1"));
-        albums.setBackground(ColorConstantsDark.BACKGROUND);
+        JPanel albums = new JPanel(new MigLayout("insets 0, top, wrap 1"));
+        albums.setOpaque(false);
 
         albums.add(new StringOrCharLabel(" Albums"), "w 100%, h 0.75cm");
 
@@ -208,7 +204,7 @@ public class SearchView implements View {
     }
 
     private void addTracks(JPanel panel) {
-        JPanel tracks = new QPanel(new MigLayout("insets 0, wrap 1"));
+        JPanel tracks = new JPanel(new MigLayout("insets 0, wrap 1"));
         tracks.setOpaque(false);
 
         TrackSearchLabel label = null;
@@ -232,8 +228,7 @@ public class SearchView implements View {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchListener.actionPerformed(new ActionEvent(searchField.getText(), 0,
-                        EVENT_SEARCH));
+                searchListener.actionPerformed(new ActionEvent(searchField.getText(), 0, EVENT_SEARCH));
             }
         });
     }

@@ -6,13 +6,12 @@ import java.awt.event.ActionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.quiltplayer.core.player.Player;
 import com.quiltplayer.external.lyrics.LyricsEvent;
 import com.quiltplayer.external.lyrics.LyricsListener;
 import com.quiltplayer.external.lyrics.LyricsService;
 import com.quiltplayer.external.lyrics.Status;
 import com.quiltplayer.model.Song;
-import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 
 /**
  * Controller handling lyrics.
@@ -27,7 +26,7 @@ public class LyricsController implements ActionListener, LyricsListener {
     private LyricsService lyricsService;
 
     @Autowired
-    private PlaylistPanel playlistPanel;
+    private QuiltPlayerFrame frame;
 
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -50,13 +49,13 @@ public class LyricsController implements ActionListener, LyricsListener {
     @Override
     public final void lyricsEvent(final LyricsEvent e) {
         if (e.getStatus() == Status.FOUND) {
-            playlistPanel.setLyrics(e.getLyrics());
+            frame.lyricsPlaylistPanel.setLyrics(e.getLyrics());
+            frame.lyricsPlaylistPanel.repaint();
+
         }
-        else if (e.getStatus() == Status.NOT_FOUND) {
-            playlistPanel.setLyrics("None found...");
-        }
-        else if (e.getStatus() == Status.ERROR) {
-            playlistPanel.setLyrics("None found...");
+        else if (e.getStatus() == Status.NOT_FOUND || e.getStatus() == Status.ERROR) {
+            frame.lyricsPlaylistPanel.setLyrics("None found...");
+            frame.lyricsPlaylistPanel.repaint();
         }
     }
 }

@@ -22,10 +22,9 @@ public abstract class ScrollableAndHighlightableButton extends ScrollableButton 
 
     protected Color background = ColorConstantsDark.BACKGROUND;
 
-    // private Color[] gradient = { Color.ORANGE, Color.ORANGE.darker(),
-    // Color.ORANGE.darker().darker() };
+    private Color[] gradient = { Color.ORANGE, Color.ORANGE.darker(), Color.ORANGE.darker().darker() };
 
-    // private float[] dist = { 0.0f, 0.5f, 1.0f };
+    private float[] dist = { 0.0f, 0.5f, 1.0f };
 
     public ScrollableAndHighlightableButton() {
         super();
@@ -38,9 +37,7 @@ public abstract class ScrollableAndHighlightableButton extends ScrollableButton 
 
         setBorder(BorderFactory.createEmptyBorder());
 
-        setBackground(background);
-
-        setOpaque(true);
+        setOpaque(false);
 
         addMouseListener(new HighlightableMouseListener(background, this));
     }

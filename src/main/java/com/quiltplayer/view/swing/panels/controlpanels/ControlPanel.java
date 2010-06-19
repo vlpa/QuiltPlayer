@@ -46,16 +46,12 @@ public class ControlPanel extends JPanel {
 
     public static final String EVENT_VIEW_ABOUT = "view.about";
 
-    private Color[] gradient = { new Color(80, 80, 80), new Color(50, 50, 50),
-            new Color(20, 20, 20), new Color(00, 00, 00) };
-
-    // private Color[] gradient = { new Color(150, 00, 00), new Color(100, 0, 0), new Color(80, 0,
-    // 0),
-    // new Color(40, 0, 0) };
-
-    // private Color[] gradient = { new Color(0, 0, 0), new Color(30, 30, 30) };
+    private Color[] gradient = { new Color(80, 80, 80), new Color(50, 50, 50), new Color(20, 20, 20),
+            new Color(00, 00, 00) };
 
     private float[] dist = { 0.0f, 0.48f, 0.52f, 1.0f };
+
+    // private Color[] gradient = { new Color(30, 30, 30), new Color(10, 10, 10) };
 
     // private float[] dist = { 0.0f, 1.0f };
 
@@ -86,7 +82,7 @@ public class ControlPanel extends JPanel {
     }
 
     public void setDefaults() {
-        setLayout(new MigLayout("insets 0, fill, flowy"));
+        setLayout(new MigLayout("insets 0, fill, flowy, center"));
 
         setOpaque(false);
 
@@ -104,10 +100,7 @@ public class ControlPanel extends JPanel {
 
         final String s = "h 100%, w 3cm";
 
-        // final String s = "h 100%, w 100%";
-
-        final JPanel applicationButtons = new JPanel(new MigLayout(
-                "insets 0.5cm 0 0.5cm 0, alignx center, flowy"));
+        final JPanel applicationButtons = new JPanel(new MigLayout("insets 0.5cm 0 0.5cm 0, alignx center, flowy"));
 
         applicationButtons.setOpaque(false);
         applicationButtons.add(quiltButton, s);
@@ -117,24 +110,22 @@ public class ControlPanel extends JPanel {
         applicationButtons.add(keyboardButton, s);
         applicationButtons.add(exitButton, s);
 
-        // add(playerControlPanel, "w 30%, dock west");
-        add(applicationButtons, "h 100% - 2cm, dock east");
+        add(applicationButtons, "h 100% - 2cm, west");
 
         updateUI();
     }
 
     private void setupQuiltCollectionButton() {
-        quiltButton = new QControlPanelButton("Quilt", ClassPathUtils
-                .getIconFromClasspath("white/small-tiles.png"), SwingConstants.BOTTOM,
-                SwingConstants.RIGHT);
+        quiltButton = new QControlPanelButton("Quilt", ClassPathUtils.getIconFromClasspath("white/small-tiles.png"),
+                SwingConstants.BOTTOM, SwingConstants.RIGHT);
 
         quiltButton.addActionListener(controlPanelListener);
         quiltButton.setActionCommand(EVENT_QUILT);
     }
 
     private void setupAlfabeticArtistsButton() {
-        artistsButton = new QControlPanelButton("Artists", ClassPathUtils
-                .getIconFromClasspath("white/large-tiles.png"), SwingConstants.BOTTOM,
+        artistsButton = new QControlPanelButton("Artists",
+                ClassPathUtils.getIconFromClasspath("white/large-tiles.png"), SwingConstants.BOTTOM,
                 SwingConstants.RIGHT);
 
         artistsButton.addActionListener(controlPanelListener);
@@ -142,9 +133,8 @@ public class ControlPanel extends JPanel {
     }
 
     private void setupSearchButton() {
-        searchButton = new QControlPanelButton("Spotify", ClassPathUtils
-                .getIconFromClasspath("white/Search.png"), SwingConstants.BOTTOM,
-                SwingConstants.RIGHT);
+        searchButton = new QControlPanelButton("Spotify", ClassPathUtils.getIconFromClasspath("white/Search.png"),
+                SwingConstants.BOTTOM, SwingConstants.RIGHT);
 
         searchButton.addActionListener(controlPanelListener);
         searchButton.setActionCommand(EVENT_VIEW_SEARCH);
@@ -154,9 +144,8 @@ public class ControlPanel extends JPanel {
     }
 
     private void setupConfigurationButton() {
-        configButton = new QControlPanelButton("Config", ClassPathUtils
-                .getIconFromClasspath("white/Settings.png"), SwingConstants.BOTTOM,
-                SwingConstants.RIGHT);
+        configButton = new QControlPanelButton("Config", ClassPathUtils.getIconFromClasspath("white/Settings.png"),
+                SwingConstants.BOTTOM, SwingConstants.RIGHT);
 
         configButton.addActionListener(controlPanelListener);
         configButton.setActionCommand(ControlPanelController.EVENT_VIEW_CONFIGURATION);
@@ -164,17 +153,15 @@ public class ControlPanel extends JPanel {
 
     private void setupKeyboardTab() {
 
-        keyboardButton = new QControlPanelButton("Keys", ClassPathUtils
-                .getIconFromClasspath("white/Keyboard.png"), SwingConstants.BOTTOM,
-                SwingConstants.RIGHT);
+        keyboardButton = new QControlPanelButton("Keys", ClassPathUtils.getIconFromClasspath("white/Keyboard.png"),
+                SwingConstants.BOTTOM, SwingConstants.RIGHT);
         keyboardButton.addActionListener(controlPanelListener);
         keyboardButton.setActionCommand(ControlPanelController.EVENT_VIEW_KEYBOARD);
     }
 
     private void setupExitButton() {
-        exitButton = new QControlPanelButton("End", ClassPathUtils
-                .getIconFromClasspath("white/Power.png"), SwingConstants.BOTTOM,
-                SwingConstants.RIGHT);
+        exitButton = new QControlPanelButton("End", ClassPathUtils.getIconFromClasspath("white/Power.png"),
+                SwingConstants.BOTTOM, SwingConstants.RIGHT);
         exitButton.addActionListener(new ExitHandler(graphDatabaseService));
     }
 

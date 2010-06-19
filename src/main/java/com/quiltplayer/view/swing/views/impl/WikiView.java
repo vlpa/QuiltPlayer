@@ -20,7 +20,6 @@ import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.jxlayer.JXLayer;
 
-import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.panels.QScrollPane;
@@ -43,9 +42,11 @@ public class WikiView implements Serializable, View {
     @Override
     public JComponent getUI() {
 
-        panel = new JPanel(new MigLayout("ins 1cm 2cm 0 2cm, w 100%!")) {
+        panel = new JPanel(new MigLayout("ins 1cm 3cm 0 3cm, center, w 80%!"));
+        panel.setOpaque(true);
 
-            private static final long serialVersionUID = 1L;
+        JEditorPane htmlPane = null;
+        htmlPane = new JEditorPane("text/html", content) {
 
             /*
              * (non-Javadoc)
@@ -55,22 +56,14 @@ public class WikiView implements Serializable, View {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
                 super.paintComponent(g);
             }
 
         };
-        panel.setOpaque(true);
-        panel.setBackground(ColorConstantsDark.BACKGROUND);
 
-        JEditorPane htmlPane = null;
-        htmlPane = new JEditorPane("text/html", content);
-
-        htmlPane.setOpaque(true);
-        htmlPane.setBackground(ColorConstantsDark.BACKGROUND);
-        htmlPane.setAutoscrolls(false);
+        htmlPane.setOpaque(false);
         htmlPane.setDragEnabled(false);
         htmlPane.setEditable(true);
         htmlPane.setFocusable(false);
@@ -82,12 +75,12 @@ public class WikiView implements Serializable, View {
 
         String pRule = "p { font-family: " + font.getName() + "; " + "font-size: " + font.getSize()
                 + "pt; color: #EEEEEE; }";
-        String spanRule = "span { font-family: " + font.getName() + "; " + "font-size: "
-                + font.getSize() + "pt; color: #FFFFFF; }";
-        String linkRule = "a { font-family: " + font.getName() + "; " + "font-size: "
-                + font.getSize() + "pt;" + "color: #AAAAAA;}";
-        String linkRule2 = "a:hoover { text-decoration: none; font-family: " + font.getFamily()
-                + "; " + "font-size: " + font.getSize() + "pt;" + "color: #FFFFFF;}";
+        String spanRule = "span { font-family: " + font.getName() + "; " + "font-size: " + font.getSize()
+                + "pt; color: #FFFFFF; }";
+        String linkRule = "a { font-family: " + font.getName() + "; " + "font-size: " + font.getSize() + "pt;"
+                + "color: #AAAAAA;}";
+        String linkRule2 = "a:hoover { text-decoration: none; font-family: " + font.getFamily() + "; " + "font-size: "
+                + font.getSize() + "pt;" + "color: #FFFFFF;}";
 
         ((HTMLDocument) htmlPane.getDocument()).getStyleSheet().addRule(linkRule);
         ((HTMLDocument) htmlPane.getDocument()).getStyleSheet().addRule(pRule);

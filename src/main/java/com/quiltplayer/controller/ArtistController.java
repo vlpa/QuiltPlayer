@@ -13,7 +13,7 @@ import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.panels.MainTabs;
-import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.UtilityPanels;
 import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.views.ListView;
@@ -41,7 +41,7 @@ public class ArtistController implements ArtistListener {
     private ArtistStorage artistStorage;
 
     @Autowired
-    private PlaylistPanel playlistPanel;
+    private UtilityPanels playlistPanel;
 
     @Autowired
     private ControlPanel controlPanel;

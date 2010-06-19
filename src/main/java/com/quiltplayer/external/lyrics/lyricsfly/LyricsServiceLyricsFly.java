@@ -1,7 +1,6 @@
 package com.quiltplayer.external.lyrics.lyricsfly;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -10,10 +9,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -22,8 +21,6 @@ import com.quiltplayer.external.lyrics.LyricsEvent;
 import com.quiltplayer.external.lyrics.LyricsListener;
 import com.quiltplayer.external.lyrics.LyricsService;
 import com.quiltplayer.external.lyrics.Status;
-import com.quiltplayer.model.Lyrics;
-import com.quiltplayer.model.impl.LyricsImpl;
 
 /**
  * http://lyricsfly.com/api/
@@ -31,6 +28,7 @@ import com.quiltplayer.model.impl.LyricsImpl;
  * @author Vlado Palczynski
  * 
  */
+@Service
 public class LyricsServiceLyricsFly implements LyricsService {
 
     /* To search by artist and title combination: */
@@ -50,7 +48,7 @@ public class LyricsServiceLyricsFly implements LyricsService {
 
     }
 
-    private String code = "0febc5f3fcf7b93b3-temporary.API.access";
+    private String code = "963483002885003db-temporary.API.access";
 
     /*
      * (non-Javadoc)
@@ -60,79 +58,37 @@ public class LyricsServiceLyricsFly implements LyricsService {
      */
     @Override
     public void getLyrics(String artistName, String title) {
+
+        String lyrics = "";
+
+        // if (title.contains("(")) {
+        // title = title.substring(0, title.indexOf('('));
+
         try {
-            String hid = parseHidValue(artistName, title);
+            URL url = new URL(String.format(QUERY, new Object[] { code, artistName, title }));
 
-            if (hid != null) {
-                final Lyrics l = new LyricsImpl();
-                parseLyrics(hid, l);
+            Document doc = getDocument(url);
 
-                lyricsListener.lyricsEvent(new LyricsEvent(Status.FOUND, l.getLyrics()));
+            XPathFactory factory = XPathFactory.newInstance();
+            XPath xpath = factory.newXPath();
+            XPathExpression expr = xpath.compile("//start/sg/tx/text()");
+
+            Object result = expr.evaluate(doc, XPathConstants.NODESET);
+
+            NodeList nodes = (NodeList) result;
+
+            for (int i = 0; i < nodes.getLength(); i++) {
+                lyrics = nodes.item(i).getNodeValue();
             }
+
+            lyricsListener.lyricsEvent(new LyricsEvent(Status.FOUND, lyrics));
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void parseLyrics(String hid, Lyrics l) throws MalformedURLException,
-            ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-        URL url = new URL(String.format(QUERY, new Object[] { hid, hid, hid }));
-
-        Document doc = getDocument(url);
-
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xpath = factory.newXPath();
-        XPathExpression expr = xpath.compile("//leoslyrics/lyric/text/text()");
-
-        Object result = expr.evaluate(doc, XPathConstants.NODESET);
-
-        NodeList nodes = (NodeList) result;
-
-        for (int i = 0; i < nodes.getLength(); i++) {
-            l.setLyrics(nodes.item(i).getNodeValue());
-        }
-
-        expr = xpath.compile("//leoslyrics/lyric/writer/text()");
-
-        result = expr.evaluate(doc, XPathConstants.NODESET);
-
-        nodes = (NodeList) result;
-
-        for (int i = 0; i < nodes.getLength(); i++) {
-            l.setWriter(nodes.item(i).getNodeValue());
-        }
-
-    }
-
-    private String parseHidValue(final String artistName, final String title)
-            throws ParserConfigurationException, SAXException, IOException,
-            XPathExpressionException, MalformedURLException {
-
-        URL url = new URL(String.format(QUERY, new Object[] { code, artistName, title }));
-
-        Document doc = getDocument(url);
-
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xpath = factory.newXPath();
-        XPathExpression expr = xpath.compile("//@hid");
-
-        Object result = expr.evaluate(doc, XPathConstants.NODESET);
-
-        final int size = ((NodeList) result).getLength();
-
-        if (size == 1) {
-            NodeList nodes = (NodeList) result;
-            for (int i = 0; i < nodes.getLength();) {
-                return nodes.item(i).getNodeValue();
-            }
-        }
-
-        return null;
-    }
-
-    private Document getDocument(URL url) throws ParserConfigurationException, SAXException,
-            IOException {
+    private Document getDocument(URL url) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
 

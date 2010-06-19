@@ -15,7 +15,7 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.SongStatus;
 import com.quiltplayer.view.swing.buttons.QSongButton;
-import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.UtilityPanels;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
 
@@ -46,7 +46,7 @@ public class PlayerController implements PlayerListener {
     private PlayList playList;
 
     @Autowired
-    private PlaylistPanel playlistPanel;
+    private UtilityPanels playlistPanel;
 
     @Autowired
     private ControlPanel controlPanel;

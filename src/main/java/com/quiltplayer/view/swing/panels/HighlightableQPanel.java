@@ -9,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JPanel;
+
 import net.miginfocom.swing.MigLayout;
 
 import com.quiltplayer.view.swing.ColorConstantsDark;
@@ -17,7 +19,7 @@ import com.quiltplayer.view.swing.util.ColorUtils;
 /**
  * @author Vlado Palczynski
  */
-public class HighlightableQPanel extends QPanel {
+public class HighlightableQPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 

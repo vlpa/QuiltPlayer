@@ -1,14 +1,18 @@
 package com.quiltplayer.view.swing.buttons;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -17,8 +21,8 @@ import org.apache.log4j.Logger;
 import com.quiltplayer.controller.PlayerListener;
 import com.quiltplayer.controller.PlayerController.PlayEvents;
 import com.quiltplayer.model.Song;
-import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
+import com.quiltplayer.view.swing.textarea.ScrollableTextArea;
 
 /**
  * Represents a song line in the playlist view.
@@ -42,53 +46,77 @@ public class QSongButton extends ScrollableButton {
     public QSongButton(final Song song, final PlayerListener playerListener, final int counter) {
         this.playerListener = playerListener;
 
-        setLayout(new MigLayout("insets 0, wrap 2, aligny center, fill"));
+        setLayout(new MigLayout("insets 0, left, fill, center"));
 
         setBorder(BorderFactory.createEmptyBorder());
 
         this.song = song;
 
-        setAutoscrolls(true);
-
         setOpaque(false);
 
-        titleLabel = new JTextArea(song.getTitle());
-        titleLabel.setOpaque(false);
-        titleLabel.setForeground(Configuration.getInstance().getColorConstants().getPlaylistTitle());
-        titleLabel.setFont(FontFactory.getFont(14f).deriveFont(Font.PLAIN));
-        titleLabel.setWrapStyleWord(true);
-        titleLabel.setLineWrap(true);
-        titleLabel.setFocusable(false);
+        titleLabel = new ScrollableTextArea() {
+            private static final long serialVersionUID = 1L;
 
-        numberButton = new QPlaylistButton(counter + "");
-        numberButton.addActionListener(new ActionListener() {
+            /*
+             * (non-Javadoc)
+             * 
+             * @see com.quiltplayer.view.swing.textarea.ScrollableTextArea#triggerAction()
+             */
             @Override
-            public void actionPerformed(ActionEvent e) {
+            protected void triggerAction() {
                 playerListener.actionPerformed(new ActionEvent(song, 0, PlayEvents.CHANGE.toString()));
+            }
+        };
 
+        addMouseListener(new MouseAdapter() {
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
+             */
+            @Override
+            public void mousePressed(MouseEvent e) {
+                System.out.println("!");
+                setOpaque(true);
+                setBackground(Color.GRAY);
+
+                updateUI();
+
+                super.mousePressed(e);
             }
         });
 
-        add(numberButton, "west, w 0.8cm!, h 0.8cm!, gapx 0cm 0.1cm, gapy 0.1cm, aligny center");
-        add(titleLabel, "cell 1 0, w 100%, aligny center, left, gapx 0cm 0.3cm");
+        titleLabel.setText(counter + ". " + song.getTitle());
+        titleLabel.setBorder(null);
+        titleLabel.setOpaque(false);
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(FontFactory.getFont(12f).deriveFont(Font.PLAIN));
+        titleLabel.setWrapStyleWord(true);
+        titleLabel.setLineWrap(true);
+        titleLabel.setEditable(true);
+        titleLabel.setFocusable(false);
+        titleLabel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        titleLabel.setAlignmentY(SwingConstants.CENTER);
+
+        add(titleLabel, "gapx 0.2cm, left, aligny center, push");
     }
 
     public void setActive() {
         log.debug("Activating " + song.getTitle());
 
-        numberButton.activate();
+        setOpaque(true);
 
-        repaint();
+        setBackground(Color.RED.darker().darker().darker());
+
+        updateUI();
     }
 
     public void setInactive() {
         log.debug("Inactivating " + song.getTitle());
 
-        setBackground(Configuration.getInstance().getColorConstants().getPlaylistPanelBackground());
+        setOpaque(false);
 
-        numberButton.inactivare();
-
-        repaint();
         updateUI();
     }
 

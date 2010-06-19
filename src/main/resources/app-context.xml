@@ -71,4 +71,15 @@
             value="25" />
     </bean>
 
+	<bean
+        id="imageTaskExecutor"
+        class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property
+            name="corePoolSize"
+            value="20" />
+        <property
+            name="maxPoolSize"
+            value="30" />
+    </bean>
+
 </beans>

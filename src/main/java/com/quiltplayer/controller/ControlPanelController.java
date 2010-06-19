@@ -9,7 +9,7 @@ import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.panels.MainTabs;
-import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.UtilityPanels;
 import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.window.Keyboard;
@@ -49,7 +49,7 @@ public class ControlPanelController implements ControlPanelListener {
     private AlbumControlPanel albumControlPanel;
 
     @Autowired
-    private PlaylistPanel playlistPanel;
+    private UtilityPanels playlistPanel;
 
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -77,7 +77,6 @@ public class ControlPanelController implements ControlPanelListener {
             albumControlPanel.updateTab(MainTabs.IMAGES);
             albumControlPanel.updateSingleTab(null);
             controlPanel.updateTab(null);
-            frame.removeAlbumView();
             frame.updateUI(ActiveView.COVERS);
         }
         else if (ControlPanel.EVENT_VIEW_SEARCH == actionCommand) {
@@ -96,25 +95,10 @@ public class ControlPanelController implements ControlPanelListener {
             frame.updateUI(ActiveView.ABOUT);
         }
         else if (EVENT_VIEW_LYRICS == actionCommand) {
-            albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.LYRICS);
-            playlistPanel.viewLyricsPanel();
+            playlistPanel.toggleLyricsView();
         }
         else if (EVENT_VIEW_SONGS == actionCommand) {
-
-            if (frame.playlistPanelVisible && playlistPanel.mode == PlaylistPanel.Mode.SONG) {
-                frame.toggleAlbumView();
-                playlistPanel.mode = PlaylistPanel.Mode.HIDDEN;
-                albumControlPanel.updateSingleTab(null);
-            }
-            else if (frame.playlistPanelVisible == false) {
-                playlistPanel.viewAlbumPanel();
-                frame.toggleAlbumView();
-                albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.PLAYLIST);
-            }
-            else {
-                playlistPanel.viewAlbumPanel();
-                albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.PLAYLIST);
-            }
+            playlistPanel.toggleAlbumView();
         }
         else if (EVENT_VIEW_KEYBOARD == actionCommand) {
             if (keyboardPanel.isVisible())

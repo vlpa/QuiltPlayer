@@ -11,19 +11,17 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.quiltplayer.model.Album;
-import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QSongButton;
+import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
-import com.quiltplayer.view.swing.panels.playlistpanels.AlbumPlaylistPanel;
-import com.quiltplayer.view.swing.panels.playlistpanels.EditPlaylistPanel;
-import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
+import com.quiltplayer.view.swing.panels.utility.AlbumUtilityPanel;
+import com.quiltplayer.view.swing.panels.utility.EditUtilityPanel;
+import com.quiltplayer.view.swing.panels.utility.LyricsUtilityPanel;
 
 /**
  * Represents the playlist panel. One Panel will give you information about the
@@ -36,7 +34,7 @@ import com.quiltplayer.view.swing.panels.playlistpanels.LyricsPlaylistPanel;
  * @author Vlado Palczynski
  */
 @org.springframework.stereotype.Component
-public class PlaylistPanel extends JPanel {
+public class UtilityPanels extends JPanel {
 
     public enum Mode {
         SONG, LYRICS, EDIT, HIDDEN
@@ -54,34 +52,37 @@ public class PlaylistPanel extends JPanel {
 
     protected Album album;
 
-    private JComponent albumPlaylistComponent;
-
     private JComponent lyricsPlaylistComponent;
+
+    private JComponent editAlbumComponent;
 
     private QScrollPane scrollPane;
 
     @Autowired
-    @Qualifier("albumPlaylistPanel")
-    protected AlbumPlaylistPanel albumPlaylistPanel;
+    private QuiltPlayerFrame frame;
 
     @Autowired
-    @Qualifier("lyricsPlaylistPanel")
-    protected LyricsPlaylistPanel lyricsPlaylistPanel;
+    protected AlbumUtilityPanel albumPlaylistPanel;
 
     @Autowired
-    @Qualifier("editPlaylistPanel")
-    protected EditPlaylistPanel editPlaylistPanel;
+    protected LyricsUtilityPanel lyricsPlaylistPanel;
 
-    public PlaylistPanel() {
-        super(new MigLayout("ins 0, fill, alignx center"));
+    @Autowired
+    protected EditUtilityPanel editPlaylistPanel;
 
-        setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
-        setOpaque(false);
-    }
+    private boolean playlistPanelVisible;
+
+    private boolean lyricsPanelVisible;
+
+    private boolean editAlbumPanelVisible;
 
     @PostConstruct
     public void init() {
-        viewAlbumPanel();
+        scrollPane = new QScrollPane(lyricsPlaylistPanel);
+        lyricsPlaylistComponent = new JXLayer<JScrollPane>(scrollPane, new JScrollPaneLayerUI());
+
+        scrollPane = new QScrollPane(editPlaylistPanel);
+        editAlbumComponent = new JXLayer<JScrollPane>(scrollPane, new JScrollPaneLayerUI());
     }
 
     /**
@@ -124,59 +125,6 @@ public class PlaylistPanel extends JPanel {
         lyricsPlaylistPanel.setLyrics(lyrics);
     }
 
-    public synchronized void viewAlbumPanel() {
-        if (mode != Mode.SONG) {
-            removeComponentsIfNull();
-
-            scrollPane = new QScrollPane(albumPlaylistPanel);
-
-            albumPlaylistComponent = new JXLayer<JScrollPane>(scrollPane, new JScrollPaneLayerUI());
-
-            add(albumPlaylistComponent, "w 100%, h 100%, center");
-
-            updateUI();
-
-            mode = Mode.SONG;
-        }
-    }
-
-    public synchronized void viewLyricsPanel() {
-        if (mode != Mode.LYRICS) {
-            removeComponentsIfNull();
-
-            final QScrollPane pane = new QScrollPane(lyricsPlaylistPanel);
-
-            lyricsPlaylistComponent = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
-
-            add(lyricsPlaylistComponent, "w 100%, h 100%, center");
-
-            updateUI();
-
-            mode = Mode.LYRICS;
-        }
-    }
-
-    public synchronized void viewEditPanel() {
-        if (mode != Mode.EDIT) {
-            removeComponentsIfNull();
-
-            add(editPlaylistPanel, "w 100%, h 100%, center");
-
-            updateUI();
-
-            mode = Mode.EDIT;
-        }
-    }
-
-    private void removeComponentsIfNull() {
-        if (albumPlaylistComponent != null)
-            remove(albumPlaylistComponent);
-        if (lyricsPlaylistComponent != null)
-            remove(lyricsPlaylistComponent);
-
-        remove(editPlaylistPanel);
-    }
-
     public Album getPlayingAlbum() {
         return album;
     }
@@ -210,5 +158,55 @@ public class PlaylistPanel extends JPanel {
             albumPlaylistPanel.updateUI();
 
         super.updateUI();
+    }
+
+    public void toggleAlbumView() {
+        if (playlistPanelVisible) {
+            removePanelFromFrame(albumPlaylistPanel);
+            playlistPanelVisible = false;
+        }
+        else {
+            addPanelToFrame(albumPlaylistPanel, "cell 3 0");
+            playlistPanelVisible = true;
+        }
+
+        albumPlaylistPanel.repaint();
+    }
+
+    public void toggleLyricsView() {
+        if (lyricsPanelVisible) {
+            removePanelFromFrame(lyricsPlaylistComponent);
+            lyricsPanelVisible = false;
+        }
+        else {
+            addPanelToFrame(lyricsPlaylistComponent, "cell 2 0");
+            lyricsPanelVisible = true;
+        }
+
+        lyricsPlaylistPanel.repaint();
+        frame.getUI().repaint();
+    }
+
+    public void toggleEditView() {
+        if (editAlbumPanelVisible) {
+            removePanelFromFrame(editAlbumComponent);
+            editAlbumPanelVisible = false;
+        }
+        else {
+            addPanelToFrame(editAlbumComponent, "cell 1 0");
+            editAlbumPanelVisible = true;
+        }
+
+        editPlaylistPanel.repaint();
+    }
+
+    private void addPanelToFrame(Component c, String cell) {
+        frame.getUtilityPanel().add(c, cell + ", h 100%");
+        frame.getUtilityPanel().updateUI();
+    }
+
+    private void removePanelFromFrame(Component c) {
+        frame.getUtilityPanel().remove(c);
+        frame.getUtilityPanel().updateUI();
     }
 }

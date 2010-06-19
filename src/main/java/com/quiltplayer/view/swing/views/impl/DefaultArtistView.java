@@ -54,9 +54,10 @@ public class DefaultArtistView implements ArtistView {
     private JComponent getAlfabeticArtistComponent() {
         final JPanel panel = new JPanel();
 
-        panel.setLayout(new MigLayout("ins 1cm 2cm 0 2cm, wrap "
-                + Configuration.getInstance().getGridProperties().getArtistGrid()));
+        /* Otherwise gray */
         panel.setOpaque(true);
+        panel.setLayout(new MigLayout("ins 1cm 2cm 0cm 2cm, wrap "
+                + Configuration.getInstance().getGridProperties().getArtistGrid()));
 
         if (artistRepository.getArtistsByChars() != null) {
             for (String character : artistRepository.getArtistsByChars().keySet()) {

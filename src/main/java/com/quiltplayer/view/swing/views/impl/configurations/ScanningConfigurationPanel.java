@@ -43,8 +43,7 @@ import com.quiltplayer.view.swing.window.Keyboard;
  * 
  */
 @Component
-public class ScanningConfigurationPanel extends JPanel implements ActionListener,
-        PropertyChangeListener {
+public class ScanningConfigurationPanel extends JPanel implements ActionListener, PropertyChangeListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -97,6 +96,9 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
 
     @PostConstruct
     public void init() {
+
+        setOpaque(false);
+
         musicPath = new QTextField(keyboardPanel);
 
         fileChooserButton = new QButton("Select");
@@ -106,14 +108,12 @@ public class ScanningConfigurationPanel extends JPanel implements ActionListener
 
         setupScanMusicButton();
 
-        musicPathComponent = TextFieldComponents.textFieldComponentForFormsWithButton(
-                "Music directory to scan", musicPath, Configuration.getInstance()
-                        .getFolderProperties().getCovers().getAbsolutePath(), false,
+        musicPathComponent = TextFieldComponents.textFieldComponentForFormsWithButton("Music directory to scan",
+                musicPath, Configuration.getInstance().getFolderProperties().getCovers().getAbsolutePath(), false,
                 fileChooserButton);
 
         addMusicComponent(musicPathComponent);
-        add(scanPathButton, "cell 1 1, w 2.7cm, right, aligny bottom, gapy 0.5cm, "
-                + QButton.MIG_HEIGHT);
+        add(scanPathButton, "cell 1 1, w 2.7cm, right, aligny bottom, gapy 0.5cm, " + QButton.MIG_HEIGHT);
 
         // add(musicScrollBar, "w 80%, h 1.0cm");
         // add(cancelScanPathButton, "gapy 0 0, w 0.8cm, newline");

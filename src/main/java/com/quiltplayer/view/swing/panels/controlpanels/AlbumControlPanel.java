@@ -33,7 +33,7 @@ import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
 import com.quiltplayer.view.swing.panels.MainTabs;
-import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.UtilityPanels;
 
 /**
  * Control panel for album.
@@ -52,7 +52,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
 
-    private Color[] gradient = { new Color(30, 30, 30), new Color(0, 0, 0) };
+    private Color[] gradient = { new Color(0, 0, 0), new Color(30, 30, 30) };
 
     private float[] dist = { 0.0f, 1.0f };
 
@@ -87,6 +87,11 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
     @Autowired
     private Storage storage;
 
+    @Autowired
+    private PlayerControlPanel playerControlPanel;
+
+    private JPanel applicationButtons;
+
     @PostConstruct
     public void init() {
         setDefaults();
@@ -113,24 +118,33 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
         setupCoversButton();
 
-        add(albumButton, LAYOUT + ", cell 0 1");
-        // add(lyricsButton, LAYOUT + ", cell 0 2");
-        add(editButton, LAYOUT + ", cell 0 3");
-        add(coversButton, LAYOUT + ", cell 0 4");
-        add(moreAlbumsButton, LAYOUT + ", cell 0 5");
-        add(wikiButton, LAYOUT + ", cell 0 6");
+        applicationButtons = new JPanel(new MigLayout("insets 0.5cm 0 0.5cm 0, alignx center, flowy"));
+        applicationButtons.setOpaque(false);
+
+        applicationButtons.add(albumButton, LAYOUT + ", cell 0 0");
+        applicationButtons.add(lyricsButton, LAYOUT + ", cell 0 1");
+        applicationButtons.add(coversButton, LAYOUT + ", cell 0 3");
+        applicationButtons.add(moreAlbumsButton, LAYOUT + ", cell 0 4");
+        applicationButtons.add(wikiButton, LAYOUT + ", cell 0 5");
+        applicationButtons.add(editButton, LAYOUT + ", cell 0 6");
+
+        add(applicationButtons, "h 80% - 2cm, north");
+
+        // add(playerControlPanel, "south");
+
+        updateUI();
     }
 
     public void update(final Album album) {
         if (album instanceof JotifyAlbum && storage.getAlbum(album.getId()) == null) {
-            remove(editButton);
-            remove(addButton);
-            add(addButton, LAYOUT + ", cell 0 3");
+            applicationButtons.remove(editButton);
+            applicationButtons.remove(addButton);
+            applicationButtons.add(addButton, LAYOUT + ", cell 0 6");
         }
         else {
-            remove(editButton);
-            remove(addButton);
-            add(editButton, LAYOUT + ", cell 0 3");
+            applicationButtons.remove(editButton);
+            applicationButtons.remove(addButton);
+            applicationButtons.add(editButton, LAYOUT + ", cell 0 6");
         }
 
         repaint();
@@ -179,7 +193,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         editButton = new QControlPanelButton("Edit album", ClassPathUtils.getIconFromClasspath("white/EditAlbum.png"),
                 SwingConstants.BOTTOM, SwingConstants.LEFT);
         editButton.addActionListener(editAlbumListener);
-        editButton.setActionCommand(PlaylistPanel.EVENT_UPDATE_ALBUM_ID3);
+        editButton.setActionCommand(UtilityPanels.EVENT_UPDATE_ALBUM_ID3);
     }
 
     private void setupAddButton() {
@@ -248,7 +262,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.85f));
 
         Point2D start = new Point2D.Float(0, getHeight());
         Point2D end = new Point2D.Float(getWidth(), getHeight());

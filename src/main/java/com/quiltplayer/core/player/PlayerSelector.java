@@ -62,7 +62,6 @@ public class PlayerSelector implements Player {
     @Override
     public void play(Song song) {
         currentSong = song;
-
         getPlayer(song).play(song);
 
         playerListener.actionPerformed(new ActionEvent(song, 0, PlayerController.PlayerEvents.PLAYING.toString()));

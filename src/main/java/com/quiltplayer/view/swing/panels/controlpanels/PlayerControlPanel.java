@@ -3,12 +3,6 @@ package com.quiltplayer.view.swing.panels.controlpanels;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.LinearGradientPaint;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.geom.Point2D;
 import java.text.SimpleDateFormat;
 
 import javax.annotation.PostConstruct;
@@ -61,13 +55,11 @@ public class PlayerControlPanel extends JPanel {
 
     private QTextButton smallerButton;
 
-    private Color[] gradient = { new Color(30, 30, 30), new Color(0, 0, 0) };
+    private Color[] gradient = { new Color(25, 25, 25), new Color(0, 0, 0) };
 
     private float[] dist = { 0.0f, 1.0f };
 
-    private static final String LAYOUT = "h 100%, w 1.8cm";
-
-    private float currentAlpha = 0.0f;
+    private float currentAlpha = 1.0f;
 
     private transient Animator animator = new Animator(200);
 
@@ -90,7 +82,7 @@ public class PlayerControlPanel extends JPanel {
     private GridListener gridListener;
 
     public PlayerControlPanel() {
-        super(new MigLayout("insets 0, flowx, fill"));
+        super(new MigLayout("insets 0, fill, wrap 3, center"));
     }
 
     @PostConstruct
@@ -113,20 +105,20 @@ public class PlayerControlPanel extends JPanel {
 
         setupTitleAndSlider();
 
-        add(previousButton, LAYOUT);
-        add(playButton, LAYOUT);
-        add(pauseButton, LAYOUT);
-        add(stopButton, LAYOUT);
-        add(nextButton, LAYOUT);
+        final String LAYOUT = "h 100%, w 1.3cm, h 1.3cm, center";
 
-        add(titleAndSliderPanel);
+        add(stopButton, "cell 1 0, " + LAYOUT);
+        add(previousButton, "cell 0 1, right, " + LAYOUT);
+        add(playButton, "cell 1 1, " + LAYOUT);
+        add(nextButton, "cell 2 1, left, " + LAYOUT);
+        add(pauseButton, "cell 1 2, " + LAYOUT);
 
-        add(smallerButton, "east");
-        add(biggerButton, "east");
+        // add(titleAndSliderPanel, "cell 1 4");
+
+        // add(smallerButton, "cell 1 5");
+        // add(biggerButton, "cell 2 5");
 
         setStopped();
-
-        fadeAllButtons();
     }
 
     private void setupTitleAndSlider() {
@@ -236,44 +228,23 @@ public class PlayerControlPanel extends JPanel {
         playButton.inactivate();
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setComposite(makeComposite());
-
-        Point2D start = new Point2D.Float(0, 0);
-        Point2D end = new Point2D.Float(0, getHeight());
-
-        LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
-        g2d.setPaint(p);
-
-        g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 9, 9);
-
-        super.paintComponent(g2d);
-    }
-
-    /**
-     * Show the component.
-     **/
-    public void show() {
-        if (currentAlpha != 1 && !animator.isRunning() && fadeState != FadeState.UP) {
-            fadeAllButtons();
-
-            animate(currentAlpha, 0.8f);
-
-            fadeState = FadeState.UP;
-        }
-    }
-
-    private void fadeAllButtons() {
-        playButton.fade();
-        pauseButton.fade();
-        nextButton.fade();
-        previousButton.fade();
-        stopButton.fade();
-    }
+    // @Override
+    // protected void paintComponent(Graphics g) {
+    // Graphics2D g2d = (Graphics2D) g;
+    //
+    // g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    // g2d.setComposite(makeComposite());
+    //
+    // Point2D start = new Point2D.Float(0, 0);
+    // Point2D end = new Point2D.Float(0, getHeight());
+    //
+    // LinearGradientPaint p = new LinearGradientPaint(start, end, dist, gradient);
+    // g2d.setPaint(p);
+    //
+    // g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 9, 9);
+    //
+    // super.paintComponent(g2d);
+    // }
 
     // TODO Make to a utility method, opacity animator.
     private void animate(final float fromAlpha, final float toAlpha) {
@@ -323,22 +294,7 @@ public class PlayerControlPanel extends JPanel {
         this.progress = progress;
         slider.setValue((int) progress);
 
-        updateUI();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.awt.Component#hide()
-     */
-    public void hide() {
-        if (currentAlpha != 0f && fadeState != FadeState.DOWN) {
-            fadeAllButtons();
-
-            animate(currentAlpha, 0f);
-
-            fadeState = FadeState.DOWN;
-        }
+        timeLabel.repaint();
     }
 
     public void changeSong(final Song song) {

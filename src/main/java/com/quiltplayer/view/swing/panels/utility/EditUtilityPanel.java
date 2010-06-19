@@ -1,9 +1,11 @@
-package com.quiltplayer.view.swing.panels.playlistpanels;
+package com.quiltplayer.view.swing.panels.utility;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ import com.quiltplayer.view.swing.labels.QLabel;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
 import com.quiltplayer.view.swing.listeners.ScanningListener;
 import com.quiltplayer.view.swing.textfields.QTextField;
+import com.quiltplayer.view.swing.util.MigProperties;
 import com.quiltplayer.view.swing.window.Keyboard;
 
 /**
@@ -42,7 +45,7 @@ import com.quiltplayer.view.swing.window.Keyboard;
  * 
  */
 @Component
-public class EditPlaylistPanel extends JPanel implements ActionListener {
+public class EditUtilityPanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -77,7 +80,7 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
 
     private JTextField albumTitle;
 
-    public EditPlaylistPanel() {
+    public EditUtilityPanel() {
         super();
 
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
@@ -90,7 +93,7 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
 
         removeAll();
 
-        setLayout(new MigLayout("wrap 1, ins 0.0cm 0.2cm 0.0cm 0.2cm, fillx, aligny center"));
+        setLayout(new MigLayout("wrap 1, ins 0.2cm, fillx, aligny center, w " + MigProperties.EDIT_PANEL_WIDTH + "cm!"));
 
         final JTextArea infoArea = setupInfoArea();
 
@@ -105,20 +108,20 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
 
         saveButton.setEnabled(bool);
 
-        add(new QLabel("Update album"), "left, growx");
-        add(infoArea, "left, pushx, growx");
+        add(new QLabel("Update album"), "left, aligny center");
+        add(infoArea, "left, aligny center, growx");
         add(TextFieldComponents.textFieldComponentForForms("Artist", artistName, album.getArtist().getArtistName()
-                .getNameForSearches(), bool), "left, growx");
+                .getNameForSearches(), bool), "left, growx, aligny center");
         add(TextFieldComponents.textFieldComponentForForms("Album title", albumTitle, album.getTitle(), bool),
                 "left, growx");
 
         JPanel buttonPanel = new JPanel(new MigLayout("insets 0, wrap 3"));
         buttonPanel.setBackground(ColorConstantsDark.BACKGROUND);
-        buttonPanel.add(saveButton, "growx, " + QButton.MIG_HEIGHT);
-        buttonPanel.add(rescanButton, "growx, " + QButton.MIG_HEIGHT);
-        buttonPanel.add(deleteButton, "growx, " + QButton.MIG_HEIGHT);
+        buttonPanel.add(saveButton, "aligny center, " + QButton.MIG_HEIGHT);
+        buttonPanel.add(rescanButton, "aligny center, " + QButton.MIG_HEIGHT);
+        buttonPanel.add(deleteButton, "aligny center, " + QButton.MIG_HEIGHT);
 
-        add(buttonPanel, "gapy 20");
+        add(buttonPanel, "gapy 20, center");
     }
 
     private JTextArea setupInfoArea() {
@@ -138,23 +141,23 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
              */
             @Override
             public void paintComponent(Graphics g) {
-                int w = getWidth();
-                int h = getHeight();
-
-                // RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                // RenderingHints.VALUE_ANTIALIAS_ON);
-                // renderHints.put(RenderingHints.KEY_RENDERING,
-                // RenderingHints.VALUE_RENDER_QUALITY);
-                // renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
-                // RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-                Graphics2D g2d = (Graphics2D) g;
-                // g2d.setRenderingHints(renderHints);
-                g2d.setColor(new Color(40, 40, 40));
-                g2d.fillRoundRect(0, 0, w, h, 15, 15);
-
-                g2d.setColor(new Color(70, 70, 70));
-                g2d.drawRoundRect(0, 0, w - 1, h - 1, 15 - 1, 15 - 1);
+                // int w = getWidth();
+                // int h = getHeight();
+                //
+                // // RenderingHints renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+                // // RenderingHints.VALUE_ANTIALIAS_ON);
+                // // renderHints.put(RenderingHints.KEY_RENDERING,
+                // // RenderingHints.VALUE_RENDER_QUALITY);
+                // // renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+                // // RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                //
+                // Graphics2D g2d = (Graphics2D) g;
+                // // g2d.setRenderingHints(renderHints);
+                // g2d.setColor(new Color(40, 40, 40));
+                // g2d.fillRoundRect(0, 0, w, h, 15, 15);
+                //
+                // g2d.setColor(new Color(70, 70, 70));
+                // g2d.drawRoundRect(0, 0, w - 1, h - 1, 15 - 1, 15 - 1);
 
                 super.paintComponent(g);
             }
@@ -178,7 +181,7 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
     }
 
     private void setupRescanButton() {
-        rescanButton = new QButton("Rescan album");
+        rescanButton = new QButton("Rescan");
         rescanButton.setToolTipText("Rescans the id3 tags and tries to get the covers for this album.");
 
         ActionListener actionListener = new ActionListener() {
@@ -191,7 +194,7 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
     }
 
     private void setupDeleteButton() {
-        deleteButton = new QButton("Delete album");
+        deleteButton = new QButton("Delete");
         deleteButton.setToolTipText("Removes this album from the QuiltPlayer storage, not on disc.");
 
         ActionListener actionListener = new ActionListener() {
@@ -237,6 +240,22 @@ public class EditPlaylistPanel extends JPanel implements ActionListener {
         this.album = album;
 
         init();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     */
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        // TODO all PlaylistPanels have the same paintComponent.
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
+
+        super.paintComponent(g);
     }
 
 }

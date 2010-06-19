@@ -12,7 +12,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.layout.PlatformDefaults;
-import net.miginfocom.layout.UnitValue;
 import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.jxlayer.JXGlassPane;
@@ -24,12 +23,13 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.utils.ClassPathUtils;
 import com.quiltplayer.view.swing.ActiveView;
+import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.listeners.GridListener;
-import com.quiltplayer.view.swing.panels.PlaylistPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlfabeticControlPane;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
+import com.quiltplayer.view.swing.panels.utility.LyricsUtilityPanel;
 import com.quiltplayer.view.swing.util.ScreenUtils;
 import com.quiltplayer.view.swing.views.ArtistView;
 import com.quiltplayer.view.swing.views.ListView;
@@ -82,13 +82,7 @@ public class QuiltPlayerFrame extends JFrame {
     private View aboutView;
 
     @Autowired
-    private PlaylistPanel playlistPanel;
-
-    @Autowired
     private ControlPanel controlPanel;
-
-    @Autowired
-    private PlayerControlPanel playerControlPanel;
 
     private JComponent ui;
 
@@ -98,14 +92,26 @@ public class QuiltPlayerFrame extends JFrame {
     private Keyboard keyboardPanel;
 
     @Autowired
+    public LyricsUtilityPanel lyricsPlaylistPanel;
+
+    @Autowired
     private AlfabeticControlPane alfabeticControlPane;
 
     @Autowired
     private AlbumControlPanel albumControlPanel;
 
+    @Autowired
+    private PlayerControlPanel playerControlPanel;
+
     private JPanel glassPane;
 
     public boolean playlistPanelVisible = false;
+
+    public boolean editAlbumPanelVisible = false;
+
+    public boolean lyricsPanelVisible = false;
+
+    private JPanel utilityPanel;
 
     public QuiltPlayerFrame() {
         setTitle("QuiltPlayer");
@@ -123,11 +129,10 @@ public class QuiltPlayerFrame extends JFrame {
         System.out.println("ScaleFactor: " + scaleFactor);
         System.out.println("Large image size in px: " + ImageSizes.LARGE.getSize());
 
-        PlatformDefaults.setHorizontalScaleFactor(scaleFactor);
-        PlatformDefaults.setVerticalScaleFactor(scaleFactor);
+        // PlatformDefaults.setHorizontalScaleFactor(scaleFactor);
+        // PlatformDefaults.setVerticalScaleFactor(scaleFactor);
 
-        PlatformDefaults.setDefaultHorizontalUnit(UnitValue.LPX);
-        PlatformDefaults.setDefaultVerticalUnit(UnitValue.LPY);
+        PlatformDefaults.setDefaultDPI((int) swingDPI);
 
         System.out.println("DPI from PlatformDefaults: " + PlatformDefaults.getDefaultDPI());
         System.out.println("DPI from Tookit: " + Toolkit.getDefaultToolkit().getScreenResolution());
@@ -137,11 +142,13 @@ public class QuiltPlayerFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         ScreenUtils.setScreensize(this);
+
     }
 
     @PostConstruct
     public void init() {
 
+        setupUtilityPanel();
         setupGridGlassPane();
 
         ui = aboutView.getUI();
@@ -155,39 +162,50 @@ public class QuiltPlayerFrame extends JFrame {
             }
         });
 
+        getContentPane().setBackground(ColorConstantsDark.BACKGROUND);
+
         updateUI();
     }
 
+    private void setupUtilityPanel() {
+        utilityPanel = new JPanel(new MigLayout("ins 0, wrap 4"));
+        utilityPanel.setOpaque(false);
+    }
+
     private void setupGridGlassPane() {
+        setGlassPane(new JXGlassPane());
 
-        setGlassPane(new JXGlassPane() {
-            /*
-             * (non-Javadoc)
-             * 
-             * @see org.jdesktop.jxlayer.JXGlassPane#contains(int, int)
-             */
-            @Override
-            public boolean contains(int x, int y) {
-                if (y > Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 150)
-                    playerControlPanel.show();
-                else
-                    playerControlPanel.hide();
-
-                return super.contains(x, y);
-            }
-
-        });
+        // setGlassPane(new JXGlassPane() {
+        // private static final long serialVersionUID = 1L;
+        //
+        // /*
+        // * (non-Javadoc)
+        // *
+        // * @see org.jdesktop.jxlayer.JXGlassPane#contains(int, int)
+        // */
+        // @Override
+        // public boolean contains(int x, int y) {
+        // if (y > this.getHeight() - 150)
+        // playerControlPanel.show();
+        // else
+        // playerControlPanel.hide();
+        //
+        // return super.contains(x, y);
+        // }
+        //
+        // });
 
         glassPane = (JXGlassPane) this.getGlassPane();
 
         glassPane.setLayout(new MigLayout("insets 0, fill"));
 
-        glassPane.add(controlPanel, "east, w 1.6cm!");
-        glassPane.add(albumControlPanel, "west, w 1.6cm!");
+        glassPane.add(controlPanel, "west, w 1.7cm!");
+        glassPane.add(albumControlPanel, "east, w 1.7cm!");
 
-        glassPane.add(playerControlPanel, "south, center, gapx 15% 15%");
-
-        glassPane.add(keyboardPanel, "south, center");
+        glassPane.add(utilityPanel, "east, h 100%, growx");
+        glassPane.add(playerControlPanel, "east, h 100%, bottom");
+        playerControlPanel.show();
+        glassPane.add(keyboardPanel, "south, alignx center");
 
         glassPane.setVisible(true);
     }
@@ -201,22 +219,6 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     public void updateUI(ActiveView view) {
-
-        // if (currentView.equals(ActiveView.QUILT_VIEW))
-        // quiltView.close();
-        // else if (currentView.equals(ActiveView.ALFABETIC_ARTISTS_VIEW))
-        // artistView.close();
-        // else if (currentView.equals(ActiveView.ALBUM_VIEW))
-        // albumView.close();
-        // else if (currentView.equals(ActiveView.SEARCH_VIEW))
-        // searchView.close();
-        // else if (currentView.equals(ActiveView.CONFIGURATION_VIEW))
-        // configurationView.close();
-        // else if (currentView.equals(ActiveView.ABOUT_VIEW))
-        // aboutView.close();
-        // else if (currentView.equals(ActiveView.EDIT_ALBUM_VIEW))
-        // editAlbumView.close();
-
         currentView = view;
 
         updateUI();
@@ -225,7 +227,7 @@ public class QuiltPlayerFrame extends JFrame {
     public void updateUI() {
         if (ui != null) {
             remove(ui);
-            getContentPane().remove(alfabeticControlPane);
+            glassPane.remove(alfabeticControlPane);
         }
 
         if (currentView.equals(ActiveView.QUILT)) {
@@ -255,7 +257,14 @@ public class QuiltPlayerFrame extends JFrame {
             ui = aboutView.getUI();
         }
 
-        getContentPane().add(ui, "h 100%, w 100%");
+        if (currentView.equals(ActiveView.COVERS))
+            getContentPane().add(ui, "h 100%, w 100%, gapx 0cm 0cm");
+        else if (playlistPanelVisible)
+            getContentPane().add(ui, "h 100%, w 100%, gapx 0cm 0cm");
+        else
+            getContentPane().add(ui, "h 100%, w 100%, gapx 0cm 0cm");
+
+        ui.updateUI();
 
         repaint();
 
@@ -263,7 +272,7 @@ public class QuiltPlayerFrame extends JFrame {
     }
 
     private void addAlfabeticControlPanel() {
-        getContentPane().add(alfabeticControlPane, "east, right, w 1cm!, gapx 0 1.6cm!");
+        glassPane.add(alfabeticControlPane, "north,  h 1.2cm!, gapy 0.75cm");
     }
 
     public ActiveView getCurrentView() {
@@ -290,35 +299,14 @@ public class QuiltPlayerFrame extends JFrame {
         this.searchView = searchView;
     }
 
-    public void removeAlbumView() {
-        if (playlistPanelVisible) {
-            getContentPane().remove(playlistPanel);
-            playlistPanelVisible = false;
-        }
-    }
-
-    public void toggleAlbumView() {
-        if (playlistPanelVisible) {
-            getContentPane().remove(playlistPanel);
-            playlistPanelVisible = false;
-        }
-        else {
-            addPlaylistView();
-            playlistPanelVisible = true;
-        }
-
-        playlistPanel.updateUI();
-        updateUI();
-    }
-
-    private void addPlaylistView() {
-        getContentPane().add(playlistPanel, "dock west, w 28%!, gapx 1.6cm");
-    }
-
     protected void repaintComponentsIfResizeAware() {
-        if (playlistPanel != null)
-            playlistPanel.updateUI();
+        // if (albumPlaylistPanel != null)
+        // albumPlaylistPanel.updateUI();
 
         updateUI();
+    }
+
+    public JPanel getUtilityPanel() {
+        return utilityPanel;
     }
 }

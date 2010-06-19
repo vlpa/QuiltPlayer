@@ -6,6 +6,11 @@ import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JButton;
 
+/**
+ * 
+ * @author Vlado Palczynski
+ * 
+ */
 public abstract class ScrollableButton extends JButton {
 
     protected static final long serialVersionUID = 1L;
@@ -49,6 +54,7 @@ public abstract class ScrollableButton extends JButton {
                 moved = false;
 
                 clickedYPosition = e.getYOnScreen();
+
             }
         });
 

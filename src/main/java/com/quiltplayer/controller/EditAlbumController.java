@@ -23,11 +23,9 @@ import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.ArtistName;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;
-import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
-import com.quiltplayer.view.swing.panels.PlaylistPanel;
-import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
-import com.quiltplayer.view.swing.panels.playlistpanels.EditPlaylistPanel;
+import com.quiltplayer.view.swing.panels.UtilityPanels;
+import com.quiltplayer.view.swing.panels.utility.EditUtilityPanel;
 
 /**
  * Controller for editing ID3s.
@@ -60,13 +58,7 @@ public class EditAlbumController implements EditAlbumListener {
     private PlayerFactory playerFactory;
 
     @Autowired
-    private PlaylistPanel playlistPanel;
-
-    @Autowired
-    private AlbumControlPanel albumControlPanel;
-
-    @Autowired
-    private QuiltPlayerFrame frame;
+    private UtilityPanels playlistPanel;
 
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -75,23 +67,10 @@ public class EditAlbumController implements EditAlbumListener {
     public final void actionPerformed(final ActionEvent e) {
         String cmd = e.getActionCommand();
 
-        if (PlaylistPanel.EVENT_UPDATE_ALBUM_ID3 == e.getActionCommand()) {
-            if (frame.playlistPanelVisible && playlistPanel.mode == PlaylistPanel.Mode.EDIT) {
-                frame.toggleAlbumView();
-                playlistPanel.mode = PlaylistPanel.Mode.HIDDEN;
-                albumControlPanel.updateSingleTab(null);
-            }
-            else if (frame.playlistPanelVisible == false) {
-                playlistPanel.viewEditPanel();
-                frame.toggleAlbumView();
-                albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.EDIT);
-            }
-            else {
-                playlistPanel.viewEditPanel();
-                albumControlPanel.updateSingleTab(AlbumControlPanel.Buttons.EDIT);
-            }
+        if (UtilityPanels.EVENT_UPDATE_ALBUM_ID3 == e.getActionCommand()) {
+            playlistPanel.toggleEditView();
         }
-        else if (EditPlaylistPanel.SAVE == cmd) {
+        else if (EditUtilityPanel.SAVE == cmd) {
             List<Object> l = (List<Object>) e.getSource();
 
             Album album = (Album) l.get(0);

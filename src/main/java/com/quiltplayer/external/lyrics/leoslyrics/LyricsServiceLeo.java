@@ -26,7 +26,6 @@ import com.quiltplayer.external.lyrics.Status;
 import com.quiltplayer.model.Lyrics;
 import com.quiltplayer.model.impl.LyricsImpl;
 
-@Service
 public class LyricsServiceLeo implements LyricsService {
 
     private static final String EXISTS = "http://api.leoslyrics.com/api_search.php?auth=quiltplayer&artist=%s&songtitle=%s";
@@ -93,8 +92,8 @@ public class LyricsServiceLeo implements LyricsService {
 
         this.title = title;
 
-        //Thread t = new Thread(this);
-        //t.start();
+        // Thread t = new Thread(this);
+        // t.start();
 
     }
 

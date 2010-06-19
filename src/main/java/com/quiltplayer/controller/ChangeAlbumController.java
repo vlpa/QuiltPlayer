@@ -14,7 +14,7 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.listeners.WikiListener;
-import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.UtilityPanels;
 import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 
 /**
@@ -38,7 +38,7 @@ public class ChangeAlbumController implements ChangeAlbumListener {
     private PlayList playList;
 
     @Autowired
-    private PlaylistPanel playlistPanel;
+    private UtilityPanels playlistPanel;
 
     @Autowired
     private AlbumControlPanel albumControlPanel;
@@ -72,11 +72,9 @@ public class ChangeAlbumController implements ChangeAlbumListener {
 
             playerFactory.play(playList.getCurrentSong());
 
-            wikiListener
-                    .actionPerformed(new ActionEvent(album, 0, WikiController.EVENT_UPDATE_WIKI));
+            wikiListener.actionPerformed(new ActionEvent(album, 0, WikiController.EVENT_UPDATE_WIKI));
 
-            albumArtListener.actionPerformed(new ActionEvent(album, 0,
-                    AlbumArtController.EVENT_UPDATE_ALBUM));
+            albumArtListener.actionPerformed(new ActionEvent(album, 0, AlbumArtController.EVENT_UPDATE_ALBUM));
 
             albumControlPanel.update(album);
         }
@@ -97,10 +95,8 @@ public class ChangeAlbumController implements ChangeAlbumListener {
             playList.jumpToSong(song);
             playerFactory.play(playList.getCurrentSong());
 
-            wikiListener
-                    .actionPerformed(new ActionEvent(album, 0, WikiController.EVENT_UPDATE_WIKI));
-            albumArtListener.actionPerformed(new ActionEvent(album, 0,
-                    AlbumArtController.EVENT_UPDATE_ALBUM));
+            wikiListener.actionPerformed(new ActionEvent(album, 0, WikiController.EVENT_UPDATE_WIKI));
+            albumArtListener.actionPerformed(new ActionEvent(album, 0, AlbumArtController.EVENT_UPDATE_ALBUM));
 
             albumControlPanel.update(album);
         }

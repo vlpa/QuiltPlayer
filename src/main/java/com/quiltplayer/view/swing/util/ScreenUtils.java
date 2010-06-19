@@ -8,9 +8,21 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import com.quiltplayer.properties.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import com.quiltplayer.properties.Configuration;
+import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
+import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
+
+@Component
 public class ScreenUtils {
+
+    @Autowired
+    private ControlPanel controlPanel;
+
+    @Autowired
+    private AlbumControlPanel albumControlPanel;
 
     public static void toggleFullscreen(final JFrame frame) {
         if (Configuration.getInstance().isFullScreen())
@@ -68,5 +80,13 @@ public class ScreenUtils {
         Configuration.getInstance().storeConfiguration();
 
         SwingUtilities.updateComponentTreeUI(frame);
+    }
+
+    public int getControlPanelMarginLeft() {
+        return controlPanel.getWidth();
+    }
+
+    public int getControlPanelMarginRight() {
+        return albumControlPanel.getWidth();
     }
 }

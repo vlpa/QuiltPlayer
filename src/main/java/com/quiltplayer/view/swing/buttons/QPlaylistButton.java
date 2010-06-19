@@ -1,6 +1,5 @@
 package com.quiltplayer.view.swing.buttons;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,7 +22,7 @@ public class QPlaylistButton extends QButton {
         setDefaults();
 
         setFont(FontFactory.getFont(11f));
-    } 
+    }
 
     protected void addMouseListener() {
         addMouseListener(new MouseAdapter() {
@@ -77,8 +76,7 @@ public class QPlaylistButton extends QButton {
     }
 
     public void activate() {
-        color = Color.ORANGE;
-        setForeground(Color.BLACK);
+        // color = Color.ORANGE;
         active = true;
 
         repaint();
@@ -86,7 +84,6 @@ public class QPlaylistButton extends QButton {
 
     public void inactivare() {
         color = DEFAULT;
-        setForeground(new Color(200, 200, 200));
 
         active = false;
 

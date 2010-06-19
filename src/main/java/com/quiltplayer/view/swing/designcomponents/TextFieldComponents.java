@@ -23,6 +23,7 @@ public class TextFieldComponents {
     public static JComponent textFieldComponentForForms(final String name, final String value,
             final boolean enableTextField, final Keyboard keyboardPanel) {
         final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 1"));
+        panel.setOpaque(false);
 
         final JLabel label = new QLabel(name);
         final JTextField textField = new QTextField(keyboardPanel);
@@ -35,9 +36,10 @@ public class TextFieldComponents {
         return panel;
     }
 
-    public static JComponent textFieldComponentForForms(final String name,
-            final JTextField textField, final String value, final boolean enableTextField) {
+    public static JComponent textFieldComponentForForms(final String name, final JTextField textField,
+            final String value, final boolean enableTextField) {
         final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 1"));
+        panel.setOpaque(false);
 
         final JLabel label = new QLabel(name);
         textField.setText(value);
@@ -49,12 +51,11 @@ public class TextFieldComponents {
         return panel;
     }
 
-    public static JComponent textFieldComponentForFormsWithButton(final String name,
-            final JTextField textField, final String value, final boolean enableTextField,
-            final JButton button) {
-
+    public static JComponent textFieldComponentForFormsWithButton(final String name, final JTextField textField,
+            final String value, final boolean enableTextField, final JButton button) {
         final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 2, fill"));
-        
+        panel.setOpaque(false);
+
         final JLabel label = new QLabel(name);
         textField.setEnabled(enableTextField);
 
@@ -65,11 +66,10 @@ public class TextFieldComponents {
         return panel;
     }
 
-    public static JComponent textFieldComponentForFormsWithButton(final String name,
-            final String value, final boolean enableTextField, final JButton button,
-            final Keyboard keyboardPanel) {
-
+    public static JComponent textFieldComponentForFormsWithButton(final String name, final String value,
+            final boolean enableTextField, final JButton button, final Keyboard keyboardPanel) {
         final JPanel panel = new JPanel(new MigLayout("insets 0, wrap 2"));
+        panel.setOpaque(false);
 
         final JLabel label = new QLabel(name);
         final JTextField textField = new QTextField(keyboardPanel);

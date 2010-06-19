@@ -21,6 +21,7 @@ import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.views.View;
 import com.quiltplayer.view.swing.views.impl.configurations.ConfigurationPanel;
+import com.quiltplayer.view.swing.views.impl.configurations.LogPanel;
 import com.quiltplayer.view.swing.views.impl.configurations.ScanningConfigurationPanel;
 import com.quiltplayer.view.swing.views.impl.configurations.SpotifyConfigurationPanel;
 
@@ -36,7 +37,7 @@ public class ConfigurationView implements View, ActionListener {
     private static final String SAVE = "save";
 
     private enum TAB {
-        CONFIGURATION, SPOTIFY, SCANNERS, PROXY
+        CONFIGURATION, SPOTIFY, SCANNERS, PROXY, LOG
     };
 
     private Component tab;
@@ -53,6 +54,9 @@ public class ConfigurationView implements View, ActionListener {
     @Autowired
     private ConfigurationPanel configurationPanel;
 
+    @Autowired
+    private LogPanel logPanel;
+
     private QTab proxy;
 
     private QTab spotify;
@@ -60,6 +64,8 @@ public class ConfigurationView implements View, ActionListener {
     private QTab music;
 
     private QTab configuration;
+
+    private QTab log;
 
     /**
      * Event to toggle full screen.
@@ -93,9 +99,13 @@ public class ConfigurationView implements View, ActionListener {
     public JComponent getUI() {
         panel = new JPanel(new MigLayout("insets 0, wrap 1, alignx center, aligny top"));
 
+        /* Otherwise gray */
+        panel.setOpaque(true);
+
         setupTabs();
 
-        tabPanel = new JPanel(new MigLayout("ins 0, wrap 4, center, w 50%"));
+        tabPanel = new JPanel(new MigLayout("ins 0, wrap 5, center, w 50%"));
+        tabPanel.setOpaque(false);
 
         final String s = "h 1.3cm, w 3cm";
 
@@ -103,11 +113,12 @@ public class ConfigurationView implements View, ActionListener {
         tabPanel.add(music, s);
         tabPanel.add(spotify, s);
         tabPanel.add(proxy, s);
+        tabPanel.add(log, s);
 
         changeTab(TAB.CONFIGURATION);
 
         final JButton saveButton = setupSaveButton();
-        tabPanel.add(saveButton, "cell 0 2, span 4, right, gapy 0.5cm, " + QButton.MIG_HEIGHT);
+        tabPanel.add(saveButton, "cell 0 2, span 5, right, gapy 0.5cm, " + QButton.MIG_HEIGHT);
 
         panel.add(tabPanel, "top,cell 0 0, w 100%, center, gapy 0.5cm");
 
@@ -154,6 +165,15 @@ public class ConfigurationView implements View, ActionListener {
                 changeTab(TAB.PROXY);
             }
         });
+
+        log = new QTab("Log");
+        log.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logPanel.updateLogText();
+                changeTab(TAB.LOG);
+            }
+        });
     }
 
     private void changeTab(final TAB tab) {
@@ -172,8 +192,11 @@ public class ConfigurationView implements View, ActionListener {
         else if (tab == TAB.SPOTIFY) {
             this.tab = spotifyPanel;
         }
+        else if (tab == TAB.LOG) {
+            this.tab = logPanel;
+        }
 
-        tabPanel.add(this.tab, "cell 0 1, top, left, span 4, newline, grow, gapy 0.5cm 0.5cm");
+        tabPanel.add(this.tab, "cell 0 1, top, left, span 5, newline, grow, gapy 0.5cm 0.5cm");
         tabPanel.updateUI();
     }
 
@@ -190,8 +213,7 @@ public class ConfigurationView implements View, ActionListener {
             config.getSpotifyProperties().setUseSpotify(spotifyPanel.spotifyCheckBox.isSelected());
 
             if (spotifyPanel.spotifyCheckBox.isSelected()) {
-                config.getSpotifyProperties().setSpotifyUserName(
-                        spotifyPanel.spotifyUserName.getText());
+                config.getSpotifyProperties().setSpotifyUserName(spotifyPanel.spotifyUserName.getText());
                 config.getSpotifyProperties().setSpotifyPassword(
                         new String(spotifyPanel.spotifyPassword.getPassword()).toCharArray());
 
@@ -202,8 +224,7 @@ public class ConfigurationView implements View, ActionListener {
 
             if (!configurationPanel.fontSelectBox.getSelectedItem().equals(
                     Configuration.getInstance().getFontBalancer())) {
-                config.setFontBalancer(Float.parseFloat((String) configurationPanel.fontSelectBox
-                        .getSelectedItem()));
+                config.setFontBalancer(Float.parseFloat((String) configurationPanel.fontSelectBox.getSelectedItem()));
             }
 
             configurationListener.actionPerformed(new ActionEvent("", 0,

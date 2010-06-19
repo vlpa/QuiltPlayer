@@ -57,6 +57,8 @@ public final class Configuration implements Serializable {
 
     private float fontBalancer = 0;
 
+    private int coverSize = 150;
+
     public static final String lineBreak = System.getProperty("line.separator");
 
     protected Configuration() {
@@ -217,6 +219,21 @@ public final class Configuration implements Serializable {
      */
     public final void setFontBalancer(float fontBalancer) {
         this.fontBalancer = fontBalancer;
+    }
+
+    /**
+     * @return the coverSize
+     */
+    public int getCoverSize() {
+        return coverSize;
+    }
+
+    /**
+     * @param coverSize
+     *            the coverSize to set
+     */
+    public void setCoverSize(int coverSize) {
+        this.coverSize = coverSize;
     }
 
     /**

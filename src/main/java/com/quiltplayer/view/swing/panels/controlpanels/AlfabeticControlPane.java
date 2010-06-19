@@ -1,14 +1,11 @@
 package com.quiltplayer.view.swing.panels.controlpanels;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +17,6 @@ import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.animation.timing.Animator;
-import org.jdesktop.animation.timing.interpolation.PropertySetter;
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -62,22 +58,18 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
 
     private transient Animator animator = new Animator(0);
 
-    private float defaultAlpha = 0.10f;
-
-    private float currentAlpha = defaultAlpha;
-
-    private float highlightAlpha = 1.0f;
-
     private QPlaylistButton selectedButton;
 
     public AlfabeticControlPane() {
-        super(new MigLayout("insets 0, wrap 1, filly, aligny center"));
+        super(new MigLayout("insets 0, center, fillx"));
 
         setOpaque(false);
     }
 
     @PostConstruct
     public void init() {
+        setOpaque(false);
+
         JButton plusButton = new QPlaylistButton("+");
         plusButton.addActionListener(gridListener);
         plusButton.setActionCommand(GridController.EVENT_INCREASE_GRID);
@@ -97,16 +89,16 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
         artistsButton.addActionListener(this);
         artistsButton.setActionCommand(SelectionController.ARTIST);
 
-        add(albumsButton, "center, h 0.8cm!");
-        add(artistsButton, "center,h 0.8cm!");
+        final JPanel alfabeticPanel = new JPanel(new MigLayout("insets 0, flowx, fillx"));
 
-        final JPanel alfabeticPanel = new JPanel(new MigLayout("insets 0, flowy, fill"));
+        alfabeticPanel.add(albumsButton, "w 0.6cm, h 0.8cm!");
+        alfabeticPanel.add(artistsButton, "w 0.6cm, h 0.8cm!");
 
         alfabeticPanel.setOpaque(true);
 
         for (final String s : strings) {
             final JButton button = new QPlaylistButton(s);
-            button.setBackground(new Color(10, 10, 10));
+            button.setOpaque(false);
             button.addActionListener(new ActionListener() {
 
                 @Override
@@ -121,42 +113,14 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
                 }
             });
 
-            alfabeticPanel.add(button, "alignx center, w 0.8cm, h 0.8cm");
+            alfabeticPanel.add(button, "w 0.6cm, h 1.0cm");
         }
 
         final QScrollPane pane = new QScrollPane(alfabeticPanel);
 
         JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
-        jx.addMouseListener(new MouseAdapter() {
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
-             */
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                if (animator.isRunning())
-                    animator.stop();
-
-                animate(currentAlpha, highlightAlpha);
-            }
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
-             */
-            @Override
-            public void mouseExited(MouseEvent e) {
-                animate(currentAlpha, defaultAlpha);
-            }
-
-        });
 
         add(jx, "span 2");
-
-        animate(currentAlpha, highlightAlpha);
     }
 
     /*
@@ -181,38 +145,6 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
         }
     }
 
-    private void animate(final float fromAlpha, final float toAlpha) {
-        PropertySetter setter = new PropertySetter(this, "alpha", fromAlpha, toAlpha);
-        animator = new Animator(500, setter);
-        animator.start();
-    }
-
-    /*
-     * Set alpha composite. For example, pass in 1.0f to have 100% opacity pass in 0.25f to have 25%
-     * opacity.
-     */
-    private AlphaComposite makeComposite() {
-        int type = AlphaComposite.SRC_OVER;
-        return (AlphaComposite.getInstance(type, currentAlpha));
-    }
-
-    /**
-     * @return the alpha
-     */
-    public final float getAlpha() {
-        return currentAlpha;
-    }
-
-    /**
-     * @param alpha
-     *            the alpha to set
-     */
-    public final void setAlpha(float alpha) {
-        this.currentAlpha = alpha;
-
-        repaint();
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -223,9 +155,7 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        g2d = (Graphics2D) g;
-        g2d.setComposite(makeComposite());
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
 
         super.paintComponent(g);
     }

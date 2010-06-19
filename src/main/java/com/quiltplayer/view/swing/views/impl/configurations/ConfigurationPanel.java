@@ -48,21 +48,22 @@ public class ConfigurationPanel extends JPanel {
 
     @PostConstruct
     public void init() {
+        setOpaque(false);
 
         setupFontSize();
         setupToggleFullscreenButton();
 
-        add(TextFieldComponents.textFieldComponentForForms("Root folder", Configuration
-                .getInstance().getFolderProperties().getRoot().getAbsolutePath(), false,
-                keyboardPanel), "left, w 60%, newline, gapy 0.2cm");
+        add(TextFieldComponents.textFieldComponentForForms("Root folder", Configuration.getInstance()
+                .getFolderProperties().getRoot().getAbsolutePath(), false, keyboardPanel),
+                "left, w 60%, newline, gapy 0.2cm");
 
-        add(TextFieldComponents.textFieldComponentForForms("Storage folder", Configuration
-                .getInstance().getFolderProperties().getStorage().getAbsolutePath(), false,
-                keyboardPanel), "left, w 60%, newline ,gapy 0.2cm");
+        add(TextFieldComponents.textFieldComponentForForms("Storage folder", Configuration.getInstance()
+                .getFolderProperties().getStorage().getAbsolutePath(), false, keyboardPanel),
+                "left, w 60%, newline ,gapy 0.2cm");
 
-        add(TextFieldComponents.textFieldComponentForForms("Album covers folder", Configuration
-                .getInstance().getFolderProperties().getCovers().getAbsolutePath(), false,
-                keyboardPanel), "left, w 60%, newline, gapy 0.2cm");
+        add(TextFieldComponents.textFieldComponentForForms("Album covers folder", Configuration.getInstance()
+                .getFolderProperties().getCovers().getAbsolutePath(), false, keyboardPanel),
+                "left, w 60%, newline, gapy 0.2cm");
 
         add(new QLabel("Font adjust"), "left, newline, gapy 0.2cm");
         add(fontSelectBox, "left, w 2cm, newline, gapy 0.2cm");
@@ -80,8 +81,7 @@ public class ConfigurationPanel extends JPanel {
         fontSelectBox = new JComboBox(new String[] { "-3", "-2", "-1", "0", "+1", "+2", "+3" });
         fontSelectBox.setOpaque(true);
 
-        int currentValue = ((Integer) ((Float) Configuration.getInstance().getFontBalancer())
-                .intValue());
+        int currentValue = ((Integer) ((Float) Configuration.getInstance().getFontBalancer()).intValue());
 
         String currentValueAsString = null;
         if (currentValue > 0)

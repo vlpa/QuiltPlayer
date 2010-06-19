@@ -17,7 +17,7 @@ import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.view.swing.listeners.AddAlbumListener;
-import com.quiltplayer.view.swing.panels.PlaylistPanel;
+import com.quiltplayer.view.swing.panels.UtilityPanels;
 import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 
 /**
@@ -40,7 +40,7 @@ public class AddAlbumController implements AddAlbumListener {
     private ArtistStorage artistStorage;
 
     @Autowired
-    private PlaylistPanel playlistPanel;
+    private UtilityPanels playlistPanel;
 
     @Autowired
     private CoverScanner coverScanner;

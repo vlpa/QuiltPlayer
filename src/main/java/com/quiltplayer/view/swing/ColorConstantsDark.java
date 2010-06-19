@@ -28,8 +28,7 @@ public class ColorConstantsDark implements ColorConstants {
      */
     @Override
     public Color[] getControlPanelGradientColors() {
-        Color[] colors = { new Color(50, 50, 50), new Color(40, 40, 40), new Color(10, 10, 10),
-                new Color(30, 30, 30) };
+        Color[] colors = { new Color(50, 50, 50), new Color(40, 40, 40), new Color(10, 10, 10), new Color(30, 30, 30) };
 
         return colors;
     }
@@ -59,7 +58,7 @@ public class ColorConstantsDark implements ColorConstants {
      */
     @Override
     public Color getPlaylistTitle() {
-        return new Color(230, 230, 230);
+        return new Color(200, 200, 200);
     }
 
     /*
@@ -84,7 +83,7 @@ public class ColorConstantsDark implements ColorConstants {
 
     public static final Color PLAYLIST_PANEL_SONG = Color.GRAY;
 
-    public static final Color PLAYLIST_LYRICS_COLOR = new Color(190, 190, 190);
+    public static final Color PLAYLIST_LYRICS_COLOR = new Color(250, 250, 250);
 
     /*
      * Alfabetic artist view

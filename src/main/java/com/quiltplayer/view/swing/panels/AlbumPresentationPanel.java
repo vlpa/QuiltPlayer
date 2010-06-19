@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -22,7 +23,7 @@ import com.quiltplayer.view.swing.FontFactory;
  * @author Vlado Palczynski
  */
 @Component
-public class AlbumPresentationPanel extends QPanel {
+public class AlbumPresentationPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 

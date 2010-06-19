@@ -36,6 +36,10 @@ public class ArtistNameButton extends ScrollableAndHighlightableButton {
         this.artist = artist;
         this.artistListener = artistListener;
 
+        setOpaque(false);
+
+        setBackground(Color.PINK);
+
         setLayout(new MigLayout("fill, alignx left"));
 
         setBorder(BorderFactory.createEmptyBorder());
@@ -58,8 +62,7 @@ public class ArtistNameButton extends ScrollableAndHighlightableButton {
      */
     @Override
     protected void triggerAction() {
-        artistListener.actionPerformed(new ActionEvent(artist, 0,
-                ArtistController.ACTION_GET_ARTIST_ALBUMS));
+        artistListener.actionPerformed(new ActionEvent(artist, 0, ArtistController.ACTION_GET_ARTIST_ALBUMS));
     }
 
     /*

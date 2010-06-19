@@ -57,6 +57,8 @@ public class SpotifyConfigurationPanel extends JPanel {
 
     @PostConstruct
     public void init() {
+        setOpaque(false);
+
         spotifyUserName = new QTextField(keyboardPanel);
 
         spotifyPassword = new QPasswordField(keyboardPanel);
@@ -81,15 +83,13 @@ public class SpotifyConfigurationPanel extends JPanel {
 
         add(spotifyCheckBox, "");
 
-        userNameComponent = TextFieldComponents.textFieldComponentForForms("Spotify user name",
-                spotifyUserName, Configuration.getInstance().getSpotifyProperties()
-                        .getSpotifyUserName(), true);
+        userNameComponent = TextFieldComponents.textFieldComponentForForms("Spotify user name", spotifyUserName,
+                Configuration.getInstance().getSpotifyProperties().getSpotifyUserName(), true);
 
         add(userNameComponent, "left, w 60%, newline");
 
-        passwordComponent = TextFieldComponents.textFieldComponentForForms("Spotify password",
-                spotifyPassword, Configuration.getInstance().getSpotifyProperties()
-                        .getSpotifyPassword(), true);
+        passwordComponent = TextFieldComponents.textFieldComponentForForms("Spotify password", spotifyPassword,
+                Configuration.getInstance().getSpotifyProperties().getSpotifyPassword(), true);
 
         /* Needed as it shows the password in clear text otherwise */
         SwingUtilities.updateComponentTreeUI(passwordComponent);

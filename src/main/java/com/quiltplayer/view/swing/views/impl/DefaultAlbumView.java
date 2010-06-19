@@ -15,6 +15,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.quiltplayer.controller.ArtistController;
 import com.quiltplayer.model.Album;
@@ -22,7 +23,7 @@ import com.quiltplayer.model.Artist;
 import com.quiltplayer.model.jotify.JotifyAlbum;
 import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.view.swing.FontFactory;
-import com.quiltplayer.view.swing.buttons.AlbumCoverButton;
+import com.quiltplayer.view.swing.buttons.ImageButton;
 import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.buttons.SpotifySquaredAlbumButton;
 import com.quiltplayer.view.swing.buttons.SquaredAlbumButton;
@@ -52,6 +53,9 @@ public class DefaultAlbumView implements ListView<Album> {
 
     private JLabel artistnameLabel;
 
+    @Autowired
+    private ThreadPoolTaskExecutor imageTaskExecutor;
+
     /*
      * @see org.coverok.gui.components.AlbumView#getUI()
      */
@@ -60,6 +64,8 @@ public class DefaultAlbumView implements ListView<Album> {
 
         JPanel panel = new JPanel(new MigLayout("ins 1cm 2cm 0cm 2cm, fillx, align center, wrap "
                 + Configuration.getInstance().getGridProperties().getAlbumsGrid()));
+
+        /* Otherwise gray */
         panel.setOpaque(true);
 
         if (albums != null && !albums.isEmpty()) {
@@ -78,10 +84,10 @@ public class DefaultAlbumView implements ListView<Album> {
                     if (!((JotifyAlbum) album).isPlayable())
                         continue;
 
-                    p = new SpotifySquaredAlbumButton(album, changeAlbumListener);
+                    p = new SpotifySquaredAlbumButton(album, changeAlbumListener, imageTaskExecutor);
                 }
                 else
-                    p = new SquaredAlbumButton(album, changeAlbumListener);
+                    p = new SquaredAlbumButton(album, changeAlbumListener, imageTaskExecutor);
 
                 panel.add(p, "grow, shrink 0, gap 0.3cm 0.3cm 0.3cm 0.3cm");
 
@@ -93,7 +99,7 @@ public class DefaultAlbumView implements ListView<Album> {
 
             /* Fill with empty squares to remain size */
             while (i < Configuration.getInstance().getGridProperties().getAlbumsGrid()) {
-                AlbumCoverButton p = new AlbumCoverButton(null, null);
+                ImageButton p = new ImageButton(null, null, imageTaskExecutor);
                 p.setVisible(true);
 
                 panel.add(p, "grow, shrink 0, gap 0.3cm 0.3cm 0.3cm 0.3cm");
@@ -119,8 +125,8 @@ public class DefaultAlbumView implements ListView<Album> {
 
     private void setupArtistnameLabel() {
         artistnameLabel = new JLabel();
-        artistnameLabel.setFont(FontFactory.getLargeTextFont(30f));
-        artistnameLabel.setForeground(new Color(80, 80, 80));
+        artistnameLabel.setFont(FontFactory.getLargeTextFont(16f));
+        artistnameLabel.setForeground(new Color(180, 179, 178));
     }
 
     /*

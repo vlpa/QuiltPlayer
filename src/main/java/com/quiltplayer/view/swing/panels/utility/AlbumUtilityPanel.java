@@ -1,4 +1,4 @@
-package com.quiltplayer.view.swing.panels.playlistpanels;
+package com.quiltplayer.view.swing.panels.utility;
 
 import java.awt.AlphaComposite;
 import java.awt.Component;
@@ -8,10 +8,12 @@ import java.awt.RenderingHints;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quiltplayer.controller.PlayerListener;
@@ -20,8 +22,11 @@ import com.quiltplayer.model.impl.NullAlbum;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.effects.CrossFader;
+import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.panels.AlbumPresentationPanel;
+import com.quiltplayer.view.swing.panels.QScrollPane;
 import com.quiltplayer.view.swing.panels.components.SongsComponent;
+import com.quiltplayer.view.swing.util.MigProperties;
 
 /**
  * Represents the playlist panel. One Panel will give you information about the album, tracks and so
@@ -30,15 +35,17 @@ import com.quiltplayer.view.swing.panels.components.SongsComponent;
  * @author Vlado Palczynski
  */
 @org.springframework.stereotype.Component
-public class AlbumPlaylistPanel extends JPanel {
+public class AlbumUtilityPanel extends JPanel {
 
-    private Logger log = Logger.getLogger(AlbumPlaylistPanel.class);
+    private Logger log = Logger.getLogger(AlbumUtilityPanel.class);
 
     private static final long serialVersionUID = 1L;
 
     private QSongButton currentSongLabel;
 
     private SongsComponent songsComponent;
+
+    private Component component;
 
     @Autowired
     private AlbumPresentationPanel albumPresentationPanel;
@@ -51,10 +58,11 @@ public class AlbumPlaylistPanel extends JPanel {
     @Autowired
     private CrossFader crossFader;
 
-    public AlbumPlaylistPanel() {
-        super(new MigLayout("ins 0.0cm 0.0cm 0.0cm 0.2cm, wrap 1, fill"));
+    public AlbumUtilityPanel() {
+        super(new MigLayout("ins 0, fill, wrap 1, fillx, w " + MigProperties.PLAYLIST_PANEL_WIDTH + "cm!"));
 
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
+
         setOpaque(true);
     }
 
@@ -64,6 +72,7 @@ public class AlbumPlaylistPanel extends JPanel {
 
         add(albumPresentationPanel, "north, gapy 0.5cm 0.3cm, gapx 0.2cm 0.2cm");
         add(crossFader, "north");
+
     }
 
     public void changeAlbum(final Album album) {
@@ -76,26 +85,25 @@ public class AlbumPlaylistPanel extends JPanel {
 
         setupSongsPanel();
 
-        repaint();
-
         log.debug("Album is changed...");
     }
 
     private void setupSongsPanel() {
-        if (songsComponent != null) {
-            remove(songsComponent);
+        if (component != null) {
+            remove(component);
             remove(crossFader);
+            remove(songsComponent);
         }
 
         songsComponent = new SongsComponent(album, playerListener);
+        component = new JXLayer<JScrollPane>(new QScrollPane(songsComponent), new JScrollPaneLayerUI());
 
         if (album.getImages().size() > 0)
-            add(crossFader, "north, h " + getWidth() + "px!");
+            add(crossFader, "north, h " + MigProperties.PLAYLIST_PANEL_WIDTH + "cm!");
 
-        add(songsComponent, "north, gapx 0.2cm 0.2cm    ");
+        add(component, "north, gapy 0.2cm");
 
-        songsComponent.setOpaque(false);
-        songsComponent.repaint();
+        component.repaint();
     }
 
     /*

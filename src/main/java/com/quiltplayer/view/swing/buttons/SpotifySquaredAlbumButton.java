@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
 import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.external.covers.model.ImageSizes;
 import com.quiltplayer.external.covers.util.ImageUtils;
@@ -34,9 +36,9 @@ public class SpotifySquaredAlbumButton extends SquaredAlbumButton {
 
     private JLabel iconLabel;
 
-    public SpotifySquaredAlbumButton(final Album album,
-            final ChangeAlbumListener changeAlbumListener) {
-        super(album, changeAlbumListener);
+    public SpotifySquaredAlbumButton(final Album album, final ChangeAlbumListener changeAlbumListener,
+            ThreadPoolTaskExecutor executor) {
+        super(album, changeAlbumListener, executor);
 
         iconLabel = new JLabel();
 
@@ -55,8 +57,7 @@ public class SpotifySquaredAlbumButton extends SquaredAlbumButton {
                     final Image image = JotifyRepository.getInstance().image(
                             ((JotifyAlbum) album).getSpotifyAlbum().getCover());
 
-                    icon = new ImageIcon(ImageUtils
-                            .scalePicture(image, ImageSizes.MEDIUM.getSize()));
+                    icon = new ImageIcon(ImageUtils.scalePicture(image, ImageSizes.MEDIUM.getSize()));
 
                     iconLabel.setIcon(icon);
 

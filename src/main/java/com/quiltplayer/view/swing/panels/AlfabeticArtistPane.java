@@ -1,9 +1,6 @@
 package com.quiltplayer.view.swing.panels;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -32,7 +29,7 @@ public class AlfabeticArtistPane extends JPanel {
     public void setup(final String character, final List<Artist> artists) {
         this.character = character;
 
-        add(new StringOrCharLabel(character), "h 0.80cm, push, grow, north");
+        add(new StringOrCharLabel(character), "h 1cm, push, grow, north");
 
         for (final Artist artist : artists) {
             final ArtistNameButton button = new ArtistNameButton(artist, artistListener);
@@ -68,19 +65,5 @@ public class AlfabeticArtistPane extends JPanel {
 
     public void addActionListener(ArtistListener artistListener) {
         this.artistListener = artistListener;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        super.paintComponent(g2d);
     }
 }

@@ -12,6 +12,8 @@ import javax.swing.Timer;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
 import com.quiltplayer.controller.ChangeAlbumController;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.properties.Configuration;
@@ -34,9 +36,10 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
 
     protected ChangeAlbumListener changeAlbumListener;
 
-    private AlbumCoverButton albumCoverButton;
+    private ImageButton albumCoverButton;
 
-    public SquaredAlbumButton(final Album album, ChangeAlbumListener changeAlbumListener) {
+    public SquaredAlbumButton(final Album album, ChangeAlbumListener changeAlbumListener,
+            ThreadPoolTaskExecutor executor) {
         super();
 
         this.album = album;
@@ -44,7 +47,9 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
 
         setLayout(new MigLayout("fill, wrap 1, center"));
 
-        albumCoverButton = new AlbumCoverButton(album, changeAlbumListener);
+        setOpaque(false);
+
+        albumCoverButton = new ImageButton(album, changeAlbumListener, executor);
         final JTextArea title = setupTitleLabelToPanel();
         final JTextArea year = setupYearLabel();
 
@@ -80,6 +85,11 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
     private JTextArea setupTitleLabelToPanel() {
         JTextArea titleLabel = new ScrollableTextArea() {
 
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+
             /*
              * (non-Javadoc)
              * 
@@ -89,24 +99,6 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
             protected void triggerAction() {
                 changeAlbumListener
                         .actionPerformed(new ActionEvent(album, 0, ChangeAlbumController.EVENT_CHANGE_ALBUM));
-            }
-
-            /**
-             * 
-             */
-            private static final long serialVersionUID = 1L;
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-             */
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-                super.paintComponent(g);
             }
         };
 
