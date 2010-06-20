@@ -27,6 +27,7 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.panels.QScrollPane;
+import com.quiltplayer.view.swing.panels.QScrollPane.ScrollDirection;
 import com.quiltplayer.view.swing.views.View;
 
 @org.springframework.stereotype.Component
@@ -102,7 +103,7 @@ public class AlbumArtView implements View {
         panel.setOpaque(true);
         panel.setDoubleBuffered(false);
 
-        pane = new QScrollPane(panel);
+        pane = new QScrollPane(panel, ScrollDirection.HORIZONTAL);
         pane.setOpaque(false);
 
         jx = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());

@@ -6,7 +6,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.concurrent.TimeoutException;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
@@ -34,6 +33,7 @@ import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.listeners.SearchListener;
 import com.quiltplayer.view.swing.panels.QScrollPane;
+import com.quiltplayer.view.swing.panels.QScrollPane.ScrollDirection;
 import com.quiltplayer.view.swing.textfields.QTextField;
 import com.quiltplayer.view.swing.views.View;
 import com.quiltplayer.view.swing.window.Keyboard;
@@ -115,7 +115,7 @@ public class SearchView implements View {
                 setupAlbums(panel);
                 addTracks(panel);
 
-                QScrollPane pane = new QScrollPane(scrollablePanel);
+                QScrollPane pane = new QScrollPane(scrollablePanel, ScrollDirection.VERTICAL);
                 final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
 
                 panel.add(jx, "w 100%");
@@ -187,12 +187,8 @@ public class SearchView implements View {
             for (Album album : result.getAlbums()) {
                 AlbumSearchLabel label;
                 if (album.getTracks().size() <= 0)
-                    try {
-                        album = JotifyRepository.getInstance().browse(album);
-                    }
-                    catch (TimeoutException e) {
-                        e.printStackTrace();
-                    }
+                    album = JotifyRepository.browseAlbum(album);
+
                 label = new AlbumSearchLabel(new JotifyAlbum(album));
 
                 label.addActionListener(changeAlbumListener);

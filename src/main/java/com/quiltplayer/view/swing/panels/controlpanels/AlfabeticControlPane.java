@@ -28,6 +28,7 @@ import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.GridListener;
 import com.quiltplayer.view.swing.listeners.SelectionListener;
 import com.quiltplayer.view.swing.panels.QScrollPane;
+import com.quiltplayer.view.swing.panels.QScrollPane.ScrollDirection;
 
 @Component
 public class AlfabeticControlPane extends JPanel implements ActionListener {
@@ -116,7 +117,7 @@ public class AlfabeticControlPane extends JPanel implements ActionListener {
             alfabeticPanel.add(button, "w 0.6cm, h 1.0cm");
         }
 
-        final QScrollPane pane = new QScrollPane(alfabeticPanel);
+        final QScrollPane pane = new QScrollPane(alfabeticPanel, ScrollDirection.HORIZONTAL);
 
         JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
 

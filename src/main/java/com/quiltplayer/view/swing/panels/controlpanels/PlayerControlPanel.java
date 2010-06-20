@@ -55,7 +55,7 @@ public class PlayerControlPanel extends JPanel {
 
     private QTextButton smallerButton;
 
-    private Color[] gradient = { new Color(25, 25, 25), new Color(0, 0, 0) };
+    private Color[] gradient = { new Color(200, 200, 200), new Color(220, 220, 220) };
 
     private float[] dist = { 0.0f, 1.0f };
 
@@ -82,7 +82,7 @@ public class PlayerControlPanel extends JPanel {
     private GridListener gridListener;
 
     public PlayerControlPanel() {
-        super(new MigLayout("insets 0, fill, wrap 3, center"));
+        super(new MigLayout("insets 0, fill, wrap 1, center"));
     }
 
     @PostConstruct
@@ -107,16 +107,16 @@ public class PlayerControlPanel extends JPanel {
 
         final String LAYOUT = "h 100%, w 1.3cm, h 1.3cm, center";
 
-        add(stopButton, "cell 1 0, " + LAYOUT);
+        add(stopButton, "cell 0 0, " + LAYOUT);
         add(previousButton, "cell 0 1, right, " + LAYOUT);
-        add(playButton, "cell 1 1, " + LAYOUT);
-        add(nextButton, "cell 2 1, left, " + LAYOUT);
-        add(pauseButton, "cell 1 2, " + LAYOUT);
+        add(playButton, "cell 0 2, " + LAYOUT);
+        add(nextButton, "cell 0 3, left, " + LAYOUT);
+        add(pauseButton, "cell 0 4, " + LAYOUT);
 
         // add(titleAndSliderPanel, "cell 1 4");
 
-        // add(smallerButton, "cell 1 5");
-        // add(biggerButton, "cell 2 5");
+        add(smallerButton, "cell 0 5");
+        add(biggerButton, "cell 0 6");
 
         setStopped();
     }

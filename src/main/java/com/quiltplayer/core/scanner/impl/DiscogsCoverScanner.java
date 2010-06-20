@@ -52,6 +52,16 @@ public class DiscogsCoverScanner implements CoverScanner {
 
     protected Stack<Album> albumsToScan;
 
+    private boolean scanOneAlbum = false;
+
+    /**
+     * @param scanOneAlbum
+     *            the scanOneAlbum to set
+     */
+    public void setScanOneAlbum(boolean scanOneAlbum) {
+        this.scanOneAlbum = scanOneAlbum;
+    }
+
     /*
      * @see java.lang.Runnable#run()
      */
@@ -66,7 +76,9 @@ public class DiscogsCoverScanner implements CoverScanner {
             if (album != null) {
                 // Only scan albums without covers, the other should be scanned
                 // individually
-                if (album.getImages() != null && album.getImages().size() < 2) {
+                if (scanOneAlbum || album.getImages() != null && album.getImages().size() < 2) {
+                    System.out.println("!!!!");
+                    scanOneAlbum = false;
                     try {
 
                         log.debug("Searching for images....");
@@ -192,6 +204,7 @@ public class DiscogsCoverScanner implements CoverScanner {
         for (int i = 0; i < 1; i++) {
 
             DiscogsCoverScanner dcs = new DiscogsCoverScanner();
+            dcs.setScanOneAlbum(true);
             dcs.artistStorage = artistStorage;
             dcs.discogsScanner = discogsScanner;
             dcs.storage = storage;

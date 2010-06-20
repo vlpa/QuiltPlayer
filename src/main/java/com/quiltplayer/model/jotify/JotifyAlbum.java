@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 import javax.imageio.ImageIO;
 
@@ -80,34 +79,24 @@ public class JotifyAlbum implements Album {
         List<LocalImage> images = new ArrayList<LocalImage>();
 
         if (spotifyAlbum.getCover() == null)
-            try {
-                spotifyAlbum = JotifyRepository.getInstance().browseAlbum(spotifyAlbum.getId());
-            }
-            catch (TimeoutException e1) {
-                e1.printStackTrace();
-            }
+            spotifyAlbum = JotifyRepository.browseAlbum(spotifyAlbum.getId());
 
-        File localImagePath = new File(Configuration.getInstance().getFolderProperties()
-                .getCovers(), spotifyAlbum.getCover() + ".jpg");
+        File localImagePath = new File(Configuration.getInstance().getFolderProperties().getCovers(), spotifyAlbum
+                .getCover()
+                + ".jpg");
 
         Image image = null;
 
         if (!localImagePath.exists()) {
             log.debug("Didn't find cached image, stream&create...");
-            try {
-                if (spotifyAlbum.getCover() == null) {
-                    de.felixbruns.jotify.media.Album freshAlbum;
+            if (spotifyAlbum.getCover() == null) {
+                de.felixbruns.jotify.media.Album freshAlbum;
 
-                    freshAlbum = JotifyRepository.getInstance().browse(spotifyAlbum);
-                    image = JotifyRepository.getInstance().image(freshAlbum.getCover());
-                }
-                else {
-                    image = JotifyRepository.getInstance().image(spotifyAlbum.getCover());
-                }
+                freshAlbum = JotifyRepository.browseAlbum(spotifyAlbum);
+                image = JotifyRepository.getImage(freshAlbum.getCover());
             }
-
-            catch (TimeoutException e) {
-                e.printStackTrace();
+            else {
+                image = JotifyRepository.getImage(spotifyAlbum.getCover());
             }
 
             try {

@@ -21,6 +21,7 @@ import com.quiltplayer.view.swing.interfaces.FrameResizeAwarable;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.panels.QScrollPane;
+import com.quiltplayer.view.swing.panels.QScrollPane.ScrollDirection;
 import com.quiltplayer.view.swing.util.MigProperties;
 import com.quiltplayer.view.swing.util.ScreenUtils;
 import com.quiltplayer.view.swing.views.ListView;
@@ -126,7 +127,7 @@ public class QuiltView implements ListView<Album>, FrameResizeAwarable {
         // i++;
         // }
 
-        final QScrollPane pane = new QScrollPane(panel);
+        final QScrollPane pane = new QScrollPane(panel, ScrollDirection.VERTICAL);
 
         return new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
     }

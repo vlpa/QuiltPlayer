@@ -11,14 +11,16 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.jdesktop.jxlayer.JXLayer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.buttons.QSongButton;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
+import com.quiltplayer.view.swing.panels.QScrollPane.ScrollDirection;
 import com.quiltplayer.view.swing.panels.utility.AlbumUtilityPanel;
 import com.quiltplayer.view.swing.panels.utility.EditUtilityPanel;
 import com.quiltplayer.view.swing.panels.utility.LyricsUtilityPanel;
@@ -34,7 +36,7 @@ import com.quiltplayer.view.swing.panels.utility.LyricsUtilityPanel;
  * @author Vlado Palczynski
  */
 @org.springframework.stereotype.Component
-public class UtilityPanels extends JPanel {
+public class UtilityPanel extends JPanel {
 
     public enum Mode {
         SONG, LYRICS, EDIT, HIDDEN
@@ -70,18 +72,23 @@ public class UtilityPanels extends JPanel {
     @Autowired
     protected EditUtilityPanel editPlaylistPanel;
 
-    private boolean playlistPanelVisible;
+    public boolean playlistPanelVisible;
 
     private boolean lyricsPanelVisible;
 
     private boolean editAlbumPanelVisible;
 
+    public UtilityPanel() {
+        super(new MigLayout("ins 0, gap 0"));
+        setOpaque(false);
+    }
+
     @PostConstruct
     public void init() {
-        scrollPane = new QScrollPane(lyricsPlaylistPanel);
+        scrollPane = new QScrollPane(lyricsPlaylistPanel, ScrollDirection.VERTICAL);
         lyricsPlaylistComponent = new JXLayer<JScrollPane>(scrollPane, new JScrollPaneLayerUI());
 
-        scrollPane = new QScrollPane(editPlaylistPanel);
+        scrollPane = new QScrollPane(editPlaylistPanel, ScrollDirection.VERTICAL);
         editAlbumComponent = new JXLayer<JScrollPane>(scrollPane, new JScrollPaneLayerUI());
     }
 
@@ -201,7 +208,7 @@ public class UtilityPanels extends JPanel {
     }
 
     private void addPanelToFrame(Component c, String cell) {
-        frame.getUtilityPanel().add(c, cell + ", h 100%");
+        frame.getUtilityPanel().add(c, cell + ",  h 100%");
         frame.getUtilityPanel().updateUI();
     }
 

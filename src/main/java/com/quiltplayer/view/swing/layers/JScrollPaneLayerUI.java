@@ -25,9 +25,11 @@ public class JScrollPaneLayerUI extends AbstractLayerUI<JScrollPane> {
      */
     @Override
     protected void processMouseEvent(MouseEvent e, JXLayer<JScrollPane> l) {
-
         if (e.getID() == MouseEvent.MOUSE_PRESSED) {
             ((QScrollPane) l.getView()).mousePressed(e);
+        }
+        else if (e.getID() == MouseEvent.MOUSE_RELEASED) {
+            ((QScrollPane) l.getView()).mouseReleased(e);
         }
     }
 
@@ -37,5 +39,6 @@ public class JScrollPaneLayerUI extends AbstractLayerUI<JScrollPane> {
         if (e.getID() == MouseEvent.MOUSE_DRAGGED) {
             ((QScrollPane) l.getView()).mouseDragged(e);
         }
+
     }
 }

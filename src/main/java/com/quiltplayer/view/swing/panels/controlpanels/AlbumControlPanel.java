@@ -33,7 +33,7 @@ import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
 import com.quiltplayer.view.swing.panels.MainTabs;
-import com.quiltplayer.view.swing.panels.UtilityPanels;
+import com.quiltplayer.view.swing.panels.UtilityPanel;
 
 /**
  * Control panel for album.
@@ -130,7 +130,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
 
         add(applicationButtons, "h 80% - 2cm, north");
 
-        // add(playerControlPanel, "south");
+        add(playerControlPanel, "south");
 
         updateUI();
     }
@@ -193,7 +193,7 @@ public class AlbumControlPanel extends JPanel implements ActionListener {
         editButton = new QControlPanelButton("Edit album", ClassPathUtils.getIconFromClasspath("white/EditAlbum.png"),
                 SwingConstants.BOTTOM, SwingConstants.LEFT);
         editButton.addActionListener(editAlbumListener);
-        editButton.setActionCommand(UtilityPanels.EVENT_UPDATE_ALBUM_ID3);
+        editButton.setActionCommand(UtilityPanel.EVENT_UPDATE_ALBUM_ID3);
     }
 
     private void setupAddButton() {

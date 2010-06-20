@@ -25,6 +25,7 @@ import com.quiltplayer.view.swing.effects.CrossFader;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.panels.AlbumPresentationPanel;
 import com.quiltplayer.view.swing.panels.QScrollPane;
+import com.quiltplayer.view.swing.panels.QScrollPane.ScrollDirection;
 import com.quiltplayer.view.swing.panels.components.SongsComponent;
 import com.quiltplayer.view.swing.util.MigProperties;
 
@@ -96,7 +97,8 @@ public class AlbumUtilityPanel extends JPanel {
         }
 
         songsComponent = new SongsComponent(album, playerListener);
-        component = new JXLayer<JScrollPane>(new QScrollPane(songsComponent), new JScrollPaneLayerUI());
+        component = new JXLayer<JScrollPane>(new QScrollPane(songsComponent, ScrollDirection.VERTICAL),
+                new JScrollPaneLayerUI());
 
         if (album.getImages().size() > 0)
             add(crossFader, "north, h " + MigProperties.PLAYLIST_PANEL_WIDTH + "cm!");

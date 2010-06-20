@@ -23,6 +23,7 @@ import org.jdesktop.jxlayer.JXLayer;
 import com.quiltplayer.view.swing.FontFactory;
 import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.panels.QScrollPane;
+import com.quiltplayer.view.swing.panels.QScrollPane.ScrollDirection;
 import com.quiltplayer.view.swing.views.View;
 
 @org.springframework.stereotype.Component
@@ -100,7 +101,7 @@ public class WikiView implements Serializable, View {
 
         panel.add(htmlPane, "w 100%, h 100%");
 
-        final QScrollPane pane = new QScrollPane(panel);
+        final QScrollPane pane = new QScrollPane(panel, ScrollDirection.VERTICAL);
 
         return new JXLayer<JScrollPane>(pane, new JScrollPaneLayerUI());
     }

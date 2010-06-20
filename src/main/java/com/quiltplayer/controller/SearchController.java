@@ -1,7 +1,6 @@
 package com.quiltplayer.controller;
 
 import java.awt.event.ActionEvent;
-import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +42,7 @@ public class SearchController implements SearchListener {
             String query = (String) e.getSource();
 
             if (StringUtils.isNotBlank(query)) {
-                Result result = null;
-                try {
-                    result = JotifyRepository.getInstance().search(query);
-                }
-                catch (TimeoutException e1) {
-                    e1.printStackTrace();
-                }
+                Result result = JotifyRepository.search(query);
 
                 ((SearchView) searchView).setResult(result);
 

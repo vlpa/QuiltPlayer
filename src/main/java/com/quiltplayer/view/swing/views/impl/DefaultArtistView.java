@@ -18,6 +18,7 @@ import com.quiltplayer.view.swing.layers.JScrollPaneLayerUI;
 import com.quiltplayer.view.swing.listeners.ArtistListener;
 import com.quiltplayer.view.swing.panels.AlfabeticArtistPane;
 import com.quiltplayer.view.swing.panels.QScrollPane;
+import com.quiltplayer.view.swing.panels.QScrollPane.ScrollDirection;
 import com.quiltplayer.view.swing.views.ArtistView;
 
 /**
@@ -71,7 +72,8 @@ public class DefaultArtistView implements ArtistView {
             }
         }
 
-        final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(new QScrollPane(panel), new JScrollPaneLayerUI());
+        final JXLayer<JScrollPane> jx = new JXLayer<JScrollPane>(new QScrollPane(panel, ScrollDirection.VERTICAL),
+                new JScrollPaneLayerUI());
 
         return jx;
     }

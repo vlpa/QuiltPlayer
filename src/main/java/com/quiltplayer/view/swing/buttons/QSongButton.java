@@ -77,13 +77,12 @@ public class QSongButton extends ScrollableButton {
              */
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println("!");
-                setOpaque(true);
-                setBackground(Color.GRAY);
-
-                updateUI();
-
-                super.mousePressed(e);
+                // setOpaque(true);
+                // setBackground(Color.GRAY);
+                //
+                // updateUI();
+                //
+                // super.mousePressed(e);
             }
         });
 

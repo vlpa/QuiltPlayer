@@ -19,6 +19,8 @@ public abstract class ScrollableButton extends JButton {
 
     private int clickedYPosition;
 
+    private int clickedXPosition;
+
     public ScrollableButton() {
         super();
 
@@ -54,7 +56,7 @@ public abstract class ScrollableButton extends JButton {
                 moved = false;
 
                 clickedYPosition = e.getYOnScreen();
-
+                clickedXPosition = e.getXOnScreen();
             }
         });
 
@@ -71,13 +73,17 @@ public abstract class ScrollableButton extends JButton {
             @Override
             public void mouseDragged(MouseEvent e) {
                 int movement;
+                movement = clickedYPosition - e.getYOnScreen();
 
-                if (e.getYOnScreen() <= clickedYPosition)
-                    movement = clickedYPosition - e.getYOnScreen();
-                else
-                    movement = e.getYOnScreen() - clickedYPosition;
+                if (movement >= 25 || movement <= -25) {
+                    moved = true;
 
-                if (movement >= 20)
+                    return;
+                }
+
+                movement = clickedXPosition - e.getXOnScreen();
+
+                if (movement >= 25 || movement <= -25)
                     moved = true;
             }
         });

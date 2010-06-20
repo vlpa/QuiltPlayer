@@ -24,7 +24,7 @@ import com.quiltplayer.model.ArtistName;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.StringId;
 import com.quiltplayer.view.swing.listeners.EditAlbumListener;
-import com.quiltplayer.view.swing.panels.UtilityPanels;
+import com.quiltplayer.view.swing.panels.UtilityPanel;
 import com.quiltplayer.view.swing.panels.utility.EditUtilityPanel;
 
 /**
@@ -58,7 +58,7 @@ public class EditAlbumController implements EditAlbumListener {
     private PlayerFactory playerFactory;
 
     @Autowired
-    private UtilityPanels playlistPanel;
+    private UtilityPanel playlistPanel;
 
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -67,7 +67,7 @@ public class EditAlbumController implements EditAlbumListener {
     public final void actionPerformed(final ActionEvent e) {
         String cmd = e.getActionCommand();
 
-        if (UtilityPanels.EVENT_UPDATE_ALBUM_ID3 == e.getActionCommand()) {
+        if (UtilityPanel.EVENT_UPDATE_ALBUM_ID3 == e.getActionCommand()) {
             playlistPanel.toggleEditView();
         }
         else if (EditUtilityPanel.SAVE == cmd) {

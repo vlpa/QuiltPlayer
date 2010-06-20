@@ -1,13 +1,15 @@
 package com.quiltplayer.view.swing.panels;
 
 import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
+
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
 import com.quiltplayer.properties.Configuration;
 
@@ -20,34 +22,34 @@ import com.quiltplayer.properties.Configuration;
  */
 public class QScrollPane extends JScrollPane implements MouseListener, MouseMotionListener {
 
+    public enum ScrollDirection {
+        HORIZONTAL, VERTICAL
+    }
+
     private static final long serialVersionUID = 1L;
+
+    private MouseEvent lastMouseEvent;
+
+    private Integer movedX = 0;
 
     private Integer pressedXPosition;
 
     private Integer pressedHorizontalBar;
 
-    // private Integer releasedXPosition;
-
     private Integer pressedYPosition;
 
     private Integer pressedVerticalBar;
 
-    // private Integer releasedYPosition;
+    private transient Animator animator;
 
-    // private transient Animator animator;
+    private ScrollDirection direction;
 
-    // private Integer mouseX;
+    private int movedY;
 
-    // private int steps;
-
-    public QScrollPane() {
-        super();
-
-        setDefaults();
-    }
-
-    public QScrollPane(Component panel) {
+    public QScrollPane(Component panel, ScrollDirection direction) {
         super(panel);
+
+        this.direction = direction;
 
         setDefaults();
     }
@@ -70,18 +72,28 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
-    // private void animate(int distance) {
-    //
-    // if (animator != null && animator.isRunning())
-    // animator.stop();
-    //
-    // PropertySetter setter = new PropertySetter(this.getHorizontalScrollBar(), "value",
-    // getHorizontalScrollBar().getValue(), getHorizontalScrollBar().getValue() + distance);
-    // animator = new Animator(600, setter);
-    // animator.setDeceleration(0.7f);
-    // animator.start();
-    //
-    // }
+    private void animate(int distance) {
+
+        System.out.println("Distance: " + distance);
+
+        if (animator != null && animator.isRunning())
+            animator.stop();
+
+        PropertySetter setter;
+        if (direction == ScrollDirection.HORIZONTAL) {
+            setter = new PropertySetter(this.getHorizontalScrollBar(), "value", getHorizontalScrollBar().getValue(),
+                    getHorizontalScrollBar().getValue() + distance);
+        }
+        else {
+            setter = new PropertySetter(this.getVerticalScrollBar(), "value", getVerticalScrollBar().getValue(),
+                    getVerticalScrollBar().getValue() + distance);
+        }
+
+        animator = new Animator(600, setter);
+        animator.setDeceleration(1f);
+        animator.start();
+
+    }
 
     /*
      * (non-Javadoc)
@@ -90,8 +102,7 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-
+        System.out.println("Click");
     }
 
     /*
@@ -102,18 +113,24 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
     @Override
     public void mouseDragged(MouseEvent e) {
         if (e.getXOnScreen() > pressedXPosition)
-            getHorizontalScrollBar().setValue(
-                    pressedHorizontalBar - (e.getXOnScreen() - pressedXPosition));
+            getHorizontalScrollBar().setValue(pressedHorizontalBar - (e.getXOnScreen() - pressedXPosition));
         else
-            getHorizontalScrollBar().setValue(
-                    pressedHorizontalBar + (pressedXPosition - e.getXOnScreen()));
+            getHorizontalScrollBar().setValue(pressedHorizontalBar + (pressedXPosition - e.getXOnScreen()));
 
         if (e.getYOnScreen() > pressedYPosition)
-            getVerticalScrollBar().setValue(
-                    pressedVerticalBar - (e.getYOnScreen() - pressedYPosition));
+            getVerticalScrollBar().setValue(pressedVerticalBar - (e.getYOnScreen() - pressedYPosition));
         else
-            getVerticalScrollBar().setValue(
-                    pressedVerticalBar + (pressedYPosition - e.getYOnScreen()));
+            getVerticalScrollBar().setValue(pressedVerticalBar + (pressedYPosition - e.getYOnScreen()));
+
+        int x = lastMouseEvent.getXOnScreen() - e.getXOnScreen();
+        int y = lastMouseEvent.getYOnScreen() - e.getYOnScreen();
+
+        if (x != 0)
+            movedX = x;
+        if (y != 0)
+            movedY = y;
+
+        lastMouseEvent = e;
     }
 
     /*
@@ -143,7 +160,6 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
     }
 
     /*
@@ -153,6 +169,10 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
      */
     @Override
     public void mousePressed(MouseEvent e) {
+        lastMouseEvent = e;
+        movedX = 0;
+        movedY = 0;
+
         pressedXPosition = e.getXOnScreen();
         pressedYPosition = e.getYOnScreen();
 
@@ -167,17 +187,9 @@ public class QScrollPane extends JScrollPane implements MouseListener, MouseMoti
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
+        if (direction == ScrollDirection.HORIZONTAL)
+            animate(movedX * 5);
+        else
+            animate(movedY * 5);
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-    }
-
 }

@@ -98,12 +98,7 @@ public class JotifyArtist implements Artist {
         if (albums == null) {
             albums = new ArrayList<Album>();
 
-            try {
-                spotifyArtist = JotifyRepository.getInstance().browse(spotifyArtist);
-            }
-            catch (TimeoutException e) {
-                e.printStackTrace();
-            }
+            spotifyArtist = JotifyRepository.browseArtist(spotifyArtist);
 
             for (de.felixbruns.jotify.media.Album album : spotifyArtist.getAlbums()) {
 

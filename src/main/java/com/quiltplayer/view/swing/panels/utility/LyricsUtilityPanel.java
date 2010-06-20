@@ -31,7 +31,7 @@ public class LyricsUtilityPanel extends JPanel {
     private JTextArea lyricsArea;
 
     public LyricsUtilityPanel() {
-        super(new MigLayout("ins 0, fill, center, w " + MigProperties.LYRICS_PANEL_WIDTH + "cm!"));
+        super(new MigLayout("ins 0.2cm , fill, center, w " + MigProperties.LYRICS_PANEL_WIDTH + "cm!"));
         setOpaque(true);
         setBackground(ColorConstantsDark.PLAYLIST_BACKGROUND);
 

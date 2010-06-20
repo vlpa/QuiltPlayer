@@ -24,12 +24,13 @@ import com.quiltplayer.properties.Configuration;
 import com.quiltplayer.utils.ClassPathUtils;
 import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.ColorConstantsDark;
-import com.quiltplayer.view.swing.listeners.GridListener;
+import com.quiltplayer.view.swing.panels.UtilityPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlfabeticControlPane;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
 import com.quiltplayer.view.swing.panels.utility.LyricsUtilityPanel;
+import com.quiltplayer.view.swing.util.MigProperties;
 import com.quiltplayer.view.swing.util.ScreenUtils;
 import com.quiltplayer.view.swing.views.ArtistView;
 import com.quiltplayer.view.swing.views.ListView;
@@ -76,9 +77,6 @@ public class QuiltPlayerFrame extends JFrame {
     private ConfigurationView configurationView;
 
     @Autowired
-    private GridListener gridListener;
-
-    @Autowired
     private View aboutView;
 
     @Autowired
@@ -105,13 +103,8 @@ public class QuiltPlayerFrame extends JFrame {
 
     private JPanel glassPane;
 
-    public boolean playlistPanelVisible = false;
-
-    public boolean editAlbumPanelVisible = false;
-
-    public boolean lyricsPanelVisible = false;
-
-    private JPanel utilityPanel;
+    @Autowired
+    private UtilityPanel utilityPanel;
 
     public QuiltPlayerFrame() {
         setTitle("QuiltPlayer");
@@ -148,7 +141,6 @@ public class QuiltPlayerFrame extends JFrame {
     @PostConstruct
     public void init() {
 
-        setupUtilityPanel();
         setupGridGlassPane();
 
         ui = aboutView.getUI();
@@ -165,11 +157,6 @@ public class QuiltPlayerFrame extends JFrame {
         getContentPane().setBackground(ColorConstantsDark.BACKGROUND);
 
         updateUI();
-    }
-
-    private void setupUtilityPanel() {
-        utilityPanel = new JPanel(new MigLayout("ins 0, wrap 4"));
-        utilityPanel.setOpaque(false);
     }
 
     private void setupGridGlassPane() {
@@ -202,8 +189,8 @@ public class QuiltPlayerFrame extends JFrame {
         glassPane.add(controlPanel, "west, w 1.7cm!");
         glassPane.add(albumControlPanel, "east, w 1.7cm!");
 
-        glassPane.add(utilityPanel, "east, h 100%, growx");
-        glassPane.add(playerControlPanel, "east, h 100%, bottom");
+        glassPane.add(utilityPanel, "east, h 100%");
+        // glassPane.add(playerControlPanel, "south, wmax 4cm, hmax 4cm, alignx right");
         playerControlPanel.show();
         glassPane.add(keyboardPanel, "south, alignx center");
 
@@ -258,9 +245,9 @@ public class QuiltPlayerFrame extends JFrame {
         }
 
         if (currentView.equals(ActiveView.COVERS))
-            getContentPane().add(ui, "h 100%, w 100%, gapx 0cm 0cm");
-        else if (playlistPanelVisible)
-            getContentPane().add(ui, "h 100%, w 100%, gapx 0cm 0cm");
+            getContentPane().add(ui, "h 100%, w 100%, gapx 0 0");
+        else if (utilityPanel.playlistPanelVisible)
+            getContentPane().add(ui, "h 100%, w 100%, gapx 0cm " + MigProperties.PLAYLIST_PANEL_WIDTH + "cm");
         else
             getContentPane().add(ui, "h 100%, w 100%, gapx 0cm 0cm");
 

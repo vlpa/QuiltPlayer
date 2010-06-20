@@ -14,7 +14,6 @@ import com.quiltplayer.core.repo.spotify.JotifyRepository;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.model.jotify.JotifySong;
 
-import de.felixbruns.jotify.media.File;
 import de.felixbruns.jotify.media.Track;
 import de.felixbruns.jotify.player.PlaybackListener;
 
@@ -37,12 +36,12 @@ public class JotifyPlayer implements Player, PlaybackListener {
 
     @Override
     public long getElapsedTime() {
-        return (long) JotifyRepository.getInstance().position() * 1000;
+        return 0;// (long) JotifyRepository.playJotify.position() * 1000;
     }
 
     @Override
     public void pause() {
-        JotifyRepository.getInstance().pause();
+        JotifyRepository.pause();
 
         isPaused = true;
     }
@@ -53,42 +52,31 @@ public class JotifyPlayer implements Player, PlaybackListener {
      * @see com.quiltplayer.core.player.Player#play(com.quiltplayer.model.Song)
      */
     @Override
-    public void play(final Song s) {
+    public synchronized void play(final Song s) {
         log.debug("Initializing play for spotify song:" + s.getTitle());
 
         currentSong = s;
 
         if (isPaused) {
-            JotifyRepository.getInstance().play();
+            JotifyRepository.play();
 
             isPaused = false;
         }
         if (s instanceof JotifySong) {
-            try {
-                JotifyRepository.getInstance().play(((JotifySong) s).getSpotifyTrack(), File.BITRATE_96, this);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            JotifyRepository.play(((JotifySong) s).getSpotifyTrack(), this);
         }
         else {
-            Track track = new Track(s.getSpotifyId());
-            try {
-                /* We need the files of the track... */
-                track = JotifyRepository.getInstance().browse(track);
-                JotifyRepository.getInstance().play(track, File.BITRATE_96, this);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            /* We need the files of the track... */
+            Track track = JotifyRepository.browseTrack(s.getSpotifyId());
+            JotifyRepository.play(track, this);
         }
     }
 
     @Override
-    public void stop() {
+    public synchronized void stop() {
         log.debug("Stopping play...");
 
-        JotifyRepository.getInstance().stop();
+        JotifyRepository.stop();
     }
 
     /*
@@ -160,11 +148,11 @@ public class JotifyPlayer implements Player, PlaybackListener {
 
     @Override
     public void seek(int i) {
-        try {
-            JotifyRepository.getInstance().seek(i);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        // try {
+        // JotifyRepository.playJotify.seek(i);
+        // }
+        // catch (IOException e) {
+        // e.printStackTrace();
+        // }
     }
 }

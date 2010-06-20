@@ -14,6 +14,7 @@ import com.quiltplayer.external.wiki.WikipediaService;
 import com.quiltplayer.model.Album;
 import com.quiltplayer.view.swing.ColorConstantsDark;
 import com.quiltplayer.view.swing.panels.QScrollPane;
+import com.quiltplayer.view.swing.panels.QScrollPane.ScrollDirection;
 import com.quiltplayer.view.swing.scrollbars.QScrollBar;
 
 /**
@@ -32,8 +33,7 @@ public class WikiComponent extends QPlaylistComponent {
 
         JEditorPane pane = null;
         try {
-            pane = new JEditorPane(ws.getWikiContentForPageName(album.getArtist().getArtistName()
-                    .getName()));
+            pane = new JEditorPane(ws.getWikiContentForPageName(album.getArtist().getArtistName().getName()));
             pane.setForeground(ColorConstantsDark.PLAYLIST_LYRICS_COLOR);
             pane.setBackground(ColorConstantsDark.ARTISTS_PANEL_BACKGROUND);
         }
@@ -50,7 +50,7 @@ public class WikiComponent extends QPlaylistComponent {
             e.printStackTrace();
         }
 
-        wikiScroller = new QScrollPane(pane);
+        wikiScroller = new QScrollPane(pane, ScrollDirection.VERTICAL);
         wikiScroller.setVerticalScrollBar(new QScrollBar(JScrollBar.VERTICAL));
         wikiScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         wikiScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

@@ -37,7 +37,7 @@ public class PlayerSelector implements Player {
      * @see com.quiltplayer.core.player.Player#getElapsedTime()
      */
     @Override
-    public long getElapsedTime() {
+    public synchronized long getElapsedTime() {
         if (currentSong instanceof NullAlbum)
             return 0;
 
@@ -50,7 +50,7 @@ public class PlayerSelector implements Player {
      * @see com.quiltplayer.core.player.Player#pause()
      */
     @Override
-    public void pause() {
+    public synchronized void pause() {
         getPlayer(currentSong).pause();
     }
 
@@ -60,7 +60,7 @@ public class PlayerSelector implements Player {
      * @see com.quiltplayer.core.player.Player#play(com.quiltplayer.model.Song)
      */
     @Override
-    public void play(Song song) {
+    public synchronized void play(Song song) {
         currentSong = song;
         getPlayer(song).play(song);
 
@@ -74,11 +74,11 @@ public class PlayerSelector implements Player {
      * @see com.quiltplayer.core.player.Player#stop()
      */
     @Override
-    public void stop() {
+    public synchronized void stop() {
         getPlayer(currentSong).stop();
     }
 
-    private synchronized Player getPlayer(Song song) {
+    private Player getPlayer(Song song) {
         if (song == null || song instanceof NeoSong && song.getType().equals(Song.TYPE_FILE)) {
             return basicPlayer;
         }
@@ -92,12 +92,12 @@ public class PlayerSelector implements Player {
      * @see com.quiltplayer.core.player.Player#removeCurrentSong()
      */
     @Override
-    public void removeCurrentSong() {
+    public synchronized void removeCurrentSong() {
         currentSong = null;
     }
 
     @Override
-    public void seek(int i) {
+    public synchronized void seek(int i) {
         getPlayer(currentSong).seek(i);
     }
 

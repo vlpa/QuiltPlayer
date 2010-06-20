@@ -9,7 +9,7 @@ import com.quiltplayer.view.swing.ActiveView;
 import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.listeners.ControlPanelListener;
 import com.quiltplayer.view.swing.panels.MainTabs;
-import com.quiltplayer.view.swing.panels.UtilityPanels;
+import com.quiltplayer.view.swing.panels.UtilityPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.window.Keyboard;
@@ -49,7 +49,7 @@ public class ControlPanelController implements ControlPanelListener {
     private AlbumControlPanel albumControlPanel;
 
     @Autowired
-    private UtilityPanels playlistPanel;
+    private UtilityPanel playlistPanel;
 
     /*
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)

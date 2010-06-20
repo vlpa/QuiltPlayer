@@ -36,7 +36,7 @@ public class SquaredAlbumButton extends ScrollableAndHighlightableButton impleme
 
     protected ChangeAlbumListener changeAlbumListener;
 
-    private ImageButton albumCoverButton;
+    protected ImageButton albumCoverButton;
 
     public SquaredAlbumButton(final Album album, ChangeAlbumListener changeAlbumListener,
             ThreadPoolTaskExecutor executor) {

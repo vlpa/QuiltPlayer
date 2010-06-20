@@ -18,6 +18,7 @@ import com.quiltplayer.view.swing.buttons.QButton;
 import com.quiltplayer.view.swing.buttons.QTab;
 import com.quiltplayer.view.swing.listeners.ConfigurationListener;
 import com.quiltplayer.view.swing.panels.QScrollPane;
+import com.quiltplayer.view.swing.panels.QScrollPane.ScrollDirection;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.views.View;
 import com.quiltplayer.view.swing.views.impl.configurations.ConfigurationPanel;
@@ -122,7 +123,7 @@ public class ConfigurationView implements View, ActionListener {
 
         panel.add(tabPanel, "top,cell 0 0, w 100%, center, gapy 0.5cm");
 
-        return new QScrollPane(panel);
+        return new QScrollPane(panel, ScrollDirection.VERTICAL);
     }
 
     private JButton setupSaveButton() {

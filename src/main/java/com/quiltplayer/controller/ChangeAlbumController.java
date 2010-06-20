@@ -14,7 +14,7 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.listeners.ChangeAlbumListener;
 import com.quiltplayer.view.swing.listeners.WikiListener;
-import com.quiltplayer.view.swing.panels.UtilityPanels;
+import com.quiltplayer.view.swing.panels.UtilityPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.AlbumControlPanel;
 
 /**
@@ -38,7 +38,7 @@ public class ChangeAlbumController implements ChangeAlbumListener {
     private PlayList playList;
 
     @Autowired
-    private UtilityPanels playlistPanel;
+    private UtilityPanel playlistPanel;
 
     @Autowired
     private AlbumControlPanel albumControlPanel;
