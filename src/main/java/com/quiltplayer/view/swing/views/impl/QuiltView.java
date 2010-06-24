@@ -112,20 +112,20 @@ public class QuiltView implements ListView<Album>, FrameResizeAwarable {
                     }
                 }
 
+                /* Fill with empty squares to remain size */
+                while (i < Configuration.getInstance().getGridProperties().getQuiltGrid()) {
+                    ImageButton p = new ImageButton(null, null, null);
+                    p.setVisible(true);
+                    panel.add(p, "grow, shrink 0");
+
+                    i++;
+                }
+
                 initialized = true;
             }
         };
 
         panel.setOpaque(true);
-
-        /* Fill with empty squares to remain size */
-        // while (i < Configuration.getInstance().getGridProperties().getQuiltGrid()) {
-        // AlbumCoverButton p = new AlbumCoverButton(null, null);
-        // p.setVisible(true);
-        // panel.add(p, "grow, shrink 0");
-        //
-        // i++;
-        // }
 
         final QScrollPane pane = new QScrollPane(panel, ScrollDirection.VERTICAL);
 

@@ -15,6 +15,7 @@ import com.quiltplayer.model.Album;
 import com.quiltplayer.model.Song;
 import com.quiltplayer.view.swing.SongStatus;
 import com.quiltplayer.view.swing.buttons.QSongButton;
+import com.quiltplayer.view.swing.frame.QuiltPlayerFrame;
 import com.quiltplayer.view.swing.panels.UtilityPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.ControlPanel;
 import com.quiltplayer.view.swing.panels.controlpanels.PlayerControlPanel;
@@ -53,6 +54,9 @@ public class PlayerController implements PlayerListener {
 
     @Autowired
     private PlayerControlPanel playerControlPanel;
+
+    @Autowired
+    private QuiltPlayerFrame frame;
 
     // private SongStatus songStatus = new SongStatus();
 
@@ -105,6 +109,7 @@ public class PlayerController implements PlayerListener {
                 if (songLabel.getSong().equals(song)) {
                     songLabel.setActive();
                     playlistPanel.setCurrentSongLabel(songLabel);
+                    frame.repaintUi();
 
                     break;
                 }

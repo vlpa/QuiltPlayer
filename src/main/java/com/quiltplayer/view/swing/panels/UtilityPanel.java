@@ -107,6 +107,9 @@ public class UtilityPanel extends JPanel {
     public void inactivateCurrentSongLabel() {
         if (currentSongLabel != null) {
             currentSongLabel.setInactive();
+
+            albumPlaylistPanel.updateUI();
+            frame.repaintUi();
         }
     }
 

@@ -107,16 +107,12 @@ public class QSongButton extends ScrollableButton {
         setOpaque(true);
 
         setBackground(Color.RED.darker().darker().darker());
-
-        updateUI();
     }
 
     public void setInactive() {
         log.debug("Inactivating " + song.getTitle());
 
         setOpaque(false);
-
-        updateUI();
     }
 
     /**

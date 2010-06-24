@@ -18,10 +18,9 @@ public class StringOrCharLabel extends JLabel {
 
     private static final long serialVersionUID = 1L;
 
-    private float[] dist = new float[] { 0.0f, 0.50f, 0.60f, 1.0f };
+    private float[] dist = new float[] { 0.0f, 0.50f, 1.0f };
 
-    private Color[] gradient = { new Color(70, 70, 70), new Color(50, 50, 50), new Color(20, 20, 20),
-            new Color(0, 0, 0) };
+    private Color[] gradient = { new Color(60, 60, 60), new Color(40, 40, 40), new Color(40, 40, 40) };
 
     public StringOrCharLabel(String title) {
         super(" " + title);

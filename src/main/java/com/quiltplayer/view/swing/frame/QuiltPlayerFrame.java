@@ -296,4 +296,8 @@ public class QuiltPlayerFrame extends JFrame {
     public JPanel getUtilityPanel() {
         return utilityPanel;
     }
+
+    public void repaintUi() {
+        ui.repaint();
+    }
 }
